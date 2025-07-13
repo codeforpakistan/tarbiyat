@@ -1,10 +1,11 @@
+{% load static %}
 {% load user_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Internship Matchmaking Platform{% endblock %}</title>
+    <title>{% block title %}Tarbiyat - Internship Platform{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,6 +35,12 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
     </style>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'app/css/custom.css' %}">
+    
+    <!-- Additional head content -->
+    {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
@@ -122,6 +129,10 @@
         {% endblock %}
     </main>
 
+    <!-- Custom JavaScript -->
+    <script src="{% static 'app/js/main.js' %}"></script>
+    
+    <!-- Additional scripts -->
     {% block scripts %}
     {% endblock %}
 </body>

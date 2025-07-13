@@ -1,0 +1,16 @@
+name: tarbiyat
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: codeforpakistan/tarbiyat
+    branch: master
+  run_command: gunicorn --worker-tmp-dir /dev/shm project.wsgi
+  environment_slug: python
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+  health_check:
+    http_path: /
+  build_command: python manage.py collectstatic --noinput
