@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% load i18n %}
+
+{% block title %}Verify Email - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <!-- Header -->
+        <div class="text-center">
+            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-green-100 mb-4">
+                
+            </div>
+            <h2 class="text-3xl font-bold text-gray-900">Check your email</h2>
+            <p class="mt-2 text-sm text-gray-600">
+                We've sent a verification link to your email address
+            </p>
+        </div>
+
+        <div class="bg-white py-8 px-6 shadow-xl rounded-lg">
+            <div class="text-center space-y-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            
+                        </div>
+                        <div class="ml-3 text-left">
+                            <p class="text-sm text-blue-700">
+                                Please click the verification link in your email to activate your account. 
+                                If you don't see the email, check your spam folder.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <form method="post" action="{% url 'account_email' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                            
+                            Resend verification email
+                        </button>
+                    </form>
+
+                    <a href="{% url 'account_login' %}" class="w-full inline-flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                        
+                        Back to sign in
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

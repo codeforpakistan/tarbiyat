@@ -1,0 +1,285 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Teacher Dashboard - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
+                        
+                        Teacher Portal
+                    </h5>
+                    <nav class="space-y-2">
+                        <a href="{% url 'teacher_dashboard' %}" class="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md">
+                            Dashboard
+                        </a>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                            My Students
+                        </a>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                            Progress Monitoring
+                        </a>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                            Reports
+                        </a>
+                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                            Certificates
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-3">
+                <!-- Welcome Header -->
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">Welcome back, {{ user.teacher_profile.title }} {{ user.get_full_name }}!</h2>
+                    <p class="text-gray-600">{{ user.teacher_profile.university.name }} - {{ user.teacher_profile.department }}</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.supervised_students }}</h4>
+                                <p class="text-sm text-gray-600">Supervised Students</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.active_internships }}</h4>
+                                <p class="text-sm text-gray-600">Active Internships</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.pending_reports }}</h4>
+                                <p class="text-sm text-gray-600">Pending Reports</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.completed_internships }}</h4>
+                                <p class="text-sm text-gray-600">Completed This Semester</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Current Students -->
+                    <div class="bg-white rounded-lg shadow-sm">
+                        <div class="border-b border-gray-200 px-6 py-4">
+                            <h5 class="flex items-center text-lg font-semibold text-gray-900">
+                                Current Students
+                            </h5>
+                        </div>
+                        <div class="p-6">
+                            {% if current_students %}
+                                <div class="space-y-4">
+                                    {% for internship in current_students %}
+                                        <div class="py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <h6 class="font-semibold text-gray-900">{{ internship.student.user.get_full_name }}</h6>
+                                                    <p class="text-sm text-gray-600">{{ internship.student.student_id }} - {{ internship.student.major }}</p>
+                                                    <p class="text-sm text-gray-500">{{ internship.mentor.company.name }}</p>
+                                                    <div class="flex items-center mt-1">
+                                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                                            {% if internship.status == 'active' %}bg-green-100 text-green-800
+                                                            {% elif internship.status == 'completed' %}bg-blue-100 text-blue-800
+                                                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                                            {{ internship.get_status_display }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xs text-gray-500">Week {{ internship.current_week|default:"1" }}</div>
+                                                    <div class="mt-2">
+                                                        <button class="text-xs text-blue-600 hover:text-blue-800">View Progress</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center py-8">
+                                    
+                                    <p class="text-gray-500">No students currently supervised</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Recent Reports -->
+                    <div class="bg-white rounded-lg shadow-sm">
+                        <div class="border-b border-gray-200 px-6 py-4">
+                            <h5 class="flex items-center text-lg font-semibold text-gray-900">
+                                Recent Reports
+                            </h5>
+                        </div>
+                        <div class="p-6">
+                            {% if recent_reports %}
+                                <div class="space-y-4">
+                                    {% for report in recent_reports %}
+                                        <div class="py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
+                                            <div class="flex justify-between items-start">
+                                                <div>
+                                                    <h6 class="font-semibold text-gray-900">{{ report.internship.student.user.get_full_name }}</h6>
+                                                    <p class="text-sm text-gray-600">Week {{ report.week_number }} Report</p>
+                                                    <p class="text-xs text-gray-500">{{ report.get_report_type_display }}</p>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-xs text-gray-500">{{ report.created_at|date:"M d, Y" }}</div>
+                                                    <div class="mt-2">
+                                                        <button class="text-xs text-blue-600 hover:text-blue-800">Review</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center py-8">
+                                    
+                                    <p class="text-gray-500">No recent reports</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="bg-white rounded-lg shadow-sm mt-8">
+                    <div class="border-b border-gray-200 px-6 py-4">
+                        <h5 class="flex items-center text-lg font-semibold text-gray-900">
+                            Progress Overview
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Students by Status -->
+                            <div class="text-center">
+                                <h6 class="text-lg font-semibold text-gray-900 mb-4">Students by Status</h6>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Active</span>
+                                        <span class="font-semibold text-green-600">{{ stats.active_internships }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Completed</span>
+                                        <span class="font-semibold text-blue-600">{{ stats.completed_internships }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">On Hold</span>
+                                        <span class="font-semibold text-yellow-600">{{ stats.on_hold_internships|default:0 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Report Submission Rate -->
+                            <div class="text-center">
+                                <h6 class="text-lg font-semibold text-gray-900 mb-4">Report Submission</h6>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">This Week</span>
+                                        <span class="font-semibold text-green-600">{{ stats.weekly_submission_rate|default:"N/A" }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Pending</span>
+                                        <span class="font-semibold text-red-600">{{ stats.pending_reports }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Overdue</span>
+                                        <span class="font-semibold text-red-600">{{ stats.overdue_reports|default:0 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Performance Summary -->
+                            <div class="text-center">
+                                <h6 class="text-lg font-semibold text-gray-900 mb-4">Performance</h6>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Excellent</span>
+                                        <span class="font-semibold text-green-600">{{ stats.excellent_performers|default:0 }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Good</span>
+                                        <span class="font-semibold text-blue-600">{{ stats.good_performers|default:0 }}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Needs Attention</span>
+                                        <span class="font-semibold text-yellow-600">{{ stats.attention_needed|default:0 }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-lg shadow-sm mt-8">
+                    <div class="border-b border-gray-200 px-6 py-4">
+                        <h5 class="flex items-center text-lg font-semibold text-gray-900">
+                            Quick Actions
+                        </h5>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <a href="#" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                
+                                <div>
+                                    <h6 class="font-semibold text-gray-900">Submit Report</h6>
+                                    <p class="text-sm text-gray-600">Create weekly progress report</p>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                
+                                <div>
+                                    <h6 class="font-semibold text-gray-900">Review Reports</h6>
+                                    <p class="text-sm text-gray-600">Check student submissions</p>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                
+                                <div>
+                                    <h6 class="font-semibold text-gray-900">Issue Certificate</h6>
+                                    <p class="text-sm text-gray-600">Generate completion certificates</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

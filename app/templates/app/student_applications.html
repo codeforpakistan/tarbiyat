@@ -1,0 +1,175 @@
+
+{% extends 'app/base.html' %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900">My Applications</h2>
+        <a href="{% url 'browse_positions' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center">
+            <span class="mr-2">🔍</span>
+            Browse Positions
+        </a>
+    </div>
+
+    {% if applications %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for application in applications %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
+                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h6 class="text-lg font-semibold text-gray-900 mb-0">{{ application.position.title }}</h6>
+                    {% if application.status == 'pending' %}
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Pending</span>
+                    {% elif application.status == 'approved' %}
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Approved</span>
+                    {% elif application.status == 'rejected' %}
+                        <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Rejected</span>
+                    {% elif application.status == 'withdrawn' %}
+                        <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Withdrawn</span>
+                    {% endif %}
+                </div>
+                <div class="px-6 py-4 flex-1">
+                    <div class="text-sm text-gray-600 space-y-2">
+                        <div><span class="font-medium text-gray-900">Company:</span> {{ application.position.company.name }}</div>
+                        <div><span class="font-medium text-gray-900">Location:</span> {{ application.position.company.address }}</div>
+                        <div><span class="font-medium text-gray-900">Duration:</span> {{ application.position.get_duration_display }}</div>
+                        <div><span class="font-medium text-gray-900">Stipend:</span> ${{ application.position.stipend|default:"Not specified" }}</div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <div class="text-xs text-gray-500">
+                            Applied on {{ application.applied_at|date:"M d, Y" }}
+                        </div>
+                    </div>
+
+                    <!-- Cover Letter Preview -->
+                    <div class="mt-4">
+                        <div class="font-medium text-gray-900 text-sm">Cover Letter:</div>
+                        <p class="text-gray-600 text-sm mt-1">
+                            {{ application.cover_letter|truncatewords:20 }}
+                            {% if application.cover_letter|length > 100 %}...{% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <a href="{% url 'position_detail' application.position.nanoid %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                            <span class="mr-1">👁️</span>
+                            View Position
+                        </a>
+                        
+                        {% if application.status == 'pending' %}
+                            <div class="text-xs text-gray-500">Status will be updated by mentor</div>
+                        {% elif application.status == 'approved' %}
+                            <div class="text-xs text-green-600 flex items-center">
+                                <span class="mr-1">✅</span>
+                                Congratulations!
+                            </div>
+                        {% elif application.status == 'rejected' %}
+                            <div class="text-xs text-gray-500">Application not selected</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if applications.has_other_pages %}
+        <nav aria-label="Applications pagination" class="mt-8">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center space-x-1">
+                    {% if applications.has_previous %}
+                        <a href="?page=1" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
+                            First
+                        </a>
+                        <a href="?page={{ applications.previous_page_number }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                            Previous
+                        </a>
+                    {% endif %}
+
+                    {% for num in applications.paginator.page_range %}
+                        {% if applications.number == num %}
+                            <span class="px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-300">
+                                {{ num }}
+                            </span>
+                        {% elif num > applications.number|add:'-3' and num < applications.number|add:'3' %}
+                            <a href="?page={{ num }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                                {{ num }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if applications.has_next %}
+                        <a href="?page={{ applications.next_page_number }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                            Next
+                        </a>
+                        <a href="?page={{ applications.paginator.num_pages }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
+                            Last
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        {% endif %}
+
+    {% else %}
+        <!-- No Applications State -->
+        <div class="text-center py-16">
+            <div class="mb-8">
+                <div class="mx-auto text-6xl text-gray-400">📥</div>
+            </div>
+            <h4 class="text-xl font-semibold text-gray-900 mb-4">No Applications Yet</h4>
+            <p class="text-gray-600 mb-8 max-w-md mx-auto">
+                You haven't applied for any internship positions yet. 
+                Browse available positions and start applying!
+            </p>
+            <a href="{% url 'browse_positions' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
+                <span class="mr-2">🔍</span>
+                Browse Positions
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Application Summary Card -->
+    {% if applications %}
+    <div class="mt-8">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="px-6 py-4">
+                <h6 class="text-lg font-semibold text-gray-900 mb-4">Application Summary</h6>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div>
+                        <div class="text-2xl font-bold text-blue-600">{{ applications.paginator.count }}</div>
+                        <div class="text-sm text-gray-500">Total Applications</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-yellow-600">
+                            {{ applications.object_list|length }}
+                        </div>
+                        <div class="text-sm text-gray-500">On This Page</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-purple-600">{{ applications.paginator.num_pages }}</div>
+                        <div class="text-sm text-gray-500">Total Pages</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-green-600">
+                            {% with accepted_count=0 %}
+                                {% for app in applications.object_list %}
+                                    {% if app.status == 'approved' %}
+                                        {% with accepted_count=accepted_count|add:1 %}{% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ accepted_count }}
+                            {% endwith %}
+                        </div>
+                        <div class="text-sm text-gray-500">Approved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

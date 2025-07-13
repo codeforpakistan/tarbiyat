@@ -1,0 +1,162 @@
+{% extends 'app/base.html' %}
+{% load user_tags %}
+
+{% block title %}Edit Mentor Profile - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Edit Mentor Profile</h2>
+                    <p class="text-gray-600 mt-2">Update your professional information</p>
+                </div>
+                <a href="{% url 'mentor_dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm">
+            <form method="post" class="p-8">
+                {% csrf_token %}
+                
+                <!-- Personal Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <input type="text" 
+                                   id="first_name" 
+                                   name="first_name" 
+                                   value="{{ user.first_name }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <input type="text" 
+                                   id="last_name" 
+                                   name="last_name" 
+                                   value="{{ user.last_name }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email" 
+                                   value="{{ user.email }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Professional Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                            <select id="company" 
+                                    name="company" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    required>
+                                {% for company in companies %}
+                                    <option value="{{ company.id }}" {% if company.id == profile.company.id %}selected{% endif %}>
+                                        {{ company.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <label for="position" class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                            <input type="text" 
+                                   id="position" 
+                                   name="position" 
+                                   value="{{ profile.position }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   placeholder="e.g., Senior Software Engineer"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                            <input type="text" 
+                                   id="department" 
+                                   name="department" 
+                                   value="{{ profile.department }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   placeholder="e.g., Engineering, Marketing"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="experience_years" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
+                            <input type="number" 
+                                   id="experience_years" 
+                                   name="experience_years" 
+                                   value="{{ profile.experience_years }}"
+                                   min="0" 
+                                   max="50"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        <div>
+                            <label for="specialization" class="block text-sm font-medium text-gray-700 mb-2">Specialization</label>
+                            <input type="text" 
+                                   id="specialization" 
+                                   name="specialization" 
+                                   value="{{ profile.specialization }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   placeholder="e.g., Software Development, Data Science"
+                                   required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Status -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Verification Status</h3>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center">
+                            {% if profile.is_verified %}
+                                <div class="flex-shrink-0">
+                                    
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-medium text-green-800">Verified Mentor</h4>
+                                    <p class="text-sm text-green-600">Your mentor profile has been verified by our team.</p>
+                                </div>
+                            {% else %}
+                                <div class="flex-shrink-0">
+                                    
+                                </div>
+                                <div class="ml-3">
+                                    <h4 class="text-sm font-medium text-yellow-800">Pending Verification</h4>
+                                    <p class="text-sm text-yellow-600">Your mentor profile is pending verification. Our team will review it soon.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <a href="{% url 'mentor_dashboard' %}" 
+                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'app/base.html' %}
+{% load user_tags %}
+
+{% block title %}Edit Position - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900">Edit Position</h2>
+                    <p class="text-gray-600 mt-2">Update your internship opportunity</p>
+                </div>
+                <a href="{% url 'mentor_dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm">
+            <form method="post" class="p-8">
+                {% csrf_token %}
+                
+                <!-- Position Information -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Information</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Position Title</label>
+                            <input type="text" 
+                                   id="title" 
+                                   name="title" 
+                                   value="{{ position.title }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   placeholder="e.g., Software Development Intern"
+                                   required>
+                        </div>
+                        
+                        <div>
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Job Description</label>
+                            <textarea id="description" 
+                                      name="description" 
+                                      rows="6"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      placeholder="Describe the role, responsibilities, and what the intern will learn..."
+                                      required>{{ position.description }}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">Requirements</label>
+                            <textarea id="requirements" 
+                                      name="requirements" 
+                                      rows="4"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      placeholder="Educational background, year of study, GPA requirements, etc."
+                                      required>{{ position.requirements }}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label for="skills_required" class="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
+                            <textarea id="skills_required" 
+                                      name="skills_required" 
+                                      rows="4"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                      placeholder="Programming languages, frameworks, tools, soft skills, etc."
+                                      required>{{ position.skills_required }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Position Details -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                            <select id="duration" 
+                                    name="duration" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    required>
+                                <option value="">Select Duration</option>
+                                <option value="2" {% if position.duration == '2' %}selected{% endif %}>2 Months</option>
+                                <option value="3" {% if position.duration == '3' %}selected{% endif %}>3 Months</option>
+                                <option value="4" {% if position.duration == '4' %}selected{% endif %}>4 Months</option>
+                                <option value="6" {% if position.duration == '6' %}selected{% endif %}>6 Months</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label for="max_students" class="block text-sm font-medium text-gray-700 mb-2">Maximum Students</label>
+                            <input type="number" 
+                                   id="max_students" 
+                                   name="max_students" 
+                                   min="1" 
+                                   max="10"
+                                   value="{{ position.max_students }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        
+                        <div>
+                            <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                            <input type="date" 
+                                   id="start_date" 
+                                   name="start_date" 
+                                   value="{{ position.start_date|date:'Y-m-d' }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        
+                        <div>
+                            <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                            <input type="date" 
+                                   id="end_date" 
+                                   name="end_date" 
+                                   value="{{ position.end_date|date:'Y-m-d' }}"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   required>
+                        </div>
+                        
+                        <div class="md:col-span-2">
+                            <label for="stipend" class="block text-sm font-medium text-gray-700 mb-2">Monthly Stipend (Optional)</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">PKR</span>
+                                </div>
+                                <input type="number" 
+                                       id="stipend" 
+                                       name="stipend" 
+                                       step="1000"
+                                       min="0"
+                                       value="{{ position.stipend|default:'' }}"
+                                       class="w-full pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       placeholder="e.g., 25000">
+                            </div>
+                            <p class="text-sm text-gray-500 mt-1">Leave empty if unpaid internship</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Position Status -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Status</h3>
+                    <div class="flex items-center space-x-3">
+                        <input type="checkbox" 
+                               id="is_active" 
+                               name="is_active" 
+                               {% if position.is_active %}checked{% endif %}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="is_active" class="text-sm text-gray-900">
+                            Position is active and accepting applications
+                        </label>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">Uncheck to temporarily hide this position from students</p>
+                </div>
+
+                <!-- Applications Summary -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Applications Summary</h3>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-blue-600">{{ position.total_applications_count }}</div>
+                                <div class="text-sm text-gray-600">Total Applications</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-green-600">{{ position.approved_applications_count }}</div>
+                                <div class="text-sm text-gray-600">Approved</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-orange-600">{{ position.available_spots }}</div>
+                                <div class="text-sm text-gray-600">Available Spots</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                    <a href="{% url 'mentor_dashboard' %}" 
+                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                        Cancel
+                    </a>
+                    <button type="submit" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                        Update Position
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-calculate end date based on start date and duration
+    document.getElementById('start_date').addEventListener('change', updateEndDate);
+    document.getElementById('duration').addEventListener('change', updateEndDate);
+    
+    function updateEndDate() {
+        const startDate = document.getElementById('start_date').value;
+        const duration = document.getElementById('duration').value;
+        
+        if (startDate && duration) {
+            const start = new Date(startDate);
+            const months = parseInt(duration);
+            const end = new Date(start.getFullYear(), start.getMonth() + months, start.getDate());
+            
+            document.getElementById('end_date').value = end.toISOString().split('T')[0];
+        }
+    }
+</script>
+{% endblock %}

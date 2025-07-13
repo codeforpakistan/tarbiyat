@@ -1,0 +1,134 @@
+{% extends 'app/base.html' %}
+
+{% block title %}Complete Your Profile - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <!-- Header -->
+        <div class="text-center">
+            
+            <h2 class="text-3xl font-bold text-gray-900">Welcome, {{ user.first_name }}!</h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Please complete your profile to get started on Tarbiyat
+            </p>
+        </div>
+
+        <!-- Profile Completion Form -->
+        <form class="mt-8 space-y-6" method="post">
+            {% csrf_token %}
+            
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="bg-green-50 border border-green-200 rounded-md p-4">
+                        <div class="flex">
+                            
+                            <div class="text-sm text-green-700">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="bg-red-50 border border-red-200 rounded-md p-4">
+                    <div class="flex">
+                        
+                        <div class="text-sm text-red-700">
+                            {{ form.non_field_errors }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- User Info Display -->
+            <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+                <div class="flex items-center">
+                    
+                    <div class="text-sm text-blue-700">
+                        <strong>Account Details:</strong><br>
+                        Name: {{ user.get_full_name }}<br>
+                        Email: {{ user.email }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="{{ form.user_type.id_for_label }}" class="block text-sm font-medium text-gray-700">
+                        I am a
+                    </label>
+                    <div class="mt-1">
+                        {{ form.user_type }}
+                        {% if form.user_type.errors %}
+                            <p class="mt-2 text-sm text-red-600">{{ form.user_type.errors }}</p>
+                        {% endif %}
+                    </div>
+                    <p class="mt-2 text-xs text-gray-500">
+                        This helps us customize your experience and show you relevant content.
+                    </p>
+                </div>
+
+                <!-- Role Descriptions -->
+                <div class="grid grid-cols-1 gap-3 text-xs text-gray-600">
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <strong class="text-blue-600">Student:</strong> University students looking for internship opportunities
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <strong class="text-green-600">Mentor:</strong> Company representatives managing internship programs
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <strong class="text-purple-600">Teacher:</strong> University faculty supervising student internships
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded-md">
+                        <strong class="text-red-600">Official:</strong> Government officials overseeing the internship platform
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                    <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                        
+                    </span>
+                    Complete Profile & Continue
+                </button>
+            </div>
+
+            <div class="text-center">
+                <p class="text-xs text-gray-500">
+                    You can always update this information later in your profile settings.
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Custom styling for select field */
+    select {
+        appearance: none;
+        border-radius: 0.375rem;
+        border: 1px solid #d1d5db;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        color: #111827;
+        background-color: white;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+    
+    select:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+</style>
+{% endblock %}
