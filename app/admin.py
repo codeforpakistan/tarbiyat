@@ -4,14 +4,14 @@ from django.contrib.auth.models import User
 from django.utils.html import format_html
 from django.urls import reverse
 from .models import (
-    University, Company, StudentProfile, MentorProfile, 
+    Institute, Company, StudentProfile, MentorProfile, 
     TeacherProfile, OfficialProfile, InternshipPosition, 
     InternshipApplication, Interview, Internship, ProgressReport,
     Payment, Notification
 )
 
-@admin.register(University)
-class UniversityAdmin(admin.ModelAdmin):
+@admin.register(Institute)
+class InstituteAdmin(admin.ModelAdmin):
     list_display = ('name', 'contact_email', 'created_at')
     search_fields = ('name', 'contact_email')
 
@@ -41,8 +41,8 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(StudentProfile)
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'student_id', 'university', 'year_of_study', 'major', 'gpa', 'availability_status')
-    list_filter = ('university', 'year_of_study', 'is_available_for_internship', 'major')
+    list_display = ('user', 'student_id', 'institute', 'year_of_study', 'major', 'gpa', 'availability_status')
+    list_filter = ('institute', 'year_of_study', 'is_available_for_internship', 'major')
     search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 'student_id', 'major')
     actions = ['mark_available', 'mark_unavailable', 'send_welcome_notification']
     
@@ -126,8 +126,8 @@ class MentorProfileAdmin(admin.ModelAdmin):
 
 @admin.register(TeacherProfile)
 class TeacherProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'university', 'department', 'title', 'employee_id')
-    list_filter = ('university', 'department')
+    list_display = ('user', 'institute', 'department', 'title', 'employee_id')
+    list_filter = ('institute', 'department')
     search_fields = ('user__username', 'user__email', 'employee_id')
 
 @admin.register(OfficialProfile)

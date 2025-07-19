@@ -10,7 +10,7 @@ from datetime import date, timedelta
 from decimal import Decimal
 from .models import (
     StudentProfile, MentorProfile, TeacherProfile, OfficialProfile,
-    InternshipPosition, InternshipApplication, Internship, Company, University, Notification
+    InternshipPosition, InternshipApplication, Internship, Company, Institute, Notification
 )
 from django import forms
 
@@ -144,20 +144,20 @@ def teacher_dashboard(request):
         messages.warning(request, 'Please complete your teacher profile first.')
         return redirect('create_teacher_profile')
     
-    # Get students from same university
-    university_students = StudentProfile.objects.filter(
-        university=teacher_profile.university
+    # Get students from same institute
+    institute_students = StudentProfile.objects.filter(
+        institute=teacher_profile.institute
     )
     
-    # Get active internships for university students
+    # Get active internships for institute students
     active_internships = Internship.objects.filter(
-        student__university=teacher_profile.university,
+        student__institute=teacher_profile.institute,
         status='active'
     )
     
     context = {
         'teacher_profile': teacher_profile,
-        'university_students': university_students.count(),
+        'institute_students': institute_students.count(),
         'active_internships': active_internships,
         'students_with_internships': active_internships.count(),
     }
@@ -335,14 +335,14 @@ def create_student_profile(request):
     
     if request.method == 'POST':
         # Simple profile creation - you can enhance this with a proper form
-        university = University.objects.first()  # For now, assign first university
+        institute = Institute.objects.first()  # For now, assign first institute
         
         # Set default expected graduation to 2 years from now
         default_graduation = date.today() + timedelta(days=730)  # Approximately 2 years
         
         StudentProfile.objects.create(
             user=request.user,
-            university=university,
+            institute=institute,
             student_id=f'STU{request.user.id:06d}',
             year_of_study='3',
             major='Computer Science',  # Default major
@@ -353,8 +353,8 @@ def create_student_profile(request):
         messages.success(request, 'Student profile created successfully!')
         return redirect('student_dashboard')
     
-    universities = University.objects.all()
-    return render(request, 'app/create_student_profile.html', {'universities': universities})
+    institutes = Institute.objects.all()
+    return render(request, 'app/create_student_profile.html', {'institutes': institutes})
 
 @login_required
 def create_mentor_profile(request):
@@ -401,10 +401,10 @@ def create_teacher_profile(request):
     
     if request.method == 'POST':
         # Simple profile creation - you can enhance this with a proper form
-        university = University.objects.first()  # For now, assign first university
+        institute = Institute.objects.first()  # For now, assign first institute
         TeacherProfile.objects.create(
             user=request.user,
-            university=university,
+            institute=institute,
             department='Computer Science',  # Default department
             title='Professor',
             employee_id=f'TEACH{request.user.id:06d}'
@@ -412,8 +412,8 @@ def create_teacher_profile(request):
         messages.success(request, 'Teacher profile created successfully!')
         return redirect('teacher_dashboard')
     
-    universities = University.objects.all()
-    return render(request, 'app/create_teacher_profile.html', {'universities': universities})
+    institutes = Institute.objects.all()
+    return render(request, 'app/create_teacher_profile.html', {'institutes': institutes})
 
 @login_required
 def edit_profile(request):
@@ -448,7 +448,7 @@ def edit_student_profile(request):
     
     if request.method == 'POST':
         # Update profile fields
-        profile.university_id = request.POST.get('university')
+        profile.institute_id = request.POST.get('institute')
         profile.year_of_study = request.POST.get('year_of_study')
         profile.major = request.POST.get('major')
         profile.gpa = float(request.POST.get('gpa', 0))
@@ -468,10 +468,10 @@ def edit_student_profile(request):
         messages.success(request, 'Profile updated successfully!')
         return redirect('student_dashboard')
     
-    universities = University.objects.all()
+    institutes = Institute.objects.all()
     context = {
         'profile': profile,
-        'universities': universities,
+        'institutes': institutes,
     }
     return render(request, 'app/edit_student_profile.html', context)
 
@@ -531,7 +531,7 @@ def edit_teacher_profile(request):
     
     if request.method == 'POST':
         # Update profile fields
-        profile.university_id = request.POST.get('university')
+        profile.institute_id = request.POST.get('institute')
         profile.department = request.POST.get('department')
         profile.title = request.POST.get('title')
         profile.employee_id = request.POST.get('employee_id')
@@ -547,10 +547,10 @@ def edit_teacher_profile(request):
         messages.success(request, 'Profile updated successfully!')
         return redirect('teacher_dashboard')
     
-    universities = University.objects.all()
+    institutes = Institute.objects.all()
     context = {
         'profile': profile,
-        'universities': universities,
+        'institutes': institutes,
     }
     return render(request, 'app/edit_teacher_profile.html', context)
 

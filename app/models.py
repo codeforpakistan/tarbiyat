@@ -17,8 +17,8 @@ def generate_position_id():
     """Generate a unique nanoid for position IDs"""
     return generate(size=12)
 
-def generate_university_id():
-    """Generate a unique nanoid for university IDs"""
+def generate_institute_id():
+    """Generate a unique nanoid for institute IDs"""
     return generate(size=10)
 
 def generate_company_id():
@@ -29,13 +29,13 @@ def generate_application_id():
     """Generate a unique nanoid for application IDs"""
     return generate(size=14)
 
-class University(models.Model):
-    """University model"""
+class Institute(models.Model):
+    """Institute model for universities and colleges"""
 
     class Meta:
-        verbose_name_plural = "Universities"
+        verbose_name_plural = "Institutes"
 
-    nanoid = models.CharField(max_length=10, default=generate_university_id, unique=True, db_index=True, editable=False)
+    nanoid = models.CharField(max_length=10, default=generate_institute_id, unique=True, db_index=True, editable=False)
     name = models.CharField(max_length=200, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)
@@ -43,7 +43,7 @@ class University(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.name or "Unnamed University"
+        return self.name or "Unnamed Institute"
 
 class Company(models.Model):
     """Company model for organizations offering internships"""
@@ -73,7 +73,7 @@ class StudentProfile(models.Model):
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
-    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True, blank=True)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, null=True, blank=True)
     student_id = models.CharField(max_length=50, null=True, blank=True)
     year_of_study = models.CharField(max_length=1, choices=YEAR_CHOICES, null=True, blank=True)
     major = models.CharField(max_length=100, null=True, blank=True)
@@ -103,17 +103,17 @@ class MentorProfile(models.Model):
         return f"{self.user.get_full_name()} - {company_name}"
 
 class TeacherProfile(models.Model):
-    """Teacher profile for university staff"""
+    """Teacher profile for institute staff"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
-    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True, blank=True)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, null=True, blank=True)
     department = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=50, null=True, blank=True)  # Professor, Associate Professor, etc.
     employee_id = models.CharField(max_length=50, null=True, blank=True)
     
     def __str__(self):
-        university_name = self.university.name if self.university else "No University"
-        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {university_name}"
+        institute_name = self.institute.name if self.institute else "No Institute"
+        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {institute_name}"
 
 class OfficialProfile(models.Model):
     """Government official profile"""

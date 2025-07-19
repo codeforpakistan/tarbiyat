@@ -6,7 +6,7 @@ from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from decouple import config
 from app.models import (
-    University, Company, StudentProfile, MentorProfile, 
+    Institute, Company, StudentProfile, MentorProfile, 
     TeacherProfile, OfficialProfile, InternshipPosition,
     InternshipApplication, Internship, ProgressReport, Notification
 )
@@ -39,16 +39,16 @@ class Command(BaseCommand):
             # Create Google social app
             self.create_google_social_app()
             
-            # Create universities
-            universities = self.create_universities()
+            # Create institutes
+            institutes = self.create_institutes()
             
             # Create companies
             companies = self.create_companies()
             
             # Create users and profiles
-            students = self.create_students(universities)
+            students = self.create_students(institutes)
             mentors = self.create_mentors(companies)
-            teachers = self.create_teachers(universities)
+            teachers = self.create_teachers(institutes)
             officials = self.create_officials()
             
             # Create internship positions
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         models_to_clear = [
             ProgressReport, Internship, InternshipApplication, 
             InternshipPosition, StudentProfile, MentorProfile, 
-            TeacherProfile, OfficialProfile, Company, University,
+            TeacherProfile, OfficialProfile, Company, Institute,
             Notification
         ]
         
@@ -145,19 +145,19 @@ class Command(BaseCommand):
             self.style.SUCCESS('Google OAuth2 social app created successfully')
         )
 
-    def create_universities(self):
-        """Create sample universities"""
-        universities_data = [
+    def create_institutes(self):
+        """Create sample institutes"""
+        institutes_data = [
             {
-                'name': 'University of Technology',
+                'name': 'Institute of Technology',
                 'address': '123 Tech Street, Capital City',
-                'website': 'https://utech.edu',
-                'contact_email': 'info@utech.edu'
+                'website': 'https://itech.edu',
+                'contact_email': 'info@itech.edu'
             },
             {
-                'name': 'State University',
-                'address': '456 Academic Ave, University Town',
-                'website': 'https://stateuni.edu',
+                'name': 'State Institute',
+                'address': '456 Academic Ave, Institute Town',
+                'website': 'https://stateinst.edu',
                 'contact_email': 'contact@stateuni.edu'
             },
             {
@@ -168,17 +168,17 @@ class Command(BaseCommand):
             }
         ]
         
-        universities = []
-        for uni_data in universities_data:
-            university, created = University.objects.get_or_create(
-                name=uni_data['name'],
-                defaults=uni_data
+        institutes = []
+        for inst_data in institutes_data:
+            institute, created = Institute.objects.get_or_create(
+                name=inst_data['name'],
+                defaults=inst_data
             )
-            universities.append(university)
+            institutes.append(institute)
             if created:
-                self.stdout.write(f'Created university: {university.name}')
+                self.stdout.write(f'Created institute: {institute.name}')
         
-        return universities
+        return institutes
 
     def create_companies(self):
         """Create sample companies"""
@@ -247,7 +247,7 @@ class Command(BaseCommand):
         
         return companies
 
-    def create_students(self, universities):
+    def create_students(self, institutes):
         """Create sample students"""
         students_data = [
             ('john_doe', 'John', 'Doe', 'john.doe@student.edu', 'Computer Science'),
@@ -280,7 +280,7 @@ class Command(BaseCommand):
                 
                 student_profile = StudentProfile.objects.create(
                     user=user,
-                    university=random.choice(universities),
+                    institute=random.choice(institutes),
                     student_id=f'STU{2024000 + i + 1}',
                     year_of_study=random.choice(['3', '4']),
                     major=major,
@@ -333,7 +333,7 @@ class Command(BaseCommand):
         
         return mentors
 
-    def create_teachers(self, universities):
+    def create_teachers(self, institutes):
         """Create sample teachers"""
         teachers_data = [
             ('prof_anderson', 'Dr. Michael', 'Anderson', 'michael.anderson@utech.edu', 'Professor', 'Computer Science'),
@@ -359,7 +359,7 @@ class Command(BaseCommand):
                 
                 teacher_profile = TeacherProfile.objects.create(
                     user=user,
-                    university=universities[i % len(universities)],
+                    institute=institutes[i % len(institutes)],
                     department=department,
                     title=title,
                     employee_id=f'TEACH{1000 + i + 1}'
