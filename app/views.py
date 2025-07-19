@@ -676,6 +676,12 @@ def edit_position(request, position_nanoid):
         messages.error(request, 'Position not found or access denied.')
         return redirect('mentor_dashboard')
     
+    # Check if position has applications - prevent editing if it does
+    has_applications = position.applications.exists()
+    if has_applications and request.method == 'POST':
+        messages.error(request, 'Cannot edit position that already has applications. Please create a new position instead.')
+        return redirect('mentor_dashboard')
+    
     if request.method == 'POST':
         # Update position
         position.title = request.POST.get('title')
@@ -697,6 +703,7 @@ def edit_position(request, position_nanoid):
     context = {
         'position': position,
         'mentor_profile': mentor_profile,
+        'has_applications': has_applications,
     }
     return render(request, 'app/edit_position.html', context)
 

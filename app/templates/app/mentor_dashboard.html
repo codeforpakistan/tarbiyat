@@ -154,9 +154,15 @@
                                             <a href="{% url 'position_detail' position.nanoid %}" class="flex-1 text-center bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-md text-xs font-medium transition duration-200">
                                                 View
                                             </a>
-                                            <a href="{% url 'edit_position' position.nanoid %}" class="flex-1 text-center bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded-md text-xs font-medium transition duration-200">
-                                                Edit
-                                            </a>
+                                            {% if position.total_applications_count > 0 %}
+                                                <span class="flex-1 text-center bg-gray-300 text-gray-500 px-3 py-2 rounded-md text-xs font-medium cursor-not-allowed" title="Cannot edit position with applications">
+                                                    View Only
+                                                </span>
+                                            {% else %}
+                                                <a href="{% url 'edit_position' position.nanoid %}" class="flex-1 text-center bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-2 rounded-md text-xs font-medium transition duration-200">
+                                                    Edit
+                                                </a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endfor %}

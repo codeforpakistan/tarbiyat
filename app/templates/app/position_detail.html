@@ -143,9 +143,6 @@
                     {% if user.is_authenticated and user|get_user_type == 'student' %}
                         {% if user_application %}
                             <div class="text-center">
-                                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    
-                                </div>
                                 <h3 class="text-lg font-semibold text-gray-900 mb-2">Application Submitted</h3>
                                 <p class="text-gray-600 mb-4">Your application is {{ user_application.get_status_display|lower }}</p>
                                 <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md font-medium cursor-not-allowed" disabled>
@@ -154,9 +151,6 @@
                             </div>
                         {% elif position.available_spots > 0 %}
                             <div class="text-center">
-                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    
-                                </div>
                                 <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Apply?</h3>
                                 <p class="text-gray-600 mb-4">Submit your application for this position</p>
                                 <a href="{% url 'apply_position' position.nanoid %}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-md font-medium transition duration-200 text-center">
@@ -172,7 +166,7 @@
                                 </button>
                             </div>
                         {% endif %}
-                    {% else %}
+                    {% elif not user.is_authenticated %}
                         <div class="text-center">
                             <h3 class="text-lg font-semibold text-gray-900 mb-2">Apply for this position</h3>
                             <p class="text-gray-600 mb-4">Create an account or login to apply for this position</p>
