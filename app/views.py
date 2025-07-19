@@ -173,11 +173,146 @@ def teacher_dashboard(request):
     
     context = {
         'teacher_profile': teacher_profile,
-        'institute_students': institute_students.count(),
+        'institute_students': institute_students,
         'active_internships': active_internships,
         'students_with_internships': active_internships.count(),
     }
     return render(request, 'app/teacher_dashboard.html', context)
+
+@login_required
+def teacher_students(request):
+    """View all students from teacher's institute"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please create your teacher profile first.')
+        return redirect('create_teacher_profile')
+    
+    # Get students from the same institute
+    students = StudentProfile.objects.filter(
+        institute=teacher_profile.institute
+    ).select_related('user').order_by('user__last_name', 'user__first_name')
+    
+    # Search functionality
+    search_query = request.GET.get('search')
+    if search_query:
+        students = students.filter(
+            Q(user__first_name__icontains=search_query) |
+            Q(user__last_name__icontains=search_query) |
+            Q(user__email__icontains=search_query) |
+            Q(student_id__icontains=search_query) |
+            Q(major__icontains=search_query)
+        )
+    
+    # Filter by year of study
+    year_filter = request.GET.get('year')
+    if year_filter:
+        students = students.filter(year_of_study=year_filter)
+    
+    # Filter by internship status
+    internship_filter = request.GET.get('internship_status')
+    if internship_filter == 'active':
+        students = students.filter(
+            internships__status='active'
+        ).distinct()
+    elif internship_filter == 'completed':
+        students = students.filter(
+            internships__status='completed'
+        ).distinct()
+    elif internship_filter == 'none':
+        students = students.filter(
+            internships__isnull=True
+        )
+    
+    # Pagination
+    paginator = Paginator(students, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'teacher_profile': teacher_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'year_filter': year_filter,
+        'internship_filter': internship_filter,
+        'year_choices': StudentProfile.YEAR_CHOICES,
+    }
+    return render(request, 'app/teacher_students.html', context)
+
+@login_required
+def edit_institute(request):
+    """Edit institute information (for teachers who registered the institute)"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please create your teacher profile first.')
+        return redirect('create_teacher_profile')
+    
+    if not teacher_profile.can_edit_institute():
+        messages.error(request, 'You can only edit institutes that you registered.')
+        return redirect('teacher_dashboard')
+    
+    institute = teacher_profile.institute
+    
+    if request.method == 'POST':
+        # Validate required fields
+        name = request.POST.get('name', '').strip()
+        
+        if not name:
+            messages.error(request, 'Institute name is a required field.')
+            context = {
+                'institute': institute,
+                'teacher_profile': teacher_profile,
+            }
+            return render(request, 'app/edit_institute.html', context)
+        
+        # Update institute fields
+        institute.name = name
+        institute.description = request.POST.get('description', '').strip()
+        institute.institute_type = request.POST.get('institute_type', '')
+        institute.address = request.POST.get('address', '').strip()
+        institute.website = request.POST.get('website', '').strip() or None
+        institute.contact_email = request.POST.get('contact_email', '').strip() or None
+        institute.phone = request.POST.get('phone', '').strip() or None
+        institute.email_domain = request.POST.get('email_domain', '').strip() or None
+        institute.established_year = request.POST.get('established_year') or None
+        
+        # Validate email domain format if provided
+        email_domain = institute.email_domain
+        if email_domain:
+            # Remove any @ symbols and convert to lowercase
+            email_domain = email_domain.replace('@', '').lower()
+            institute.email_domain = email_domain
+            
+            # Basic domain validation
+            if not email_domain.replace('-', '').replace('_', '').replace('.', '').isalnum():
+                messages.error(request, 'Please enter a valid email domain (e.g., university.edu.pk)')
+                context = {
+                    'institute': institute,
+                    'teacher_profile': teacher_profile,
+                }
+                return render(request, 'app/edit_institute.html', context)
+        
+        institute.save()
+        
+        messages.success(request, f'Institute "{institute.name}" updated successfully!')
+        return redirect('teacher_dashboard')
+    
+    context = {
+        'institute': institute,
+        'teacher_profile': teacher_profile,
+    }
+    return render(request, 'app/edit_institute.html', context)
 
 @login_required
 def official_dashboard(request):

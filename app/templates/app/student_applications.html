@@ -1,5 +1,5 @@
 
-{% extends 'app/base.html' %}
+{% extends 'app/page.html' %}
 
 {% block title %}My Applications{% endblock %}
 
@@ -227,7 +227,9 @@
         </div>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
 <script>
 function confirmWithdraw(applicationId, positionTitle) {
     document.getElementById('modalTitle').textContent = 'Withdraw Application';

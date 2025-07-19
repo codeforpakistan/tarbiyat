@@ -296,6 +296,12 @@ class TeacherProfile(models.Model):
         """Check if teacher can manage institute settings"""
         return self.is_admin_contact and self.institute and self.institute.is_approved()
     
+    def can_edit_institute(self):
+        """Check if teacher can edit institute (if they registered it)"""
+        if not self.institute:
+            return False
+        return self.institute.registered_by == self
+    
     def __str__(self):
         institute_name = self.institute.name if self.institute else "No Institute"
         admin_indicator = " (Admin)" if self.is_admin_contact else ""

@@ -1,7 +1,7 @@
 {% extends 'app/page.html' %}
 {% load user_tags %}
 
-{% block page_content %}
+{% block content %}
 <!-- Profile Completion Banner for incomplete users -->
 {% if user.is_authenticated and not user|has_user_type %}
 <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 -mx-4 sm:-mx-6 lg:-mx-8 mb-8">
@@ -43,7 +43,6 @@
 
 <!-- Statistics Section -->
 <section class="py-16 bg-white">
-    <div class="px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="bg-white rounded-xl shadow-lg p-8 text-center card-hover">
                 <h3 class="text-3xl font-bold text-gray-900 mb-2">{{ total_companies }}</h3>
@@ -62,12 +61,10 @@
                 <p class="text-gray-600">Active Internships</p>
             </div>
         </div>
-    </div>
 </section>
 
 <!-- Features Section -->
 <section class="py-16 bg-gray-50">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Choose Our Platform?</h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">A comprehensive solution for internship management</p>
@@ -87,12 +84,10 @@
                 <p class="text-gray-600">Comprehensive progress reporting and evaluation tools for all stakeholders.</p>
             </div>
         </div>
-    </div>
 </section>
 
 <!-- How It Works Section -->
 <section class="py-16 bg-white">
-    <div class="px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How It Works</h2>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">Simple steps to get started</p>
@@ -128,6 +123,5 @@
                 <p class="text-gray-600">Complete internship and receive certification</p>
             </div>
         </div>
-    </div>
 </section>
 {% endblock %}

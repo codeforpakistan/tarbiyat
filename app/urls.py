@@ -25,6 +25,12 @@ urlpatterns = [
     # Company editing URL (for mentors who registered the company)
     path('company/edit/', views.edit_company, name='edit_company'),
     
+    # Institute editing URL (for teachers who registered the institute)
+    path('institute/edit/', views.edit_institute, name='edit_institute'),
+    
+    # Teacher management URLs
+    path('teacher/students/', views.teacher_students, name='teacher_students'),
+    
     # Official management URLs
     path('official/manage-companies/', views.manage_companies, name='manage_companies'),
     path('official/manage-institutes/', views.manage_institutes, name='manage_institutes'),
