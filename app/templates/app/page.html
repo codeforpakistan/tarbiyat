@@ -18,6 +18,10 @@
                 <a href="{% url 'browse_positions' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                     Browse Positions
                 </a>
+                <a href="{% url 'documentation_index' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                    <span class="inline-block mr-1">📚</span>
+                    Documentation
+                </a>
                 
                 {% if user.is_authenticated %}
                     <!-- User Dropdown -->
@@ -59,9 +63,48 @@
             
             <!-- Mobile menu button -->
             <div class="md:hidden">
-                <button type="button" class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                <button type="button" id="mobile-menu-button" class="text-gray-600 hover:text-gray-900 focus:outline-none">
                     <span class="text-xl">☰</span>
                 </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="{% url 'browse_positions' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">
+                    Browse Positions
+                </a>
+                <a href="{% url 'documentation_index' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">
+                    <span class="inline-block mr-2">📚</span>
+                    Documentation
+                </a>
+                
+                {% if user.is_authenticated %}
+                    <div class="border-t border-gray-200 pt-2">
+                        {% if user|get_user_type == 'student' %}
+                            <a href="{% url 'student_dashboard' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                        {% elif user|get_user_type == 'mentor' %}
+                            <a href="{% url 'mentor_dashboard' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                        {% elif user|get_user_type == 'teacher' %}
+                            <a href="{% url 'teacher_dashboard' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                        {% elif user|get_user_type == 'official' %}
+                            <a href="{% url 'official_dashboard' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                        {% endif %}
+                        <a href="{% url 'edit_profile' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Profile Settings</a>
+                        <form method="post" action="{% url 'account_logout' %}" class="m-0">
+                            {% csrf_token %}
+                            <button type="submit" class="w-full text-left text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium border-0 bg-transparent">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="border-t border-gray-200 pt-2">
+                        <a href="{% url 'account_login' %}" class="block text-gray-600 hover:text-gray-900 hover:bg-gray-50 px-3 py-2 rounded-md text-base font-medium">Login</a>
+                        <a href="{% url 'account_signup' %}" class="block bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-base font-medium">Register</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -82,4 +125,19 @@
     {% endif %}
     {% block content %}{% endblock %}
 </div>
+
+<!-- Mobile menu toggle script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+});
+</script>
+
 {% endblock %}

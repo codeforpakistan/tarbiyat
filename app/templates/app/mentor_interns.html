@@ -208,12 +208,12 @@
                                             View Profile
                                         </button>
                                         {% if internship.status == 'active' %}
-                                            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
-                                                Progress Report
-                                            </button>
-                                            <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
-                                                Send Message
-                                            </button>
+                                            <a href="{% url 'mentor_progress_reports' internship.nanoid %}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200 text-center">
+                                                Progress Reports
+                                            </a>
+                                            <a href="{% url 'create_progress_report' internship.nanoid %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200 text-center">
+                                                New Report
+                                            </a>
                                         {% endif %}
                                         {% if internship.student.resume %}
                                             <a href="{{ internship.student.resume.url }}" target="_blank" 

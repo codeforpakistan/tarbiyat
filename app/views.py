@@ -3,16 +3,18 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.utils import timezone
 from datetime import date, timedelta
 from decimal import Decimal
+import os
+from django.conf import settings
 from .models import (
     StudentProfile, MentorProfile, TeacherProfile, OfficialProfile,
     InternshipPosition, InternshipApplication, Internship, Company, Institute, 
-    Notification, OrganizationRegistrationRequest
+    Notification, OrganizationRegistrationRequest, ProgressReport
 )
 from django import forms
 from .utils import (
@@ -1674,3 +1676,274 @@ def mentor_interns(request):
     }
     
     return render(request, 'app/mentor_interns.html', context)
+
+@login_required
+def create_progress_report(request, internship_nanoid):
+    """Create a mentor progress report for an intern"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get the internship
+    internship = get_object_or_404(Internship, nanoid=internship_nanoid, mentor=mentor_profile)
+    
+    if request.method == 'POST':
+        # Get form data
+        week_number = request.POST.get('week_number')
+        student_performance = request.POST.get('student_performance')
+        skills_demonstrated = request.POST.get('skills_demonstrated')
+        areas_for_improvement = request.POST.get('areas_for_improvement')
+        attendance_rating = request.POST.get('attendance_rating')
+        
+        # Validate required fields
+        if not week_number or not student_performance:
+            messages.error(request, 'Week number and student performance are required.')
+        else:
+            try:
+                # Check if report for this week already exists
+                existing_report = ProgressReport.objects.filter(
+                    internship=internship,
+                    report_type='mentor',
+                    week_number=int(week_number)
+                ).first()
+                
+                if existing_report:
+                    messages.error(request, f'Progress report for week {week_number} already exists.')
+                else:
+                    # Create new progress report
+                    ProgressReport.objects.create(
+                        internship=internship,
+                        report_type='mentor',
+                        reporter=request.user,
+                        week_number=int(week_number),
+                        student_performance=student_performance,
+                        skills_demonstrated=skills_demonstrated,
+                        areas_for_improvement=areas_for_improvement,
+                        attendance_rating=int(attendance_rating) if attendance_rating else None
+                    )
+                    
+                    messages.success(request, f'Progress report for week {week_number} created successfully.')
+                    return redirect('mentor_progress_reports', internship_nanoid=internship_nanoid)
+            
+            except ValueError:
+                messages.error(request, 'Please enter valid numbers for week and rating.')
+            except Exception as e:
+                messages.error(request, f'Error creating progress report: {str(e)}')
+    
+    # Get existing reports for context
+    existing_reports = ProgressReport.objects.filter(
+        internship=internship,
+        report_type='mentor'
+    ).order_by('-week_number')
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'internship': internship,
+        'existing_reports': existing_reports,
+    }
+    
+    return render(request, 'app/create_progress_report.html', context)
+
+@login_required
+def mentor_progress_reports(request, internship_nanoid):
+    """View all progress reports for a specific internship"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get the internship
+    internship = get_object_or_404(Internship, nanoid=internship_nanoid, mentor=mentor_profile)
+    
+    # Get all progress reports for this internship
+    mentor_reports = ProgressReport.objects.filter(
+        internship=internship,
+        report_type='mentor'
+    ).order_by('-week_number')
+    
+    student_reports = ProgressReport.objects.filter(
+        internship=internship,
+        report_type='student'
+    ).order_by('-week_number')
+    
+    teacher_reports = ProgressReport.objects.filter(
+        internship=internship,
+        report_type='teacher'
+    ).order_by('-week_number')
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'internship': internship,
+        'mentor_reports': mentor_reports,
+        'student_reports': student_reports,
+        'teacher_reports': teacher_reports,
+        'total_reports': mentor_reports.count() + student_reports.count() + teacher_reports.count(),
+    }
+    
+    return render(request, 'app/mentor_progress_reports.html', context)
+
+@login_required
+def edit_progress_report(request, report_nanoid):
+    """Edit a mentor progress report"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get the progress report
+    report = get_object_or_404(
+        ProgressReport, 
+        nanoid=report_nanoid, 
+        report_type='mentor',
+        internship__mentor=mentor_profile
+    )
+    
+    if request.method == 'POST':
+        # Get form data
+        student_performance = request.POST.get('student_performance')
+        skills_demonstrated = request.POST.get('skills_demonstrated')
+        areas_for_improvement = request.POST.get('areas_for_improvement')
+        attendance_rating = request.POST.get('attendance_rating')
+        
+        # Validate required fields
+        if not student_performance:
+            messages.error(request, 'Student performance is required.')
+        else:
+            try:
+                # Update progress report
+                report.student_performance = student_performance
+                report.skills_demonstrated = skills_demonstrated
+                report.areas_for_improvement = areas_for_improvement
+                report.attendance_rating = int(attendance_rating) if attendance_rating else None
+                report.save()
+                
+                messages.success(request, f'Progress report for week {report.week_number} updated successfully.')
+                return redirect('mentor_progress_reports', internship_nanoid=report.internship.nanoid)
+            
+            except ValueError:
+                messages.error(request, 'Please enter a valid number for rating.')
+            except Exception as e:
+                messages.error(request, f'Error updating progress report: {str(e)}')
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'report': report,
+        'internship': report.internship,
+    }
+    
+    return render(request, 'app/edit_progress_report.html', context)
+
+def documentation_index(request):
+    """Documentation homepage with available guides"""
+    docs_structure = {
+        'getting-started': {
+            'title': 'Getting Started',
+            'description': 'Learn the basics of using Tarbiyat platform',
+            'guides': [
+                {'slug': 'overview', 'title': 'Platform Overview'},
+                {'slug': 'account-setup', 'title': 'Account Setup'},
+                {'slug': 'profile-creation', 'title': 'Creating Your Profile'},
+            ]
+        },
+        'students': {
+            'title': 'For Students',
+            'description': 'Complete guide for students using the platform',
+            'guides': [
+                {'slug': 'finding-internships', 'title': 'Finding Internships'},
+                {'slug': 'managing-applications', 'title': 'Managing Applications & Progress Reports'},
+            ]
+        },
+        'mentors': {
+            'title': 'For Mentors',
+            'description': 'Guide for company mentors and supervisors',
+            'guides': [
+                {'slug': 'creating-positions', 'title': 'Creating Positions'},
+                {'slug': 'managing-applications', 'title': 'Managing Applications'},
+                {'slug': 'intern-management', 'title': 'Managing Interns'},
+                {'slug': 'progress-tracking', 'title': 'Progress Tracking'},
+            ]
+        },
+        'teachers': {
+            'title': 'For Teachers',
+            'description': 'Guide for academic supervisors and teachers',
+            'guides': [
+                {'slug': 'student-oversight', 'title': 'Student Oversight'},
+                {'slug': 'institute-management', 'title': 'Institute Management'},
+                {'slug': 'progress-monitoring', 'title': 'Progress Monitoring'},
+            ]
+        },
+        'officials': {
+            'title': 'For Officials',
+            'description': 'Guide for government officials and administrators',
+            'guides': [
+                {'slug': 'organization-management', 'title': 'Organization Management'},
+                {'slug': 'verification-process', 'title': 'Verification Process'},
+                {'slug': 'system-administration', 'title': 'System Administration'},
+            ]
+        },
+    }
+    
+    context = {
+        'docs_structure': docs_structure,
+    }
+    
+    return render(request, 'docs/index.html', context)
+
+def documentation_guide(request, category, guide_slug):
+    """Render a specific documentation guide"""
+    try:
+        # Construct the file path for HTML files
+        docs_dir = os.path.join(settings.BASE_DIR, 'docs')
+        file_path = os.path.join(docs_dir, category, f'{guide_slug}.html')
+        
+        # Check if file exists
+        if not os.path.exists(file_path):
+            raise Http404("Documentation page not found")
+        
+        # Read HTML content
+        with open(file_path, 'r', encoding='utf-8') as file:
+            html_content = file.read()
+        
+        # Extract title from the first h1 tag or use filename
+        title = guide_slug.replace('-', ' ').title()
+        
+        # Try to extract title from HTML
+        import re
+        title_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_content, re.IGNORECASE)
+        if title_match:
+            # Strip HTML tags from title
+            title = re.sub(r'<[^>]+>', '', title_match.group(1)).strip()
+        
+        context = {
+            'title': title,
+            'content': html_content,
+            'category': category,
+            'guide_slug': guide_slug,
+        }
+        
+        return render(request, 'docs/guide.html', context)
+        
+    except FileNotFoundError:
+        raise Http404("Documentation page not found")
+    except Exception as e:
+        messages.error(request, f"Error loading documentation: {str(e)}")
+        return redirect('documentation_index')

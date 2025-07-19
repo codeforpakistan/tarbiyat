@@ -49,4 +49,13 @@ urlpatterns = [
     path('position/<str:position_nanoid>/apply/', views.apply_position, name='apply_position'),
     path('position/<str:position_nanoid>/edit/', views.edit_position, name='edit_position'),
     path('position/<str:position_nanoid>/', views.position_detail, name='position_detail'),
+    
+    # Progress report management URLs
+    path('internship/<str:internship_nanoid>/progress-reports/', views.mentor_progress_reports, name='mentor_progress_reports'),
+    path('internship/<str:internship_nanoid>/progress-reports/create/', views.create_progress_report, name='create_progress_report'),
+    path('progress-report/<str:report_nanoid>/edit/', views.edit_progress_report, name='edit_progress_report'),
+    
+    # Documentation URLs
+    path('docs/', views.documentation_index, name='documentation_index'),
+    path('docs/<str:category>/<str:guide_slug>/', views.documentation_guide, name='documentation_guide'),
 ]
