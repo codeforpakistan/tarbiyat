@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q, Count
+from django.utils import timezone
 from datetime import date, timedelta
 from decimal import Decimal
 from .models import (
@@ -97,6 +98,8 @@ def student_dashboard(request):
         'available_positions': available_positions,
         'current_internship': current_internship,
         'total_applications': applications.count(),
+        'profile_completion': student_profile.get_profile_completion(),
+        'completion_status': student_profile.get_completion_status(),
     }
     return render(request, 'app/student_dashboard.html', context)
 
@@ -464,6 +467,25 @@ def edit_student_profile(request):
         profile.expected_graduation = request.POST.get('expected_graduation')
         profile.is_available_for_internship = 'available' in request.POST
         
+        # Handle resume upload and deletion
+        if 'delete_resume' in request.POST and profile.resume:
+            # Delete the old resume file
+            profile.resume.delete(save=False)
+            profile.resume = None
+        elif 'resume' in request.FILES:
+            resume_file = request.FILES['resume']
+            # Check file size (5MB limit)
+            if resume_file.size > 5 * 1024 * 1024:  # 5MB in bytes
+                messages.error(request, 'Resume file size must be less than 5MB.')
+                return render(request, 'app/edit_student_profile.html', {
+                    'profile': profile,
+                    'institutes': Institute.objects.all(),
+                })
+            # Delete old resume if exists
+            if profile.resume:
+                profile.resume.delete(save=False)
+            profile.resume = resume_file
+        
         # Update user fields
         request.user.first_name = request.POST.get('first_name')
         request.user.last_name = request.POST.get('last_name')
@@ -771,3 +793,44 @@ def student_applications(request):
         'student_profile': student_profile,
     }
     return render(request, 'app/student_applications.html', context)
+
+@login_required
+def withdraw_application(request, application_id):
+    """Allow students to withdraw their applications"""
+    # Check if user is a student
+    if not request.user.groups.filter(name='student').exists():
+        messages.error(request, 'Only students can withdraw applications.')
+        return redirect('home')
+    
+    try:
+        # Get student profile
+        student_profile = StudentProfile.objects.get(user=request.user)
+        
+        # Get the application (ensuring it belongs to the current student)
+        application = InternshipApplication.objects.get(
+            nanoid=application_id,
+            student=student_profile
+        )
+        
+        # Check if application can be withdrawn (not already approved, rejected, or withdrawn)
+        if application.status in ['approved', 'rejected', 'withdrawn']:
+            status_display = dict(InternshipApplication.STATUS_CHOICES).get(application.status, application.status)
+            messages.error(request, f'Cannot withdraw application that is already {status_display.lower()}.')
+            return redirect('student_applications')
+        
+        # Withdraw the application
+        application.status = 'withdrawn'
+        application.reviewed_at = timezone.now()
+        application.reviewer_notes = "Application withdrawn by student"
+        application.save()
+        
+        position_title = application.position.title if application.position else "Unknown Position"
+        messages.success(request, f'Your application for "{position_title}" has been withdrawn successfully.')
+        
+    except StudentProfile.DoesNotExist:
+        messages.error(request, 'You must complete your student profile first.')
+        return redirect('create_student_profile')
+    except InternshipApplication.DoesNotExist:
+        messages.error(request, 'Application not found or you do not have permission to withdraw it.')
+    
+    return redirect('student_applications')

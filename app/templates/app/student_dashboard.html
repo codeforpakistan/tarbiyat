@@ -17,7 +17,7 @@
                         <a href="{% url 'student_dashboard' %}" class="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md">
                             Dashboard
                         </a>
-                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                        <a href="{% url 'edit_student_profile' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             My Profile
                         </a>
                         <a href="{% url 'browse_positions' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
@@ -105,10 +105,19 @@
                                             <div class="text-right">
                                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                                                     {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800
+                                                    {% elif application.status == 'under_review' %}bg-blue-100 text-blue-800
+                                                    {% elif application.status == 'interview_scheduled' %}bg-purple-100 text-purple-800
                                                     {% elif application.status == 'approved' %}bg-green-100 text-green-800
                                                     {% elif application.status == 'rejected' %}bg-red-100 text-red-800
+                                                    {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800
                                                     {% else %}bg-blue-100 text-blue-800{% endif %}">
-                                                    {{ application.get_status_display }}
+                                                    {% if application.status == 'pending' %}Pending Review
+                                                    {% elif application.status == 'under_review' %}Under Review
+                                                    {% elif application.status == 'interview_scheduled' %}Interview Scheduled
+                                                    {% elif application.status == 'approved' %}Approved
+                                                    {% elif application.status == 'rejected' %}Rejected
+                                                    {% elif application.status == 'withdrawn' %}Withdrawn
+                                                    {% else %}{{ application.status|title }}{% endif %}
                                                 </span>
                                                 <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date }}</div>
                                             </div>
@@ -116,7 +125,7 @@
                                     {% endfor %}
                                 </div>
                                 <div class="text-center mt-6">
-                                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View All Applications</a>
+                                    <a href="{% url 'student_applications' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View All Applications</a>
                                 </div>
                             {% else %}
                                 <div class="text-center py-8">
@@ -176,12 +185,14 @@
                         <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
                             <div class="flex-1 mb-4 md:mb-0">
                                 <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
-                                    <div class="bg-blue-600 h-3 rounded-full" style="width: 85%"></div>
+                                    <div class="bg-blue-600 h-3 rounded-full" style="width: {{ profile_completion }}%"></div>
                                 </div>
-                                <p class="text-gray-600">Your profile is 85% complete. Add a resume to increase your chances of getting selected!</p>
+                                <p class="text-gray-600">{{ completion_status }}</p>
                             </div>
                             <div class="md:ml-6">
-                                <a href="#" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">Complete Profile</a>
+                                <a href="{% url 'edit_student_profile' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                                    {% if profile_completion >= 90 %}Update Profile{% else %}Complete Profile{% endif %}
+                                </a>
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,7 @@ urlpatterns = [
     
     # Student application management
     path('applications/', views.student_applications, name='student_applications'),
+    path('applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
     
     # Position management URLs (specific patterns first)
     path('position/create/', views.create_position, name='create_position'),

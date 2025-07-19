@@ -79,10 +79,67 @@ class StudentProfile(models.Model):
     major = models.CharField(max_length=100, null=True, blank=True)
     gpa = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(4)], null=True, blank=True)
     skills = models.TextField(help_text="List your technical and soft skills", null=True, blank=True)
-    resume = models.FileField(upload_to='resumes/', null=True, blank=True)
+    resume = models.FileField(
+        upload_to='resumes/', 
+        null=True, 
+        blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx'])],
+        help_text="Upload your resume in PDF, DOC, or DOCX format"
+    )
     portfolio_url = models.URLField(null=True, blank=True)
     expected_graduation = models.DateField(null=True, blank=True)
     is_available_for_internship = models.BooleanField(default=True)
+    
+    def get_profile_completion(self):
+        """Calculate profile completion percentage"""
+        # Required fields for a complete profile
+        required_fields = [
+            # User fields (always considered required)
+            self.user.first_name,
+            self.user.last_name,
+            self.user.email,
+            # Profile fields
+            self.institute,
+            self.year_of_study,
+            self.major,
+            self.gpa,
+            self.skills,
+            self.expected_graduation,
+        ]
+        
+        # Optional but recommended fields
+        optional_fields = [
+            self.student_id,
+            self.portfolio_url,
+            self.resume,
+        ]
+        
+        # Count filled required fields (weight: 80%)
+        filled_required = sum(1 for field in required_fields if field)
+        required_score = (filled_required / len(required_fields)) * 80
+        
+        # Count filled optional fields (weight: 20%)
+        filled_optional = sum(1 for field in optional_fields if field)
+        optional_score = (filled_optional / len(optional_fields)) * 20
+        
+        total_completion = required_score + optional_score
+        return round(total_completion)
+    
+    def get_completion_status(self):
+        """Get human-readable completion status"""
+        completion = self.get_profile_completion()
+        if completion >= 90:
+            return "Your profile is complete! You're ready for internship opportunities."
+        elif completion >= 70:
+            return f"Your profile is {completion}% complete. Consider adding a resume and portfolio to increase your chances."
+        else:
+            return f"Your profile is {completion}% complete. Please fill in the missing information to improve your visibility to employers."
+    
+    def get_resume_filename(self):
+        """Get just the filename from the resume path"""
+        if self.resume:
+            return self.resume.name.split('/')[-1]
+        return None
     
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.student_id or 'No ID'}"
