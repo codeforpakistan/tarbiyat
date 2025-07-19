@@ -1508,3 +1508,169 @@ def approve_organization_request(request, request_nanoid):
     return render(request, 'app/approve_organization.html', {
         'org_request': org_request,
     })
+
+@login_required
+def mentor_positions(request):
+    """View all positions created by the mentor"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get all positions with related data
+    positions = InternshipPosition.objects.filter(mentor=mentor_profile).annotate(
+        application_count=Count('applications')
+    ).order_by('-created_at')
+    
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        positions = positions.filter(
+            Q(title__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(skills_required__icontains=search_query)
+        )
+    
+    # Status filter
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        positions = positions.filter(status=status_filter)
+    
+    # Pagination
+    paginator = Paginator(positions, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'total_positions': positions.count(),
+    }
+    
+    return render(request, 'app/mentor_positions.html', context)
+
+@login_required
+def mentor_applications(request):
+    """View all applications received by the mentor"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get all applications for mentor's positions
+    applications = InternshipApplication.objects.filter(
+        position__mentor=mentor_profile
+    ).select_related(
+        'student__user', 'position'
+    ).order_by('-applied_at')
+    
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        applications = applications.filter(
+            Q(student__user__first_name__icontains=search_query) |
+            Q(student__user__last_name__icontains=search_query) |
+            Q(student__user__email__icontains=search_query) |
+            Q(position__title__icontains=search_query)
+        )
+    
+    # Status filter
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        applications = applications.filter(status=status_filter)
+    
+    # Position filter
+    position_filter = request.GET.get('position', '')
+    if position_filter:
+        applications = applications.filter(position__nanoid=position_filter)
+    
+    # Pagination
+    paginator = Paginator(applications, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Get mentor's positions for filter dropdown
+    mentor_positions = InternshipPosition.objects.filter(mentor=mentor_profile)
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'position_filter': position_filter,
+        'mentor_positions': mentor_positions,
+        'total_applications': applications.count(),
+    }
+    
+    return render(request, 'app/mentor_applications.html', context)
+
+@login_required
+def mentor_interns(request):
+    """View all active and past interns"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_mentor_profile')
+    
+    # Get all internships for this mentor
+    internships = Internship.objects.filter(
+        mentor=mentor_profile
+    ).select_related(
+        'student__user', 'application__position'
+    ).order_by('-start_date')
+    
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        internships = internships.filter(
+            Q(student__user__first_name__icontains=search_query) |
+            Q(student__user__last_name__icontains=search_query) |
+            Q(student__user__email__icontains=search_query) |
+            Q(application__position__title__icontains=search_query)
+        )
+    
+    # Status filter
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        internships = internships.filter(status=status_filter)
+    
+    # Pagination
+    paginator = Paginator(internships, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Get statistics
+    active_interns = internships.filter(status='active').count()
+    completed_interns = internships.filter(status='completed').count()
+    
+    context = {
+        'mentor_profile': mentor_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'total_interns': internships.count(),
+        'active_interns': active_interns,
+        'completed_interns': completed_interns,
+    }
+    
+    return render(request, 'app/mentor_interns.html', context)

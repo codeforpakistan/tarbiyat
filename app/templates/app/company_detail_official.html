@@ -40,7 +40,7 @@
                     
                     <div class="flex-grow">
                         <div class="flex items-center mb-2">
-                            <h1 class="text-3xl font-bold text-gray-900 mr-4">{{ company.name }}</h1>
+                            <h1 class="text-3xl font-semibold text-gray-900 mr-4">{{ company.name }}</h1>
                             {% if company.registration_status == 'pending' %}
                                 <span class="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Review</span>
                             {% elif company.registration_status == 'approved' %}

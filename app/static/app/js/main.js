@@ -2,12 +2,6 @@
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Add fade-in animation to main content
-    const mainContent = document.querySelector('main');
-    if (mainContent) {
-        mainContent.classList.add('fade-in');
-    }
-
     // Auto-hide alert messages after 5 seconds
     const alerts = document.querySelectorAll('.alert, .message');
     alerts.forEach(function(alert) {

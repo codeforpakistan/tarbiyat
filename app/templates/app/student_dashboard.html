@@ -40,7 +40,7 @@
       <!-- Welcome Header -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
         <div>
-          <h2 class="text-2xl font-bold text-gray-900">Welcome back, {{ student_profile.user.first_name }}!</h2>
+          <h2 class="text-2xl font-semibold text-gray-900">Welcome back, {{ student_profile.user.first_name }}!</h2>
           <p class="text-gray-600">{{ student_profile.major }} • {{ student_profile.institute.name }}</p>
         </div>
         <div class="text-left sm:text-right mt-4 sm:mt-0">
@@ -52,19 +52,19 @@
       <!-- Quick Stats -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-bold text-gray-900">{{ total_applications }}</h4>
+          <h4 class="text-2xl font-semibold text-gray-900">{{ total_applications }}</h4>
           <p class="text-sm text-gray-600">Applications Submitted</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-bold text-gray-900">{{ available_positions.count }}</h4>
+          <h4 class="text-2xl font-semibold text-gray-900">{{ available_positions.count }}</h4>
           <p class="text-sm text-gray-600">Available Positions</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-bold text-gray-900">{% if current_internship %}1{% else %}0{% endif %}</h4>
+          <h4 class="text-2xl font-semibold text-gray-900">{% if current_internship %}1{% else %}0{% endif %}</h4>
           <p class="text-sm text-gray-600">Active Internship</p>
         </div>
         <div class="bg-white rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-lg font-bold text-gray-900">{{ student_profile.expected_graduation|date:"M Y" }}</h4>
+          <h4 class="text-lg font-semibold text-gray-900">{{ student_profile.expected_graduation|date:"M Y" }}</h4>
           <p class="text-sm text-gray-600">Expected Graduation</p>
         </div>
       </div>

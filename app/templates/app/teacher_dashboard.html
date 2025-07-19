@@ -40,7 +40,7 @@
             <div class="lg:col-span-3">
                 <!-- Welcome Header -->
                 <div class="mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900">Welcome back, {{ user.teacher_profile.title }} {{ user.get_full_name }}!</h2>
+                    <h2 class="text-2xl font-semibold text-gray-900">Welcome back, {{ user.teacher_profile.title }} {{ user.get_full_name }}!</h2>
                     <p class="text-gray-600">{{ user.teacher_profile.institute.name }} - {{ user.teacher_profile.department }}</p>
                 </div>
 
@@ -54,7 +54,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ institute_students.count }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ institute_students.count }}</h4>
                                 <p class="text-sm text-gray-600">Institute Students</p>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ students_with_internships }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ students_with_internships }}</h4>
                                 <p class="text-sm text-gray-600">Students with Active Internships</p>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ active_internships.count }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ active_internships.count }}</h4>
                                 <p class="text-sm text-gray-600">Active Internships</p>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                 </svg>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ teacher_profile.institute.name|length }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ teacher_profile.institute.name|length }}</h4>
                                 <p class="text-sm text-gray-600">Institute: {{ teacher_profile.institute.name|truncatechars:15 }}</p>
                             </div>
                         </div>

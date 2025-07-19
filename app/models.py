@@ -536,6 +536,30 @@ class Internship(models.Model):
         if self.mentor and self.mentor.company:
             company_name = self.mentor.company.name
         return f"{student_name} at {company_name}"
+    
+    @property
+    def position(self):
+        """Get the internship position from application or return None"""
+        if self.application and self.application.position:
+            return self.application.position
+        return None
+    
+    def get_progress_percentage(self):
+        """Calculate progress percentage based on time elapsed"""
+        if not self.start_date or not self.end_date:
+            return 0
+        
+        from datetime import date
+        today = date.today()
+        
+        if today < self.start_date:
+            return 0
+        elif today > self.end_date:
+            return 100
+        else:
+            total_days = (self.end_date - self.start_date).days
+            elapsed_days = (today - self.start_date).days
+            return min(100, max(0, (elapsed_days / total_days) * 100))
 
 class ProgressReport(models.Model):
     """Progress reports during internship"""

@@ -19,13 +19,13 @@
                         <a href="{% url 'create_position' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             Create Position
                         </a>
-                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                        <a href="{% url 'mentor_positions' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             My Positions
                         </a>
-                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                        <a href="{% url 'mentor_applications' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             Applications
                         </a>
-                        <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                        <a href="{% url 'mentor_interns' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             My Interns
                         </a>
                         <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
@@ -51,7 +51,7 @@
                 <div class="mb-8">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h2 class="text-2xl font-bold text-gray-900">Welcome back, {{ user.get_full_name }}!</h2>
+                            <h2 class="text-2xl font-semibold text-gray-900">Welcome back, {{ user.get_full_name }}!</h2>
                             <p class="text-gray-600">{{ user.mentor_profile.company.name }} - {{ user.mentor_profile.position }}</p>
                         </div>
                         {% if user.mentor_profile.is_verified %}
@@ -72,7 +72,7 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.active_positions }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ stats.active_positions }}</h4>
                                 <p class="text-sm text-gray-600">Active Positions</p>
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.pending_applications }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ stats.pending_applications }}</h4>
                                 <p class="text-sm text-gray-600">Pending Applications</p>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.current_interns }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ stats.current_interns }}</h4>
                                 <p class="text-sm text-gray-600">Current Interns</p>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
                             <div class="ml-4">
-                                <h4 class="text-2xl font-bold text-gray-900">{{ stats.scheduled_interviews }}</h4>
+                                <h4 class="text-2xl font-semibold text-gray-900">{{ stats.scheduled_interviews }}</h4>
                                 <p class="text-sm text-gray-600">Scheduled Interviews</p>
                             </div>
                         </div>

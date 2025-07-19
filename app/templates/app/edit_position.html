@@ -9,7 +9,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-3xl font-bold text-gray-900">Edit Position</h2>
+                    <h2 class="text-3xl font-semibold text-gray-900">Edit Position</h2>
                     <p class="text-gray-600 mt-2">Update your internship opportunity</p>
                 </div>
                 <a href="{% url 'mentor_dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
@@ -175,15 +175,15 @@
                     <div class="bg-gray-50 rounded-lg p-4">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                             <div>
-                                <div class="text-2xl font-bold text-blue-600">{{ position.total_applications_count }}</div>
+                                <div class="text-2xl font-semibold text-blue-600">{{ position.total_applications_count }}</div>
                                 <div class="text-sm text-gray-600">Total Applications</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-bold text-green-600">{{ position.approved_applications_count }}</div>
+                                <div class="text-2xl font-semibold text-green-600">{{ position.approved_applications_count }}</div>
                                 <div class="text-sm text-gray-600">Approved</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-bold text-orange-600">{{ position.available_spots }}</div>
+                                <div class="text-2xl font-semibold text-orange-600">{{ position.available_spots }}</div>
                                 <div class="text-sm text-gray-600">Available Spots</div>
                             </div>
                         </div>

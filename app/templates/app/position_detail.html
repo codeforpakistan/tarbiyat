@@ -23,7 +23,7 @@
                 <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
                     <div class="flex items-start justify-between mb-6">
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ position.title }}</h1>
+                            <h1 class="text-3xl font-semibold text-gray-900 mb-2">{{ position.title }}</h1>
                             <div class="flex items-center space-x-4 text-gray-600">
                                 <div class="flex items-center">
                                     
@@ -80,7 +80,7 @@
 
                 <!-- Description -->
                 <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">About This Position</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">About This Position</h2>
                     <div class="prose max-w-none text-gray-700">
                         {{ position.description|linebreaks }}
                     </div>
@@ -88,7 +88,7 @@
 
                 <!-- Requirements -->
                 <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Requirements</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
                     <div class="prose max-w-none text-gray-700">
                         {{ position.requirements|linebreaks }}
                     </div>
@@ -96,7 +96,7 @@
 
                 <!-- Skills Required -->
                 <div class="bg-white rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">Required Skills</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Required Skills</h2>
                     <div class="prose max-w-none text-gray-700">
                         {{ position.skills_required|linebreaks }}
                     </div>
@@ -104,7 +104,7 @@
 
                 <!-- Company Info -->
                 <div class="bg-white rounded-lg shadow-sm p-8">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4">About {{ position.company.name }}</h2>
+                    <h2 class="text-xl font-semibold text-gray-900 mb-4">About {{ position.company.name }}</h2>
                     <div class="space-y-4">
                         <div class="prose max-w-none text-gray-700">
                             {{ position.company.description|linebreaks }}
@@ -229,7 +229,7 @@
         <!-- Related Positions -->
         {% if related_positions %}
         <div class="mt-12">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">More from {{ position.company.name }}</h2>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">More from {{ position.company.name }}</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {% for related_position in related_positions %}
                 <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition duration-200">
