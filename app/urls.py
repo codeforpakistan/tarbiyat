@@ -22,6 +22,15 @@ urlpatterns = [
     path('teacher/edit-profile/', views.edit_teacher_profile, name='edit_teacher_profile'),
     path('official/edit-profile/', views.edit_official_profile, name='edit_official_profile'),
     
+    # Company editing URL (for mentors who registered the company)
+    path('company/edit/', views.edit_company, name='edit_company'),
+    
+    # Official management URLs
+    path('official/manage-companies/', views.manage_companies, name='manage_companies'),
+    path('official/manage-institutes/', views.manage_institutes, name='manage_institutes'),
+    path('official/company/<str:company_nanoid>/', views.company_detail_official, name='company_detail_official'),
+    path('official/institute/<str:institute_nanoid>/', views.institute_detail_official, name='institute_detail_official'),
+    
     # Student application management
     path('applications/', views.student_applications, name='student_applications'),
     path('applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),

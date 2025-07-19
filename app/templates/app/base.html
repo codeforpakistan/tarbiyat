@@ -50,7 +50,7 @@
     <!-- Navigation (only show if not using blank template) -->
     {% block navigation %}
     <nav class="bg-white shadow-sm border-b">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
@@ -117,7 +117,7 @@
 
     <!-- Messages -->
     {% if messages %}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="px-4 sm:px-6 lg:px-8 mt-4">
             {% for message in messages %}
                 <div class="bg-{{ message.tags }}-100 border border-{{ message.tags }}-400 text-{{ message.tags }}-700 px-4 py-3 rounded mb-4 relative" role="alert">
                     <span class="block sm:inline">{{ message }}</span>

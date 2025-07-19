@@ -40,10 +40,40 @@ class Institute(models.Model):
     address = models.TextField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)
     contact_email = models.EmailField(null=True, blank=True)
+    # Email domain verification
+    email_domain = models.CharField(max_length=100, null=True, blank=True, help_text="Official email domain (e.g., university.edu.pk)")
+    domain_verified = models.BooleanField(default=False, help_text="Whether the email domain has been verified")
+    # Registration and approval
+    registered_by = models.ForeignKey('TeacherProfile', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_institutes')
+    registration_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending Approval'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ('suspended', 'Suspended'),
+        ],
+        default='pending'
+    )
+    approved_by = models.ForeignKey('OfficialProfile', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_institutes')
+    approved_at = models.DateTimeField(null=True, blank=True)
+    registration_notes = models.TextField(null=True, blank=True, help_text="Notes from government official during review")
     created_at = models.DateTimeField(auto_now_add=True)
     
+    def is_email_from_institute(self, email):
+        """Check if email belongs to this institute's domain"""
+        if not self.email_domain or not email:
+            return False
+        email_domain = email.split('@')[-1].lower()
+        return email_domain == self.email_domain.lower()
+    
+    def is_approved(self):
+        """Check if institute is approved for operations"""
+        return self.registration_status == 'approved'
+    
     def __str__(self):
-        return self.name or "Unnamed Institute"
+        status_indicator = "✓" if self.is_approved() else "⚠"
+        return f"{status_indicator} {self.name or 'Unnamed Institute'}"
 
 class Company(models.Model):
     """Company model for organizations offering internships"""
@@ -55,14 +85,44 @@ class Company(models.Model):
     website = models.URLField(null=True, blank=True)
     contact_email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=15, null=True, blank=True)
-    is_verified = models.BooleanField(default=False)
+    # Email domain verification
+    email_domain = models.CharField(max_length=100, null=True, blank=True, help_text="Official email domain (e.g., company.com)")
+    domain_verified = models.BooleanField(default=False, help_text="Whether the email domain has been verified")
+    # Registration and approval
+    registered_by = models.ForeignKey('MentorProfile', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_companies')
+    registration_status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending Approval'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ('suspended', 'Suspended'),
+        ],
+        default='pending'
+    )
+    approved_by = models.ForeignKey('OfficialProfile', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_companies')
+    approved_at = models.DateTimeField(null=True, blank=True)
+    registration_notes = models.TextField(null=True, blank=True, help_text="Notes from government official during review")
+    is_verified = models.BooleanField(default=False)  # Keep for backward compatibility
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         verbose_name_plural = "Companies"
     
+    def is_email_from_company(self, email):
+        """Check if email belongs to this company's domain"""
+        if not self.email_domain or not email:
+            return False
+        email_domain = email.split('@')[-1].lower()
+        return email_domain == self.email_domain.lower()
+    
+    def is_approved(self):
+        """Check if company is approved for operations"""
+        return self.registration_status == 'approved'
+    
     def __str__(self):
-        return self.name or "Unnamed Company"
+        status_indicator = "✓" if self.is_approved() else "⚠"
+        return f"{status_indicator} {self.name or 'Unnamed Company'}"
 
 class StudentProfile(models.Model):
     """Student profile with academic information"""
@@ -141,6 +201,21 @@ class StudentProfile(models.Model):
             return self.resume.name.split('/')[-1]
         return None
     
+    def can_join_institute(self, institute):
+        """Check if student can join this institute based on email domain"""
+        if not institute or not institute.domain_verified:
+            return True  # Allow if institute doesn't have domain verification
+        return institute.is_email_from_institute(self.user.email)
+    
+    def validate_institute_membership(self):
+        """Validate that student's email matches institute domain"""
+        if self.institute and self.institute.domain_verified:
+            if not self.institute.is_email_from_institute(self.user.email):
+                from django.core.exceptions import ValidationError
+                raise ValidationError(
+                    f"Your email domain must match {self.institute.name}'s official domain ({self.institute.email_domain}) to join this institute."
+                )
+    
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.student_id or 'No ID'}"
 
@@ -154,10 +229,41 @@ class MentorProfile(models.Model):
     experience_years = models.IntegerField(null=True, blank=True)
     specialization = models.CharField(max_length=200, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    # Administrative contact status
+    is_admin_contact = models.BooleanField(default=False, help_text="Whether this mentor is an administrative contact for their company")
+    can_register_organization = models.BooleanField(default=True, help_text="Whether this mentor can register a new company")
+    
+    def can_join_company(self, company):
+        """Check if mentor can join this company based on email domain"""
+        if not company or not company.domain_verified:
+            return True  # Allow if company doesn't have domain verification
+        return company.is_email_from_company(self.user.email)
+    
+    def validate_company_membership(self):
+        """Validate that mentor's email matches company domain"""
+        if self.company and self.company.domain_verified:
+            if not self.company.is_email_from_company(self.user.email):
+                from django.core.exceptions import ValidationError
+                raise ValidationError(
+                    f"Your email domain must match {self.company.name}'s official domain ({self.company.email_domain}) to join this company."
+                )
+    
+    def can_manage_company(self):
+        """Check if mentor can manage company settings"""
+        return self.is_admin_contact and self.company and self.company.is_approved()
+    
+    def can_edit_company(self):
+        """Check if mentor can edit company information (if they registered it)"""
+        return (
+            self.company and 
+            self.company.registered_by == self and
+            self.company.registration_status in ['pending', 'approved']
+        )
     
     def __str__(self):
         company_name = self.company.name if self.company else "No Company"
-        return f"{self.user.get_full_name()} - {company_name}"
+        admin_indicator = " (Admin)" if self.is_admin_contact else ""
+        return f"{self.user.get_full_name()} - {company_name}{admin_indicator}"
 
 class TeacherProfile(models.Model):
     """Teacher profile for institute staff"""
@@ -167,10 +273,33 @@ class TeacherProfile(models.Model):
     department = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=50, null=True, blank=True)  # Professor, Associate Professor, etc.
     employee_id = models.CharField(max_length=50, null=True, blank=True)
+    # Administrative contact status
+    is_admin_contact = models.BooleanField(default=False, help_text="Whether this teacher is an administrative contact for their institute")
+    can_register_organization = models.BooleanField(default=True, help_text="Whether this teacher can register a new institute")
+    
+    def can_join_institute(self, institute):
+        """Check if teacher can join this institute based on email domain"""
+        if not institute or not institute.domain_verified:
+            return True  # Allow if institute doesn't have domain verification
+        return institute.is_email_from_institute(self.user.email)
+    
+    def validate_institute_membership(self):
+        """Validate that teacher's email matches institute domain"""
+        if self.institute and self.institute.domain_verified:
+            if not self.institute.is_email_from_institute(self.user.email):
+                from django.core.exceptions import ValidationError
+                raise ValidationError(
+                    f"Your email domain must match {self.institute.name}'s official domain ({self.institute.email_domain}) to join this institute."
+                )
+    
+    def can_manage_institute(self):
+        """Check if teacher can manage institute settings"""
+        return self.is_admin_contact and self.institute and self.institute.is_approved()
     
     def __str__(self):
         institute_name = self.institute.name if self.institute else "No Institute"
-        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {institute_name}"
+        admin_indicator = " (Admin)" if self.is_admin_contact else ""
+        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {institute_name}{admin_indicator}"
 
 class OfficialProfile(models.Model):
     """Government official profile"""
@@ -179,9 +308,96 @@ class OfficialProfile(models.Model):
     department = models.CharField(max_length=100, null=True, blank=True)
     position = models.CharField(max_length=100, null=True, blank=True)
     employee_id = models.CharField(max_length=50, null=True, blank=True)
+    # Approval permissions
+    can_approve_organizations = models.BooleanField(default=True, help_text="Whether this official can approve organization registrations")
+    approval_authority_level = models.CharField(
+        max_length=20,
+        choices=[
+            ('local', 'Local Authority'),
+            ('provincial', 'Provincial Authority'),
+            ('federal', 'Federal Authority'),
+        ],
+        default='local'
+    )
+    
+    def get_pending_approvals_count(self):
+        """Get count of organizations pending approval"""
+        pending_companies = Company.objects.filter(registration_status='pending').count()
+        pending_institutes = Institute.objects.filter(registration_status='pending').count()
+        return pending_companies + pending_institutes
+    
+    def can_approve_organization(self, organization):
+        """Check if official can approve this organization"""
+        return self.can_approve_organizations
     
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.department or 'No Department'}"
+
+class OrganizationRegistrationRequest(models.Model):
+    """Organization registration requests from mentors/teachers"""
+    ORGANIZATION_TYPES = (
+        ('company', 'Company'),
+        ('institute', 'Institute'),
+    )
+    
+    STATUS_CHOICES = (
+        ('pending', 'Pending Review'),
+        ('under_review', 'Under Review'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('needs_revision', 'Needs Revision'),
+    )
+    
+    nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
+    organization_type = models.CharField(max_length=10, choices=ORGANIZATION_TYPES)
+    
+    # Organization details
+    organization_name = models.CharField(max_length=200)
+    organization_description = models.TextField()
+    industry = models.CharField(max_length=100, null=True, blank=True)  # For companies
+    address = models.TextField()
+    website = models.URLField(null=True, blank=True)
+    contact_email = models.EmailField()
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    email_domain = models.CharField(max_length=100, help_text="Official email domain to verify")
+    
+    # Supporting documents
+    registration_certificate = models.FileField(
+        upload_to='org_documents/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Upload business/educational registration certificate"
+    )
+    authorization_letter = models.FileField(
+        upload_to='org_documents/',
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Authorization letter proving you can represent this organization"
+    )
+    
+    # Request details
+    requested_by_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organization_requests')
+    requested_by_mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, null=True, blank=True)
+    requested_by_teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, null=True, blank=True)
+    
+    # Approval workflow
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    reviewed_by = models.ForeignKey(OfficialProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    reviewed_at = models.DateTimeField(null=True, blank=True)
+    review_notes = models.TextField(null=True, blank=True)
+    
+    # Created organization (set when approved)
+    approved_company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
+    approved_institute = models.OneToOneField(Institute, on_delete=models.CASCADE, null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        org_type = "Company" if self.organization_type == 'company' else "Institute"
+        status_display = self.status.title()
+        return f"{self.organization_name} ({org_type}) - {status_display}"
 
 class InternshipPosition(models.Model):
     """Internship positions offered by companies"""

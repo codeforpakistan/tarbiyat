@@ -346,6 +346,15 @@ class Command(BaseCommand):
                     is_verified=True
                 )
                 mentors.append(mentor_profile)
+                
+                # Set the mentor as the one who registered the company (for the first mentor of each company)
+                company = companies[i % len(companies)]
+                if not company.registered_by:
+                    company.registered_by = mentor_profile
+                    company.registration_status = 'approved'  # Set to approved so mentors can create positions
+                    company.save()
+                    self.stdout.write(f'Set {mentor_profile.user.username} as registrant for company {company.name}')
+                
                 self.stdout.write(f'Created mentor: {user.username}')
         
         return mentors

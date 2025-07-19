@@ -1,0 +1,199 @@
+{% extends 'app/page.html' %}
+
+{% block title %}Manage Companies - Official Dashboard{% endblock %}
+
+{% block page_content %}
+<div class="space-y-6">
+    <div class="bg-white shadow rounded-lg">
+        <div class="p-6">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Manage Companies</h1>
+            <p class="text-gray-600">Review and manage company registrations</p>
+            
+            <!-- Statistics Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 mb-8">
+                <div class="bg-blue-500 text-white rounded-lg p-4">
+                    <h5 class="text-lg font-semibold">Total Companies</h5>
+                    <h2 class="text-3xl font-bold">{{ stats.total }}</h2>
+                </div>
+                <div class="bg-yellow-500 text-white rounded-lg p-4">
+                    <h5 class="text-lg font-semibold">Pending Review</h5>
+                    <h2 class="text-3xl font-bold">{{ stats.pending }}</h2>
+                </div>
+                <div class="bg-green-500 text-white rounded-lg p-4">
+                    <h5 class="text-lg font-semibold">Approved</h5>
+                    <h2 class="text-3xl font-bold">{{ stats.approved }}</h2>
+                </div>
+                <div class="bg-blue-400 text-white rounded-lg p-4">
+                    <h5 class="text-lg font-semibold">Domain Verified</h5>
+                    <h2 class="text-3xl font-bold">{{ stats.domain_verified }}</h2>
+                </div>
+            </div>
+            
+            <!-- Filters and Search -->
+            <div class="mb-6">
+                <form method="GET" class="flex flex-wrap gap-3">
+                    <div class="flex-grow">
+                        <input type="text" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                               name="search" 
+                               placeholder="Search companies by name, industry, or email..."
+                               value="{{ search_query|default:'' }}">
+                    </div>
+                    <select name="status" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Status</option>
+                        {% for value, display in status_choices %}
+                            <option value="{{ value }}" 
+                                    {% if status_filter == value %}selected{% endif %}>
+                                {{ display }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <select name="domain_verified" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Domain Status</option>
+                        <option value="true" {% if domain_filter == 'true' %}selected{% endif %}>Verified</option>
+                        <option value="false" {% if domain_filter == 'false' %}selected{% endif %}>Not Verified</option>
+                    </select>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Filter</button>
+                    <a href="{% url 'manage_companies' %}" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Clear</a>
+                </form>
+            </div>
+            
+            <!-- Companies Table -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Industry</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact Email</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Domain</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registered By</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        {% for company in page_obj %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        {% if company.logo %}
+                                            <img src="{{ company.logo.url }}" 
+                                                 alt="{{ company.name }}" 
+                                                 class="w-8 h-8 rounded mr-3 object-cover">
+                                        {% else %}
+                                            <div class="w-8 h-8 bg-gray-500 text-white rounded flex items-center justify-center mr-3 text-sm">
+                                                {{ company.name|first|upper }}
+                                            </div>
+                                        {% endif %}
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">{{ company.name }}</div>
+                                            {% if company.website %}
+                                                <div class="text-sm text-gray-500">{{ company.website }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ company.industry|default:"-" }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ company.contact_email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if company.registration_status == 'pending' %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
+                                    {% elif company.registration_status == 'approved' %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
+                                    {% elif company.registration_status == 'rejected' %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
+                                    {% elif company.registration_status == 'suspended' %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Suspended</span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if company.domain_verified %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                                            ✓ Verified
+                                        </span>
+                                    {% else %}
+                                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                                            ⏱ Unverified
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    {% if company.registered_by %}
+                                        <div class="text-sm text-gray-900">{{ company.registered_by.user.get_full_name|default:company.registered_by.user.username }}</div>
+                                    {% else %}
+                                        <div class="text-sm text-gray-500">Unknown</div>
+                                    {% endif %}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ company.created_at|date:"M d, Y" }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <a href="{% url 'company_detail_official' company.nanoid %}" 
+                                       class="inline-flex items-center px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600">
+                                        👁 View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="8" class="px-6 py-12 text-center">
+                                    <div class="text-gray-500">
+                                        <div class="text-4xl mb-4">🏢</div>
+                                        <p class="text-lg mb-4">No companies found.</p>
+                                        {% if search_query or status_filter or domain_filter %}
+                                            <a href="{% url 'manage_companies' %}" class="inline-flex items-center px-4 py-2 border border-blue-300 text-blue-700 rounded-md hover:bg-blue-50">
+                                                Clear filters to see all companies
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            {% if page_obj.has_other_pages %}
+                <nav class="flex items-center justify-between pt-6" aria-label="Pagination">
+                    <div class="hidden sm:block">
+                        <p class="text-sm text-gray-700">
+                            Showing page <span class="font-medium">{{ page_obj.number }}</span> of <span class="font-medium">{{ page_obj.paginator.num_pages }}</span>
+                        </p>
+                    </div>
+                    <div class="flex-1 flex justify-center sm:justify-end">
+                        <div class="flex space-x-2">
+                            {% if page_obj.has_previous %}
+                                <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                                   class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
+                                    Previous
+                                </a>
+                            {% endif %}
+                            
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <span class="px-3 py-2 text-sm bg-blue-500 text-white rounded-md">{{ num }}</span>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ num }}"
+                                       class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
+                                        {{ num }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if page_obj.has_next %}
+                                <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.next_page_number }}"
+                                   class="px-3 py-2 text-sm border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50">
+                                    Next
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

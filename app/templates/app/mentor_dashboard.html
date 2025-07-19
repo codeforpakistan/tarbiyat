@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <!-- Sidebar -->
             <div class="lg:col-span-1">
@@ -32,6 +32,16 @@
                         <a href="#" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                             Progress Reports
                         </a>
+                        {% if user.mentor_profile.can_edit_company %}
+                            <div class="border-t border-gray-200 pt-2 mt-2">
+                                <a href="{% url 'edit_company' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Edit Company
+                                </a>
+                            </div>
+                        {% endif %}
                     </nav>
                 </div>
             </div>
@@ -62,9 +72,6 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                
-                            </div>
                             <div class="ml-4">
                                 <h4 class="text-2xl font-bold text-gray-900">{{ stats.active_positions }}</h4>
                                 <p class="text-sm text-gray-600">Active Positions</p>
@@ -74,9 +81,6 @@
                     
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                
-                            </div>
                             <div class="ml-4">
                                 <h4 class="text-2xl font-bold text-gray-900">{{ stats.pending_applications }}</h4>
                                 <p class="text-sm text-gray-600">Pending Applications</p>
@@ -86,9 +90,6 @@
                     
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                                
-                            </div>
                             <div class="ml-4">
                                 <h4 class="text-2xl font-bold text-gray-900">{{ stats.current_interns }}</h4>
                                 <p class="text-sm text-gray-600">Current Interns</p>
@@ -98,9 +99,6 @@
                     
                     <div class="bg-white rounded-lg shadow-sm p-6">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                
-                            </div>
                             <div class="ml-4">
                                 <h4 class="text-2xl font-bold text-gray-900">{{ stats.scheduled_interviews }}</h4>
                                 <p class="text-sm text-gray-600">Scheduled Interviews</p>
@@ -321,13 +319,27 @@
                                     <p class="text-sm text-gray-600">Evaluate pending applications</p>
                                 </div>
                             </a>
-                            <a href="#" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
-                                
-                                <div>
-                                    <h6 class="font-semibold text-gray-900">Submit Report</h6>
-                                    <p class="text-sm text-gray-600">Update intern progress</p>
-                                </div>
-                            </a>
+                            {% if user.mentor_profile.can_edit_company %}
+                                <a href="{% url 'edit_company' %}" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                    <div class="mr-4">
+                                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h6 class="font-semibold text-gray-900">Edit Company</h6>
+                                        <p class="text-sm text-gray-600">Update company information</p>
+                                    </div>
+                                </a>
+                            {% else %}
+                                <a href="#" class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+                                    
+                                    <div>
+                                        <h6 class="font-semibold text-gray-900">Submit Report</h6>
+                                        <p class="text-sm text-gray-600">Update intern progress</p>
+                                    </div>
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

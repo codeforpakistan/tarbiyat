@@ -7,37 +7,82 @@ from .models import (
     Institute, Company, StudentProfile, MentorProfile, 
     TeacherProfile, OfficialProfile, InternshipPosition, 
     InternshipApplication, Interview, Internship, ProgressReport,
-    Payment, Notification
+    Payment, Notification, OrganizationRegistrationRequest
 )
 
 @admin.register(Institute)
 class InstituteAdmin(admin.ModelAdmin):
-    list_display = ('name', 'contact_email', 'created_at')
-    search_fields = ('name', 'contact_email')
+    list_display = ('name', 'email_domain', 'registration_status', 'domain_verification_status', 'registered_by', 'approved_by', 'created_at')
+    list_filter = ('registration_status', 'domain_verified', 'created_at')
+    search_fields = ('name', 'contact_email', 'email_domain', 'registered_by__user__username')
+    actions = ['approve_institutes', 'reject_institutes', 'verify_domain', 'unverify_domain']
+    readonly_fields = ('nanoid', 'created_at', 'approved_at')
+    
+    def domain_verification_status(self, obj):
+        if obj.domain_verified:
+            return format_html('<span style="color: green;">✓ Domain Verified</span>')
+        elif obj.email_domain:
+            return format_html('<span style="color: orange;">⚠ Domain Set, Not Verified</span>')
+        else:
+            return format_html('<span style="color: gray;">No Domain Set</span>')
+    domain_verification_status.short_description = 'Domain Status'
+    
+    def approve_institutes(self, request, queryset):
+        updated = queryset.update(registration_status='approved')
+        self.message_user(request, f"{updated} institutes approved successfully.")
+    approve_institutes.short_description = "✓ Approve selected institutes"
+    
+    def reject_institutes(self, request, queryset):
+        updated = queryset.update(registration_status='rejected')
+        self.message_user(request, f"{updated} institutes rejected successfully.")
+    reject_institutes.short_description = "✗ Reject selected institutes"
+    
+    def verify_domain(self, request, queryset):
+        updated = queryset.filter(email_domain__isnull=False).exclude(email_domain='').update(domain_verified=True)
+        self.message_user(request, f"{updated} institute domains verified successfully.")
+    verify_domain.short_description = "✓ Verify domain for selected institutes"
+    
+    def unverify_domain(self, request, queryset):
+        updated = queryset.update(domain_verified=False)
+        self.message_user(request, f"{updated} institute domains unverified successfully.")
+    unverify_domain.short_description = "✗ Unverify domain for selected institutes"
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'industry', 'verification_status', 'contact_email', 'created_at')
-    list_filter = ('industry', 'is_verified', 'created_at')
-    search_fields = ('name', 'industry', 'contact_email')
-    actions = ['verify_companies', 'unverify_companies']
+    list_display = ('name', 'industry', 'email_domain', 'registration_status', 'domain_verification_status', 'registered_by', 'approved_by', 'created_at')
+    list_filter = ('industry', 'registration_status', 'domain_verified', 'created_at')
+    search_fields = ('name', 'industry', 'contact_email', 'email_domain', 'registered_by__user__username')
+    actions = ['approve_companies', 'reject_companies', 'verify_domain', 'unverify_domain']
+    readonly_fields = ('nanoid', 'created_at', 'approved_at')
     
-    def verification_status(self, obj):
-        if obj.is_verified:
-            return format_html('<span style="color: green;">✓ Verified</span>')
+    def domain_verification_status(self, obj):
+        if obj.domain_verified:
+            return format_html('<span style="color: green;">✓ Domain Verified</span>')
+        elif obj.email_domain:
+            return format_html('<span style="color: orange;">⚠ Domain Set, Not Verified</span>')
         else:
-            return format_html('<span style="color: red;">✗ Not Verified</span>')
-    verification_status.short_description = 'Verification Status'
+            return format_html('<span style="color: gray;">No Domain Set</span>')
+    domain_verification_status.short_description = 'Domain Status'
     
-    def verify_companies(self, request, queryset):
-        updated = queryset.update(is_verified=True)
-        self.message_user(request, f"{updated} companies verified successfully.")
-    verify_companies.short_description = "✓ Verify selected companies"
+    def approve_companies(self, request, queryset):
+        updated = queryset.update(registration_status='approved')
+        self.message_user(request, f"{updated} companies approved successfully.")
+    approve_companies.short_description = "✓ Approve selected companies"
     
-    def unverify_companies(self, request, queryset):
-        updated = queryset.update(is_verified=False)
-        self.message_user(request, f"{updated} companies unverified successfully.")
-    unverify_companies.short_description = "✗ Unverify selected companies"
+    def reject_companies(self, request, queryset):
+        updated = queryset.update(registration_status='rejected')
+        self.message_user(request, f"{updated} companies rejected successfully.")
+    reject_companies.short_description = "✗ Reject selected companies"
+    
+    def verify_domain(self, request, queryset):
+        updated = queryset.filter(email_domain__isnull=False).exclude(email_domain='').update(domain_verified=True)
+        self.message_user(request, f"{updated} company domains verified successfully.")
+    verify_domain.short_description = "✓ Verify domain for selected companies"
+    
+    def unverify_domain(self, request, queryset):
+        updated = queryset.update(domain_verified=False)
+        self.message_user(request, f"{updated} company domains unverified successfully.")
+    unverify_domain.short_description = "✗ Unverify domain for selected companies"
 
 @admin.register(StudentProfile)
 class StudentProfileAdmin(admin.ModelAdmin):
