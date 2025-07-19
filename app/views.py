@@ -18,6 +18,11 @@ def get_user_type(user):
     """Helper function to get user type from groups"""
     if not user.is_authenticated:
         return None
+    
+    # Check if user is superuser (admin) first
+    if user.is_superuser:
+        return 'admin'
+        
     user_groups = user.groups.values_list('name', flat=True)
     for group_name in ['student', 'mentor', 'teacher', 'official']:
         if group_name in user_groups:
@@ -32,6 +37,8 @@ def home(request):
         if not user_type:
             # Don't redirect here, let them see the homepage with a completion prompt
             pass
+        elif user_type == 'admin':
+            return redirect('/admin/')
         elif user_type == 'student':
             return redirect('student_dashboard')
         elif user_type == 'mentor':

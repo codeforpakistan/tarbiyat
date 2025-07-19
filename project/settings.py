@@ -118,13 +118,18 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'  # British English uses dd mmm yyyy format
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True  # Enable localization
+
 USE_TZ = True
+
+# Format localization
+USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
@@ -214,6 +219,7 @@ ACCOUNT_FORMS = {
 
 # Custom adapters
 SOCIALACCOUNT_ADAPTER = 'app.adapters.CustomSocialAccountAdapter'
+ACCOUNT_ADAPTER = 'app.account_adapters.CustomAccountAdapter'
 
 # Security Settings
 SECURE_HSTS_SECONDS = config('SECURE_HSTS_SECONDS', default=0, cast=int)

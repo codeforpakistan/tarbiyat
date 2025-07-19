@@ -79,7 +79,7 @@
                             <div>
                                 <h5 class="text-lg font-semibold text-green-800">Active Internship</h5>
                                 <p class="text-green-700">You are currently interning at <strong>{{ current_internship.mentor.company.name }}</strong></p>
-                                <p class="text-sm text-green-600">Start Date: {{ current_internship.start_date }} | End Date: {{ current_internship.end_date }}</p>
+                                <p class="text-sm text-green-600">Start Date: {{ current_internship.start_date|date }} | End Date: {{ current_internship.end_date|date }}</p>
                             </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                                     {% else %}bg-blue-100 text-blue-800{% endif %}">
                                                     {{ application.get_status_display }}
                                                 </span>
-                                                <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date:"M d" }}</div>
+                                                <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date }}</div>
                                             </div>
                                         </div>
                                     {% endfor %}

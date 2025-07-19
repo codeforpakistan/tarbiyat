@@ -1,53 +1,84 @@
 {% extends 'app/base.html' %}
 {% load i18n %}
 
-{% block title %}Verify Email - Tarbiyat{% endblock %}
+{% block title %}Confirm Email - Tarbiyat{% endblock %}
 
 {% block content %}
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
         <!-- Header -->
         <div class="text-center">
-            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-green-100 mb-4">
-                
+            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-blue-100 mb-4">
+                <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
             </div>
-            <h2 class="text-3xl font-bold text-gray-900">Check your email</h2>
+            <h2 class="text-3xl font-bold text-gray-900">Confirm your email</h2>
             <p class="mt-2 text-sm text-gray-600">
-                We've sent a verification link to your email address
+                Please confirm that you want to use this email address
             </p>
         </div>
 
         <div class="bg-white py-8 px-6 shadow-xl rounded-lg">
-            <div class="text-center space-y-4">
-                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0">
-                            
-                        </div>
-                        <div class="ml-3 text-left">
-                            <p class="text-sm text-blue-700">
-                                Please click the verification link in your email to activate your account. 
-                                If you don't see the email, check your spam folder.
-                            </p>
+            {% if confirmation %}
+                <div class="text-center space-y-4">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3 text-left">
+                                <p class="text-sm text-blue-700">
+                                    Please confirm that <strong>{{ confirmation.email_address.email }}</strong> is an email address for user {{ user.get_full_name|default:user.username }}.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="space-y-3">
-                    <form method="post" action="{% url 'account_email' %}">
+                    <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
                         {% csrf_token %}
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
-                            
-                            Resend verification email
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200">
+                            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Confirm Email Address
                         </button>
                     </form>
 
-                    <a href="{% url 'account_login' %}" class="w-full inline-flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
-                        
+                    <a href="{% url 'account_login' %}" class="w-full inline-flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
                         Back to sign in
                     </a>
                 </div>
-            </div>
+            {% else %}
+                <div class="text-center space-y-4">
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 000 2v4a1 1 0 102 0V7a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="ml-3 text-left">
+                                <p class="text-sm text-red-700">
+                                    This email confirmation link is invalid or has expired.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'account_email' %}" class="w-full inline-flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                        <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Request New Verification Email
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

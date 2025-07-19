@@ -85,6 +85,8 @@ class Command(BaseCommand):
 
     def create_admin_user(self):
         """Create admin user if it doesn't exist"""
+        from allauth.account.models import EmailAddress
+        
         if not User.objects.filter(username='admin').exists():
             admin = User.objects.create_superuser(
                 username='admin',
@@ -94,20 +96,35 @@ class Command(BaseCommand):
                 last_name='Administrator'
             )
             
-            # Add admin to official group
-            official_group, created = Group.objects.get_or_create(name='official')
-            admin.groups.add(official_group)
-            
-            OfficialProfile.objects.create(
+            # Mark admin email as verified
+            EmailAddress.objects.create(
                 user=admin,
-                department='Information Technology',
-                position='System Administrator',
-                employee_id='ADMIN001'
+                email='admin@tarbiyat.gov',
+                verified=True,
+                primary=True
             )
+            
+            # Don't add admin to any group - admins are superusers, not officials
+            
+            # Create OfficialProfile for admin is not needed - admins use Django admin
             
             self.stdout.write(
                 self.style.SUCCESS('Admin user created: admin/admin123')
             )
+        else:
+            # Ensure existing admin user's email is verified
+            admin = User.objects.get(username='admin')
+            email_address, created = EmailAddress.objects.get_or_create(
+                user=admin,
+                email=admin.email,
+                defaults={'verified': True, 'primary': True}
+            )
+            if not email_address.verified:
+                email_address.verified = True
+                email_address.save()
+                self.stdout.write(
+                    self.style.SUCCESS('Admin email marked as verified')
+                )
 
     def create_google_social_app(self):
         """Create Google OAuth2 social app if it doesn't exist"""
