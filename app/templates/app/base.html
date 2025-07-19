@@ -47,7 +47,8 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
+    <!-- Navigation (only show if not using blank template) -->
+    {% block navigation %}
     <nav class="bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -112,6 +113,7 @@
             </div>
         </div>
     </nav>
+    {% endblock %}
 
     <!-- Messages -->
     {% if messages %}

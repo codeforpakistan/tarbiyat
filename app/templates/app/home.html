@@ -1,12 +1,11 @@
-{% extends 'app/base.html' %}
+{% extends 'app/page.html' %}
 {% load user_tags %}
 
-{% block content %}
+{% block page_content %}
 <!-- Profile Completion Banner for incomplete users -->
 {% if user.is_authenticated and not user|has_user_type %}
-<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex">
+<div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 -mx-4 sm:-mx-6 lg:-mx-8 mb-8">
+    <div class="flex">
             <div class="flex-shrink-0">
                 
             </div>
@@ -22,11 +21,10 @@
             </div>
         </div>
     </div>
-</div>
 {% endif %}
 
 <!-- Hero Section -->
-<section class="hero-gradient text-white py-24">
+<section class="hero-gradient text-white py-24 -mx-4 sm:-mx-6 lg:-mx-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">Connect. Learn. Succeed.</h1>
         <p class="text-xl md:text-2xl mb-12 text-blue-100 max-w-3xl mx-auto">The government's official platform connecting institute students with meaningful internship opportunities.</p>

@@ -1,13 +1,11 @@
 
-{% extends 'app/base.html' %}
+{% extends 'app/blank.html' %}
 {% load socialaccount %}
 {% load i18n %}
 
 {% block title %}Sign Up - Tarbiyat{% endblock %}
 
-{% block content %}
-<div class="min-h-[calc(100vh-65px)] bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+{% block blank_content %}
         <!-- Header -->
         <div class="text-center">
             <h2 class="text-3xl font-bold text-gray-900">Join Tarbiyat</h2>
@@ -159,14 +157,11 @@
                     <p class="text-sm text-gray-600">
                         Already have an account? 
                         <a href="{% url 'account_login' %}" class="font-medium text-indigo-600 hover:text-indigo-500">
-                            Sign in here
                         </a>
                     </p>
                 </div>
             </form>
         </div>
-    </div>
-</div>
 
 <style>
     /* Custom styling for form inputs */

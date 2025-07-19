@@ -1,11 +1,9 @@
-{% extends 'app/base.html' %}
+{% extends 'app/page.html' %}
 {% load user_tags %}
 
 {% block title %}Browse Positions - Tarbiyat{% endblock %}
 
-{% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+{% block page_content %}
         <!-- Page Header -->
         <div class="mb-8">
             <h2 class="text-3xl font-bold text-gray-900">Browse Internship Positions</h2>
@@ -188,6 +186,5 @@
                 </nav>
             </div>
         {% endif %}
-    </div>
-</div>
+        </div>
 {% endblock %}
