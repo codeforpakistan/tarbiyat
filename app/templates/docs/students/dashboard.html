@@ -1,0 +1,132 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Student Dashboard Guide - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🎓 Student Dashboard Guide</h1>
+    <p class="text-gray-600">Learn how to navigate and use your student dashboard effectively</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Overview</h2>
+        <p class="text-gray-700 mb-4">
+            Your student dashboard is your central hub for managing internship applications, tracking progress, and staying updated on opportunities. It provides a personalized view of your internship journey.
+        </p>
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p class="text-blue-800">
+                <strong>Quick Access:</strong> Navigate to your dashboard anytime by clicking "Dashboard" in the top navigation menu.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Sections</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📊 Quick Stats</h3>
+                <p class="text-base text-gray-600 mb-2">At the top of your dashboard, you'll see:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Number of applications submitted</li>
+                    <li>Pending applications awaiting review</li>
+                    <li>Active internships (if any)</li>
+                    <li>Available positions matching your profile</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📝 Recent Applications</h3>
+                <p class="text-base text-gray-600 mb-2">View your most recent applications with:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Position title and company name</li>
+                    <li>Application date</li>
+                    <li>Current status (Pending, Accepted, Rejected)</li>
+                    <li>Quick action buttons (View, Withdraw)</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🎯 Recommended Positions</h3>
+                <p class="text-base text-gray-600 mb-2">Positions suggested based on your profile:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Matches your year of study requirements</li>
+                    <li>Aligns with your field of study</li>
+                    <li>Fits your skills and interests</li>
+                    <li>Application deadlines are still open</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🔔 Recent Activity</h3>
+                <p class="text-base text-gray-600 mb-2">Stay updated with:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Application status changes</li>
+                    <li>New position notifications</li>
+                    <li>Progress report reminders</li>
+                    <li>Important announcements</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-800 mb-2">🔍 Browse Positions</h3>
+                <p class="text-base text-gray-700 mb-2">Find new internship opportunities</p>
+                <p class="text-base text-gray-600">Redirects to the position browser with filters</p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2">📋 View All Applications</h3>
+                <p class="text-base text-gray-700 mb-2">Manage your application history</p>
+                <p class="text-base text-gray-600">Shows complete application timeline</p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h3 class="font-semibold text-purple-800 mb-2">⚙️ Edit Profile</h3>
+                <p class="text-base text-gray-700 mb-2">Update your information</p>
+                <p class="text-base text-gray-600">Keep your profile current and complete</p>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                <h3 class="font-semibold text-orange-800 mb-2">📊 Progress Reports</h3>
+                <p class="text-base text-gray-700 mb-2">Submit internship updates</p>
+                <p class="text-base text-gray-600">Available during active internships</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Profile Completion Status</h2>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <h3 class="font-semibold text-yellow-800 mb-2">⚠️ Important: Complete Your Profile</h3>
+            <p class="text-yellow-700 mb-2">Your dashboard will show completion status for:</p>
+            <ul class="list-disc list-inside text-base text-yellow-700 space-y-1">
+                <li>Basic information (name, email, contact)</li>
+                <li>Academic details (institute, student ID, major, GPA)</li>
+                <li>Resume upload</li>
+                <li>Skills and portfolio information</li>
+            </ul>
+            <p class="text-base text-yellow-600 mt-2">
+                <strong>Note:</strong> Incomplete profiles cannot apply for positions.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Tips</h2>
+        <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>Check Daily:</strong> New opportunities are posted regularly</li>
+            <li><strong>Update Regularly:</strong> Keep your profile information current</li>
+            <li><strong>Respond Promptly:</strong> Act quickly on application updates</li>
+            <li><strong>Use Filters:</strong> Recommended positions are tailored to your profile</li>
+            <li><strong>Track Deadlines:</strong> Pay attention to application closing dates</li>
+            <li><strong>Stay Organized:</strong> Use the applications page to manage multiple submissions</li>
+        </ul>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,298 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Institute Registration - Teachers - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🏛️ Institute Registration - Teacher Guide</h1>
+    <p class="text-gray-600">Complete guide to registering your educational institute on the Tarbiyat platform</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <!-- Overview Section -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Overview</h2>
+        <p class="text-gray-700 mb-4">
+            As a teacher, you can register your educational institute on the Tarbiyat platform to enable student internship programs. 
+            The registration process involves submitting institutional details for official review and approval.
+        </p>
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+            <p class="text-blue-800 font-semibold">📋 Prerequisites</p>
+            <ul class="text-blue-700 space-y-1 mt-2">
+                <li>• Complete teacher profile with verification</li>
+                <li>• Authorization to represent your institute</li>
+                <li>• Institute registration documents</li>
+                <li>• Valid institutional email domain (recommended)</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Registration Process -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Registration Process</h2>
+        
+        <div class="space-y-6">
+            <!-- Step 1 -->
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold mr-4">1</span>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Access Registration Form</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Navigate to your teacher dashboard</li>
+                        <li>Click "Register Organization" or access via direct URL: <code>/register-organization/</code></li>
+                        <li>Select "Institute" as organization type</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold mr-4">2</span>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Complete Institute Information</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><strong>Institute Name:</strong> Official registered name</li>
+                        <li><strong>Description:</strong> Brief overview of educational programs</li>
+                        <li><strong>Address:</strong> Physical campus address</li>
+                        <li><strong>Website:</strong> Institute website URL (optional)</li>
+                        <li><strong>Contact Email:</strong> Official institutional email</li>
+                        <li><strong>Phone:</strong> Main contact number</li>
+                        <li><strong>Email Domain:</strong> Institute email domain for verification</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold mr-4">3</span>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Upload Required Documents</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li><strong>Registration Certificate:</strong> Official institute registration document</li>
+                        <li><strong>Authorization Letter:</strong> Letter authorizing you to represent the institute</li>
+                        <li>Ensure documents are clear and readable</li>
+                        <li>Supported formats: PDF, DOC, DOCX, JPG, PNG</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold mr-4">4</span>
+                </div>
+                <div class="flex-grow">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submit for Review</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Review all information for accuracy</li>
+                        <li>Submit registration request</li>
+                        <li>You'll receive confirmation of submission</li>
+                        <li>Track request status via "Organization Requests" page</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approval Process -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Approval Process</h2>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">What Happens Next?</h3>
+            
+            <div class="space-y-4">
+                <div class="flex items-center">
+                    <span class="w-6 h-6 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-base font-bold mr-3">1</span>
+                    <div>
+                        <p class="text-gray-700"><strong>Pending Review:</strong> Your request is submitted and awaiting official review</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-base font-bold mr-3">2</span>
+                    <div>
+                        <p class="text-gray-700"><strong>Official Review:</strong> Platform officials verify documents and institute details</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center">
+                    <span class="w-6 h-6 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-base font-bold mr-3">3</span>
+                    <div>
+                        <p class="text-gray-700"><strong>Approval:</strong> Institute is created and you become the admin contact</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p class="text-blue-800 font-semibold">⏰ Timeline</p>
+                <p class="text-blue-700">Reviews typically take 3-5 business days. You'll be notified via email when your request status changes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- After Approval -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">After Approval</h2>
+        
+        <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-4">
+            <p class="text-green-800 font-semibold">🎉 Congratulations! Your institute is now registered.</p>
+        </div>
+        
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">What You Can Do Now:</h3>
+        <ul class="list-disc list-inside text-gray-700 space-y-1 mb-6">
+            <li><strong>Student Management:</strong> Oversee student enrollment and internship programs</li>
+            <li><strong>Teacher Coordination:</strong> Manage faculty involvement in internship supervision</li>
+            <li><strong>Edit Institute Details:</strong> Update institutional information as needed</li>
+            <li><strong>Monitor Programs:</strong> Track student internship progress and outcomes</li>
+            <li><strong>Domain Verification:</strong> Verified institutes get priority features</li>
+        </ul>
+
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Admin Contact Benefits:</h3>
+        <ul class="list-disc list-inside text-gray-700 space-y-1">
+            <li>Full editing permissions for institute profile</li>
+            <li>Ability to invite other teachers from your institute</li>
+            <li>Priority support for institute-related issues</li>
+            <li>Analytics and reporting access for student programs</li>
+        </ul>
+    </section>
+
+    <!-- Important Notes -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Important Notes</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                <p class="text-yellow-800 font-semibold">⚠️ Email Domain Verification</p>
+                <p class="text-yellow-700">Institutes with verified email domains receive enhanced visibility and features. Ensure your institutional email domain matches your official academic domain.</p>
+            </div>
+            
+            <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                <p class="text-red-800 font-semibold">🚫 Registration Requirements</p>
+                <ul class="text-red-700 space-y-1 mt-2">
+                    <li>• Only teachers with <code>can_register_organization</code> permission can register institutes</li>
+                    <li>• You must have a complete and verified teacher profile</li>
+                    <li>• All required documents must be provided</li>
+                    <li>• Institute information must be accurate and verifiable</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Managing Registration Requests -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Managing Your Requests</h2>
+        
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Viewing Request Status</h3>
+        <ol class="list-decimal list-inside text-gray-700 space-y-1 mb-4">
+            <li>Access your teacher dashboard</li>
+            <li>Navigate to "Organization Requests" section</li>
+            <li>View current status of your registration request</li>
+            <li>Check any official comments or feedback</li>
+        </ol>
+
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Request Status Types</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-yellow-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-yellow-800 mb-2">Pending</h4>
+                <p class="text-yellow-700 text-base">Request submitted and awaiting review</p>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-green-800 mb-2">Approved</h4>
+                <p class="text-green-700 text-base">Institute created and ready to use</p>
+            </div>
+            <div class="bg-red-50 p-4 rounded-lg">
+                <h4 class="font-semibold text-red-800 mb-2">Rejected</h4>
+                <p class="text-red-700 text-base">Request declined with feedback</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institute vs Company Registration -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Institute vs Company Registration</h2>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 class="font-semibold text-blue-800 mb-2">🔍 Key Differences</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-3 rounded">
+                    <h4 class="font-semibold text-blue-800 text-base mb-1">🏛️ Institute Registration</h4>
+                    <ul class="list-disc list-inside text-blue-700 text-base space-y-1">
+                        <li>For educational institutions</li>
+                        <li>Teachers register their institutes</li>
+                        <li>Manages student enrollment</li>
+                        <li>Oversees internship programs</li>
+                        <li>Academic credit supervision</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-3 rounded">
+                    <h4 class="font-semibold text-blue-800 text-base mb-1">🏢 Company Registration</h4>
+                    <ul class="list-disc list-inside text-blue-700 text-base space-y-1">
+                        <li>For business organizations</li>
+                        <li>Mentors register their companies</li>
+                        <li>Creates internship positions</li>
+                        <li>Provides industry experience</li>
+                        <li>Professional skill development</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Troubleshooting</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">"Access denied" when trying to register</h4>
+                <p class="text-gray-700">Ensure you have a complete teacher profile and the <code>can_register_organization</code> permission. Contact support if the issue persists.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Document upload fails</h4>
+                <p class="text-gray-700">Check file size (must be under 10MB) and format (PDF, DOC, DOCX, JPG, PNG). Ensure files are not corrupted.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Request was rejected</h4>
+                <p class="text-gray-700">Check the official feedback in your request details. Address the concerns and submit a new request with corrected information.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Can't edit institute after approval</h4>
+                <p class="text-gray-700">Only the teacher who registered the institute (admin contact) can edit institute details. Other teachers need to request changes through the admin.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Students can't join my institute</h4>
+                <p class="text-gray-700">Ensure your institute has domain verification enabled and students are using emails from the correct domain. Check that the institute status is approved.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Guides -->
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Related Guides</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4 bg-white rounded-lg shadow-base hover:shadow-lg transition-shadow">
+                <h4 class="font-semibold text-blue-600 mb-2">Student Supervision</h4>
+                <p class="text-gray-700 text-base">Learn how to supervise students after institute approval</p>
+            </a>
+            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="block p-4 bg-white rounded-lg shadow-base hover:shadow-lg transition-shadow">
+                <h4 class="font-semibold text-blue-600 mb-2">Teacher Dashboard</h4>
+                <p class="text-gray-700 text-base">Navigate your dashboard to manage institute operations</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

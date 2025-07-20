@@ -1,0 +1,227 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Student Profile Management - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🎓 Student Profile Management</h1>
+    <p class="text-gray-600">Complete guide to creating and maintaining your student profile</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Why Profile Completion Matters</h2>
+        <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+            <p class="text-red-800 font-semibold mb-2">🚨 Critical Requirement</p>
+            <p class="text-red-700">
+                You cannot apply for any internship positions without a complete profile. The system enforces this requirement to ensure quality applications and proper matching between students and opportunities.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Profile Sections Overview</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-base font-bold mr-2">1</span>
+                    Personal Information
+                </h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Full name (first and last name)</li>
+                    <li>Email address (used for login)</li>
+                    <li>Phone number</li>
+                    <li>Profile picture (optional but recommended)</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-base font-bold mr-2">2</span>
+                    Academic Information
+                </h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Educational institute (university/college)</li>
+                    <li>Student ID number</li>
+                    <li>Year of study (3rd or 4th year)</li>
+                    <li>Major/field of study</li>
+                    <li>Current GPA</li>
+                    <li>Expected graduation date</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2 flex items-center">
+                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-base font-bold mr-2">3</span>
+                    Professional Information
+                </h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Resume upload (PDF, DOC, or DOCX)</li>
+                    <li>Skills and competencies</li>
+                    <li>Portfolio URL (optional)</li>
+                    <li>Previous experience (if any)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Creating Your Profile: Step by Step</h2>
+        
+        <div class="space-y-6">
+            <div class="border-l-4 border-green-500 pl-4">
+                <h3 class="font-semibold text-gray-800 mb-2">Step 1: Access Profile Creation</h3>
+                <p class="text-gray-700 mb-2">After account creation, you'll be prompted to complete your profile:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Click "Complete Profile" from the dashboard</li>
+                    <li>Or navigate via "Profile Settings" in the user menu</li>
+                    <li>Choose "Student" as your user type</li>
+                </ul>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+                <h3 class="font-semibold text-gray-800 mb-2">Step 2: Institute Selection</h3>
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-2">
+                    <p class="text-yellow-800 font-semibold text-base">⚠️ Email Domain Verification</p>
+                    <p class="text-yellow-700 text-base">For verified institutes, your email domain must match the institute's official domain.</p>
+                </div>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Search for your educational institute</li>
+                    <li>If not listed, contact support to add your institute</li>
+                    <li>Ensure your email domain matches (if institute requires verification)</li>
+                </ul>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+                <h3 class="font-semibold text-gray-800 mb-2">Step 3: Academic Details</h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Enter your student ID exactly as it appears on official documents</li>
+                    <li>Select your current year of study (3rd or 4th year only)</li>
+                    <li>Choose your major from the dropdown or enter manually</li>
+                    <li>Input your current GPA (0.00 to 4.00 scale)</li>
+                    <li>Set your expected graduation date</li>
+                </ul>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+                <h3 class="font-semibold text-gray-800 mb-2">Step 4: Resume Upload</h3>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-2">
+                    <p class="text-blue-800 font-semibold text-base">📄 Resume Requirements</p>
+                    <ul class="text-blue-700 text-base space-y-1">
+                        <li>• Accepted formats: PDF, DOC, DOCX</li>
+                        <li>• Maximum file size: 5MB</li>
+                        <li>• File name should be professional</li>
+                    </ul>
+                </div>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Prepare your resume in one of the accepted formats</li>
+                    <li>Ensure it's up-to-date with current academic status</li>
+                    <li>Include relevant coursework, projects, and any experience</li>
+                    <li>Click "Choose File" and select your resume</li>
+                </ul>
+            </div>
+
+            <div class="border-l-4 border-green-500 pl-4">
+                <h3 class="font-semibold text-gray-800 mb-2">Step 5: Skills and Portfolio</h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>List both technical and soft skills</li>
+                    <li>Include programming languages, software proficiency</li>
+                    <li>Add communication, leadership, and teamwork skills</li>
+                    <li>Provide portfolio URL if you have one (GitHub, personal website, etc.)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Editing Your Profile</h2>
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📝 When to Update</h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>At the start of each semester</li>
+                    <li>When your GPA changes significantly</li>
+                    <li>After completing relevant coursework or projects</li>
+                    <li>When you gain new skills or experience</li>
+                    <li>Before applying for competitive positions</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🔧 How to Edit</h3>
+                <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
+                    <li>Navigate to "Profile Settings" from the user menu</li>
+                    <li>Or click "Edit Profile" from your dashboard</li>
+                    <li>Update any section you need to change</li>
+                    <li>Upload a new resume if needed</li>
+                    <li>Click "Save Changes" to update your profile</li>
+                </ol>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">⚠️ Important Notes</h3>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Changes to submitted applications won't be reflected retroactively</li>
+                    <li>Your user role (Student) cannot be changed after selection</li>
+                    <li>Institute changes may require re-verification</li>
+                    <li>Keep all information accurate and up-to-date</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Profile Best Practices</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-800 mb-2">✅ Do</h3>
+                <ul class="list-disc list-inside text-base text-green-700 space-y-1">
+                    <li>Use a professional email address</li>
+                    <li>Keep information current and accurate</li>
+                    <li>Upload a well-formatted, updated resume</li>
+                    <li>Be specific about skills and experience</li>
+                    <li>Include relevant coursework and projects</li>
+                    <li>Use professional language throughout</li>
+                </ul>
+            </div>
+            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                <h3 class="font-semibold text-red-800 mb-2">❌ Don't</h3>
+                <ul class="list-disc list-inside text-base text-red-700 space-y-1">
+                    <li>Leave required fields blank</li>
+                    <li>Use informal or unprofessional language</li>
+                    <li>Upload outdated or irrelevant resumes</li>
+                    <li>Exaggerate skills or experience</li>
+                    <li>Forget to update after major changes</li>
+                    <li>Use inappropriate email addresses</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Troubleshooting Common Issues</h2>
+        <div class="space-y-3">
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                <h4 class="font-semibold text-gray-800 text-base mb-1">Can't find my institute in the list</h4>
+                <p class="text-gray-700 text-base">Contact support to have your institute added to the system. Provide official institute details and verification documents.</p>
+            </div>
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                <h4 class="font-semibold text-gray-800 text-base mb-1">Email domain doesn't match institute</h4>
+                <p class="text-gray-700 text-base">For verified institutes, you must use an email address from the institute's official domain. Contact your institute's IT department for a proper email address.</p>
+            </div>
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                <h4 class="font-semibold text-gray-800 text-base mb-1">Resume upload fails</h4>
+                <p class="text-gray-700 text-base">Ensure your file is in PDF, DOC, or DOCX format and under 5MB. Try renaming the file to remove special characters.</p>
+            </div>
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                <h4 class="font-semibold text-gray-800 text-base mb-1">Profile shows as incomplete</h4>
+                <p class="text-gray-700 text-base">All required fields must be filled. Check for any empty required fields and ensure your resume is uploaded successfully.</p>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

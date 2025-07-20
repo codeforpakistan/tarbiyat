@@ -1,215 +1,305 @@
-{% extends 'app/page.html' %}
+{% extends 'docs/base.html' %}
+{% load user_tags %}
 
 {% block title %}Documentation - Tarbiyat Platform{% endblock %}
 
-{% block content %}
-    <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Sidebar -->
-        <div class="lg:w-1/4">
-            <div class="bg-white rounded-lg shadow-sm border p-6 sticky top-8 documentation-sidebar">
-                <h5 class="text-lg font-semibold text-blue-600 mb-4 flex items-center">
-                    <span class="mr-2 documentation-icon">📚</span>Documentation
-                </h5>
-                <nav class="space-y-2">
-                    <a href="#getting-started" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">🚀</span>Getting Started
-                    </a>
-                    <a href="#students" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">🎓</span>For Students
-                    </a>
-                    <a href="#mentors" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👔</span>For Mentors
-                    </a>
-                    <a href="#teachers" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👨‍🏫</span>For Teachers
-                    </a>
-                    <a href="#officials" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👮</span>For Officials
-                    </a>
-                </nav>
-            </div>
-        </div>
+{% block doc_content %}
+<div class="mb-8">
+    <h1 class="text-4xl font-semibold text-gray-900 mb-4 flex items-cen                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📊</span>Official Dashboard
+                            </h5>
+                            <p class="text-gray-600 mb-2">Government oversight and monitoring tools</p>
+                            <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>     <span class="mr-4">📖</span>Documentation
+    </h1>
+    <p class="text-xl text-gray-600">
+        Welcome to the Tarbiyat Platform documentation. Find comprehensive guides and tutorials to help you make the most of our internship management system.
+    </p>
+</div>
 
-        <!-- Main Content -->
-        <div class="lg:w-3/4">
-            <div class="mb-8">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4 flex items-center">
-                    <span class="mr-4">📖</span>Documentation
-                </h1>
-                <p class="text-xl text-gray-600">
-                    Welcome to the Tarbiyat Platform documentation. Find comprehensive guides and tutorials to help you make the most of our internship management system.
-                </p>
-            </div>
-
-            <!-- Documentation Categories -->
-            {% for category_key, category in docs_structure.items %}
-            <div class="bg-white rounded-lg shadow-sm border mb-6 overflow-hidden documentation-category category-{{ category_key }}" id="{{ category_key }}">
+<!-- Getting Started Section -->
+            <div class="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 rounded-lg shadow-sm border mb-6 overflow-hidden" id="getting-started">
                 <div class="p-6">
                     <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center">
-                        {% if category_key == 'getting-started' %}
-                            <span class="mr-3 documentation-icon">🚀</span>
-                        {% elif category_key == 'students' %}
-                            <span class="mr-3 documentation-icon">🎓</span>
-                        {% elif category_key == 'mentors' %}
-                            <span class="mr-3 documentation-icon">👔</span>
-                        {% elif category_key == 'teachers' %}
-                            <span class="mr-3 documentation-icon">👨‍🏫</span>
-                        {% elif category_key == 'officials' %}
-                            <span class="mr-3 documentation-icon">👮</span>
-                        {% endif %}
-                        {{ category.title }}
+                        <span class="mr-3">🚀</span>Getting Started
                     </h2>
-                    <p class="text-gray-600 mb-4">{{ category.description }}</p>
+                    <p class="text-gray-600 mb-4">Learn the basics of using Tarbiyat platform</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {% for guide in category.guides %}
-                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors guide-card">
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
                             <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
-                                <span class="mr-2 documentation-icon">📄</span>
-                                {{ guide.title }}
+                                <span class="mr-2">�</span>Platform Overview
                             </h5>
-                            <a href="{% url 'documentation_guide' category_key guide.slug %}" 
+                            <a href="{% url 'documentation_guide' 'getting-started' 'overview' %}" 
                                class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
                                 Read Guide <span class="ml-1">→</span>
                             </a>
                         </div>
-                        {% endfor %}
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📄</span>Account Setup
+                            </h5>
+                            <a href="{% url 'documentation_guide' 'getting-started' 'account-setup' %}" 
+                               class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+
+            <!-- Students Section -->
+            {% if not user.is_authenticated or user|is_user_type:"student" or not user|get_user_type %}
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 rounded-lg shadow-sm border mb-6 overflow-hidden" id="students">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center">
+                        <span class="mr-3">🎓</span>For Students
+                    </h2>
+                    <p class="text-gray-600 mb-4">Complete guide for students using the platform</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📊</span>Student Dashboard Guide
+                            </h5>
+                            <p class="text-gray-600 mb-2">Learn how to navigate and use your dashboard effectively</p>
+                            <a href="{% url 'documentation_guide' 'students' 'dashboard' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">👤</span>Profile Management
+                            </h5>
+                            <p class="text-gray-600 mb-2">Complete guide to creating and maintaining your profile</p>
+                            <a href="{% url 'documentation_guide' 'students' 'profile-management' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">🔍</span>Finding Internships
+                            </h5>
+                            <p class="text-gray-600 mb-2">Learn how to search and discover internship opportunities</p>
+                            <a href="{% url 'documentation_guide' 'students' 'finding-internships' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📝</span>How to Apply for Positions
+                            </h5>
+                            <p class="text-gray-600 mb-2">Step-by-step guide to submitting applications</p>
+                            <a href="{% url 'documentation_guide' 'students' 'applying-positions' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📋</span>Managing Applications
+                            </h5>
+                            <p class="text-gray-600 mb-2">Track applications and manage internship progress</p>
+                            <a href="{% url 'documentation_guide' 'students' 'application-progress' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}            <!-- Mentors Section -->
+            <!-- Mentors Section -->
+            {% if not user.is_authenticated or user|is_user_type:"mentor" or not user|get_user_type %}
+            <div class="bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200 rounded-lg shadow-sm border mb-6 overflow-hidden" id="mentors">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center">
+                        <span class="mr-3">👔</span>For Mentors
+                    </h2>
+                    <p class="text-gray-600 mb-4">Guide for company mentors and supervisors</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📊</span>Mentor Dashboard
+                            </h5>
+                            <p class="text-gray-600 mb-2">Learn how to navigate and use your dashboard</p>
+                            <a href="{% url 'documentation_guide' 'mentors' 'dashboard' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📝</span>Creating Positions
+                            </h5>
+                            <p class="text-gray-600 mb-2">Guide to creating effective internship positions</p>
+                            <a href="{% url 'documentation_guide' 'mentors' 'creating-positions' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">🏢</span>Company Registration
+                            </h5>
+                            <p class="text-gray-600 mb-2">Complete guide to registering your company on the platform</p>
+                            <a href="{% url 'documentation_guide' 'mentors' 'company-registration' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📋</span>Managing Applications
+                            </h5>
+                            <p class="text-gray-600 mb-2">Review and process student applications</p>
+                            <a href="{% url 'documentation_guide' 'mentors' 'managing-applications' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">👥</span>Intern Supervision
+                            </h5>
+                            <p class="text-gray-600 mb-2">Complete guide to supervising and mentoring interns</p>
+                            <a href="{% url 'documentation_guide' 'mentors' 'intern-supervision' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Teachers Section -->
+            {% if not user.is_authenticated or user|is_user_type:"teacher" or not user|get_user_type %}
+            <div class="bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200 rounded-lg shadow-sm border mb-6 overflow-hidden" id="teachers">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center">
+                        <span class="mr-3">👨‍🏫</span>For Teachers
+                    </h2>
+                    <p class="text-gray-600 mb-4">Guide for academic supervisors and teachers</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">🎯</span>Teacher Dashboard
+                            </h5>
+                            <p class="text-gray-600 mb-2">Learn how to navigate and use your dashboard</p>
+                            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">🏛️</span>Institute Registration
+                            </h5>
+                            <p class="text-gray-600 mb-2">Register your educational institute on the platform</p>
+                            <a href="{% url 'documentation_guide' 'teachers' 'institute-registration' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">👥</span>Student Supervision
+                            </h5>
+                            <p class="text-gray-600 mb-2">Guide for supervising students during internships</p>
+                            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📈</span>Progress Monitoring
+                            </h5>
+                            <p class="text-gray-600 mb-2">Monitor and evaluate student internship progress</p>
+                            <a href="{% url 'documentation_guide' 'teachers' 'progress-monitoring' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Officials Section -->
+            {% if not user.is_authenticated or user|is_user_type:"official" or not user|get_user_type %}
+            <div class="bg-gradient-to-br from-red-50 to-rose-50 border-red-200 rounded-lg shadow-sm border mb-6 overflow-hidden" id="officials">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-3 flex items-center">
+                        <span class="mr-3">👮</span>For Officials
+                    </h2>
+                    <p class="text-gray-600 mb-4">Guide for government officials and administrators</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">📊</span>Official Dashboard
+                            </h5>
+                            <p class="text-gray-600 mb-2">System administration and oversight</p>
+                            <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                        <div class="bg-gray-50 hover:bg-gray-100 rounded-lg p-4 transition-colors">
+                            <h5 class="font-semibold text-gray-900 mb-2 flex items-center">
+                                <span class="mr-2">🏢</span>Managing Organizations
+                            </h5>
+                            <p class="text-gray-600 mb-2">Approve and manage companies and institutes</p>
+                            <a href="{% url 'documentation_guide' 'officials' 'managing-organizations' %}" 
+                               class="inline-flex items-center text-gray-800 hover:text-blue-800 font-medium">
+                                Read Guide <span class="ml-1">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <!-- Quick Links -->
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-6 quick-links-card">
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-6">
                 <h3 class="text-xl font-semibold text-blue-800 mb-4 flex items-center">
-                    <span class="mr-2 documentation-icon">🔗</span>Quick Links
+                    <span class="mr-2">🔗</span>Quick Links
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="text-center documentation-card">
-                        <div class="text-3xl mb-2 documentation-icon">🔍</div>
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">🔍</div>
                         <h5 class="font-semibold mb-2">Browse Positions</h5>
                         <a href="{% url 'browse_positions' %}" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
                             Explore Internships
                         </a>
                     </div>
-                    <div class="text-center documentation-card">
-                        <div class="text-3xl mb-2 documentation-icon">👤</div>
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">👤</div>
                         <h5 class="font-semibold mb-2">Create Profile</h5>
                         <a href="{% url 'complete_profile' %}" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
                             Get Started
                         </a>
                     </div>
-                    <div class="text-center documentation-card">
-                        <div class="text-3xl mb-2 documentation-icon">❓</div>
+                    <div class="text-center">
+                        <div class="text-3xl mb-2">❓</div>
                         <h5 class="font-semibold mb-2">Need Help?</h5>
                         <a href="#getting-started" class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
                             Getting Started
                         </a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-<style>
-/* Documentation Index Page Enhancements */
-.documentation-card {
-    @apply transition-all duration-300 ease-in-out;
-}
-
-.documentation-card:hover {
-    @apply transform -translate-y-1 shadow-lg;
-}
-
-.documentation-sidebar a {
-    @apply transition-all duration-200 ease-in-out;
-}
-
-.documentation-sidebar a:hover {
-    @apply transform translate-x-1;
-}
-
-.documentation-category {
-    @apply transition-all duration-300 ease-in-out;
-}
-
-.documentation-category:hover {
-    @apply shadow-lg;
-}
-
-.guide-card {
-    @apply transition-all duration-200 ease-in-out cursor-pointer;
-}
-
-.guide-card:hover {
-    @apply bg-gray-100 shadow-sm transform scale-105;
-}
-
-.quick-links-card {
-    @apply transition-all duration-300 ease-in-out;
-}
-
-.quick-links-card:hover {
-    @apply shadow-xl;
-}
-
-/* Animated icons */
-.documentation-icon {
-    @apply transition-transform duration-300 ease-in-out;
-}
-
-.documentation-card:hover .documentation-icon {
-    @apply transform scale-110;
-}
-
-/* Gradient backgrounds for categories */
-.category-getting-started {
-    @apply bg-gradient-to-br from-green-50 to-emerald-50 border-green-200;
-}
-
-.category-students {
-    @apply bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200;
-}
-
-.category-mentors {
-    @apply bg-gradient-to-br from-purple-50 to-violet-50 border-purple-200;
-}
-
-.category-teachers {
-    @apply bg-gradient-to-br from-orange-50 to-amber-50 border-orange-200;
-}
-
-.category-officials {
-    @apply bg-gradient-to-br from-red-50 to-rose-50 border-red-200;
-}
-
-/* Loading animation for guide cards */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.guide-card {
-    animation: fadeInUp 0.5s ease-out;
-}
-
-.guide-card:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.guide-card:nth-child(3) {
-    animation-delay: 0.2s;
-}
-
-.guide-card:nth-child(4) {
-    animation-delay: 0.3s;
-}
-</style>
-
+</div>
 {% endblock %}

@@ -1,0 +1,328 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Official Dashboard - Officials - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">� Official Dashboard - Government Officials Guide</h1>
+    <p class="text-gray-600">Complete guide to using your official dashboard for system oversight and platform management</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <!-- Overview Section -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Overview</h2>
+        <p class="text-gray-700 mb-4">
+            The official dashboard provides comprehensive system oversight, allowing government officials to monitor 
+            the entire Tarbiyat internship platform, track key metrics, and oversee platform integrity.
+        </p>
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+            <p class="text-blue-800 font-semibold">🎯 Your Role as a Government Official</p>
+            <ul class="text-blue-700 space-y-1 mt-2">
+                <li>• Regulatory oversight and quality control</li>
+                <li>• Organization approval and compliance monitoring</li>
+                <li>• Platform statistics and performance tracking</li>
+                <li>• Ensuring student protection and program integrity</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Dashboard Navigation -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Navigation</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Main Dashboard Elements</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li><strong>System Statistics:</strong> Real-time platform metrics and KPIs</li>
+                    <li><strong>Recent Activity:</strong> Latest applications and internship developments</li>
+                    <li><strong>Pending Approvals:</strong> Organizations waiting for your review</li>
+                    <li><strong>Quick Actions:</strong> Direct links to key management functions</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Primary Navigation Menu</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2">🏢 Organization Management</h4>
+                        <ul class="text-gray-700 space-y-1 text-base">
+                            <li>• Manage Companies</li>
+                            <li>• Manage Institutes</li>
+                            <li>• Review Registrations</li>
+                            <li>• Domain Verification</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-gray-800 mb-2">📋 Profile & Settings</h4>
+                        <ul class="text-gray-700 space-y-1 text-base">
+                            <li>• Edit Official Profile</li>
+                            <li>• Department Information</li>
+                            <li>• Authority Level Settings</li>
+                            <li>• Notification Preferences</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Statistics -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">System Statistics Overview</h2>
+        
+        <div class="bg-gray-50 rounded-lg p-6 mb-4">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Key Metrics You Can Monitor</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">👥 User Statistics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Total Students Registered</li>
+                        <li>• Total Mentors Active</li>
+                        <li>• User Growth Trends</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">🏢 Organization Statistics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Total Companies</li>
+                        <li>• Verified Companies</li>
+                        <li>• Pending Approvals</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">💼 Internship Statistics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Total Positions Available</li>
+                        <li>• Active Internships</li>
+                        <li>• Completed Programs</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">📝 Application Statistics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Total Applications</li>
+                        <li>• Pending Applications</li>
+                        <li>• Application Success Rate</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">✅ Approval Statistics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Organizations Approved</li>
+                        <li>• Rejection Rates</li>
+                        <li>• Average Review Time</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h4 class="font-semibold text-blue-600 mb-2">🔍 Quality Metrics</h4>
+                    <ul class="text-gray-700 space-y-1 text-base">
+                        <li>• Domain Verification Status</li>
+                        <li>• Suspended Organizations</li>
+                        <li>• Compliance Issues</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+            <p class="text-yellow-800 font-semibold">📈 Using Statistics for Decision Making</p>
+            <ul class="text-yellow-700 space-y-1 mt-2">
+                <li>• Monitor platform growth and adoption trends</li>
+                <li>• Identify potential quality or compliance issues</li>
+                <li>• Track the effectiveness of approval processes</li>
+                <li>• Generate reports for government departments</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Recent Activity Monitoring -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Recent Activity Monitoring</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Activity Types You Can Track</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">📝 Recent Applications</h4>
+                        <ul class="text-blue-700 space-y-1 text-base">
+                            <li>• Latest student applications</li>
+                            <li>• Application status changes</li>
+                            <li>• Time stamps and trends</li>
+                            <li>• Company-wise application data</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">💼 Recent Internships</h4>
+                        <ul class="text-green-700 space-y-1 text-base">
+                            <li>• Newly started internships</li>
+                            <li>• Internship status updates</li>
+                            <li>• Completion notifications</li>
+                            <li>• Progress milestones</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Monitoring Best Practices</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li>Review recent activity daily to stay informed of platform trends</li>
+                    <li>Look for unusual patterns that might indicate issues</li>
+                    <li>Monitor application-to-internship conversion rates</li>
+                    <li>Track mentor and company engagement levels</li>
+                    <li>Identify successful placement patterns for optimization</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Quick Actions & Workflow</h2>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Common Daily Tasks</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">🔄 Regular Monitoring Tasks</h4>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                        <li>Check pending organization approvals</li>
+                        <li>Review recent application activity</li>
+                        <li>Monitor system statistics for anomalies</li>
+                        <li>Verify domain verification requests</li>
+                        <li>Address any suspended organizations</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">⚡ Quick Action Links</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        <li>Navigate directly to company management</li>
+                        <li>Access institute approval queue</li>
+                        <li>View detailed organization profiles</li>
+                        <li>Generate statistical reports</li>
+                        <li>Update your official profile</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authority Levels -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Authority Levels & Permissions</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h3 class="font-semibold text-red-800 mb-2">🔐 Understanding Your Authority Level</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-3 rounded">
+                        <h4 class="font-semibold text-red-800 text-base mb-1">🏛️ Federal Authority</h4>
+                        <ul class="list-disc list-inside text-red-700 text-base space-y-1">
+                            <li>National-level oversight</li>
+                            <li>All organization types</li>
+                            <li>Policy-level decisions</li>
+                            <li>Cross-provincial coordination</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                        <h4 class="font-semibold text-red-800 text-base mb-1">🏙️ Provincial Authority</h4>
+                        <ul class="list-disc list-inside text-red-700 text-base space-y-1">
+                            <li>State/province-level control</li>
+                            <li>Regional organization oversight</li>
+                            <li>Provincial policy implementation</li>
+                            <li>Multi-district coordination</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-3 rounded">
+                        <h4 class="font-semibold text-red-800 text-base mb-1">🏘️ Local Authority</h4>
+                        <ul class="list-disc list-inside text-red-700 text-base space-y-1">
+                            <li>Municipal/district level</li>
+                            <li>Local organization approval</li>
+                            <li>Community-focused oversight</li>
+                            <li>Direct stakeholder contact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Metrics -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Performance Tracking</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Key Performance Indicators (KPIs)</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li><strong>Approval Efficiency:</strong> Average time to approve/reject organizations</li>
+                    <li><strong>Quality Control:</strong> Percentage of organizations requiring follow-up</li>
+                    <li><strong>Platform Growth:</strong> Month-over-month user and organization growth</li>
+                    <li><strong>Success Rates:</strong> Student placement and internship completion rates</li>
+                    <li><strong>Compliance Monitoring:</strong> Organization adherence to regulations</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Monthly Review Checklist</h3>
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <ul class="list-disc list-inside text-blue-800 space-y-1">
+                        <li>Review approval/rejection statistics and reasons</li>
+                        <li>Analyze platform growth and user engagement trends</li>
+                        <li>Assess domain verification completion rates</li>
+                        <li>Monitor suspended organization follow-up status</li>
+                        <li>Prepare monthly reports for department leadership</li>
+                        <li>Identify process improvements and policy updates needed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Troubleshooting & Support</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Dashboard loading slowly</h4>
+                <p class="text-gray-700">Large datasets may cause slower loading. Use filters to narrow down results and improve performance.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Statistics don't match expectations</h4>
+                <p class="text-gray-700">Ensure you're viewing the correct date range and that all filters are properly applied. Statistics update in real-time.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Cannot access certain management functions</h4>
+                <p class="text-gray-700">Check your authority level and approval permissions. Contact system administrator if access should be granted.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Need to generate reports</h4>
+                <p class="text-gray-700">Use the export functionality in management views or contact technical support for custom report generation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Guides -->
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Related Guides</h3>
+        <div class="grid grid-cols-1 gap-4">
+            <a href="{% url 'documentation_guide' 'officials' 'managing-organizations' %}" class="block p-4 bg-white rounded-lg shadow-base hover:shadow-lg transition-shadow">
+                <h4 class="font-semibold text-blue-600 mb-2">Managing Organizations</h4>
+                <p class="text-gray-700 text-base">Learn how to approve and manage companies and institutes</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

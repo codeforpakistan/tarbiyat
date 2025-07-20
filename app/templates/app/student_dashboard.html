@@ -1,4 +1,6 @@
-{% extends 'app/page.html' %} {% block title %}Student Dashboard - Tarbiyat{% endblock %} {% block content %}
+{% extends 'app/page.html' %} 
+{% block title %}Student Dashboard - Tarbiyat{% endblock %} 
+{% block content %}
 <div class="min-h-screen bg-gray-50 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
@@ -106,11 +108,13 @@
                 <div class="text-right">
                   <span
                     class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 {% elif application.status == 'under_review' %}bg-blue-100 text-blue-800 {% elif application.status == 'interview_scheduled' %}bg-purple-100 text-purple-800 {% elif application.status == 'approved' %}bg-green-100 text-green-800 {% elif application.status == 'rejected' %}bg-red-100 text-red-800 {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800 {% else %}bg-blue-100 text-blue-800{% endif %}">
-                    {% if application.status == 'pending' %}Pending Review {% elif application.status == 'under_review'
-                    %}Under Review {% elif application.status == 'interview_scheduled' %}Interview Scheduled {% elif
-                    application.status == 'approved' %}Approved {% elif application.status == 'rejected' %}Rejected {%
-                    elif application.status == 'withdrawn' %}Withdrawn {% else %}{{ application.status|title }}{% endif
-                    %}
+                    {% if application.status == 'pending' %}Pending Review 
+                    {% elif application.status == 'under_review'%}Under Review 
+                    {% elif application.status == 'interview_scheduled' %}Interview Scheduled 
+                    {% elif application.status == 'approved' %}Approved 
+                    {% elif application.status == 'rejected' %}Rejected 
+                    {% elif application.status == 'withdrawn' %}Withdrawn 
+                    {% else %}{{ application.status|title }}{% endif %}
                   </span>
                   <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date }}</div>
                 </div>

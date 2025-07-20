@@ -1,0 +1,590 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Intern Supervision - Mentors - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">👥 Intern Supervision - Mentor Guide</h1>
+    <p class="text-gray-600">Complete guide to effectively managing, supporting, and developing your interns throughout their experience</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">The Role of a Mentor</h2>
+        <p class="text-gray-700 mb-4">
+            As a mentor, you're not just a supervisor—you're a guide, teacher, and advocate for your intern's professional development. Your role extends beyond task assignment to include coaching, feedback, and career guidance.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2">🎯 Guide</h3>
+                <p class="text-blue-700 text-base">Help interns navigate company culture, processes, and expectations</p>
+            </div>
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-800 mb-2">📚 Teacher</h3>
+                <p class="text-green-700 text-base">Share knowledge, skills, and industry insights to accelerate learning</p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h3 class="font-semibold text-purple-800 mb-2">🤝 Advocate</h3>
+                <p class="text-purple-700 text-base">Support intern's growth and help them succeed in their goals</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Onboarding Your Interns</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📋 Pre-Arrival Preparation</h3>
+                <div class="text-base text-gray-700 space-y-2">
+                    <p><strong>1-2 Weeks Before Start Date:</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Send welcome email with first day logistics</li>
+                        <li>Prepare workspace and necessary equipment</li>
+                        <li>Set up accounts and system access</li>
+                        <li>Plan first week schedule and activities</li>
+                        <li>Coordinate with team members who'll interact with intern</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🎉 First Day Essentials</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Morning (Administrative):</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Office tour and introductions</li>
+                            <li>Complete paperwork and forms</li>
+                            <li>Set up workspace and equipment</li>
+                            <li>Review company policies</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Afternoon (Orientation):</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Discuss internship goals and expectations</li>
+                            <li>Review project overview and timeline</li>
+                            <li>Introduce team members and key contacts</li>
+                            <li>Schedule regular check-in meetings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📅 First Week Planning</h3>
+                <div class="space-y-2 text-base text-gray-700">
+                    <p><strong>Day 1:</strong> Orientation, introductions, basic setup</p>
+                    <p><strong>Day 2-3:</strong> Company culture immersion, basic training</p>
+                    <p><strong>Day 4-5:</strong> Project introduction, skill assessment, goal setting</p>
+                    <p><strong>Week End:</strong> First feedback session and next week planning</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Setting Clear Expectations</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h3 class="font-semibold text-yellow-800 mb-2">⭐ Key Areas to Address</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-yellow-700">
+                    <div>
+                        <h4 class="font-semibold text-yellow-800 mb-1">Performance Expectations:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Quality standards for deliverables</li>
+                            <li>Deadline management and communication</li>
+                            <li>Professional behavior and attitude</li>
+                            <li>Learning initiative and curiosity</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-yellow-800 mb-1">Communication Protocols:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Regular check-in schedule</li>
+                            <li>How to ask for help</li>
+                            <li>Progress reporting format</li>
+                            <li>Emergency contact procedures</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🎯 Goal Setting Framework</h3>
+                <div class="space-y-3">
+                    <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 text-base mb-1">SMART Goals Template</h4>
+                        <p class="text-blue-700 text-base mb-2">Work with your intern to set Specific, Measurable, Achievable, Relevant, Time-bound goals</p>
+                        <ul class="text-blue-700 text-base space-y-1">
+                            <li><strong>Specific:</strong> "Learn Python web development" → "Build a web application using Django"</li>
+                            <li><strong>Measurable:</strong> Include concrete deliverables and success metrics</li>
+                            <li><strong>Achievable:</strong> Consider intern's current skill level and time constraints</li>
+                            <li><strong>Relevant:</strong> Align with intern's career goals and position requirements</li>
+                            <li><strong>Time-bound:</strong> Set clear milestones and completion dates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Effective Communication & Check-ins</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📅 Meeting Schedule Framework</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-base">
+                    <div class="bg-green-50 p-3 rounded border border-green-200">
+                        <h4 class="font-semibold text-green-800 mb-1">Daily (First Week)</h4>
+                        <p class="text-green-700 text-base">15-minute check-ins to ensure smooth onboarding</p>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 mb-1">Weekly (Ongoing)</h4>
+                        <p class="text-blue-700 text-base">30-45 minute progress reviews and planning sessions</p>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded border border-purple-200">
+                        <h4 class="font-semibold text-purple-800 mb-1">Mid-term Review</h4>
+                        <p class="text-purple-700 text-base">Comprehensive feedback and goal adjustment</p>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded border border-orange-200">
+                        <h4 class="font-semibold text-orange-800 mb-1">Final Evaluation</h4>
+                        <p class="text-orange-700 text-base">Performance review and future planning</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">💬 Check-in Meeting Structure</h3>
+                <div class="space-y-3">
+                    <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                        <h4 class="font-semibold text-gray-800 text-base mb-1">Weekly Meeting Agenda (30-45 minutes)</h4>
+                        <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
+                            <li><strong>Progress Review (10-15 min):</strong> What was accomplished this week?</li>
+                            <li><strong>Challenge Discussion (10-15 min):</strong> What obstacles were encountered?</li>
+                            <li><strong>Learning Reflection (5-10 min):</strong> What new skills or insights were gained?</li>
+                            <li><strong>Next Week Planning (5-10 min):</strong> What are the priorities and goals?</li>
+                            <li><strong>Support Needs (5 min):</strong> What help or resources are needed?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🗣️ Communication Best Practices</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Creating Safe Space:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Encourage questions and curiosity</li>
+                            <li>Be patient with learning curves</li>
+                            <li>Celebrate small wins and progress</li>
+                            <li>Address concerns promptly and sensitively</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Active Listening:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Give full attention during conversations</li>
+                            <li>Ask follow-up questions for clarity</li>
+                            <li>Reflect back what you hear</li>
+                            <li>Validate feelings and concerns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Providing Effective Feedback</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 class="font-semibold text-blue-800 mb-2">🎯 Feedback Framework: SBI Model</h3>
+                <div class="space-y-3 text-base text-blue-700">
+                    <div>
+                        <h4 class="font-semibold text-blue-800">S - Situation:</h4>
+                        <p>Describe when and where the behavior occurred</p>
+                        <p class="text-base italic">"During yesterday's team meeting..."</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-blue-800">B - Behavior:</h4>
+                        <p>Describe the specific, observable behavior</p>
+                        <p class="text-base italic">"You interrupted the speaker twice and looked at your phone..."</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-blue-800">I - Impact:</h4>
+                        <p>Explain the impact on you, the team, or the work</p>
+                        <p class="text-base italic">"This made it difficult for others to share their ideas..."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">👍 Positive Feedback</h3>
+                    <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                        <li>Be specific about what they did well</li>
+                        <li>Explain why it was valuable</li>
+                        <li>Encourage them to continue the behavior</li>
+                        <li>Connect it to their professional development</li>
+                    </ul>
+                    <div class="bg-green-50 p-2 rounded text-base text-green-700 mt-2">
+                        <strong>Example:</strong> "Your thorough research on user requirements saved us from a major design flaw. This shows excellent attention to detail—keep applying this approach to other projects."
+                    </div>
+                </div>
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h3 class="font-semibold text-gray-800 mb-2">🔧 Constructive Feedback</h3>
+                    <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                        <li>Focus on behavior, not personality</li>
+                        <li>Provide specific examples</li>
+                        <li>Suggest actionable improvements</li>
+                        <li>Offer support and resources</li>
+                    </ul>
+                    <div class="bg-yellow-50 p-2 rounded text-base text-yellow-700 mt-2">
+                        <strong>Example:</strong> "Your code works well, but adding comments would help team members understand your logic. Let me show you our commenting standards and best practices."
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Project Management & Task Assignment</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📊 Project Complexity Progression</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white text-base font-semibold">1</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800 text-base">Orientation Tasks (Week 1-2)</h4>
+                            <p class="text-gray-600 text-base">Simple, low-risk tasks to build confidence and familiarity</p>
+                            <p class="text-gray-500 text-base italic">Examples: Documentation updates, data entry, system exploration</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-base font-semibold">2</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800 text-base">Skill-Building Tasks (Week 3-6)</h4>
+                            <p class="text-gray-600 text-base">Moderate complexity tasks that develop specific skills</p>
+                            <p class="text-gray-500 text-base italic">Examples: Feature implementation, analysis tasks, process improvement</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white text-base font-semibold">3</div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800 text-base">Independent Projects (Week 7+)</h4>
+                            <p class="text-gray-600 text-base">Complex projects with greater autonomy and impact</p>
+                            <p class="text-gray-500 text-base italic">Examples: Full feature development, research projects, client work</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">✅ Task Assignment Best Practices</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Clear Instructions:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Define scope and objectives clearly</li>
+                            <li>Provide context and background</li>
+                            <li>Set realistic deadlines</li>
+                            <li>Specify deliverable format</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Support Structure:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Identify resources and documentation</li>
+                            <li>Introduce relevant team members</li>
+                            <li>Schedule check-in points</li>
+                            <li>Establish communication channels</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                <h3 class="font-semibold text-orange-800 mb-2">⚖️ Balancing Challenge and Support</h3>
+                <p class="text-orange-700 text-base mb-2">Find the sweet spot between too easy (boring) and too hard (overwhelming):</p>
+                <ul class="list-disc list-inside text-base text-orange-700 space-y-1">
+                    <li><strong>Stretch Goals:</strong> Tasks slightly beyond current ability that promote growth</li>
+                    <li><strong>Safety Net:</strong> Provide support and resources for tackling challenges</li>
+                    <li><strong>Failure-Friendly:</strong> Create environment where mistakes are learning opportunities</li>
+                    <li><strong>Regular Adjustment:</strong> Adapt difficulty based on intern's progress and confidence</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Professional Development Support</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🚀 Career Guidance Areas</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-base">
+                    <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 mb-1">Industry Insights</h4>
+                        <ul class="list-disc list-inside text-blue-700 text-base space-y-1">
+                            <li>Industry trends and future outlook</li>
+                            <li>Career path options</li>
+                            <li>Skills in demand</li>
+                            <li>Professional associations</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded border border-green-200">
+                        <h4 class="font-semibold text-green-800 mb-1">Networking</h4>
+                        <ul class="list-disc list-inside text-green-700 text-base space-y-1">
+                            <li>Introduce to key contacts</li>
+                            <li>Include in relevant meetings</li>
+                            <li>Attend industry events together</li>
+                            <li>Connect on professional platforms</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded border border-purple-200">
+                        <h4 class="font-semibold text-purple-800 mb-1">Skill Development</h4>
+                        <ul class="list-disc list-inside text-purple-700 text-base space-y-1">
+                            <li>Technical skills assessment</li>
+                            <li>Soft skills development</li>
+                            <li>Training opportunities</li>
+                            <li>Certification guidance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📚 Learning Opportunities</h3>
+                <div class="space-y-3">
+                    <div class="bg-yellow-50 p-3 rounded border border-yellow-200">
+                        <h4 class="font-semibold text-yellow-800 text-base mb-1">Formal Learning</h4>
+                        <ul class="list-disc list-inside text-yellow-700 text-base space-y-1">
+                            <li>Company training programs and workshops</li>
+                            <li>External courses and certifications</li>
+                            <li>Conference attendance (virtual or in-person)</li>
+                            <li>Webinars and online learning platforms</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                        <h4 class="font-semibold text-gray-800 text-base mb-1">Experiential Learning</h4>
+                        <ul class="list-disc list-inside text-gray-700 text-base space-y-1">
+                            <li>Cross-functional project exposure</li>
+                            <li>Job shadowing with different roles</li>
+                            <li>Participation in team meetings and decisions</li>
+                            <li>Presentation opportunities to leadership</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Handling Challenges & Problem-Solving</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🚨 Common Challenges</h3>
+                <div class="space-y-3">
+                    <div class="bg-red-50 border border-red-200 rounded p-3">
+                        <h4 class="font-semibold text-red-800 text-base mb-1">Performance Issues</h4>
+                        <div class="text-red-700 text-base space-y-1">
+                            <p><strong>Signs:</strong> Missed deadlines, low-quality work, lack of initiative</p>
+                            <p><strong>Approach:</strong> Identify root causes, provide additional support, set clear improvement goals</p>
+                        </div>
+                    </div>
+                    <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+                        <h4 class="font-semibold text-yellow-800 text-base mb-1">Communication Problems</h4>
+                        <div class="text-yellow-700 text-base space-y-1">
+                            <p><strong>Signs:</strong> Unclear updates, reluctance to ask questions, misunderstanding instructions</p>
+                            <p><strong>Approach:</strong> Establish clearer communication protocols, practice active listening, provide communication training</p>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 rounded p-3">
+                        <h4 class="font-semibold text-blue-800 text-base mb-1">Integration Difficulties</h4>
+                        <div class="text-blue-700 text-base space-y-1">
+                            <p><strong>Signs:</strong> Social isolation, team conflicts, cultural misalignment</p>
+                            <p><strong>Approach:</strong> Facilitate team interactions, address cultural differences, provide social opportunities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🔧 Problem-Solving Strategies</h3>
+                <div class="space-y-3">
+                    <div class="bg-green-50 p-3 rounded border border-green-200">
+                        <h4 class="font-semibold text-green-800 text-base mb-1">Early Intervention</h4>
+                        <ul class="list-disc list-inside text-green-700 text-base space-y-1">
+                            <li>Address issues promptly before they escalate</li>
+                            <li>Schedule private one-on-one discussions</li>
+                            <li>Create safe space for honest conversation</li>
+                            <li>Focus on solutions rather than blame</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 p-3 rounded border border-blue-200">
+                        <h4 class="font-semibold text-blue-800 text-base mb-1">Collaborative Problem-Solving</h4>
+                        <ul class="list-disc list-inside text-blue-700 text-base space-y-1">
+                            <li>Involve intern in identifying solutions</li>
+                            <li>Set clear expectations and timelines</li>
+                            <li>Provide necessary resources and support</li>
+                            <li>Follow up regularly on progress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Mid-term and Final Evaluations</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📊 Mid-term Review Process</h3>
+                <div class="bg-purple-50 border border-purple-200 rounded p-3 mb-3">
+                    <p class="text-purple-800 text-base">
+                        <strong>Timing:</strong> Conduct at the halfway point of the internship to allow for course corrections
+                    </p>
+                </div>
+                <div class="space-y-2 text-base text-gray-700">
+                    <p><strong>1. Preparation Phase:</strong></p>
+                    <ul class="list-disc list-inside ml-4 text-base space-y-1">
+                        <li>Review intern's work portfolio and progress</li>
+                        <li>Gather feedback from team members who've worked with intern</li>
+                        <li>Prepare specific examples of strengths and improvement areas</li>
+                        <li>Ask intern to complete self-assessment</li>
+                    </ul>
+                    
+                    <p><strong>2. Review Meeting:</strong></p>
+                    <ul class="list-disc list-inside ml-4 text-base space-y-1">
+                        <li>Discuss goal achievement and progress</li>
+                        <li>Compare mentor and self-assessments</li>
+                        <li>Identify areas of strength and growth</li>
+                        <li>Adjust remaining internship goals if needed</li>
+                        <li>Plan professional development for second half</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🏆 Final Evaluation Framework</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Performance Areas to Evaluate:</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Technical skills development</li>
+                            <li>Project completion and quality</li>
+                            <li>Professional communication</li>
+                            <li>Team collaboration</li>
+                            <li>Initiative and problem-solving</li>
+                            <li>Adaptability and learning</li>
+                            <li>Attendance and reliability</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Evaluation Format:</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Rating scale (1-5) with descriptions</li>
+                            <li>Specific examples for each rating</li>
+                            <li>Written comments and feedback</li>
+                            <li>Recommendations for future development</li>
+                            <li>Overall internship success assessment</li>
+                            <li>Letter of recommendation eligibility</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Building Long-term Relationships</h2>
+        
+        <div class="space-y-4">
+            <div class="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🌟 Beyond the Internship</h3>
+                <p class="text-gray-700 text-base mb-3">
+                    Great mentoring relationships often extend beyond the formal internship period. Consider these ways to maintain valuable connections:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Ongoing Support:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Periodic check-ins on career progress</li>
+                            <li>Job search guidance and referrals</li>
+                            <li>Professional networking introductions</li>
+                            <li>References for future opportunities</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-1">Mutual Benefits:</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Fresh perspectives on industry trends</li>
+                            <li>Potential future hiring pipeline</li>
+                            <li>Alumni network development</li>
+                            <li>Personal satisfaction from career development</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📧 Staying Connected</h3>
+                <div class="space-y-2 text-base text-gray-700">
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Connect on LinkedIn and other professional platforms</li>
+                        <li>Share relevant job opportunities and industry news</li>
+                        <li>Invite to company events or industry gatherings</li>
+                        <li>Provide career advice during major transitions</li>
+                        <li>Consider them for future internship or full-time positions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Mentoring Best Practices Summary</h2>
+        <div class="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-base text-gray-700">
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">✨ Excellence in Mentoring</h4>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Be patient and supportive of the learning process</li>
+                        <li>Provide regular, constructive feedback</li>
+                        <li>Share real-world context and industry insights</li>
+                        <li>Encourage questions and intellectual curiosity</li>
+                        <li>Model professional behavior and work ethic</li>
+                        <li>Celebrate achievements and progress</li>
+                        <li>Create meaningful, challenging work experiences</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">🔄 Continuous Improvement</h4>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Seek feedback on your mentoring style</li>
+                        <li>Adapt your approach to individual intern needs</li>
+                        <li>Learn from each mentoring experience</li>
+                        <li>Stay updated on best practices and trends</li>
+                        <li>Network with other mentors for idea sharing</li>
+                        <li>Reflect on what makes internships successful</li>
+                        <li>Continuously develop your coaching skills</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

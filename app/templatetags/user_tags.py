@@ -18,3 +18,8 @@ def get_user_type(user):
 def has_user_type(user):
     """Template filter to check if user has any user type"""
     return get_user_type(user) is not None
+
+@register.filter
+def is_user_type(user, user_type):
+    """Template filter to check if user has a specific user type"""
+    return get_user_type(user) == user_type

@@ -43,7 +43,7 @@
         <div class="lg:w-3/4">
             <!-- Breadcrumb -->
             <nav class="mb-6" aria-label="breadcrumb">
-                <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <ol class="flex items-center space-x-2 text-base text-gray-600">
                     <li>
                         <a href="{% url 'documentation_index' %}" class="hover:text-blue-600 flex items-center">
                             <span class="mr-1">📚</span>Documentation
@@ -68,7 +68,7 @@
                     <!-- Article Header -->
                     <header class="mb-8 pb-6 border-b border-gray-200">
                         <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ title }}</h1>
-                        <div class="text-gray-600 text-sm">
+                        <div class="text-gray-600 text-base">
                             <span class="inline-flex items-center mr-4">
                                 <span class="mr-1">📁</span>Category: {{ category|title }}
                             </span>
@@ -105,10 +105,10 @@
                                     Was this guide helpful?
                                 </p>
                                 <div class="flex gap-2">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-green-300 bg-white hover:bg-green-50 text-green-700 rounded-md text-sm transition-colors">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-green-300 bg-white hover:bg-green-50 text-green-700 rounded-md text-base transition-colors">
                                         <span class="mr-1">👍</span>Yes
                                     </button>
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-red-300 bg-white hover:bg-red-50 text-red-700 rounded-md text-sm transition-colors">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-red-300 bg-white hover:bg-red-50 text-red-700 rounded-md text-base transition-colors">
                                         <span class="mr-1">👎</span>No
                                     </button>
                                 </div>
@@ -156,7 +156,7 @@
 }
 
 .documentation-content h6 {
-    @apply text-sm font-semibold text-gray-600 mt-3 mb-2;
+    @apply text-base font-semibold text-gray-600 mt-3 mb-2;
 }
 
 .documentation-content p {
@@ -204,7 +204,7 @@
 }
 
 .documentation-content code {
-    @apply bg-gray-100 text-red-600 px-2 py-1 rounded text-sm font-mono;
+    @apply bg-gray-100 text-red-600 px-2 py-1 rounded text-base font-mono;
 }
 
 .documentation-content pre {
@@ -251,7 +251,7 @@
 
 /* Styling for keyboard shortcuts */
 .documentation-content kbd {
-    @apply bg-gray-200 border border-gray-300 rounded px-2 py-1 text-sm font-mono shadow-sm;
+    @apply bg-gray-200 border border-gray-300 rounded px-2 py-1 text-base font-mono shadow-sm;
 }
 
 /* Warning and info boxes */
@@ -303,11 +303,11 @@
     }
     
     .documentation-content pre {
-        @apply text-sm;
+        @apply text-base;
     }
     
     .documentation-content table {
-        @apply text-sm;
+        @apply text-base;
     }
 }
 

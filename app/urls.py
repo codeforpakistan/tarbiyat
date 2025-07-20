@@ -57,5 +57,5 @@ urlpatterns = [
     
     # Documentation URLs
     path('docs/', views.documentation_index, name='documentation_index'),
-    path('docs/<str:category>/<str:guide_slug>/', views.documentation_guide, name='documentation_guide'),
+    path('docs/<str:user_type>/<str:topic>/', views.documentation_guide, name='documentation_guide'),
 ]

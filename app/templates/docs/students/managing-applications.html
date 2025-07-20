@@ -1,0 +1,77 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Managing Applications - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🎓 Managing Applications</h1>
+    <p class="text-gray-600">Track your applications and manage your internship progress</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+        <section>
+            <h2 class="text-xl font-semibold text-blue-600 mb-3">Application Status Tracking</h2>
+            <p class="text-gray-700 mb-4">Your applications can have the following statuses:</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                    <h3 class="font-semibold text-yellow-800 mb-2">⏳ Pending</h3>
+                    <p class="text-base text-gray-700">Application submitted and under review</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                    <h3 class="font-semibold text-green-800 mb-2">✅ Accepted</h3>
+                    <p class="text-base text-gray-700">Congratulations! You've been selected</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                    <h3 class="font-semibold text-red-800 mb-2">❌ Rejected</h3>
+                    <p class="text-base text-gray-700">Application was not successful this time</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <h3 class="font-semibold text-blue-800 mb-2">🔄 Active Internship</h3>
+                    <p class="text-base text-gray-700">Currently participating in internship</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-semibold text-blue-600 mb-3">Managing Active Internships</h2>
+            <p class="text-gray-700 mb-4">Once your application is accepted and you start your internship:</p>
+            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                <li>Regular progress reports will be required (frequency set by mentor)</li>
+                <li>Keep track of your learning objectives and achievements</li>
+                <li>Communicate regularly with both your mentor and academic supervisor</li>
+                <li>Submit all required documentation on time</li>
+            </ol>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-semibold text-blue-600 mb-3">Progress Reports</h2>
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <p class="text-blue-800">
+                    <strong>Important:</strong> Progress reports help track your learning and development during the internship.
+                </p>
+            </div>
+            <p class="text-gray-700 mb-4">Progress reports typically include:</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Tasks completed during the reporting period</li>
+                <li>Skills learned and knowledge gained</li>
+                <li>Challenges faced and how they were overcome</li>
+                <li>Goals for the next reporting period</li>
+                <li>Overall satisfaction and feedback</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-xl font-semibold text-blue-600 mb-3">Communication Best Practices</h2>
+            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                <li>Respond to mentor communications promptly</li>
+                <li>Ask questions when unclear about expectations</li>
+                <li>Keep your academic supervisor informed of progress</li>
+                <li>Report any issues or concerns immediately</li>
+                <li>Maintain professional communication at all times</li>
+            </ul>
+        </section>
+    </div>
+{% endblock %}

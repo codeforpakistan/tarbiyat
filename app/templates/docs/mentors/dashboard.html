@@ -1,0 +1,197 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Mentor Dashboard Guide - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">👔 Mentor Dashboard Guide</h1>
+    <p class="text-gray-600">Learn how to navigate and use your mentor dashboard effectively</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Overview</h2>
+        <p class="text-gray-700 mb-4">
+            Your mentor dashboard is the central hub for managing internship positions, reviewing applications, and supervising interns. It provides a comprehensive view of all your mentoring activities.
+        </p>
+        <div class="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            <p class="text-purple-800">
+                <strong>Quick Access:</strong> Navigate to your dashboard anytime by clicking "Dashboard" in the top navigation menu or from the mentor-specific links.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Sections</h2>
+        
+        <div class="space-y-4">
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📊 Quick Statistics</h3>
+                <p class="text-base text-gray-600 mb-2">At the top of your dashboard, you'll see:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Number of active positions you've created</li>
+                    <li>Total applications received across all positions</li>
+                    <li>Number of current active interns</li>
+                    <li>Pending applications requiring your review</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📝 Recent Positions</h3>
+                <p class="text-base text-gray-600 mb-2">View your most recently created positions with:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Position title and department</li>
+                    <li>Application deadline and start date</li>
+                    <li>Number of applications received</li>
+                    <li>Current status (Active, Closed, Draft)</li>
+                    <li>Quick action buttons (Edit, View Applications, Manage)</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">📋 Pending Applications</h3>
+                <p class="text-base text-gray-600 mb-2">Applications waiting for your review:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Student name and academic information</li>
+                    <li>Position applied for</li>
+                    <li>Application submission date</li>
+                    <li>Quick preview of cover letter</li>
+                    <li>Accept/Reject action buttons</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">👥 Current Interns</h3>
+                <p class="text-base text-gray-600 mb-2">Overview of your active interns:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>Intern names and contact information</li>
+                    <li>Internship position and duration</li>
+                    <li>Start and end dates</li>
+                    <li>Last progress report submission</li>
+                    <li>Quick actions (View Profile, Progress Reports, Contact)</li>
+                </ul>
+            </div>
+
+            <div class="border border-gray-200 rounded-lg p-4">
+                <h3 class="font-semibold text-gray-800 mb-2">🔔 Activity Feed</h3>
+                <p class="text-base text-gray-600 mb-2">Stay updated with:</p>
+                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+                    <li>New applications received</li>
+                    <li>Progress reports submitted by interns</li>
+                    <li>Application deadlines approaching</li>
+                    <li>Internship start/end date reminders</li>
+                    <li>System notifications and updates</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                <h3 class="font-semibold text-green-800 mb-2">➕ Create New Position</h3>
+                <p class="text-base text-gray-700 mb-2">Post a new internship opportunity</p>
+                <p class="text-base text-gray-600">Opens the position creation form</p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2">📋 Manage Applications</h3>
+                <p class="text-base text-gray-700 mb-2">Review and process applications</p>
+                <p class="text-base text-gray-600">View all applications across positions</p>
+            </div>
+            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                <h3 class="font-semibold text-purple-800 mb-2">📊 View Positions</h3>
+                <p class="text-base text-gray-700 mb-2">Manage all your positions</p>
+                <p class="text-base text-gray-600">Edit, activate, or archive positions</p>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                <h3 class="font-semibold text-orange-800 mb-2">👥 Manage Interns</h3>
+                <p class="text-base text-gray-700 mb-2">Supervise current interns</p>
+                <p class="text-base text-gray-600">Track progress and provide guidance</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Company Status & Profile</h2>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <h3 class="font-semibold text-yellow-800 mb-2">⚠️ Important: Company Approval Status</h3>
+            <p class="text-yellow-700 mb-2">Your dashboard will show your company's approval status:</p>
+            <ul class="list-disc list-inside text-base text-yellow-700 space-y-1">
+                <li><strong>Pending:</strong> Awaiting government official approval</li>
+                <li><strong>Approved:</strong> Can create and manage positions</li>
+                <li><strong>Rejected:</strong> Need to address issues and reapply</li>
+                <li><strong>Suspended:</strong> Temporarily restricted access</li>
+            </ul>
+            <p class="text-base text-yellow-600 mt-2">
+                <strong>Note:</strong> Only approved companies can create active positions.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Navigation Shortcuts</h2>
+        <div class="space-y-3">
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <span class="text-2xl">📝</span>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Positions</h4>
+                    <p class="text-base text-gray-600">Create, edit, and manage your internship positions</p>
+                </div>
+                <div class="ml-auto">
+                    <span class="text-base text-gray-500">Ctrl + P</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <span class="text-2xl">📋</span>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Applications</h4>
+                    <p class="text-base text-gray-600">Review student applications and make decisions</p>
+                </div>
+                <div class="ml-auto">
+                    <span class="text-base text-gray-500">Ctrl + A</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                <span class="text-2xl">👥</span>
+                <div>
+                    <h4 class="font-semibold text-gray-800">Interns</h4>
+                    <p class="text-base text-gray-600">Manage current interns and track progress</p>
+                </div>
+                <div class="ml-auto">
+                    <span class="text-base text-gray-500">Ctrl + I</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Best Practices</h2>
+        <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>Check Daily:</strong> Review new applications and intern updates regularly</li>
+            <li><strong>Respond Promptly:</strong> Students expect timely responses to their applications</li>
+            <li><strong>Keep Positions Updated:</strong> Regularly review and update position details</li>
+            <li><strong>Monitor Deadlines:</strong> Set reminders for application deadlines and internship milestones</li>
+            <li><strong>Engage with Interns:</strong> Provide regular feedback and guidance</li>
+            <li><strong>Plan Ahead:</strong> Create positions well in advance of start dates</li>
+            <li><strong>Use Filters:</strong> Leverage dashboard filters to focus on priority items</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Dashboard Customization</h2>
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p class="text-blue-800 mb-2"><strong>Personalize Your Experience:</strong></p>
+            <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                <li>Set notification preferences for applications and deadlines</li>
+                <li>Choose which quick stats to display prominently</li>
+                <li>Organize positions by priority or deadline</li>
+                <li>Customize the activity feed to show relevant updates</li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}

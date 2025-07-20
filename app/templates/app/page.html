@@ -14,13 +14,12 @@
             </div>
             
             <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center space-x-8">
+            <div class="hidden md:flex items-center space-x-4">
                 <a href="{% url 'browse_positions' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
                     Browse Positions
                 </a>
                 <a href="{% url 'documentation_index' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-                    <span class="inline-block mr-1">📚</span>
-                    Documentation
+                    Docs
                 </a>
                 
                 {% if user.is_authenticated %}
@@ -125,6 +124,17 @@
     {% endif %}
     {% block content %}{% endblock %}
 </div>
+<footer class="border-t bg-white py-8">
+    <div class="container mx-auto flex flex-col items-center justify-between gap-4 md:flex-row px-4">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🤝</span>
+            <span class="font-semibold text-gray-600">Tarbiyat Internship Platform</span>
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-4 text-center md:text-right">
+            <p class="text-sm text-gray-500">Made with ❤️ by <a href="https://codeforpakistan.org" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 transition-colors">Code for Pakistan</a></p>
+        </div>
+    </div>
+</footer>
 
 <!-- Mobile menu toggle script -->
 <script>

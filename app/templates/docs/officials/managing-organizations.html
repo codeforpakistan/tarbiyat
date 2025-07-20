@@ -1,0 +1,466 @@
+{% extends 'docs/base.html' %}
+
+{% block title %}Managing Organizations - Officials - Tarbiyat{% endblock %}
+
+{% block doc_content %}
+<div class="mb-6">
+    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+        <span class="mr-2">←</span> Back to Documentation
+    </a>
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🏢 Managing Organizations - Government Officials Guide</h1>
+    <p class="text-gray-600">Complete guide to approving, managing, and overseeing companies and institutes on the platform</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+    <!-- Overview Section -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Organization Management Overview</h2>
+        <p class="text-gray-700 mb-4">
+            As a government official, you are responsible for ensuring the quality and legitimacy of all organizations 
+            participating in the Tarbiyat internship platform. This includes both companies offering internships and 
+            educational institutes providing students.
+        </p>
+        <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+            <p class="text-red-800 font-semibold">🔐 Critical Responsibility</p>
+            <ul class="text-red-700 space-y-1 mt-2">
+                <li>• Protect students from fraudulent organizations</li>
+                <li>• Ensure compliance with government regulations</li>
+                <li>• Maintain platform integrity and trust</li>
+                <li>• Support legitimate business and educational growth</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Company Management -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Company Management</h2>
+        
+        <div class="space-y-6">
+            <!-- Accessing Company Management -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Accessing Company Management</h3>
+                <ol class="list-decimal list-inside text-gray-700 space-y-1 mb-4">
+                    <li>Navigate to your official dashboard</li>
+                    <li>Click "Manage Companies" in the main navigation</li>
+                    <li>Access URL directly: <code>/official/manage-companies/</code></li>
+                </ol>
+                
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Company Management Features</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>Search by company name, industry, or email</li>
+                            <li>Filter by registration status</li>
+                            <li>Filter by domain verification status</li>
+                            <li>Paginated results for large datasets</li>
+                        </ul>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li>View detailed company statistics</li>
+                            <li>Export company data</li>
+                            <li>Bulk operations on multiple companies</li>
+                            <li>Real-time status updates</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Approval Process -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Company Approval Process</h3>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-blue-800 mb-2">🔄 Approval Workflow</h4>
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div class="flex items-center mb-2">
+                            <span class="w-8 h-8 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center text-sm font-bold mr-3">1</span>
+                            <span class="text-blue-700 font-medium">Registration Submitted</span>
+                        </div>
+                        <span class="text-blue-500">→</span>
+                        <div class="flex items-center mb-2">
+                            <span class="w-8 h-8 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center text-sm font-bold mr-3">2</span>
+                            <span class="text-blue-700 font-medium">Under Review</span>
+                        </div>
+                        <span class="text-blue-500">→</span>
+                        <div class="flex items-center mb-2">
+                            <span class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center text-sm font-bold mr-3">3</span>
+                            <span class="text-blue-700 font-medium">Approved/Rejected</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Review Criteria</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li><strong>Business Registration:</strong> Valid business registration documents</li>
+                            <li><strong>Contact Information:</strong> Legitimate business address and contact details</li>
+                            <li><strong>Industry Verification:</strong> Appropriate industry classification</li>
+                            <li><strong>Email Domain:</strong> Professional email domain matching business</li>
+                            <li><strong>Mentor Credentials:</strong> Qualified mentors associated with company</li>
+                            <li><strong>Compliance History:</strong> No history of violations or complaints</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Detail Management -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Individual Company Management</h3>
+                
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Available Actions</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h5 class="font-semibold text-green-600 mb-1">✅ Approve Company</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Grant full platform access</li>
+                                <li>• Enable internship position creation</li>
+                                <li>• Allow mentor registration</li>
+                                <li>• Add approval notes</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-red-600 mb-1">❌ Reject Company</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Deny platform access</li>
+                                <li>• Provide rejection reasons</li>
+                                <li>• Add detailed feedback</li>
+                                <li>• Notify requester</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-orange-600 mb-1">⏸️ Suspend Company</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Temporarily disable access</li>
+                                <li>• Investigate compliance issues</li>
+                                <li>• Add suspension reasons</li>
+                                <li>• Review for reinstatement</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">🔍 Domain Verification</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Verify email domain ownership</li>
+                                <li>• Enhance organization credibility</li>
+                                <li>• Enable premium features</li>
+                                <li>• Remove verification if needed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Making Approval Decisions</h4>
+                        <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                            <li>Click on a company name to access detailed view</li>
+                            <li>Review company information, mentors, and positions</li>
+                            <li>Select appropriate action (approve, reject, suspend)</li>
+                            <li>Add detailed notes explaining your decision</li>
+                            <li>Submit the decision to notify stakeholders</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Institute Management -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Institute Management</h2>
+        
+        <div class="space-y-6">
+            <!-- Accessing Institute Management -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Educational Institution Oversight</h3>
+                <p class="text-gray-700 mb-4">
+                    Educational institutes require special attention as they provide students and academic oversight 
+                    for internship programs. Proper verification ensures academic integrity.
+                </p>
+                
+                <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-green-800 mb-2">🎓 Institute Management Features</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <ul class="text-green-700 space-y-1">
+                            <li>• Academic accreditation verification</li>
+                            <li>• Teacher credentials review</li>
+                            <li>• Student enrollment validation</li>
+                            <li>• Academic program alignment</li>
+                        </ul>
+                        <ul class="text-green-700 space-y-1">
+                            <li>• Domain verification for .edu domains</li>
+                            <li>• Department structure review</li>
+                            <li>• Internship program compliance</li>
+                            <li>• Academic calendar coordination</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institute Approval Process -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Institute Approval Process</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-2">Academic Verification Criteria</h4>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1">
+                            <li><strong>Educational Accreditation:</strong> Valid accreditation from relevant authorities</li>
+                            <li><strong>Academic Programs:</strong> Programs relevant to internship opportunities</li>
+                            <li><strong>Faculty Qualifications:</strong> Qualified teachers and academic supervisors</li>
+                            <li><strong>Student Population:</strong> Active student enrollment in relevant programs</li>
+                            <li><strong>Institutional Email:</strong> Official .edu or institutional domain</li>
+                            <li><strong>Physical Campus:</strong> Legitimate physical location and facilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institute Detail Management -->
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Individual Institute Management</h3>
+                
+                <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-2">Institute-Specific Actions</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h5 class="font-semibold text-green-600 mb-1">✅ Academic Approval</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Verify educational credentials</li>
+                                <li>• Enable student registration</li>
+                                <li>• Allow teacher participation</li>
+                                <li>• Grant academic oversight rights</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="font-semibold text-blue-600 mb-1">👥 Faculty & Student Review</h5>
+                            <ul class="text-gray-700 space-y-1 text-sm">
+                                <li>• Review associated teachers</li>
+                                <li>• Monitor student enrollment</li>
+                                <li>• Verify academic programs</li>
+                                <li>• Check graduation requirements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">Institute Review Process</h4>
+                    <ol class="list-decimal list-inside text-gray-700 space-y-1">
+                        <li>Access institute details via "Manage Institutes"</li>
+                        <li>Review academic accreditation documents</li>
+                        <li>Verify teacher qualifications and associations</li>
+                        <li>Check student enrollment and program alignment</li>
+                        <li>Validate institutional email domain</li>
+                        <li>Make approval decision with detailed notes</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtering and Search -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Advanced Filtering & Search</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Search Capabilities</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-blue-800 mb-2">🔍 Company Search</h4>
+                        <ul class="text-blue-700 space-y-1 text-sm">
+                            <li>• Search by company name</li>
+                            <li>• Filter by industry sector</li>
+                            <li>• Search by contact email</li>
+                            <li>• Location-based filtering</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-green-800 mb-2">🎓 Institute Search</h4>
+                        <ul class="text-green-700 space-y-1 text-sm">
+                            <li>• Search by institute name</li>
+                            <li>• Filter by academic programs</li>
+                            <li>• Search by institutional domain</li>
+                            <li>• Department-based filtering</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Status Filtering</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="bg-yellow-50 p-3 rounded-lg text-center">
+                        <h4 class="font-semibold text-yellow-800 mb-1">Pending</h4>
+                        <p class="text-yellow-700 text-sm">Awaiting review</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg text-center">
+                        <h4 class="font-semibold text-green-800 mb-1">Approved</h4>
+                        <p class="text-green-700 text-sm">Fully operational</p>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded-lg text-center">
+                        <h4 class="font-semibold text-red-800 mb-1">Rejected</h4>
+                        <p class="text-red-700 text-sm">Access denied</p>
+                    </div>
+                    <div class="bg-orange-50 p-3 rounded-lg text-center">
+                        <h4 class="font-semibold text-orange-800 mb-1">Suspended</h4>
+                        <p class="text-orange-700 text-sm">Temporarily disabled</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Domain Verification Filtering</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li><strong>Verified Domains:</strong> Organizations with confirmed email domain ownership</li>
+                    <li><strong>Unverified Domains:</strong> Organizations pending domain verification</li>
+                    <li><strong>No Domain Set:</strong> Organizations without specified email domains</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics and Reporting -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Statistics & Reporting</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Organization Statistics</h3>
+                <div class="bg-gray-50 rounded-lg p-4">
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                        <div>
+                            <p class="text-2xl font-bold text-blue-600">Total</p>
+                            <p class="text-gray-700 text-sm">All organizations</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-yellow-600">Pending</p>
+                            <p class="text-gray-700 text-sm">Awaiting approval</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-green-600">Approved</p>
+                            <p class="text-gray-700 text-sm">Active organizations</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-red-600">Rejected</p>
+                            <p class="text-gray-700 text-sm">Denied access</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-purple-600">Verified</p>
+                            <p class="text-gray-700 text-sm">Domain verified</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Reporting Best Practices</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li>Generate monthly approval/rejection reports</li>
+                    <li>Track approval time and efficiency metrics</li>
+                    <li>Monitor domain verification completion rates</li>
+                    <li>Identify patterns in rejected organizations</li>
+                    <li>Report compliance issues to relevant departments</li>
+                    <li>Document process improvements and policy changes</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quality Control -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Quality Control & Compliance</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Ongoing Monitoring</h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <p class="text-yellow-800 font-semibold">⚠️ Continuous Oversight Required</p>
+                    <ul class="text-yellow-700 space-y-1 mt-2">
+                        <li>• Monitor approved organizations for policy compliance</li>
+                        <li>• Review complaints and feedback about organizations</li>
+                        <li>• Investigate reported issues and violations</li>
+                        <li>• Take corrective action when necessary</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Red Flags to Watch For</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-red-800 mb-2">🚨 Company Red Flags</h4>
+                        <ul class="text-red-700 space-y-1 text-sm">
+                            <li>• Unclear business model or industry</li>
+                            <li>• Generic or suspicious email domains</li>
+                            <li>• No verifiable business address</li>
+                            <li>• Unrealistic intern compensation</li>
+                            <li>• History of complaints or violations</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-red-800 mb-2">🚨 Institute Red Flags</h4>
+                        <ul class="text-red-700 space-y-1 text-sm">
+                            <li>• Lack of proper accreditation</li>
+                            <li>• Unqualified or non-existent faculty</li>
+                            <li>• No physical campus or facilities</li>
+                            <li>• Questionable academic programs</li>
+                            <li>• Non-institutional email domains</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Corrective Actions</h3>
+                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                    <li><strong>Request Additional Information:</strong> Ask for more documentation or clarification</li>
+                    <li><strong>Conditional Approval:</strong> Approve with specific conditions and monitoring</li>
+                    <li><strong>Temporary Suspension:</strong> Suspend while investigating issues</li>
+                    <li><strong>Permanent Rejection:</strong> Deny access for serious violations</li>
+                    <li><strong>Domain Revocation:</strong> Remove domain verification for non-compliance</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section>
+        <h2 class="text-xl font-semibold text-blue-600 mb-3">Troubleshooting Common Issues</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Organization not appearing in search results</h4>
+                <p class="text-gray-700">Check all filters and search terms. Some organizations may be filtered out by status or verification filters.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Cannot approve/reject organization</h4>
+                <p class="text-gray-700">Verify you have appropriate authority level and approval permissions. Some organizations may require higher authority levels.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Domain verification not working</h4>
+                <p class="text-gray-700">Ensure the organization has set a valid email domain and that you have verification permissions.</p>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Large number of pending approvals</h4>
+                <p class="text-gray-700">Use filters to prioritize by submission date, organization type, or authority level. Consider batch processing similar organizations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Guides -->
+    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold text-gray-800 mb-3">Related Guides</h3>
+        <div class="grid grid-cols-1 gap-4">
+            <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" class="block p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow">
+                <h4 class="font-semibold text-blue-600 mb-2">Official Dashboard</h4>
+                <p class="text-gray-700 text-sm">Learn how to navigate your dashboard and monitor system statistics</p>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

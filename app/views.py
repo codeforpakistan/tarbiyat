@@ -1854,96 +1854,46 @@ def edit_progress_report(request, report_nanoid):
 
 def documentation_index(request):
     """Documentation homepage with available guides"""
-    docs_structure = {
+    return render(request, 'docs/index.html')
+
+def documentation_guide(request, user_type, topic):
+    """Render a specific documentation guide"""
+    # Define available guide templates organized by user type
+    guide_templates = {
         'getting-started': {
-            'title': 'Getting Started',
-            'description': 'Learn the basics of using Tarbiyat platform',
-            'guides': [
-                {'slug': 'overview', 'title': 'Platform Overview'},
-                {'slug': 'account-setup', 'title': 'Account Setup'},
-                {'slug': 'profile-creation', 'title': 'Creating Your Profile'},
-            ]
+            'overview': 'docs/getting-started/overview.html',
+            'account-setup': 'docs/getting-started/account-setup.html',
         },
         'students': {
-            'title': 'For Students',
-            'description': 'Complete guide for students using the platform',
-            'guides': [
-                {'slug': 'finding-internships', 'title': 'Finding Internships'},
-                {'slug': 'managing-applications', 'title': 'Managing Applications & Progress Reports'},
-            ]
+            'dashboard': 'docs/students/dashboard.html',
+            'profile-management': 'docs/students/profile-management.html',
+            'finding-internships': 'docs/students/finding-internships.html',
+            'applying-positions': 'docs/students/applying-positions.html',
+            'managing-applications': 'docs/students/managing-applications.html',
+            'application-progress': 'docs/students/application-progress.html',
         },
         'mentors': {
-            'title': 'For Mentors',
-            'description': 'Guide for company mentors and supervisors',
-            'guides': [
-                {'slug': 'creating-positions', 'title': 'Creating Positions'},
-                {'slug': 'managing-applications', 'title': 'Managing Applications'},
-                {'slug': 'intern-management', 'title': 'Managing Interns'},
-                {'slug': 'progress-tracking', 'title': 'Progress Tracking'},
-            ]
+            'dashboard': 'docs/mentors/dashboard.html',
+            'creating-positions': 'docs/mentors/creating-positions.html',
+            'managing-applications': 'docs/mentors/managing-applications.html',
+            'intern-supervision': 'docs/mentors/intern-supervision.html',
+            'company-registration': 'docs/mentors/company-registration.html',
         },
         'teachers': {
-            'title': 'For Teachers',
-            'description': 'Guide for academic supervisors and teachers',
-            'guides': [
-                {'slug': 'student-oversight', 'title': 'Student Oversight'},
-                {'slug': 'institute-management', 'title': 'Institute Management'},
-                {'slug': 'progress-monitoring', 'title': 'Progress Monitoring'},
-            ]
+            'dashboard': 'docs/teachers/dashboard.html',
+            'student-supervision': 'docs/teachers/student-supervision.html',
+            'progress-monitoring': 'docs/teachers/progress-monitoring.html',
         },
         'officials': {
-            'title': 'For Officials',
-            'description': 'Guide for government officials and administrators',
-            'guides': [
-                {'slug': 'organization-management', 'title': 'Organization Management'},
-                {'slug': 'verification-process', 'title': 'Verification Process'},
-                {'slug': 'system-administration', 'title': 'System Administration'},
-            ]
+            'dashboard': 'docs/officials/dashboard.html',
+            'managing-organizations': 'docs/officials/managing-organizations.html',
+            'system-administration': 'docs/officials/system-administration.html',
         },
     }
     
-    context = {
-        'docs_structure': docs_structure,
-    }
-    
-    return render(request, 'docs/index.html', context)
-
-def documentation_guide(request, category, guide_slug):
-    """Render a specific documentation guide"""
-    try:
-        # Construct the file path for HTML files
-        docs_dir = os.path.join(settings.BASE_DIR, 'docs')
-        file_path = os.path.join(docs_dir, category, f'{guide_slug}.html')
-        
-        # Check if file exists
-        if not os.path.exists(file_path):
-            raise Http404("Documentation page not found")
-        
-        # Read HTML content
-        with open(file_path, 'r', encoding='utf-8') as file:
-            html_content = file.read()
-        
-        # Extract title from the first h1 tag or use filename
-        title = guide_slug.replace('-', ' ').title()
-        
-        # Try to extract title from HTML
-        import re
-        title_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_content, re.IGNORECASE)
-        if title_match:
-            # Strip HTML tags from title
-            title = re.sub(r'<[^>]+>', '', title_match.group(1)).strip()
-        
-        context = {
-            'title': title,
-            'content': html_content,
-            'category': category,
-            'guide_slug': guide_slug,
-        }
-        
-        return render(request, 'docs/guide.html', context)
-        
-    except FileNotFoundError:
+    # Check if the requested guide exists
+    if user_type in guide_templates and topic in guide_templates[user_type]:
+        template_name = guide_templates[user_type][topic]
+        return render(request, template_name)
+    else:
         raise Http404("Documentation page not found")
-    except Exception as e:
-        messages.error(request, f"Error loading documentation: {str(e)}")
-        return redirect('documentation_index')
