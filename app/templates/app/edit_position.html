@@ -4,7 +4,7 @@
 {% block title %}Edit Position - Tarbiyat{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen py-8">
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center justify-between">
@@ -12,13 +12,13 @@
                     <h2 class="text-3xl font-semibold text-gray-900">Edit Position</h2>
                     <p class="text-gray-600 mt-2">Update your internship opportunity</p>
                 </div>
-                <a href="{% url 'mentor_dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                <a href="{% url 'mentor_dashboard' %}" class="text-white bg-gray-500 hover:bg-gray-700  px-4 py-2 rounded-md   transition duration-200">
                     Back to Dashboard
                 </a>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class=" rounded-lg shadow-sm">
             {% if has_applications %}
             <div class="p-6 border-b border-gray-200 bg-orange-50">
                 <div class="flex items-center">
@@ -26,8 +26,8 @@
                         <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
                     <div>
-                        <h3 class="text-sm font-medium text-orange-800">Position Has Applications</h3>
-                        <p class="text-sm text-orange-700 mt-1">This position cannot be edited because it already has student applications. To make changes, please create a new position instead.</p>
+                        <h3 class="  text-orange-800">Position Has Applications</h3>
+                        <p class=" text-orange-700 mt-1">This position cannot be edited because it already has student applications. To make changes, please create a new position instead.</p>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Information</h3>
                     <div class="space-y-6">
                         <div>
-                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Position Title</label>
+                            <label for="title" class="block   text-gray-700 mb-2">Position Title</label>
                             <input type="text" 
                                    id="title" 
                                    name="title" 
@@ -52,7 +52,7 @@
                         </div>
                         
                         <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Job Description</label>
+                            <label for="description" class="block   text-gray-700 mb-2">Job Description</label>
                             <textarea id="description" 
                                       name="description" 
                                       rows="6"
@@ -62,7 +62,7 @@
                         </div>
                         
                         <div>
-                            <label for="requirements" class="block text-sm font-medium text-gray-700 mb-2">Requirements</label>
+                            <label for="requirements" class="block   text-gray-700 mb-2">Requirements</label>
                             <textarea id="requirements" 
                                       name="requirements" 
                                       rows="4"
@@ -72,7 +72,7 @@
                         </div>
                         
                         <div>
-                            <label for="skills_required" class="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
+                            <label for="skills_required" class="block   text-gray-700 mb-2">Required Skills</label>
                             <textarea id="skills_required" 
                                       name="skills_required" 
                                       rows="4"
@@ -88,7 +88,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                            <label for="duration" class="block   text-gray-700 mb-2">Duration</label>
                             <select id="duration" 
                                     name="duration" 
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -102,7 +102,7 @@
                         </div>
                         
                         <div>
-                            <label for="max_students" class="block text-sm font-medium text-gray-700 mb-2">Maximum Students</label>
+                            <label for="max_students" class="block   text-gray-700 mb-2">Maximum Students</label>
                             <input type="number" 
                                    id="max_students" 
                                    name="max_students" 
@@ -114,7 +114,7 @@
                         </div>
                         
                         <div>
-                            <label for="start_date" class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                            <label for="start_date" class="block   text-gray-700 mb-2">Start Date</label>
                             <input type="date" 
                                    id="start_date" 
                                    name="start_date" 
@@ -124,7 +124,7 @@
                         </div>
                         
                         <div>
-                            <label for="end_date" class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                            <label for="end_date" class="block   text-gray-700 mb-2">End Date</label>
                             <input type="date" 
                                    id="end_date" 
                                    name="end_date" 
@@ -134,10 +134,10 @@
                         </div>
                         
                         <div class="md:col-span-2">
-                            <label for="stipend" class="block text-sm font-medium text-gray-700 mb-2">Monthly Stipend (Optional)</label>
+                            <label for="stipend" class="block   text-gray-700 mb-2">Monthly Stipend (Optional)</label>
                             <div class="relative">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:text-sm">PKR</span>
+                                    <span class="text-gray-500 sm:">PKR</span>
                                 </div>
                                 <input type="number" 
                                        id="stipend" 
@@ -148,7 +148,7 @@
                                        class="w-full pl-12 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                        placeholder="e.g., 25000">
                             </div>
-                            <p class="text-sm text-gray-500 mt-1">Leave empty if unpaid internship</p>
+                            <p class=" text-gray-500 mt-1">Leave empty if unpaid internship</p>
                         </div>
                     </div>
                 </div>
@@ -161,30 +161,30 @@
                                id="is_active" 
                                name="is_active" 
                                {% if position.is_active %}checked{% endif %}
-                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                        <label for="is_active" class="text-sm text-gray-900">
+                               class="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="is_active" class=" text-gray-900">
                             Position is active and accepting applications
                         </label>
                     </div>
-                    <p class="text-sm text-gray-500 mt-1">Uncheck to temporarily hide this position from students</p>
+                    <p class=" text-gray-500 mt-1">Uncheck to temporarily hide this position from students</p>
                 </div>
 
                 <!-- Applications Summary -->
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Applications Summary</h3>
-                    <div class="bg-gray-50 rounded-lg p-4">
+                    <div class=" rounded-lg p-4">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                             <div>
-                                <div class="text-2xl font-semibold text-blue-600">{{ position.total_applications_count }}</div>
-                                <div class="text-sm text-gray-600">Total Applications</div>
+                                <div class="text-2xl font-semibold text-blue-500">{{ position.total_applications_count }}</div>
+                                <div class=" text-gray-600">Total Applications</div>
                             </div>
                             <div>
                                 <div class="text-2xl font-semibold text-green-600">{{ position.approved_applications_count }}</div>
-                                <div class="text-sm text-gray-600">Approved</div>
+                                <div class=" text-gray-600">Approved</div>
                             </div>
                             <div>
                                 <div class="text-2xl font-semibold text-orange-600">{{ position.available_spots }}</div>
-                                <div class="text-sm text-gray-600">Available Spots</div>
+                                <div class=" text-gray-600">Available Spots</div>
                             </div>
                         </div>
                     </div>
@@ -193,12 +193,12 @@
                 <!-- Action Buttons -->
                 <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                     <a href="{% url 'mentor_dashboard' %}" 
-                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                       class="text-white bg-gray-500 hover:bg-gray-700  px-6 py-2 rounded-md  transition duration-200">
                         {% if has_applications %}Back to Dashboard{% else %}Cancel{% endif %}
                     </a>
                     {% if not has_applications %}
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                            class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-2 rounded-md  transition duration-200">
                         Update Position
                     </button>
                     {% endif %}

@@ -7,7 +7,7 @@
 <div class="px-4 sm:px-6 lg:px-8 mt-8">
     <div class="flex justify-between items-center mb-8">
         <h2 class="text-3xl font-semibold text-gray-900">My Applications</h2>
-        <a href="{% url 'browse_positions' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center">
+        <a href="{% url 'browse_positions' %}" class="text-white bg-blue-500 hover:bg-blue-700   py-2 px-4 rounded-lg transition duration-200 flex items-center">
             <span class="mr-2">🔍</span>
             Browse Positions
         </a>
@@ -16,77 +16,77 @@
     {% if applications %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {% for application in applications %}
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
+            <div class=" rounded-lg shadow-sm border border-gray-200 flex flex-col h-full">
                 <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                     <h6 class="text-lg font-semibold text-gray-900 mb-0">{{ application.position.title }}</h6>
                     {% if application.status == 'pending' %}
-                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Pending</span>
+                        <span class="bg-yellow-100 text-yellow-800   px-2.5 py-0.5 rounded-full">Pending</span>
                     {% elif application.status == 'approved' %}
-                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Approved</span>
+                        <span class="bg-green-100 text-green-800   px-2.5 py-0.5 rounded-full">Approved</span>
                     {% elif application.status == 'rejected' %}
-                        <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Rejected</span>
+                        <span class="bg-red-100 text-red-800   px-2.5 py-0.5 rounded-full">Rejected</span>
                     {% elif application.status == 'withdrawn' %}
-                        <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Withdrawn</span>
+                        <span class="bg-gray-100 text-gray-800   px-2.5 py-0.5 rounded-full">Withdrawn</span>
                     {% endif %}
                 </div>
                 <div class="px-6 py-4 flex-1">
-                    <div class="text-sm text-gray-600 space-y-2">
-                        <div><span class="font-medium text-gray-900">Company:</span> {{ application.position.company.name }}</div>
-                        <div><span class="font-medium text-gray-900">Location:</span> {{ application.position.company.address }}</div>
-                        <div><span class="font-medium text-gray-900">Duration:</span> {{ application.position.get_duration_display }}</div>
-                        <div><span class="font-medium text-gray-900">Stipend:</span> ${{ application.position.stipend|default:"Not specified" }}</div>
+                    <div class=" text-gray-600 space-y-2">
+                        <div><span class=" text-gray-900">Company:</span> {{ application.position.company.name }}</div>
+                        <div><span class=" text-gray-900">Location:</span> {{ application.position.company.address }}</div>
+                        <div><span class=" text-gray-900">Duration:</span> {{ application.position.get_duration_display }}</div>
+                        <div><span class=" text-gray-900">Stipend:</span> ${{ application.position.stipend|default:"Not specified" }}</div>
                     </div>
                     
                     <div class="mt-4">
-                        <div class="text-xs text-gray-500">
+                        <div class=" text-gray-500">
                             Applied on {{ application.applied_at|date:"M d, Y" }}
                         </div>
                     </div>
 
                     <!-- Cover Letter Preview -->
                     <div class="mt-4">
-                        <div class="font-medium text-gray-900 text-sm">Cover Letter:</div>
-                        <p class="text-gray-600 text-sm mt-1">
+                        <div class=" text-gray-900 ">Cover Letter:</div>
+                        <p class="text-gray-600  mt-1">
                             {{ application.cover_letter|truncatewords:20 }}
                             {% if application.cover_letter|length > 100 %}...{% endif %}
                         </p>
                     </div>
                 </div>
-                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                <div class="px-6 py-4 border-t border-gray-200">
                     <div class="flex justify-between items-center">
-                        <a href="{% url 'position_detail' application.position.nanoid %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center">
+                        <a href="{% url 'position_detail' application.position.nanoid %}" class="text-blue-500 hover:text-blue-800   flex items-center">
                             <span class="mr-1">👁️</span>
                             View Position
                         </a>
                         
                         <div class="flex items-center space-x-3">
                             {% if application.status == 'pending' %}
-                                <div class="text-xs text-gray-500">Status will be updated by mentor</div>
+                                <div class=" text-gray-500">Status will be updated by mentor</div>
                                 <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md font-medium transition duration-200">
+                                        class="bg-red-500 hover:bg-red-600   px-3 py-1 rounded-md  transition duration-200">
                                     Withdraw
                                 </button>
                             {% elif application.status == 'under_review' %}
-                                <div class="text-xs text-gray-500">Under review by mentor</div>
+                                <div class=" text-gray-500">Under review by mentor</div>
                                 <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md font-medium transition duration-200">
+                                        class="bg-red-500 hover:bg-red-600   px-3 py-1 rounded-md  transition duration-200">
                                     Withdraw
                                 </button>
                             {% elif application.status == 'interview_scheduled' %}
-                                <div class="text-xs text-blue-600">Interview scheduled</div>
+                                <div class=" text-blue-500">Interview scheduled</div>
                                 <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-md font-medium transition duration-200">
+                                        class="bg-red-500 hover:bg-red-600   px-3 py-1 rounded-md  transition duration-200">
                                     Withdraw
                                 </button>
                             {% elif application.status == 'approved' %}
-                                <div class="text-xs text-green-600 flex items-center">
+                                <div class=" text-green-600 flex items-center">
                                     <span class="mr-1">✅</span>
                                     Congratulations!
                                 </div>
                             {% elif application.status == 'rejected' %}
-                                <div class="text-xs text-gray-500">Application not selected</div>
+                                <div class=" text-gray-500">Application not selected</div>
                             {% elif application.status == 'withdrawn' %}
-                                <div class="text-xs text-gray-400 flex items-center">
+                                <div class=" text-gray-400 flex items-center">
                                     <span class="mr-1">↩️</span>
                                     Withdrawn by you
                                 </div>
@@ -104,31 +104,31 @@
             <div class="flex items-center justify-center">
                 <div class="flex items-center space-x-1">
                     {% if applications.has_previous %}
-                        <a href="?page=1" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50">
+                        <a href="?page=1" class="px-3 py-2   text-gray-500  border border-gray-300 rounded-l-md ">
                             First
                         </a>
-                        <a href="?page={{ applications.previous_page_number }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                        <a href="?page={{ applications.previous_page_number }}" class="px-3 py-2   text-gray-500  border-t border-b border-gray-300 ">
                             Previous
                         </a>
                     {% endif %}
 
                     {% for num in applications.paginator.page_range %}
                         {% if applications.number == num %}
-                            <span class="px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-300">
+                            <span class="px-3 py-2   text-blue-500 bg-blue-50 border border-blue-300">
                                 {{ num }}
                             </span>
                         {% elif num > applications.number|add:'-3' and num < applications.number|add:'3' %}
-                            <a href="?page={{ num }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                            <a href="?page={{ num }}" class="px-3 py-2   text-gray-500  border-t border-b border-gray-300 ">
                                 {{ num }}
                             </a>
                         {% endif %}
                     {% endfor %}
 
                     {% if applications.has_next %}
-                        <a href="?page={{ applications.next_page_number }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border-t border-b border-gray-300 hover:bg-gray-50">
+                        <a href="?page={{ applications.next_page_number }}" class="px-3 py-2   text-gray-500  border-t border-b border-gray-300 ">
                             Next
                         </a>
-                        <a href="?page={{ applications.paginator.num_pages }}" class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50">
+                        <a href="?page={{ applications.paginator.num_pages }}" class="px-3 py-2   text-gray-500  border border-gray-300 rounded-r-md ">
                             Last
                         </a>
                     {% endif %}
@@ -148,7 +148,7 @@
                 You haven't applied for any internship positions yet. 
                 Browse available positions and start applying!
             </p>
-            <a href="{% url 'browse_positions' %}" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
+            <a href="{% url 'browse_positions' %}" class="text-white bg-blue-500 hover:bg-blue-700   py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
                 <span class="mr-2">🔍</span>
                 Browse Positions
             </a>
@@ -158,23 +158,23 @@
     <!-- Application Summary Card -->
     {% if applications %}
     <div class="mt-8">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class=" rounded-lg shadow-sm border border-gray-200">
             <div class="px-6 py-4">
                 <h6 class="text-lg font-semibold text-gray-900 mb-4">Application Summary</h6>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                     <div>
-                        <div class="text-2xl font-semibold text-blue-600">{{ applications.paginator.count }}</div>
-                        <div class="text-sm text-gray-500">Total Applications</div>
+                        <div class="text-2xl font-semibold text-blue-500">{{ applications.paginator.count }}</div>
+                        <div class=" text-gray-500">Total Applications</div>
                     </div>
                     <div>
                         <div class="text-2xl font-semibold text-yellow-600">
                             {{ applications.object_list|length }}
                         </div>
-                        <div class="text-sm text-gray-500">On This Page</div>
+                        <div class=" text-gray-500">On This Page</div>
                     </div>
                     <div>
                         <div class="text-2xl font-semibold text-purple-600">{{ applications.paginator.num_pages }}</div>
-                        <div class="text-sm text-gray-500">Total Pages</div>
+                        <div class=" text-gray-500">Total Pages</div>
                     </div>
                     <div>
                         <div class="text-2xl font-semibold text-green-600">
@@ -187,7 +187,7 @@
                                 {{ accepted_count }}
                             {% endwith %}
                         </div>
-                        <div class="text-sm text-gray-500">Approved</div>
+                        <div class=" text-gray-500">Approved</div>
                     </div>
                 </div>
             </div>
@@ -198,14 +198,14 @@
 
 <!-- Withdrawal Confirmation Modal -->
 <div id="withdrawModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md ">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <span class="text-red-600 text-2xl">⚠️</span>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 mt-4" id="modalTitle">Withdraw Application</h3>
+            <h3 class="text-lg  text-gray-900 mt-4" id="modalTitle">Withdraw Application</h3>
             <div class="mt-2 px-7 py-3">
-                <p class="text-sm text-gray-500" id="modalMessage">
+                <p class=" text-gray-500" id="modalMessage">
                     Are you sure you want to withdraw your application? This action cannot be undone.
                 </p>
             </div>
@@ -214,11 +214,11 @@
                     {% csrf_token %}
                     <div class="flex space-x-3">
                         <button type="button" onclick="closeModal()" 
-                                class="px-4 py-2 bg-gray-300 text-gray-900 text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                                class="px-4 py-2 bg-gray-300 text-gray-900 text-base  rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
                             Cancel
                         </button>
                         <button type="submit" 
-                                class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                                class="px-4 py-2 bg-red-600  text-base  rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
                             Withdraw Application
                         </button>
                     </div>

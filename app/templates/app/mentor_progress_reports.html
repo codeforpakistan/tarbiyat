@@ -3,33 +3,33 @@
 {% block title %}Progress Reports - Tarbiyat{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen py-8">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- Sidebar -->
         <div class="lg:col-span-1">
-            <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class=" rounded-lg shadow-sm p-6">
                 <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
                     Mentor Portal
                 </h5>
                 <nav class="space-y-2">
-                    <a href="{% url 'mentor_dashboard' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                    <a href="{% url 'mentor_dashboard' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                         Dashboard
                     </a>
-                    <a href="{% url 'create_position' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                    <a href="{% url 'create_position' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                         Create Position
                     </a>
-                    <a href="{% url 'mentor_positions' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                    <a href="{% url 'mentor_positions' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                         My Positions
                     </a>
-                    <a href="{% url 'mentor_applications' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                    <a href="{% url 'mentor_applications' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                         Applications
                     </a>
-                    <a href="{% url 'mentor_interns' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                    <a href="{% url 'mentor_interns' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                         My Interns
                     </a>
                     {% if user.mentor_profile.can_edit_company %}
                         <div class="border-t border-gray-200 pt-2 mt-2">
-                            <a href="{% url 'edit_company' %}" class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+                            <a href="{% url 'edit_company' %}" class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
@@ -47,14 +47,14 @@
             <div class="mb-8">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-900">Progress Reports</h2>
+                        <h2 class="text-3xl font-semibold text-gray-900">Progress Reports</h2>
                         <p class="text-gray-600 mt-2">{{ internship.student.user.get_full_name }} - {{ internship.position.title|default:"N/A" }}</p>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <a href="{% url 'mentor_interns' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                        <a href="{% url 'mentor_interns' %}" class="text-white bg-gray-500 hover:bg-gray-700  px-4 py-2 rounded-md   transition duration-200">
                             Back to Interns
                         </a>
-                        <a href="{% url 'create_progress_report' internship.nanoid %}" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition duration-200 flex items-center">
+                        <a href="{% url 'create_progress_report' internship.nanoid %}" class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-3 rounded-md  transition duration-200 flex items-center">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
@@ -65,25 +65,25 @@
             </div>
 
             <!-- Intern Summary -->
-            <div class="bg-white rounded-lg shadow-sm mb-6">
+            <div class=" rounded-lg shadow-sm mb-6">
                 <div class="p-6">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Internship Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div>
                             <span class="text-gray-500">Intern:</span>
-                            <p class="font-medium">{{ internship.student.user.get_full_name }}</p>
+                            <p class="">{{ internship.student.user.get_full_name }}</p>
                         </div>
                         <div>
                             <span class="text-gray-500">Position:</span>
-                            <p class="font-medium">{{ internship.position.title|default:"N/A" }}</p>
+                            <p class="">{{ internship.position.title|default:"N/A" }}</p>
                         </div>
                         <div>
                             <span class="text-gray-500">Duration:</span>
-                            <p class="font-medium">{{ internship.start_date|date:"M d" }} - {{ internship.end_date|date:"M d, Y" }}</p>
+                            <p class="">{{ internship.start_date|date:"M d" }} - {{ internship.end_date|date:"M d, Y" }}</p>
                         </div>
                         <div>
                             <span class="text-gray-500">Status:</span>
-                            <span class="px-3 py-1 text-xs font-medium rounded-full
+                            <span class="px-3 py-1   rounded-full
                                 {% if internship.status == 'active' %}bg-green-100 text-green-800
                                 {% elif internship.status == 'completed' %}bg-blue-100 text-blue-800
                                 {% else %}bg-red-100 text-red-800{% endif %}">
@@ -96,20 +96,20 @@
 
             <!-- Report Statistics -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class=" rounded-lg shadow-sm p-6">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-blue-100">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <h4 class="text-2xl font-bold text-gray-900">{{ total_reports }}</h4>
-                            <p class="text-sm text-gray-600">Total Reports</p>
+                            <h4 class="text-2xl font-semibold text-gray-900">{{ total_reports }}</h4>
+                            <p class=" text-gray-600">Total Reports</p>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class=" rounded-lg shadow-sm p-6">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-green-100">
                             <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,12 +117,12 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <h4 class="text-2xl font-bold text-gray-900">{{ mentor_reports.count }}</h4>
-                            <p class="text-sm text-gray-600">My Reports</p>
+                            <h4 class="text-2xl font-semibold text-gray-900">{{ mentor_reports.count }}</h4>
+                            <p class=" text-gray-600">My Reports</p>
                         </div>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-sm p-6">
+                <div class=" rounded-lg shadow-sm p-6">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-purple-100">
                             <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,8 +130,8 @@
                             </svg>
                         </div>
                         <div class="ml-4">
-                            <h4 class="text-2xl font-bold text-gray-900">{{ student_reports.count }}</h4>
-                            <p class="text-sm text-gray-600">Student Reports</p>
+                            <h4 class="text-2xl font-semibold text-gray-900">{{ student_reports.count }}</h4>
+                            <p class=" text-gray-600">Student Reports</p>
                         </div>
                     </div>
                 </div>
@@ -139,7 +139,7 @@
 
             <!-- Mentor Reports -->
             {% if mentor_reports %}
-                <div class="bg-white rounded-lg shadow-sm mb-6">
+                <div class=" rounded-lg shadow-sm mb-6">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">My Reports</h3>
                         <div class="space-y-4">
@@ -148,38 +148,38 @@
                                     <div class="flex items-start justify-between mb-3">
                                         <div>
                                             <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                                            <p class="text-sm text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                                            <p class=" text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
                                         </div>
                                         <div class="flex items-center space-x-2">
                                             {% if report.attendance_rating %}
-                                                <span class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+                                                <span class="px-2 py-1  bg-blue-100 text-blue-800 rounded-full">
                                                     Attendance: {{ report.attendance_rating }}/5
                                                 </span>
                                             {% endif %}
                                             <a href="{% url 'edit_progress_report' report.nanoid %}" 
-                                               class="text-blue-600 hover:text-blue-800 text-sm">Edit</a>
+                                               class="text-blue-500 hover:text-blue-800 ">Edit</a>
                                         </div>
                                     </div>
                                     
                                     <div class="space-y-3">
                                         {% if report.student_performance %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Performance:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.student_performance }}</p>
+                                                <h5 class="  text-gray-900">Performance:</h5>
+                                                <p class=" text-gray-600">{{ report.student_performance }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.skills_demonstrated %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Skills Demonstrated:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.skills_demonstrated }}</p>
+                                                <h5 class="  text-gray-900">Skills Demonstrated:</h5>
+                                                <p class=" text-gray-600">{{ report.skills_demonstrated }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.areas_for_improvement %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Areas for Improvement:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.areas_for_improvement }}</p>
+                                                <h5 class="  text-gray-900">Areas for Improvement:</h5>
+                                                <p class=" text-gray-600">{{ report.areas_for_improvement }}</p>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -192,19 +192,19 @@
 
             <!-- Student Reports (Read-only) -->
             {% if student_reports %}
-                <div class="bg-white rounded-lg shadow-sm mb-6">
+                <div class=" rounded-lg shadow-sm mb-6">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">Student Reports</h3>
                         <div class="space-y-4">
                             {% for report in student_reports %}
-                                <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                                <div class="border border-gray-200 rounded-lg p-4 ">
                                     <div class="flex items-start justify-between mb-3">
                                         <div>
                                             <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                                            <p class="text-sm text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                                            <p class=" text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
                                         </div>
                                         {% if report.satisfaction_rating %}
-                                            <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
+                                            <span class="px-2 py-1  bg-green-100 text-green-800 rounded-full">
                                                 Satisfaction: {{ report.satisfaction_rating }}/5
                                             </span>
                                         {% endif %}
@@ -213,22 +213,22 @@
                                     <div class="space-y-3">
                                         {% if report.tasks_completed %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Tasks Completed:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.tasks_completed }}</p>
+                                                <h5 class="  text-gray-900">Tasks Completed:</h5>
+                                                <p class=" text-gray-600">{{ report.tasks_completed }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.learning_outcomes %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Learning Outcomes:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.learning_outcomes }}</p>
+                                                <h5 class="  text-gray-900">Learning Outcomes:</h5>
+                                                <p class=" text-gray-600">{{ report.learning_outcomes }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.challenges_faced %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Challenges:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.challenges_faced }}</p>
+                                                <h5 class="  text-gray-900">Challenges:</h5>
+                                                <p class=" text-gray-600">{{ report.challenges_faced }}</p>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -241,7 +241,7 @@
 
             <!-- Teacher Reports (Read-only) -->
             {% if teacher_reports %}
-                <div class="bg-white rounded-lg shadow-sm">
+                <div class=" rounded-lg shadow-sm">
                     <div class="p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">Teacher Reports</h3>
                         <div class="space-y-4">
@@ -250,29 +250,29 @@
                                     <div class="flex items-start justify-between mb-3">
                                         <div>
                                             <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                                            <p class="text-sm text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                                            <p class=" text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
                                         </div>
                                     </div>
                                     
                                     <div class="space-y-3">
                                         {% if report.discussion_notes %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Discussion Notes:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.discussion_notes }}</p>
+                                                <h5 class="  text-gray-900">Discussion Notes:</h5>
+                                                <p class=" text-gray-600">{{ report.discussion_notes }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.academic_alignment %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Academic Alignment:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.academic_alignment }}</p>
+                                                <h5 class="  text-gray-900">Academic Alignment:</h5>
+                                                <p class=" text-gray-600">{{ report.academic_alignment }}</p>
                                             </div>
                                         {% endif %}
                                         
                                         {% if report.recommendations %}
                                             <div>
-                                                <h5 class="text-sm font-medium text-gray-900">Recommendations:</h5>
-                                                <p class="text-sm text-gray-600">{{ report.recommendations }}</p>
+                                                <h5 class="  text-gray-900">Recommendations:</h5>
+                                                <p class=" text-gray-600">{{ report.recommendations }}</p>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -292,7 +292,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-2">No progress reports yet</h3>
                     <p class="text-gray-600 mb-6">Start tracking the intern's progress by creating weekly reports.</p>
                     <a href="{% url 'create_progress_report' internship.nanoid %}" 
-                       class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition duration-200 inline-flex items-center">
+                       class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-3 rounded-md  transition duration-200 inline-flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>

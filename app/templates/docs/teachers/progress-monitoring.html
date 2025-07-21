@@ -4,16 +4,39 @@
 
 {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-600 hover:text-blue-800 flex items-center mb-4">
+    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
         <span class="mr-2">←</span> Back to Documentation
     </a>
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">📊 Progress Monitoring - Teacher Guide</h1>
+    <h1 class="text-3xl font-semibold text-gray-900 mb-2">📊 Progress Monitoring - Teacher Related</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Teacher Dashboard</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Return to main dashboard overview</p>
+            </a>
+            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Student Supervision</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Learn about supervising students during internships</p>
+            </a>
+        </div>>
+    <div class="mt-12 p-6 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Related Guides</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Teacher Dashboard</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Return to main dashboard overview</p>
+            </a>
+            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Student Supervision</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Learn about supervising students during internships</p>
+            </a>
+        </div>
+    </div>
     <p class="text-gray-600">Complete guide to tracking and assessing student progress throughout internships</p>
 </div>
 
-<div class="bg-white rounded-lg shadow-sm border p-6 space-y-6">
+<div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 space-y-6">
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Overview of Progress Monitoring</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Overview of Progress Monitoring</h2>
         <p class="text-gray-700 mb-4">
             Progress monitoring is essential for ensuring students meet academic and professional development goals during their internships. It provides structured assessment, early intervention, and continuous improvement.
         </p>
@@ -25,7 +48,7 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Monitoring Framework</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Monitoring Framework</h2>
         
         <div class="space-y-6">
             <div class="border-l-4 border-blue-500 pl-4">
@@ -33,7 +56,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-blue-50 border border-blue-200 rounded p-3">
                         <h4 class="font-semibold text-blue-800 text-base mb-1">📚 Academic Performance</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Application of theoretical knowledge</li>
                             <li>Research and analytical skills</li>
                             <li>Problem-solving capabilities</li>
@@ -42,7 +65,7 @@
                     </div>
                     <div class="bg-blue-50 border border-blue-200 rounded p-3">
                         <h4 class="font-semibold text-blue-800 text-base mb-1">🤝 Professional Skills</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Communication and teamwork</li>
                             <li>Work ethic and reliability</li>
                             <li>Initiative and creativity</li>
@@ -51,7 +74,7 @@
                     </div>
                     <div class="bg-blue-50 border border-blue-200 rounded p-3">
                         <h4 class="font-semibold text-blue-800 text-base mb-1">🎯 Learning Objectives</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Skill acquisition progress</li>
                             <li>Industry knowledge growth</li>
                             <li>Career readiness development</li>
@@ -60,7 +83,7 @@
                     </div>
                     <div class="bg-blue-50 border border-blue-200 rounded p-3">
                         <h4 class="font-semibold text-blue-800 text-base mb-1">📈 Performance Metrics</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Task completion rates</li>
                             <li>Quality of deliverables</li>
                             <li>Mentor feedback scores</li>
@@ -115,7 +138,7 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Progress Tracking Methods</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Progress Tracking Methods</h2>
         
         <div class="space-y-6">
             <div class="border-l-4 border-purple-500 pl-4">
@@ -181,7 +204,7 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Creating Effective Progress Reports</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Creating Effective Progress Reports</h2>
         
         <div class="space-y-6">
             <div class="border-l-4 border-red-500 pl-4">
@@ -220,19 +243,19 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mt-2">
                             <div class="text-center p-2 bg-red-100 rounded">
                                 <div class="font-semibold text-red-800">1 - Needs Improvement</div>
-                                <div class="text-red-700 text-sm">Below expectations</div>
+                                <div class="text-red-700 ">Below expectations</div>
                             </div>
                             <div class="text-center p-2 bg-yellow-100 rounded">
                                 <div class="font-semibold text-yellow-800">2 - Developing</div>
-                                <div class="text-yellow-700 text-sm">Approaching expectations</div>
+                                <div class="text-yellow-700 ">Approaching expectations</div>
                             </div>
                             <div class="text-center p-2 bg-blue-100 rounded">
                                 <div class="font-semibold text-blue-800">3 - Proficient</div>
-                                <div class="text-blue-700 text-sm">Meets expectations</div>
+                                <div class="text-blue-500 ">Meets expectations</div>
                             </div>
                             <div class="text-center p-2 bg-green-100 rounded">
                                 <div class="font-semibold text-green-800">4 - Exemplary</div>
-                                <div class="text-green-700 text-sm">Exceeds expectations</div>
+                                <div class="text-green-700 ">Exceeds expectations</div>
                             </div>
                         </div>
                     </div>
@@ -240,16 +263,16 @@
                         <h4 class="font-semibold text-yellow-800 text-base mb-1">📋 Assessment Categories</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-2">
                             <div>
-                                <h5 class="font-semibold text-yellow-800 text-sm">Technical Skills</h5>
-                                <ul class="text-yellow-700 text-sm space-y-1">
+                                <h5 class="font-semibold text-yellow-800 ">Technical Skills</h5>
+                                <ul class="text-yellow-700  space-y-1">
                                     <li>• Domain expertise application</li>
                                     <li>• Tool and technology proficiency</li>
                                     <li>• Problem-solving approach</li>
                                 </ul>
                             </div>
                             <div>
-                                <h5 class="font-semibold text-yellow-800 text-sm">Professional Skills</h5>
-                                <ul class="text-yellow-700 text-sm space-y-1">
+                                <h5 class="font-semibold text-yellow-800 ">Professional Skills</h5>
+                                <ul class="text-yellow-700  space-y-1">
                                     <li>• Communication effectiveness</li>
                                     <li>• Team collaboration</li>
                                     <li>• Initiative and reliability</li>
@@ -263,7 +286,7 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Identifying and Addressing Issues</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Identifying and Addressing Issues</h2>
         
         <div class="space-y-6">
             <div class="border-l-4 border-red-500 pl-4">
@@ -326,17 +349,17 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Performance Analytics and Insights</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Performance Analytics and Insights</h2>
         
         <div class="space-y-4">
             <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <h3 class="font-semibold text-blue-800 mb-2">📊 Data-Driven Monitoring</h3>
-                <p class="text-blue-700 text-base mb-3">Use quantitative and qualitative data to make informed decisions about student progress:</p>
+                <p class="text-blue-500 text-base mb-3">Use quantitative and qualitative data to make informed decisions about student progress:</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h4 class="font-semibold text-blue-800 text-base mb-1">Quantitative Metrics</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Task completion rates and timeliness</li>
                             <li>Quality scores and ratings</li>
                             <li>Attendance and participation metrics</li>
@@ -345,7 +368,7 @@
                     </div>
                     <div>
                         <h4 class="font-semibold text-blue-800 text-base mb-1">Qualitative Indicators</h4>
-                        <ul class="list-disc list-inside text-base text-blue-700 space-y-1">
+                        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
                             <li>Mentor and peer feedback</li>
                             <li>Self-reflection quality</li>
                             <li>Problem-solving approach</li>
@@ -368,7 +391,7 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Best Practices for Progress Monitoring</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Best Practices for Progress Monitoring</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-green-50 p-4 rounded-lg border border-green-200">
@@ -401,22 +424,22 @@
     </section>
 
     <section>
-        <h2 class="text-xl font-semibold text-blue-600 mb-3">Troubleshooting Monitoring Issues</h2>
+        <h2 class="text-xl font-semibold text-blue-500 mb-3">Troubleshooting Monitoring Issues</h2>
         
         <div class="space-y-3">
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+            <div class=" border border-gray-200 rounded-lg p-3">
                 <h4 class="font-semibold text-gray-800 text-base mb-1">Student not submitting progress reports</h4>
                 <p class="text-gray-700 text-base">Contact directly to understand barriers, provide report templates, set up reminder systems, and escalate to mentors if necessary.</p>
             </div>
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+            <div class=" border border-gray-200 rounded-lg p-3">
                 <h4 class="font-semibold text-gray-800 text-base mb-1">Inconsistent feedback from mentors</h4>
                 <p class="text-gray-700 text-base">Provide mentors with clear evaluation criteria, standardized feedback forms, and training on assessment best practices.</p>
             </div>
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+            <div class=" border border-gray-200 rounded-lg p-3">
                 <h4 class="font-semibold text-gray-800 text-base mb-1">Declining student performance</h4>
                 <p class="text-gray-700 text-base">Implement immediate intervention plan, increase monitoring frequency, provide additional support resources, and consider adjusting objectives.</p>
             </div>
-            <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+            <div class=" border border-gray-200 rounded-lg p-3">
                 <h4 class="font-semibold text-gray-800 text-base mb-1">Data overload and analysis paralysis</h4>
                 <p class="text-gray-700 text-base">Focus on key performance indicators, use data visualization tools, establish clear decision criteria, and prioritize actionable insights.</p>
             </div>
@@ -424,16 +447,16 @@
     </section>
 
     <!-- Related Guides -->
-    <div class="mt-12 p-6 bg-gray-50 rounded-lg">
+    <div class="mt-12 p-6 rounded-lg">
         <h3 class="text-lg font-semibold text-gray-800 mb-3">Related Guides</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="block p-4 bg-white rounded-lg shadow-base hover:shadow-lg transition-shadow">
-                <h4 class="font-semibold text-blue-600 mb-2">Teacher Dashboard</h4>
-                <p class="text-gray-700 text-base">Learn how to navigate and use your dashboard effectively</p>
+            <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Teacher Dashboard</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Learn how to navigate and use your dashboard effectively</p>
             </a>
-            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4 bg-white rounded-lg shadow-base hover:shadow-lg transition-shadow">
-                <h4 class="font-semibold text-blue-600 mb-2">Student Supervision</h4>
-                <p class="text-gray-700 text-base">Complete guide to supervising students during internships</p>
+            <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4  dark:bg-gray-800 rounded-lg shadow-base hover:shadow-lg transition-shadow border dark:border-gray-700">
+                <h4 class="font-semibold text-blue-500 dark:text-blue-500 mb-2">Student Supervision</h4>
+                <p class="text-gray-700 dark:text-gray-300 text-base">Complete guide to supervising students during internships</p>
             </a>
         </div>
     </div>

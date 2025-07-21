@@ -6,26 +6,26 @@
 {% block content %}
         <!-- Header -->
         <div class="text-center">
-            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-indigo-100 mb-4">
+            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-blue-100 mb-4">
                 
             </div>
             <h2 class="text-3xl font-semibold text-gray-900">Sign out</h2>
-            <p class="mt-2 text-sm text-gray-600">
+            <p class="mt-2  text-gray-600">
                 Are you sure you want to sign out of your account?
             </p>
         </div>
 
-        <div class="bg-white py-8 px-6 shadow-xl rounded-lg">
+        <div class="py-8 px-6 shadow-xl rounded-lg">
             <form class="space-y-6" method="post">
                 {% csrf_token %}
                 
                 <div class="flex space-x-4">
-                    <button type="submit" class="flex-1 flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                    <button type="submit" class="flex-1 flex justify-center py-3 px-4 border border-transparent   rounded-lg  text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
                         
                         Yes, sign out
                     </button>
                     
-                    <a href="{% url 'home' %}" class="flex-1 flex justify-center py-3 px-4 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200">
+                    <a href="{% url 'home' %}" class="flex-1 flex justify-center py-3 px-4 border border-gray-300   rounded-lg text-gray-700   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
                         
                         Cancel
                     </a>

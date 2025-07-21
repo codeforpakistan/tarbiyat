@@ -5,24 +5,24 @@
 <div class="flex flex-col lg:flex-row gap-8">
     <!-- Documentation Sidebar -->
     <div class="lg:w-1/4">
-        <div class="bg-white rounded-lg shadow-sm border p-6 sticky top-8">
+        <div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 sticky top-8">
             <!-- Documentation Home -->
             <div class="mb-6">
-                <a href="{% url 'documentation_index' %}" class="flex items-center text-gray-800 hover:text-blue-800 font-semibold text-lg mb-4">
+                <a href="{% url 'documentation_index' %}" class="flex items-center text-gray-800 dark:text-gray-200 hover:text-blue-800 dark:hover:text-blue-500 font-semibold text-lg mb-4">
                     <span class="mr-2">📚</span>Documentation Home
                 </a>
             </div>
 
             <!-- Getting Started Section -->
             <div class="mb-6">
-                <h5 class="font-semibold text-gray-800 mb-3 flex items-center uppercase tracking-wider">
+                <h5 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center uppercase tracking-wider">
                     <span class="mr-2">🚀</span>Getting Started
                 </h5>
                 <nav class="space-y-1 ml-4">
-                    <a href="{% url 'documentation_guide' 'getting-started' 'overview' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'getting-started' 'overview' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📖</span>Platform Overview
                     </a>
-                    <a href="{% url 'documentation_guide' 'getting-started' 'account-setup' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'getting-started' 'account-setup' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">👤</span>Account Setup
                     </a>
                 </nav>
@@ -31,26 +31,26 @@
             <!-- Students Section -->
             {% if not user.is_authenticated or user|is_user_type:"student" or not user|get_user_type %}
             <div class="mb-6">
-                <h5 class="font-semibold text-gray-800 mb-3 flex items-center uppercase tracking-wider">
+                <h5 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center uppercase tracking-wider">
                     <span class="mr-2">🎓</span>For Students
                 </h5>
                 <nav class="space-y-1 ml-4">
-                    <a href="{% url 'documentation_guide' 'students' 'dashboard' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'dashboard' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📊</span>Dashboard
                     </a>
-                    <a href="{% url 'documentation_guide' 'students' 'profile-management' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'profile-management' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">👤</span>Profile Management
                     </a>
-                    <a href="{% url 'documentation_guide' 'students' 'finding-internships' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'finding-internships' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">🔍</span>Finding Internships
                     </a>
-                    <a href="{% url 'documentation_guide' 'students' 'applying-positions' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'applying-positions' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📝</span>Applying for Positions
                     </a>
-                    <a href="{% url 'documentation_guide' 'students' 'managing-applications' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'managing-applications' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📋</span>Managing Applications
                     </a>
-                    <a href="{% url 'documentation_guide' 'students' 'application-progress' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'students' 'application-progress' %}" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📈</span>Application Progress
                     </a>
                 </nav>
@@ -60,23 +60,23 @@
             <!-- Mentors Section -->
             {% if not user.is_authenticated or user|is_user_type:"mentor" or not user|get_user_type %}
             <div class="mb-6">
-                <h5 class="font-semibold text-gray-800 mb-3 flex items-center uppercase tracking-wider">
+                <h5 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center uppercase tracking-wider">
                     <span class="mr-2">👔</span>For Mentors
                 </h5>
                 <nav class="space-y-1 ml-4">
-                    <a href="{% url 'documentation_guide' 'mentors' 'dashboard' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'mentors' 'dashboard' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📊</span>Dashboard
                     </a>
-                    <a href="{% url 'documentation_guide' 'mentors' 'creating-positions' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'mentors' 'creating-positions' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📝</span>Creating Positions
                     </a>
-                    <a href="{% url 'documentation_guide' 'mentors' 'company-registration' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'mentors' 'company-registration' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">🏢</span>Company Registration
                     </a>
-                    <a href="{% url 'documentation_guide' 'mentors' 'managing-applications' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'mentors' 'managing-applications' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📋</span>Managing Applications
                     </a>
-                    <a href="{% url 'documentation_guide' 'mentors' 'intern-supervision' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'mentors' 'intern-supervision' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">👥</span>Intern Supervision
                     </a>
                 </nav>
@@ -86,20 +86,20 @@
             <!-- Teachers Section -->
             {% if not user.is_authenticated or user|is_user_type:"teacher" or not user|get_user_type %}
             <div class="mb-6">
-                <h5 class="font-semibold text-gray-800 mb-3 flex items-center uppercase tracking-wider">
+                <h5 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center uppercase tracking-wider">
                     <span class="mr-2">👨‍🏫</span>For Teachers
                 </h5>
                 <nav class="space-y-1 ml-4">
-                    <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">🎯</span>Dashboard
                     </a>
-                    <a href="{% url 'documentation_guide' 'teachers' 'institute-registration' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'teachers' 'institute-registration' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">🏛️</span>Institute Registration
                     </a>
-                    <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">👥</span>Student Supervision
                     </a>
-                    <a href="{% url 'documentation_guide' 'teachers' 'progress-monitoring' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'teachers' 'progress-monitoring' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📈</span>Progress Monitoring
                     </a>
                 </nav>
@@ -109,14 +109,14 @@
             <!-- Officials Section -->
             {% if not user.is_authenticated or user|is_user_type:"official" or not user|get_user_type %}
             <div class="mb-6">
-                <h5 class="font-semibold text-gray-800 mb-3 flex items-center uppercase tracking-wider">
+                <h5 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center uppercase tracking-wider">
                     <span class="mr-2">👮</span>For Officials
                 </h5>
                 <nav class="space-y-1 ml-4">
-                    <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">📊</span>Dashboard
                     </a>
-                    <a href="{% url 'documentation_guide' 'officials' 'managing-organizations' %}" class="flex items-center text-gray-700 hover:text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+                    <a href="{% url 'documentation_guide' 'officials' 'managing-organizations' %}" class="flex items-center text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-3 py-2 rounded-md transition-colors">
                         <span class="mr-2">🏢</span>Managing Organizations
                     </a>
                 </nav>

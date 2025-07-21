@@ -6,7 +6,7 @@ This document summarizes the beautifully styled authentication templates created
 
 ### 1. **Login Template** (`app/templates/account/login.html`)
 - **Features:**
-  - Gradient background (blue to indigo)
+  - Gradient background (blue to blue)
   - Clean white card with shadow
   - Google OAuth integration with branded button
   - Proper error handling and display
@@ -55,8 +55,8 @@ This document summarizes the beautifully styled authentication templates created
 ## 🎨 **Design Features**
 
 ### **Color Scheme:**
-- **Primary:** Indigo (#6366f1)
-- **Background:** Gradient from blue-50 to indigo-100
+- **Primary:** blue (#6366f1)
+- **Background:** Gradient from blue-50 to blue-100
 - **Cards:** White with shadow-xl
 - **Text:** Gray scale for hierarchy
 

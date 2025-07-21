@@ -1,36 +1,36 @@
 {% extends 'app/page.html' %} 
 {% block title %}Student Dashboard - Tarbiyat{% endblock %} 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class="bg-white rounded-lg shadow-sm p-6">
+      <div class=" rounded-lg shadow-sm p-6">
         <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">Student Portal</h5>
         <nav class="space-y-2">
           <a
             href="{% url 'student_dashboard' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md">
+            class="flex items-center px-3 py-2    text-white bg-blue-500 rounded-md">
             Dashboard
           </a>
           <a
             href="{% url 'edit_student_profile' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             My Profile
           </a>
           <a
             href="{% url 'browse_positions' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             Browse Positions
           </a>
           <a
             href="{% url 'student_applications' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             My Applications
           </a>
           <a
             href="#"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             Progress Reports
           </a>
         </nav>
@@ -46,28 +46,28 @@
           <p class="text-gray-600">{{ student_profile.major }} • {{ student_profile.institute.name }}</p>
         </div>
         <div class="text-left sm:text-right mt-4 sm:mt-0">
-          <div class="text-sm text-gray-500">Student ID: {{ student_profile.student_id }}</div>
-          <div class="text-sm text-gray-500">GPA: {{ student_profile.gpa }}/4.0</div>
+          <div class=" text-gray-500">Student ID: {{ student_profile.student_id }}</div>
+          <div class=" text-gray-500">GPA: {{ student_profile.gpa }}/4.0</div>
         </div>
       </div>
 
       <!-- Quick Stats -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+        <div class=" rounded-lg shadow-sm p-6 text-center">
           <h4 class="text-2xl font-semibold text-gray-900">{{ total_applications }}</h4>
-          <p class="text-sm text-gray-600">Applications Submitted</p>
+          <p class=" text-gray-600">Applications Submitted</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+        <div class=" rounded-lg shadow-sm p-6 text-center">
           <h4 class="text-2xl font-semibold text-gray-900">{{ available_positions.count }}</h4>
-          <p class="text-sm text-gray-600">Available Positions</p>
+          <p class=" text-gray-600">Available Positions</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+        <div class=" rounded-lg shadow-sm p-6 text-center">
           <h4 class="text-2xl font-semibold text-gray-900">{% if current_internship %}1{% else %}0{% endif %}</h4>
-          <p class="text-sm text-gray-600">Active Internship</p>
+          <p class=" text-gray-600">Active Internship</p>
         </div>
-        <div class="bg-white rounded-lg shadow-sm p-6 text-center">
+        <div class=" rounded-lg shadow-sm p-6 text-center">
           <h4 class="text-lg font-semibold text-gray-900">{{ student_profile.expected_graduation|date:"M Y" }}</h4>
-          <p class="text-sm text-gray-600">Expected Graduation</p>
+          <p class=" text-gray-600">Expected Graduation</p>
         </div>
       </div>
 
@@ -81,7 +81,7 @@
               You are currently interning at
               <strong>{{ current_internship.mentor.company.name }}</strong>
             </p>
-            <p class="text-sm text-green-600">
+            <p class=" text-green-600">
               Start Date: {{ current_internship.start_date|date }} | End Date: {{ current_internship.end_date|date }}
             </p>
           </div>
@@ -91,7 +91,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Recent Applications -->
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class=" rounded-lg shadow-sm">
           <div class="border-b border-gray-200 px-6 py-4">
             <h5 class="flex items-center text-lg font-semibold text-gray-900">Recent Applications</h5>
           </div>
@@ -103,11 +103,11 @@
                 class="flex justify-between items-center py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
                 <div>
                   <h6 class="font-semibold text-gray-900">{{ application.position.title }}</h6>
-                  <p class="text-sm text-gray-600">{{ application.position.company.name }}</p>
+                  <p class=" text-gray-600">{{ application.position.company.name }}</p>
                 </div>
                 <div class="text-right">
                   <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 {% elif application.status == 'under_review' %}bg-blue-100 text-blue-800 {% elif application.status == 'interview_scheduled' %}bg-purple-100 text-purple-800 {% elif application.status == 'approved' %}bg-green-100 text-green-800 {% elif application.status == 'rejected' %}bg-red-100 text-red-800 {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800 {% else %}bg-blue-100 text-blue-800{% endif %}">
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full   {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 {% elif application.status == 'under_review' %}bg-blue-100 text-blue-800 {% elif application.status == 'interview_scheduled' %}bg-purple-100 text-purple-800 {% elif application.status == 'approved' %}bg-green-100 text-green-800 {% elif application.status == 'rejected' %}bg-red-100 text-red-800 {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800 {% else %}bg-blue-100 text-blue-800{% endif %}">
                     {% if application.status == 'pending' %}Pending Review 
                     {% elif application.status == 'under_review'%}Under Review 
                     {% elif application.status == 'interview_scheduled' %}Interview Scheduled 
@@ -116,13 +116,13 @@
                     {% elif application.status == 'withdrawn' %}Withdrawn 
                     {% else %}{{ application.status|title }}{% endif %}
                   </span>
-                  <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date }}</div>
+                  <div class=" text-gray-500 mt-1">{{ application.applied_at|date }}</div>
                 </div>
               </div>
               {% endfor %}
             </div>
             <div class="text-center mt-6">
-              <a href="{% url 'student_applications' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              <a href="{% url 'student_applications' %}" class="text-blue-500 hover:text-blue-800  ">
                 View All Applications
               </a>
             </div>
@@ -131,7 +131,7 @@
               <p class="text-gray-500 mb-4">No applications yet</p>
               <a
                 href="{% url 'browse_positions' %}"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                class="text-white bg-blue-500 hover:bg-blue-700  px-4 py-2 rounded-md   transition duration-200">
                 Browse Positions
               </a>
             </div>
@@ -140,7 +140,7 @@
         </div>
 
         <!-- Available Positions -->
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class=" rounded-lg shadow-sm">
           <div class="border-b border-gray-200 px-6 py-4">
             <h5 class="flex items-center text-lg font-semibold text-gray-900">Recommended Positions</h5>
           </div>
@@ -150,18 +150,18 @@
               {% for position in available_positions %}
               <div class="py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
                 <h6 class="font-semibold text-gray-900 mb-1">{{ position.title }}</h6>
-                <p class="text-sm text-gray-600 mb-2">{{ position.company.name }}</p>
+                <p class=" text-gray-600 mb-2">{{ position.company.name }}</p>
                 <div class="flex justify-between items-center">
-                  <div class="text-sm text-green-600 flex items-center">
+                  <div class=" text-green-600 flex items-center">
                     {% if position.stipend %}PKR {{ position.stipend }}{% else %}Unpaid{% endif %}
                   </div>
-                  <div class="text-sm text-blue-600">{{ position.duration }} months</div>
+                  <div class=" text-blue-500">{{ position.duration }} months</div>
                 </div>
               </div>
               {% endfor %}
             </div>
             <div class="text-center mt-6">
-              <a href="{% url 'browse_positions' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              <a href="{% url 'browse_positions' %}" class="text-blue-500 hover:text-blue-800  ">
                 View All Positions
               </a>
             </div>
@@ -175,7 +175,7 @@
       </div>
 
       <!-- Profile Completion -->
-      <div class="bg-white rounded-lg shadow-sm mt-8">
+      <div class=" rounded-lg shadow-sm mt-8">
         <div class="border-b border-gray-200 px-6 py-4">
           <h5 class="flex items-center text-lg font-semibold text-gray-900">Profile Completion</h5>
         </div>
@@ -183,14 +183,14 @@
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
             <div class="flex-1 mb-4 md:mb-0">
               <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
-                <div class="bg-blue-600 h-3 rounded-full" style="width: {{ profile_completion }}%"></div>
+                <div class="text-white bg-blue-500 h-3 rounded-full" style="width: {{ profile_completion }}%"></div>
               </div>
               <p class="text-gray-600">{{ completion_status }}</p>
             </div>
             <div class="md:ml-6">
               <a
                 href="{% url 'edit_student_profile' %}"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-2 rounded-md  transition duration-200">
                 {% if profile_completion >= 90 %}Update Profile{% else %}Complete Profile{% endif %}
               </a>
             </div>

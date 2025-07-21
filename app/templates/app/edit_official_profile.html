@@ -4,7 +4,7 @@
 {% block title %}Edit Official Profile - Tarbiyat{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen py-8">
         <!-- Header -->
         <div class="mb-8">
             <div class="flex items-center justify-between">
@@ -12,13 +12,13 @@
                     <h2 class="text-3xl font-semibold text-gray-900">Edit Official Profile</h2>
                     <p class="text-gray-600 mt-2">Update your government position information</p>
                 </div>
-                <a href="{% url 'official_dashboard' %}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200">
+                <a href="{% url 'official_dashboard' %}" class="text-white bg-gray-500 hover:bg-gray-700  px-4 py-2 rounded-md   transition duration-200">
                     Back to Dashboard
                 </a>
             </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class=" rounded-lg shadow-sm">
             <form method="post" class="p-8">
                 {% csrf_token %}
                 
@@ -27,7 +27,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                            <label for="first_name" class="block   text-gray-700 mb-2">First Name</label>
                             <input type="text" 
                                    id="first_name" 
                                    name="first_name" 
@@ -36,7 +36,7 @@
                                    required>
                         </div>
                         <div>
-                            <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                            <label for="last_name" class="block   text-gray-700 mb-2">Last Name</label>
                             <input type="text" 
                                    id="last_name" 
                                    name="last_name" 
@@ -45,7 +45,7 @@
                                    required>
                         </div>
                         <div class="md:col-span-2">
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <label for="email" class="block   text-gray-700 mb-2">Email Address</label>
                             <input type="email" 
                                    id="email" 
                                    name="email" 
@@ -61,7 +61,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Government Position Information</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                            <label for="department" class="block   text-gray-700 mb-2">Department</label>
                             <input type="text" 
                                    id="department" 
                                    name="department" 
@@ -71,7 +71,7 @@
                                    required>
                         </div>
                         <div>
-                            <label for="position" class="block text-sm font-medium text-gray-700 mb-2">Position</label>
+                            <label for="position" class="block   text-gray-700 mb-2">Position</label>
                             <input type="text" 
                                    id="position" 
                                    name="position" 
@@ -81,7 +81,7 @@
                                    required>
                         </div>
                         <div class="md:col-span-2">
-                            <label for="employee_id" class="block text-sm font-medium text-gray-700 mb-2">Employee ID</label>
+                            <label for="employee_id" class="block   text-gray-700 mb-2">Employee ID</label>
                             <input type="text" 
                                    id="employee_id" 
                                    name="employee_id" 
@@ -95,11 +95,11 @@
                 <!-- Action Buttons -->
                 <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                     <a href="{% url 'official_dashboard' %}" 
-                       class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                       class="text-white bg-gray-500 hover:bg-gray-700  px-6 py-2 rounded-md  transition duration-200">
                         Cancel
                     </a>
                     <button type="submit" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition duration-200">
+                            class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-2 rounded-md  transition duration-200">
                         Save Changes
                     </button>
                 </div>

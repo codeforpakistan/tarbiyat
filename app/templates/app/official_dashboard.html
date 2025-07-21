@@ -1,34 +1,34 @@
 {% extends 'app/page.html' %} {% block title %}Official Dashboard - Tarbiyat{% endblock %} {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen dark:bg-gray-900 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class="bg-white rounded-lg shadow-sm p-6">
+      <div class=" dark:bg-gray-800 rounded-lg shadow-sm p-6">
         <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">Official Portal</h5>
         <nav class="space-y-2">
           <a
             href="{% url 'official_dashboard' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-white bg-blue-600 rounded-md">
+            class="flex items-center px-3 py-2    text-white bg-blue-500 rounded-md">
             Dashboard
           </a>
           <a
             href="#"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             System Reports
           </a>
           <a
             href="{% url 'manage_companies' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             Manage Companies
           </a>
           <a
             href="{% url 'manage_institutes' %}"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             Manage Institutes
           </a>
           <a
             href="#"
-            class="flex items-center px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
             User Management
           </a>
         </nav>
@@ -45,38 +45,38 @@
 
       <!-- System Statistics -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" dark:bg-gray-800 rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.total_students }}</h4>
-              <p class="text-sm text-gray-600">Total Students</p>
+              <p class=" text-gray-600">Total Students</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" dark:bg-gray-800 rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.verified_companies }}</h4>
-              <p class="text-sm text-gray-600">Verified Companies</p>
+              <p class=" text-gray-600">Verified Companies</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.active_positions }}</h4>
-              <p class="text-sm text-gray-600">Active Positions</p>
+              <p class=" text-gray-600">Active Positions</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.active_internships }}</h4>
-              <p class="text-sm text-gray-600">Active Internships</p>
+              <p class=" text-gray-600">Active Internships</p>
             </div>
           </div>
         </div>
@@ -84,38 +84,38 @@
 
       <!-- Additional Stats Row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.pending_applications }}</h4>
-              <p class="text-sm text-gray-600">Pending Applications</p>
+              <p class=" text-gray-600">Pending Applications</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.total_mentors }}</h4>
-              <p class="text-sm text-gray-600">Total Mentors</p>
+              <p class=" text-gray-600">Total Mentors</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.completed_internships }}</h4>
-              <p class="text-sm text-gray-600">Completed Internships</p>
+              <p class=" text-gray-600">Completed Internships</p>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class=" rounded-lg shadow-sm p-6">
           <div class="flex items-center">
             <div class="ml-4">
               <h4 class="text-2xl font-semibold text-gray-900">{{ stats.total_applications }}</h4>
-              <p class="text-sm text-gray-600">Total Applications</p>
+              <p class=" text-gray-600">Total Applications</p>
             </div>
           </div>
         </div>
@@ -123,42 +123,42 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Recent Applications -->
-        <div class="bg-white rounded-lg shadow-sm">
-          <div class="border-b border-gray-200 px-6 py-4">
-            <h5 class="flex items-center text-lg font-semibold text-gray-900">Recent Applications</h5>
+        <div class=" dark:bg-gray-800 rounded-lg shadow-sm">
+          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">Recent Applications</h5>
           </div>
           <div class="p-6">
             {% if recent_applications %}
             <div class="space-y-4">
               {% for application in recent_applications %}
               <div
-                class="flex justify-between items-center py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
+                class="flex justify-between items-center py-3 {% if not forloop.last %}border-b border-gray-100 dark:border-gray-700{% endif %}">
                 <div>
-                  <h6 class="font-semibold text-gray-900">{{ application.student.user.get_full_name }}</h6>
-                  <p class="text-sm text-gray-600">
+                  <h6 class="font-semibold text-gray-900 dark:text-gray-100">{{ application.student.user.get_full_name }}</h6>
+                  <p class=" text-gray-600 dark:text-gray-300">
                     {{ application.position.title }} @ {{ application.position.company.name }}
                   </p>
                 </div>
                 <div class="text-right">
                   <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs text-nowrap font-medium {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 {% elif application.status == 'approved' %}bg-green-100 text-green-800 {% elif application.status == 'rejected' %}bg-red-100 text-red-800 {% else %}bg-blue-100 text-blue-800{% endif %}">
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full  text-nowrap  {% if application.status == 'pending' %}bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 {% elif application.status == 'approved' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 {% elif application.status == 'rejected' %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 {% else %}bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100{% endif %}">
                     {{ application.get_status_display }}
                   </span>
-                  <div class="text-xs text-gray-500 mt-1">{{ application.applied_at|date:"M d, Y" }}</div>
+                  <div class=" text-gray-500 dark:text-gray-400 mt-1">{{ application.applied_at|date:"M d, Y" }}</div>
                 </div>
               </div>
               {% endfor %}
             </div>
             {% else %}
             <div class="text-center py-8">
-              <p class="text-gray-500">No recent applications</p>
+              <p class="text-gray-500 dark:text-gray-400">No recent applications</p>
             </div>
             {% endif %}
           </div>
         </div>
 
         <!-- Recent Internships -->
-        <div class="bg-white rounded-lg shadow-sm">
+        <div class=" dark:bg-gray-800 rounded-lg shadow-sm">
           <div class="border-b border-gray-200 px-6 py-4">
             <h5 class="flex items-center text-lg font-semibold text-gray-900">Recent Internships</h5>
           </div>
@@ -170,16 +170,16 @@
                 <div class="flex justify-between items-start">
                   <div>
                     <h6 class="font-semibold text-gray-900">{{ internship.student.user.get_full_name }}</h6>
-                    <p class="text-sm text-gray-600">{{ internship.mentor.company.name }}</p>
+                    <p class=" text-gray-600">{{ internship.mentor.company.name }}</p>
                     <div class="flex items-center mt-1">
                       <span
-                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium {% if internship.status == 'active' %}bg-green-100 text-green-800 {% elif internship.status == 'completed' %}bg-blue-100 text-blue-800 {% elif internship.status == 'terminated' %}bg-red-100 text-red-800 {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        class="inline-flex items-center px-2 py-1 rounded-full   {% if internship.status == 'active' %}bg-green-100 text-green-800 {% elif internship.status == 'completed' %}bg-blue-100 text-blue-800 {% elif internship.status == 'terminated' %}bg-red-100 text-red-800 {% else %}bg-yellow-100 text-yellow-800{% endif %}">
                         {{ internship.get_status_display }}
                       </span>
                     </div>
                   </div>
                   <div class="text-right">
-                    <div class="text-xs text-gray-500">
+                    <div class=" text-gray-500">
                       {{ internship.start_date|date:"M d" }} - {{ internship.end_date|date:"M d" }}
                     </div>
                   </div>
@@ -197,7 +197,7 @@
       </div>
 
       <!-- Quick Actions -->
-      <div class="bg-white rounded-lg shadow-sm mt-8">
+      <div class=" dark:bg-gray-800 rounded-lg shadow-sm mt-8">
         <div class="border-b border-gray-200 px-6 py-4">
           <h5 class="flex items-center text-lg font-semibold text-gray-900">Quick Actions</h5>
         </div>
@@ -205,26 +205,26 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+              class="flex items-center p-4 border border-gray-200 rounded-lg  transition duration-200">
               <div>
                 <h6 class="font-semibold text-gray-900">Verify Companies</h6>
-                <p class="text-sm text-gray-600">Review pending company applications</p>
+                <p class=" text-gray-600">Review pending company applications</p>
               </div>
             </a>
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+              class="flex items-center p-4 border border-gray-200 rounded-lg  transition duration-200">
               <div>
                 <h6 class="font-semibold text-gray-900">Export Reports</h6>
-                <p class="text-sm text-gray-600">Generate system activity reports</p>
+                <p class=" text-gray-600">Generate system activity reports</p>
               </div>
             </a>
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
+              class="flex items-center p-4 border border-gray-200 rounded-lg  transition duration-200">
               <div>
                 <h6 class="font-semibold text-gray-900">System Settings</h6>
-                <p class="text-sm text-gray-600">Configure platform settings</p>
+                <p class=" text-gray-600">Configure platform settings</p>
               </div>
             </a>
           </div>

@@ -11,10 +11,10 @@
         </div>
 
         <!-- Search and Filters -->
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-8">
             <form method="get" class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 <div class="md:col-span-2">
-                    <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search</label>
+                    <label for="search" class="block   text-gray-700 mb-2">Search</label>
                     <input type="text" 
                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                            id="search" 
@@ -23,7 +23,7 @@
                            placeholder="Job title, company, or keywords...">
                 </div>
                 <div>
-                    <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                    <label for="company" class="block   text-gray-700 mb-2">Company</label>
                     <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                             id="company" 
                             name="company">
@@ -36,7 +36,7 @@
                     </select>
                 </div>
                 <div>
-                    <label for="duration" class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
+                    <label for="duration" class="block   text-gray-700 mb-2">Duration</label>
                     <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
                             id="duration" 
                             name="duration">
@@ -49,7 +49,7 @@
                 </div>
                 <div class="flex items-end">
                     <button type="submit" 
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition duration-200 flex items-center justify-center">
+                            class="w-full text-white bg-blue-500 hover:bg-blue-700  px-4 py-2 rounded-md  transition duration-200 flex items-center justify-center">
                         Search
                     </button>
                 </div>
@@ -66,36 +66,36 @@
         <!-- Position Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {% for position in page_obj %}
-                <div class="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+                <div class="bg-white text-dark dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
                     <div class="p-6">
                         <!-- Company Info -->
                         <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-lg font-semibold mr-3">
+                            <div class="w-12 h-12 text-white bg-blue-500  rounded-full flex items-center justify-center text-lg font-semibold mr-3">
                                 {{ position.company.name|first }}
                             </div>
                             <div>
                                 <h6 class="font-semibold text-gray-900">{{ position.company.name }}</h6>
-                                <p class="text-sm text-gray-600">{{ position.company.industry }}</p>
+                                <p class=" text-gray-600">{{ position.company.industry }}</p>
                             </div>
                         </div>
 
                         <!-- Position Info -->
                         <h5 class="text-lg font-semibold text-gray-900 mb-3">{{ position.title }}</h5>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                        <p class="text-gray-600  mb-4 line-clamp-3">
                             {{ position.description|truncatewords:20 }}
                         </p>
 
                         <!-- Position Details -->
                         <div class="space-y-2 mb-4">
-                            <div class="flex items-center text-sm text-gray-600">
+                            <div class="flex items-center  text-gray-600">
                                 
                                 <span>{{ position.start_date }} - {{ position.end_date }}</span>
                             </div>
-                            <div class="flex items-center text-sm text-gray-600">
+                            <div class="flex items-center  text-gray-600">
                                 
                                 <span>{{ position.get_duration_display }}</span>
                             </div>
-                            <div class="flex items-center text-sm {% if position.stipend %}text-green-600{% else %}text-gray-600{% endif %}">
+                            <div class="flex items-center  {% if position.stipend %}text-green-600{% else %}text-gray-600{% endif %}">
                                 
                                 <span>{% if position.stipend %}PKR {{ position.stipend }}/month{% else %}Unpaid{% endif %}</span>
                             </div>
@@ -103,8 +103,8 @@
 
                         <!-- Available Spots -->
                         <div class="flex items-center justify-between mb-4">
-                            <span class="text-sm text-gray-600">Available Spots</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                            <span class=" text-gray-600">Available Spots</span>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full  
                                 {% if position.available_spots > 0 %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
                                 {{ position.available_spots }}/{{ position.max_students }}
                             </span>
@@ -114,16 +114,16 @@
                         <div class="w-full">
                             {% if position.available_spots > 0 %}
                                 {% if user.is_authenticated and user|get_user_type == 'student' %}
-                                    <a href="{% url 'apply_position' position.nanoid %}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition duration-200 text-center">
+                                    <a href="{% url 'apply_position' position.nanoid %}" class="block w-full text-white bg-blue-500 hover:bg-blue-700  px-4 py-2 rounded-md  transition duration-200 text-center">
                                         Apply Now
                                     </a>
                                 {% else %}
-                                    <a href="{% url 'position_detail' position.nanoid %}" class="block w-full border border-blue-600 text-blue-600 hover:bg-blue-50 px-4 py-2 rounded-md font-medium transition duration-200 text-center">
+                                    <a href="{% url 'position_detail' position.nanoid %}" class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded-md  transition duration-200 text-center">
                                         View Details
                                     </a>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'position_detail' position.nanoid %}" class="block w-full bg-gray-300 text-gray-500 px-4 py-2 rounded-md font-medium text-center">
+                                <a href="{% url 'position_detail' position.nanoid %}" class="block w-full bg-gray-300 text-gray-500 px-4 py-2 rounded-md  text-center">
                                     View Details
                                 </a>
                             {% endif %}
@@ -132,7 +132,7 @@
 
                     <!-- Card Footer -->
                     <div class="border-t border-gray-100 px-6 py-3">
-                        <div class="flex items-center text-sm text-gray-600">
+                        <div class="flex items-center  text-gray-600">
                             
                             <span>Mentor: {{ position.mentor.user.get_full_name }}</span>
                         </div>
@@ -145,7 +145,7 @@
                         <h4 class="text-xl font-semibold text-gray-600 mb-2">No positions found</h4>
                         <p class="text-gray-500 mb-6">Try adjusting your search criteria or check back later for new opportunities.</p>
                         <a href="{% url 'browse_positions' %}" 
-                           class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition duration-200">
+                           class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-3 rounded-md  transition duration-200">
                             Clear Filters
                         </a>
                     </div>
@@ -167,7 +167,7 @@
 
                         {% for num in page_obj.paginator.page_range %}
                             {% if page_obj.number == num %}
-                                <span class="px-4 py-2 bg-blue-600 text-white rounded-md font-medium">{{ num }}</span>
+                                <span class="px-4 py-2 text-white bg-blue-500  rounded-md ">{{ num }}</span>
                             {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                                 <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if company_filter %}company={{ company_filter }}&{% endif %}{% if duration_filter %}duration={{ duration_filter }}&{% endif %}page={{ num }}"
                                    class="px-4 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition duration-200">

@@ -8,13 +8,13 @@
     <nav class="flex" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-4">
             <li>
-                <a href="{% url 'official_dashboard' %}" class="text-blue-500 hover:text-blue-700">Dashboard</a>
+                <a href="{% url 'official_dashboard' %}" class="text-blue-500 hover:text-blue-500">Dashboard</a>
             </li>
             <li>
                 <span class="text-gray-400">/</span>
             </li>
             <li>
-                <a href="{% url 'manage_companies' %}" class="text-blue-500 hover:text-blue-700">Manage Companies</a>
+                <a href="{% url 'manage_companies' %}" class="text-blue-500 hover:text-blue-500">Manage Companies</a>
             </li>
             <li>
                 <span class="text-gray-400">/</span>
@@ -26,14 +26,14 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Company Details -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class=" shadow rounded-lg p-6">
                 <div class="flex items-start">
                     {% if company.logo %}
                         <img src="{{ company.logo.url }}" 
                              alt="{{ company.name }}" 
                              class="w-20 h-20 rounded mr-4 object-cover">
                     {% else %}
-                        <div class="w-20 h-20 bg-gray-500 text-white rounded flex items-center justify-content-center mr-4 text-2xl">
+                        <div class="w-20 h-20 text-white bg-gray-500  rounded flex items-center justify-content-center mr-4 text-2xl">
                             {{ company.name|first|upper }}
                         </div>
                     {% endif %}
@@ -42,23 +42,23 @@
                         <div class="flex items-center mb-2">
                             <h1 class="text-3xl font-semibold text-gray-900 mr-4">{{ company.name }}</h1>
                             {% if company.registration_status == 'pending' %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Review</span>
+                                <span class="px-3 py-1  font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Review</span>
                             {% elif company.registration_status == 'approved' %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
+                                <span class="px-3 py-1  font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
                             {% elif company.registration_status == 'rejected' %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
+                                <span class="px-3 py-1  font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
                             {% elif company.registration_status == 'suspended' %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-gray-100 text-gray-800">Suspended</span>
+                                <span class="px-3 py-1  font-semibold rounded-full bg-gray-100 text-gray-800">Suspended</span>
                             {% endif %}
                         </div>
                         
                         <div class="flex items-center space-x-4 mb-4">
                             {% if company.domain_verified %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-green-100 text-green-800">
+                                <span class="px-3 py-1  font-semibold rounded-full bg-green-100 text-green-800">
                                     ✓ Domain Verified
                                 </span>
                             {% else %}
-                                <span class="px-3 py-1 text-sm font-semibold rounded-full bg-gray-100 text-gray-800">
+                                <span class="px-3 py-1  font-semibold rounded-full bg-gray-100 text-gray-800">
                                     ⏱ Domain Unverified
                                 </span>
                             {% endif %}
@@ -66,7 +66,7 @@
                             {% if company.website %}
                                 <a href="{{ company.website }}" 
                                    target="_blank" 
-                                   class="text-blue-500 hover:text-blue-700">
+                                   class="text-blue-500 hover:text-blue-500">
                                     🔗 {{ company.website }}
                                 </a>
                             {% endif %}
@@ -88,7 +88,7 @@
             
             <!-- Full Description -->
             {% if company.description %}
-                <div class="bg-white shadow rounded-lg p-6">
+                <div class=" shadow rounded-lg p-6">
                     <h5 class="text-lg font-semibold text-gray-900 mb-4">Company Description</h5>
                     <p class="text-gray-700">{{ company.description }}</p>
                 </div>
@@ -96,11 +96,11 @@
             
             <!-- Registration Notes -->
             {% if company.registration_notes %}
-                <div class="bg-white shadow rounded-lg p-6">
+                <div class=" shadow rounded-lg p-6">
                     <h5 class="text-lg font-semibold text-gray-900 mb-4">Registration Notes</h5>
                     <p class="text-gray-700 mb-4">{{ company.registration_notes }}</p>
                     {% if company.approved_by and company.approved_at %}
-                        <p class="text-sm text-gray-500">
+                        <p class=" text-gray-500">
                             By {{ company.approved_by.user.get_full_name|default:company.approved_by.user.username }} 
                             on {{ company.approved_at|date:"F d, Y \a\t g:i A" }}
                         </p>
@@ -111,13 +111,13 @@
         
         <!-- Actions Panel -->
         <div class="lg:col-span-1">
-            <div class="bg-white shadow rounded-lg p-6 sticky top-6">
+            <div class=" shadow rounded-lg p-6 sticky top-6">
                 <h5 class="text-lg font-semibold text-gray-900 mb-4">Management Actions</h5>
                 
                 <form method="POST" id="actionForm">
                     {% csrf_token %}
                     <div class="mb-4">
-                        <label for="notes" class="block text-sm font-medium text-gray-700 mb-2">Notes (Optional)</label>
+                        <label for="notes" class="block   text-gray-700 mb-2">Notes (Optional)</label>
                         <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
                                   id="notes" 
                                   name="notes" 
@@ -130,14 +130,14 @@
                             <button type="submit" 
                                     name="action" 
                                     value="approve" 
-                                    class="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                                    class="w-full px-4 py-2 bg-green-500  rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                     onclick="return confirm('Are you sure you want to approve this company?')">
                                 ✓ Approve Company
                             </button>
                             <button type="submit" 
                                     name="action" 
                                     value="reject" 
-                                    class="w-full px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                    class="w-full px-4 py-2 bg-red-500  rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                                     onclick="return confirm('Are you sure you want to reject this company?')">
                                 ✕ Reject Company
                             </button>
@@ -145,7 +145,7 @@
                             <button type="submit" 
                                     name="action" 
                                     value="suspend" 
-                                    class="w-full px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
+                                    class="w-full px-4 py-2 bg-yellow-500  rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2"
                                     onclick="return confirm('Are you sure you want to suspend this company?')">
                                 ⏸ Suspend Company
                             </button>
@@ -153,7 +153,7 @@
                             <button type="submit" 
                                     name="action" 
                                     value="approve" 
-                                    class="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                                    class="w-full px-4 py-2 bg-green-500  rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                     onclick="return confirm('Are you sure you want to approve this company?')">
                                 ✓ Approve Company
                             </button>
@@ -161,7 +161,7 @@
                             <button type="submit" 
                                     name="action" 
                                     value="approve" 
-                                    class="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                                    class="w-full px-4 py-2 bg-green-500  rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
                                     onclick="return confirm('Are you sure you want to reactivate this company?')">
                                 ▶ Reactivate Company
                             </button>
@@ -191,7 +191,7 @@
                 
                 <div class="border-t pt-4 mt-6">
                     <!-- Company Information -->
-                    <div class="text-sm space-y-3">
+                    <div class=" space-y-3">
                         <div>
                             <div class="font-semibold text-gray-700">Created:</div>
                             <div class="text-gray-600">{{ company.created_at|date:"F d, Y \a\t g:i A" }}</div>
@@ -215,7 +215,7 @@
                         
                         <div>
                             <div class="font-semibold text-gray-700">Company ID:</div>
-                            <code class="text-sm bg-gray-100 px-2 py-1 rounded">{{ company.nanoid }}</code>
+                            <code class=" bg-gray-100 px-2 py-1 rounded">{{ company.nanoid }}</code>
                         </div>
                     </div>
                 </div>

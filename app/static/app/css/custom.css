@@ -1,12 +1,189 @@
 /* Tarbiyat Custom Styles */
 
-/* Additional custom styles can be added here */
-/* This file is loaded after Tailwind CSS */
+/* Dark Mode Support */
+.dark {
+    color-scheme: dark;
+}
+
+/* Documentation Cards - Dark Mode Support */
+.doc-card {
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.doc-card:hover {
+    background-color: #f3f4f6;
+}
+
+.dark .doc-card {
+    background-color: rgba(31, 41, 55, 0.5);
+}
+
+.dark .doc-card:hover {
+    background-color: rgba(55, 65, 81, 0.5);
+}
+
+.doc-card h5 {
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.dark .doc-card h5 {
+    color: #f9fafb;
+}
+
+.doc-card p {
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+}
+
+.dark .doc-card p {
+    color: #d1d5db;
+}
+
+.doc-card a {
+    display: inline-flex;
+    align-items: center;
+    color: #1f2937;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.doc-card a:hover {
+    color: #1e40af;
+}
+
+.dark .doc-card a {
+    color: #e5e7eb;
+}
+
+.dark .doc-card a:hover {
+    color: #60a5fa;
+}
+
+/* Documentation Content */
+.doc-content h1, .doc-content h2, .doc-content h3, .doc-content h4, .doc-content h5 {
+    color: #111827;
+}
+
+.dark .doc-content h1, 
+.dark .doc-content h2, 
+.dark .doc-content h3, 
+.dark .doc-content h4, 
+.dark .doc-content h5 {
+    color: #f9fafb;
+}
+
+.doc-content p, .doc-content li {
+    color: #374151;
+}
+
+.dark .doc-content p, .dark .doc-content li {
+    color: #d1d5db;
+}
+
+.doc-content .text-blue-500 {
+    color: #2563eb;
+}
+
+.dark .doc-content .text-blue-500 {
+    color: #60a5fa;
+}
+
+.doc-content .text-blue-800 {
+    color: #1e40af;
+}
+
+.dark .doc-content .text-blue-800 {
+    color: #93c5fd;
+}
+
+/* Form Elements Dark Mode */
+.dark input, .dark select, .dark textarea {
+    background-color: #1f2937;
+    border-color: #4b5563;
+    color: #f9fafb;
+}
+
+.dark input:focus, .dark select:focus, .dark textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+/* Button Dark Mode Support */
+.dark .text-white bg-blue-500 {
+    background-color: #3b82f6;
+}
+
+.dark .text-white bg-blue-500:hover {
+    background-color: #2563eb;
+}
 
 /* Custom focus styles for better accessibility */
 .focus-ring:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
+}
+
+.dark .focus-ring:focus {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+}
+
+/* Message styles for dark mode */
+.dark .bg-success-100 { 
+    background-color: rgba(6, 78, 59, 0.5);
+    border-color: #059669;
+    color: #a7f3d0;
+}
+
+.dark .bg-error-100 { 
+    background-color: rgba(127, 29, 29, 0.5);
+    border-color: #dc2626;
+    color: #fca5a5;
+}
+
+.dark .bg-warning-100 { 
+    background-color: rgba(120, 53, 15, 0.5);
+    border-color: #d97706;
+    color: #fde68a;
+}
+
+.dark .bg-info-100 { 
+    background-color: rgba(30, 64, 175, 0.5);
+    border-color: #2563eb;
+    color: #93c5fd;
+}
+
+/* Scrollbar dark mode */
+.dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #374151;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #6b7280;
+    border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Animation for dark mode toggle */
+@media (prefers-reduced-motion: no-preference) {
+    * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
 }
 
 /* Print styles */
@@ -17,5 +194,34 @@
     
     .print-break {
         page-break-after: always;
+    }
+    
+    /* Print in light mode */
+    .dark {
+        color-scheme: light;
+    }
+    
+    * {
+        color: black !important;
+        background: white !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .dark {
+        color: white;
+    }
+    
+    .dark .bg-gray-800 {
+        background-color: black;
+    }
+    
+    .dark a {
+        color: #87ceeb;
+    }
+    
+    .dark a:hover {
+        color: #add8e6;
     }
 }
