@@ -1,4 +1,7 @@
 /* Tarbiyat Custom Styles */
+html, body { 
+    height: 100%;
+}
 
 /* Dark Mode Support */
 .dark {

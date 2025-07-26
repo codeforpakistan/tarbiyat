@@ -1,108 +1,106 @@
-{% load static %}
-{% load user_tags %}
+{% load static %} {% load user_tags %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Tarbiyat - Internship Platform{% endblock %}</title>
-    
+
     <!-- Favicon using handshake emoji -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤝</text></svg>">
-    
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤝</text></svg>" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#eff6ff',
-                            500: '#575858ff',
-                            600: '#2563eb',
-                            700: '#1d4ed8',
-                        }
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#eff6ff",
+                500: "#575858ff",
+                600: "#2563eb",
+                700: "#1d4ed8",
+              },
+            },
+          },
+        },
+      }
     </script>
     <style>
-        .hero-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .dark .hero-gradient {
-            background: linear-gradient(135deg, #4c1d95 0%, #581c87 100%);
-        }
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        .dark .card-hover:hover {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* Dark mode transition */
-        * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
+      .hero-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .dark .hero-gradient {
+        background: linear-gradient(135deg, #4c1d95 0%, #581c87 100%);
+      }
+      .card-hover {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      .dark .card-hover:hover {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Dark mode transition */
+      * {
+        transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      }
     </style>
-    
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'app/css/custom.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'app/css/custom.css' %}" />
+
     <!-- Additional head content -->
     {% block extra_head %}{% endblock %}
-    
+
     <!-- Dark mode script -->
     <script>
-        // Dark mode functionality
-        function initDarkMode() {
-            const darkMode = localStorage.getItem('darkMode');
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (darkMode === 'enabled' || (darkMode === null && systemPrefersDark)) {
-                document.documentElement.classList.add('dark');
-            }
+      // Dark mode functionality
+      function initDarkMode() {
+        const darkMode = localStorage.getItem("darkMode")
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+
+        if (darkMode === "enabled" || (darkMode === null && systemPrefersDark)) {
+          document.documentElement.classList.add("dark")
         }
-        
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.contains('dark');
-            
-            if (isDark) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('darkMode', 'disabled');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('darkMode', 'enabled');
-            }
+      }
+
+      function toggleDarkMode() {
+        const isDark = document.documentElement.classList.contains("dark")
+
+        if (isDark) {
+          document.documentElement.classList.remove("dark")
+          localStorage.setItem("darkMode", "disabled")
+        } else {
+          document.documentElement.classList.add("dark")
+          localStorage.setItem("darkMode", "enabled")
         }
-        
-        // Initialize on page load
-        initDarkMode();
-        
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-            if (localStorage.getItem('darkMode') === null) {
-                if (e.matches) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
-            }
-        });
+      }
+
+      // Initialize on page load
+      initDarkMode()
+
+      // Listen for system theme changes
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+        if (localStorage.getItem("darkMode") === null) {
+          if (e.matches) {
+            document.documentElement.classList.add("dark")
+          } else {
+            document.documentElement.classList.remove("dark")
+          }
+        }
+      })
     </script>
-</head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <main>
-        {% block page %}{% endblock %}
-    </main>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <main class="min-h-screen">{% block page %}{% endblock %}</main>
     <script src="{% static 'app/js/main.js' %}"></script>
-    {% block scripts %}
-    {% endblock %}
-</body>
+    {% block scripts %} {% endblock %}
+  </body>
 </html>
