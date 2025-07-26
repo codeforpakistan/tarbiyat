@@ -3,27 +3,19 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('students/dashboard/', views.student_dashboard, name='student_dashboard'),
-    path('mentors/dashboard/', views.mentor_dashboard, name='mentor_dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    
+    # Mentor management URLs
     path('mentors/positions/', views.mentor_positions, name='mentor_positions'),
     path('mentors/applications/', views.mentor_applications, name='mentor_applications'),
     path('mentors/interns/', views.mentor_interns, name='mentor_interns'),
-    path('teachers/dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
-    path('officials/dashboard/', views.official_dashboard, name='official_dashboard'),
     
     path('complete-profile/', views.complete_profile, name='complete_profile'),
     
-    # Profile creation URLs
-    path('students/create-profile/', views.create_student_profile, name='create_student_profile'),
-    path('mentors/create-profile/', views.create_mentor_profile, name='create_mentor_profile'),
-    path('teachers/create-profile/', views.create_teacher_profile, name='create_teacher_profile'),
-    
-    # Profile editing URLs
+    # Unified profile management URLs
+    path('profile/', views.profile, name='profile'),
+    path('profile/create/', views.create_profile, name='create_profile'),
     path('profile/edit/', views.edit_profile, name='edit_profile'),
-    path('students/edit-profile/', views.edit_student_profile, name='edit_student_profile'),
-    path('mentors/edit-profile/', views.edit_mentor_profile, name='edit_mentor_profile'),
-    path('teachers/edit-profile/', views.edit_teacher_profile, name='edit_teacher_profile'),
-    path('officials/edit-profile/', views.edit_official_profile, name='edit_official_profile'),
     
     # Company editing URL (for mentors who registered the company)
     path('companies/edit/', views.edit_company, name='edit_company'),
@@ -43,6 +35,12 @@ urlpatterns = [
     # Student application management
     path('applications/', views.student_applications, name='student_applications'),
     path('applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
+    
+    # Student weekly activity log management
+    path('students/weekly-activities/', views.student_weekly_activities, name='student_weekly_activities'),
+    path('students/weekly-activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
+    path('students/weekly-activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
+    path('students/weekly-activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
     
     # Position management URLs (specific patterns first)
     path('positions/', views.browse_positions, name='browse_positions'),

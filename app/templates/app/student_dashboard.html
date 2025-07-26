@@ -1,36 +1,84 @@
 {% extends 'app/page.html' %} 
 {% block title %}Student Dashboard - Tarbiyat{% endblock %} 
 {% block content %}
-<div class="min-h-screen py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class=" rounded-lg shadow-sm p-6">
-        <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">Student Portal</h5>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 sticky top-8">
+        <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">
+          <span class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-3">🎓</span>
+          Student Portal
+        </h5>
         <nav class="space-y-2">
           <a
-            href="{% url 'student_dashboard' %}"
-            class="flex items-center px-3 py-2    text-white bg-blue-500 rounded-md">
+            href="{% url 'dashboard' %}"
+            class="flex items-center px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200">
+            <span class="mr-3">📊</span>
             Dashboard
           </a>
           <a
-            href="{% url 'edit_student_profile' %}"
-            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            href="{% url 'edit_profile' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">�</span>
             My Profile
           </a>
           <a
             href="{% url 'browse_positions' %}"
-            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">🔍</span>
             Browse Positions
           </a>
           <a
             href="{% url 'student_applications' %}"
-            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">�</span>
             My Applications
           </a>
           <a
+            href="{% url 'student_weekly_activities' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">📅</span>
+            Weekly Activities
+          </a>
+          <a
             href="#"
-            class="flex items-center px-3 py-2   text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">📊</span>
+            Progress Reports
+          </a>
+            class="flex items-center px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200">
+            <span class="mr-3">📊</span>
+            Dashboard
+          </a>
+          <a
+            href="{% url 'edit_profile' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">👤</span>
+            My Profile
+          </a>
+          <a
+            href="{% url 'browse_positions' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-blue-50 dark:hover:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">🔍</span>
+            Browse Positions
+          </a>
+          <a
+            href="{% url 'student_applications' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">📝</span>
+            My Applications
+          </a>
+          <a
+            href="{% url 'student_weekly_activities' %}"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">�</span>
+            Weekly Activities
+          </a>
+          <a
+            href="#"
+            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            <span class="mr-3">📊</span>
             Progress Reports
           </a>
         </nav>
@@ -38,52 +86,85 @@
     </div>
 
     <!-- Main Content -->
-    <div class="lg:col-span-3">
+    <div class="lg:col-span-3 space-y-8">
       <!-- Welcome Header -->
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900">Welcome back, {{ student_profile.user.first_name }}!</h2>
-          <p class="text-gray-600">{{ student_profile.major }} • {{ student_profile.institute.name }}</p>
-        </div>
-        <div class="text-left sm:text-right mt-4 sm:mt-0">
-          <div class=" text-gray-500">Student ID: {{ student_profile.student_id }}</div>
-          <div class=" text-gray-500">GPA: {{ student_profile.gpa }}/4.0</div>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+          <div>
+            <h2 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Welcome back, {{ student_profile.user.first_name }}!</h2>
+            <p class="text-gray-600 dark:text-gray-300 text-lg">{{ student_profile.major }} • {{ student_profile.institute.name }}</p>
+          </div>
+          <div class="text-left sm:text-right mt-4 sm:mt-0 bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Student ID:
+              <span class="text-gray-900 dark:text-gray-100">{{ student_profile.student_id }}</span>
+            </div>
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-300">
+              GPA:
+              <span class="text-blue-600 dark:text-blue-400 font-semibold">{{ student_profile.gpa }}/4.0</span>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Quick Stats -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class=" rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-semibold text-gray-900">{{ total_applications }}</h4>
-          <p class=" text-gray-600">Applications Submitted</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-md transition duration-200">
+          <div
+            class="w-12 h-12 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+            📄
+          </div>
+          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ total_applications }}</h4>
+          <p class="text-gray-600 dark:text-gray-300 font-medium">Applications Submitted</p>
         </div>
-        <div class=" rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-semibold text-gray-900">{{ available_positions.count }}</h4>
-          <p class=" text-gray-600">Available Positions</p>
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-md transition duration-200">
+          <div
+            class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+            💼
+          </div>
+          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ available_positions.count }}</h4>
+          <p class="text-gray-600 dark:text-gray-300 font-medium">Available Positions</p>
         </div>
-        <div class=" rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-2xl font-semibold text-gray-900">{% if current_internship %}1{% else %}0{% endif %}</h4>
-          <p class=" text-gray-600">Active Internship</p>
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-md transition duration-200">
+          <div
+            class="w-12 h-12 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+            🚀
+          </div>
+          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{% if current_internship %}1{% else %}0{% endif %}</h4>
+          <p class="text-gray-600 dark:text-gray-300 font-medium">Active Internship</p>
         </div>
-        <div class=" rounded-lg shadow-sm p-6 text-center">
-          <h4 class="text-lg font-semibold text-gray-900">{{ student_profile.expected_graduation|date:"M Y" }}</h4>
-          <p class=" text-gray-600">Expected Graduation</p>
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center hover:shadow-md transition duration-200">
+          <div
+            class="w-12 h-12 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+            🎓
+          </div>
+          <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ student_profile.expected_graduation|date:"M Y" }}</h4>
+          <p class="text-gray-600 dark:text-gray-300 font-medium">Expected Graduation</p>
         </div>
       </div>
 
       <!-- Current Internship Alert -->
       {% if current_internship %}
-      <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
-        <div class="flex items-center">
+      <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900 dark:to-emerald-900 border border-green-200 dark:border-green-700 rounded-xl p-6">
+        <div class="flex items-start">
+          <div
+            class="w-12 h-12 bg-green-100 dark:bg-green-800 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 text-xl">
+            🎉
+          </div>
           <div>
-            <h5 class="text-lg font-semibold text-green-800">Active Internship</h5>
-            <p class="text-green-700">
+            <h5 class="text-lg font-semibold text-green-800 dark:text-green-200 mb-2">Active Internship</h5>
+            <p class="text-green-700 mb-2">
               You are currently interning at
-              <strong>{{ current_internship.mentor.company.name }}</strong>
+              <strong class="font-semibold">{{ current_internship.mentor.company.name }}</strong>
             </p>
-            <p class=" text-green-600">
-              Start Date: {{ current_internship.start_date|date }} | End Date: {{ current_internship.end_date|date }}
-            </p>
+            <div class="flex flex-wrap gap-4 text-sm text-green-600 dark:text-green-400">
+              <span class="bg-green-100 dark:bg-green-900 px-3 py-1 rounded-full">Start: {{ current_internship.start_date|date }}</span>
+              <span class="bg-green-100 dark:bg-green-900 px-3 py-1 rounded-full">End: {{ current_internship.end_date|date }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -91,9 +172,14 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Recent Applications -->
-        <div class=" rounded-lg shadow-sm">
-          <div class="border-b border-gray-200 px-6 py-4">
-            <h5 class="flex items-center text-lg font-semibold text-gray-900">Recent Applications</h5>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <span class="w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mr-3 text-sm">
+                📋
+              </span>
+              Recent Applications
+            </h5>
           </div>
           <div class="p-6">
             {% if applications %}
@@ -101,37 +187,42 @@
               {% for application in applications %}
               <div
                 class="flex justify-between items-center py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
-                <div>
-                  <h6 class="font-semibold text-gray-900">{{ application.position.title }}</h6>
-                  <p class=" text-gray-600">{{ application.position.company.name }}</p>
+                <div class="flex-1">
+                  <h6 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ application.position.title }}</h6>
+                  <p class="text-gray-600 dark:text-gray-300 text-sm">{{ application.position.company.name }}</p>
                 </div>
-                <div class="text-right">
+                <div class="text-right ml-4">
                   <span
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full   {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 {% elif application.status == 'under_review' %}bg-blue-100 text-blue-800 {% elif application.status == 'interview_scheduled' %}bg-purple-100 text-purple-800 {% elif application.status == 'approved' %}bg-green-100 text-green-800 {% elif application.status == 'rejected' %}bg-red-100 text-red-800 {% elif application.status == 'withdrawn' %}bg-gray-100 text-gray-800 {% else %}bg-blue-100 text-blue-800{% endif %}">
-                    {% if application.status == 'pending' %}Pending Review 
-                    {% elif application.status == 'under_review'%}Under Review 
-                    {% elif application.status == 'interview_scheduled' %}Interview Scheduled 
-                    {% elif application.status == 'approved' %}Approved 
-                    {% elif application.status == 'rejected' %}Rejected 
-                    {% elif application.status == 'withdrawn' %}Withdrawn 
-                    {% else %}{{ application.status|title }}{% endif %}
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {% if application.status == 'pending' %}bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 elif 'under_review' %}bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 'interview_scheduled' %}bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 'approved' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 'rejected' %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 'withdrawn' %}bg-gray-100 text-gray-800 dark:text-gray-200 else dark:text-blue-200{% endif %}">
+                    {% if application.status == 'pending' %}Pending Review {% elif application.status ==
+                    'under_review'%}Under Review {% elif application.status == 'interview_scheduled' %}Interview
+                    Scheduled {% elif application.status == 'approved' %}Approved {% elif application.status ==
+                    'rejected' %}Rejected {% elif application.status == 'withdrawn' %}Withdrawn {% else %}{{
+                    application.status|title }}{% endif %}
                   </span>
-                  <div class=" text-gray-500 mt-1">{{ application.applied_at|date }}</div>
+                  <div class="text-gray-500 text-xs mt-1">{{ application.applied_at|date }}</div>
                 </div>
               </div>
               {% endfor %}
             </div>
             <div class="text-center mt-6">
-              <a href="{% url 'student_applications' %}" class="text-blue-500 hover:text-blue-800  ">
-                View All Applications
+              <a
+                href="{% url 'student_applications' %}"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:text-blue-200 font-medium hover:underline transition duration-200">
+                View All Applications →
               </a>
             </div>
             {% else %}
             <div class="text-center py-8">
-              <p class="text-gray-500 mb-4">No applications yet</p>
+              <div
+                class="w-12 h-12 bg-gray-100 text-gray-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+                📄
+              </div>
+              <p class="text-gray-500 mb-4 font-medium">No applications yet</p>
               <a
                 href="{% url 'browse_positions' %}"
-                class="text-white bg-blue-500 hover:bg-blue-700  px-4 py-2 rounded-md   transition duration-200">
+                class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 inline-flex items-center">
+                <span class="mr-2">🔍</span>
                 Browse Positions
               </a>
             </div>
@@ -139,58 +230,200 @@
           </div>
         </div>
 
-        <!-- Available Positions -->
-        <div class=" rounded-lg shadow-sm">
-          <div class="border-b border-gray-200 px-6 py-4">
-            <h5 class="flex items-center text-lg font-semibold text-gray-900">Recommended Positions</h5>
+        <!-- Quick Actions -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <span
+                class="w-8 h-8 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 rounded-lg flex items-center justify-center mr-3 text-sm">
+                ⚡
+              </span>
+              Quick Actions
+            </h5>
+          </div>
+          <div class="p-6">
+            <div class="space-y-4">
+              <a
+                href="{% url 'browse_positions' %}"
+                class="block w-full bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border border-blue-200 rounded-xl p-4 transition duration-200 group">
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mr-4 text-lg group-hover:bg-blue-200 transition duration-200">
+                    🔍
+                  </div>
+                  <div>
+                    <h6 class="font-semibold text-blue-900 mb-1">Browse Positions</h6>
+                    <p class="text-blue-700 text-sm">Find new internship opportunities</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="{% url 'student_applications' %}"
+                class="block w-full bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 border border-green-200 rounded-xl p-4 transition duration-200 group">
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mr-4 text-lg group-hover:bg-green-200 transition duration-200">
+                    📋
+                  </div>
+                  <div>
+                    <h6 class="font-semibold text-green-900 mb-1">My Applications</h6>
+                    <p class="text-green-700 text-sm">Track your application status</p>
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="{% url 'edit_profile' %}"
+                class="block w-full bg-gradient-to-r from-purple-50 to-violet-50 hover:from-purple-100 hover:to-violet-100 border border-purple-200 rounded-xl p-4 transition duration-200 group">
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mr-4 text-lg group-hover:bg-purple-200 transition duration-200">
+                    👤
+                  </div>
+                  <div>
+                    <h6 class="font-semibold text-purple-900 mb-1">Update Profile</h6>
+                    <p class="text-purple-700 text-sm">Keep your information current</p>
+                  </div>
+                </div>
+              </a>
+
+              {% if current_internship %}
+              <a
+                href="#"
+                class="block w-full bg-gradient-to-r from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 border border-orange-200 rounded-xl p-4 transition duration-200 group">
+                <div class="flex items-center">
+                  <div
+                    class="w-10 h-10 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 rounded-lg flex items-center justify-center mr-4 text-lg group-hover:bg-orange-200 transition duration-200">
+                    📊
+                  </div>
+                  <div>
+                    <h6 class="font-semibold text-orange-900 mb-1">Internship Progress</h6>
+                    <p class="text-orange-700 text-sm">View your current progress</p>
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Positions -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <span
+                class="w-8 h-8 bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center mr-3 text-sm">
+                💼
+              </span>
+              Recommended Positions
+            </h5>
           </div>
           <div class="p-6">
             {% if available_positions %}
             <div class="space-y-4">
               {% for position in available_positions %}
-              <div class="py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
-                <h6 class="font-semibold text-gray-900 mb-1">{{ position.title }}</h6>
-                <p class=" text-gray-600 mb-2">{{ position.company.name }}</p>
-                <div class="flex justify-between items-center">
-                  <div class=" text-green-600 flex items-center">
-                    {% if position.stipend %}PKR {{ position.stipend }}{% else %}Unpaid{% endif %}
+              <div class="py-4 {% if not forloop.last %}border-b border-gray-100{% endif %}">
+                <div class="flex justify-between items-start">
+                  <div class="flex-1">
+                    <h6 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ position.title }}</h6>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">{{ position.company.name }}</p>
+                    <div class="flex flex-wrap gap-3 text-sm">
+                      <span
+                        class="inline-flex items-center bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full font-medium">
+                        💰 {% if position.stipend %}PKR {{ position.stipend }}{% else %}Unpaid{% endif %}
+                      </span>
+                      <span
+                        class="inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full font-medium">
+                        ⏱️ {{ position.duration }} months
+                      </span>
+                    </div>
                   </div>
-                  <div class=" text-blue-500">{{ position.duration }} months</div>
+                  <a
+                    href="{% url 'position_detail' position.nanoid %}"
+                    class="ml-4 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:text-blue-200 text-sm font-medium hover:underline transition duration-200">
+                    View Details →
+                  </a>
                 </div>
               </div>
               {% endfor %}
             </div>
             <div class="text-center mt-6">
-              <a href="{% url 'browse_positions' %}" class="text-blue-500 hover:text-blue-800  ">
-                View All Positions
+              <a
+                href="{% url 'browse_positions' %}"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:text-blue-200 font-medium hover:underline transition duration-200">
+                View All Positions →
               </a>
             </div>
             {% else %}
             <div class="text-center py-8">
-              <p class="text-gray-500">No positions available</p>
+              <div
+                class="w-12 h-12 bg-gray-100 text-gray-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">
+                💼
+              </div>
+              <p class="text-gray-500 mb-4 font-medium">No positions available</p>
+              <a
+                href="{% url 'browse_positions' %}"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:text-blue-200 font-medium hover:underline transition duration-200">
+                Browse All Positions →
+              </a>
             </div>
             {% endif %}
           </div>
         </div>
       </div>
 
+      <!-- Profile Completion Reminder -->
+      {% if not profile.resume %}
+      <div class="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-xl p-6 mt-8">
+        <div class="flex items-start">
+          <div
+            class="w-12 h-12 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 text-xl">
+            ⚠️
+          </div>
+          <div>
+            <h5 class="text-lg font-semibold text-amber-800 mb-2">Complete Your Profile</h5>
+            <p class="text-amber-700 mb-4">
+              Upload your resume to improve your chances of getting selected for internships.
+            </p>
+            <a
+              href="{% url 'edit_profile' %}"
+              class="bg-amber-600 hover:bg-amber-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 inline-flex items-center">
+              <span class="mr-2">📄</span>
+              Upload Resume
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
       <!-- Profile Completion -->
-      <div class=" rounded-lg shadow-sm mt-8">
-        <div class="border-b border-gray-200 px-6 py-4">
-          <h5 class="flex items-center text-lg font-semibold text-gray-900">Profile Completion</h5>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mt-8">
+        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+          <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <span
+              class="w-8 h-8 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mr-3 text-sm">
+              📊
+            </span>
+            Profile Completion
+          </h5>
         </div>
         <div class="p-6">
           <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
-            <div class="flex-1 mb-4 md:mb-0">
-              <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
-                <div class="text-white bg-blue-500 h-3 rounded-full" style="width: {{ profile_completion }}%"></div>
+            <div class="flex-1 mb-6 md:mb-0">
+              <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+                <div
+                  class="bg-gradient-to-r from-blue-500 to-purple-600 h-4 rounded-full transition-all duration-300"
+                  style="width: {{ profile_completion }}%"></div>
               </div>
-              <p class="text-gray-600">{{ completion_status }}</p>
+              <p class="text-gray-700 dark:text-gray-300 font-medium">{{ completion_status }}</p>
+              <p class="text-gray-500 text-sm mt-1">{{ profile_completion }}% complete</p>
             </div>
             <div class="md:ml-6">
               <a
-                href="{% url 'edit_student_profile' %}"
-                class="text-white bg-blue-500 hover:bg-blue-700  px-6 py-2 rounded-md  transition duration-200">
+                href="{% url 'edit_profile' %}"
+                class="bg-white dark:bg-gray-800 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium px-8 py-3 rounded-lg transition duration-200 inline-flex items-center shadow-sm border border-gray-200 dark:border-gray-700">
+                <span class="mr-2">{% if profile_completion >= 90 %}✏️{% else %}🎯{% endif %}</span>
                 {% if profile_completion >= 90 %}Update Profile{% else %}Complete Profile{% endif %}
               </a>
             </div>

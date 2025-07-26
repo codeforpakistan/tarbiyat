@@ -639,6 +639,190 @@ class Payment(models.Model):
         amount = self.amount or 0
         return f"{username} - {payment_type_display} - PKR {amount}"
 
+class StudentInternshipReport(models.Model):
+    """Monthly student internship evaluation report filled by teachers"""
+    nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='student_reports')
+    teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
+    report_month = models.DateField(help_text="Month and year for this report")
+    
+    # Report sections with descriptions and scores
+    tasks_performed = models.TextField(
+        help_text="Major duties designated and assignments completed by the student"
+    )
+    tasks_performed_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        help_text="Score for tasks performed (0-10)"
+    )
+    
+    learning_experience = models.TextField(
+        help_text="Skills and knowledge gained or refined through the internship"
+    )
+    learning_experience_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        help_text="Score for learning experience (0-10)"
+    )
+    
+    challenges = models.TextField(
+        help_text="Major challenges faced and how they were tackled"
+    )
+    challenges_score = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(10)],
+        help_text="Score for handling challenges (0-10)"
+    )
+    
+    additional_comments = models.TextField(null=True, blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ['internship', 'report_month']
+        ordering = ['-report_month']
+        
+    def get_total_score(self):
+        """Calculate total score out of 30"""
+        return self.tasks_performed_score + self.learning_experience_score + self.challenges_score
+    
+    def __str__(self):
+        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        return f"Report for {student_name} - {self.report_month.strftime('%B %Y')}"
+
+class StudentWeeklyActivityLog(models.Model):
+    """Weekly activity log report filled by students during their internship"""
+    nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='weekly_activity_logs')
+    week_starting = models.DateField(help_text="Starting date of the week")
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-week_starting']
+        unique_together = ['internship', 'week_starting']
+        verbose_name = "Student Weekly Activity Log"
+        verbose_name_plural = "Student Weekly Activity Logs"
+
+    def __str__(self):
+        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        return f"Weekly Log: {student_name} - Week of {self.week_starting.strftime('%Y-%m-%d')}"
+
+class StudentWeeklyActivity(models.Model):
+    """Individual activities and hours logged by students in their weekly reports"""
+    activity_log = models.ForeignKey(StudentWeeklyActivityLog, on_delete=models.CASCADE, related_name='activities')
+    task_description = models.TextField(help_text="Description of the task or activity performed")
+    hours_spent = models.DecimalField(
+        max_digits=4, 
+        decimal_places=1,
+        validators=[MinValueValidator(0), MaxValueValidator(60)],
+        help_text="Number of hours spent on this activity (max 60 per activity)"
+    )
+    date_performed = models.DateField(help_text="Date when the activity was performed")
+    
+    class Meta:
+        ordering = ['date_performed']
+        verbose_name = "Weekly Activity Entry"
+        verbose_name_plural = "Weekly Activity Entries"
+
+    def __str__(self):
+        return f"{self.date_performed}: {self.task_description[:50]}... ({self.hours_spent} hours)"
+
+class InternshipSupervisorEvaluation(models.Model):
+    """End of internship evaluation form filled by mentors"""
+    RATING_CHOICES = (
+        (1, 'Does not meet expectations'),
+        (2, 'Inconsistently meets expectations'),
+        (3, 'Consistently meets expectations'),
+        (4, 'Above expectations'),
+    )
+    
+    EXPERIENCE_RATING = (
+        ('excellent', 'Excellent'),
+        ('good', 'Good'),
+        ('average', 'Average'),
+        ('poor', 'Poor'),
+    )
+    
+    nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
+    internship = models.OneToOneField(Internship, on_delete=models.CASCADE, related_name='supervisor_evaluation')
+    mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    
+    # Performance Indicators (1-4 scale)
+    technical_skills = models.IntegerField(
+        choices=RATING_CHOICES,
+        help_text="Technical competency and ability to learn/apply new skills"
+    )
+    work_quality = models.IntegerField(
+        choices=RATING_CHOICES,
+        help_text="Quality and accuracy of work, attention to detail"
+    )
+    problem_solving = models.IntegerField(
+        choices=RATING_CHOICES,
+        help_text="Ability to analyze problems and find solutions"
+    )
+    teamwork = models.IntegerField(
+        choices=RATING_CHOICES,
+        help_text="Collaboration, communication, and interpersonal skills"
+    )
+    professionalism = models.IntegerField(
+        choices=RATING_CHOICES,
+        help_text="Punctuality, reliability, and professional conduct"
+    )
+    
+    # Qualitative Feedback
+    performance_benefits = models.TextField(
+        help_text="Describe the ways in which the intern's performance benefited your organization"
+    )
+    observed_development = models.TextField(
+        help_text="What development have you observed in the student's skills, knowledge, personal and/or professional performance?"
+    )
+    intern_strengths = models.TextField(
+        help_text="What do you consider to be the intern's strengths?"
+    )
+    areas_for_improvement = models.TextField(
+        help_text="In what areas does the intern need to improve?"
+    )
+    
+    # Overall Experience and Recommendations
+    intern_rating = models.CharField(
+        max_length=10,
+        choices=EXPERIENCE_RATING,
+        help_text="Overall, how do you rate your experience with this intern?"
+    )
+    program_rating = models.CharField(
+        max_length=10,
+        choices=EXPERIENCE_RATING,
+        help_text="Overall, how do you rate your experience with this internship program?"
+    )
+    program_improvement_suggestions = models.TextField(
+        help_text="What are your suggestions for improving the internship program?"
+    )
+    would_recommend = models.BooleanField(
+        help_text="Based on your experience, would you supervise other interns or recommend the internship program to others?"
+    )
+    additional_comments = models.TextField(
+        null=True, blank=True,
+        help_text="Do you have any other comments that will help the institute and our students?"
+    )
+    
+    class Meta:
+        verbose_name = "Internship Supervisor Evaluation"
+        verbose_name_plural = "Internship Supervisor Evaluations"
+    
+    def get_average_rating(self):
+        """Calculate average score across all performance indicators"""
+        scores = [
+            self.technical_skills,
+            self.work_quality,
+            self.problem_solving,
+            self.teamwork,
+            self.professionalism
+        ]
+        return sum(scores) / len(scores)
+    
+    def __str__(self):
+        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        return f"Supervisor Evaluation for {student_name} - {self.submitted_at.strftime('%Y-%m-%d')}"
+
 class Notification(models.Model):
     """System notifications for users"""
     NOTIFICATION_TYPES = (

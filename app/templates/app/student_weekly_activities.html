@@ -1,0 +1,165 @@
+{% extends 'app/page.html' %}
+{% block title %}Weekly Activity Logs - Tarbiyat{% endblock %}
+{% block content %}
+<div class="min-h-screen py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Sidebar -->
+    <div class="lg:col-span-1">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
+        <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Student Portal</h5>
+        <nav class="space-y-2">
+          <a
+            href="{% url 'dashboard' %}"
+            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
+            Dashboard
+          </a>
+          <a
+            href="{% url 'edit_profile' %}"
+            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
+            My Profile
+          </a>
+          <a
+            href="{% url 'browse_positions' %}"
+            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
+            Browse Positions
+          </a>
+          <a
+            href="{% url 'student_applications' %}"
+            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
+            My Applications
+          </a>
+          <a
+            href="{% url 'student_weekly_activities' %}"
+            class="flex items-center px-3 py-2 text-white bg-blue-600 dark:bg-blue-700 rounded-md">
+            📝 Weekly Activities
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:col-span-3">
+      <!-- Header -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Weekly Activity Logs</h2>
+          <p class="text-gray-600 dark:text-gray-300">Track your internship activities and hours</p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+          {% if current_internship %}
+          <a
+            href="{% url 'create_weekly_activity_log' %}"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors">
+            📝 Create New Log
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Current Internship Info -->
+      {% if current_internship %}
+      <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 rounded-lg p-4 mb-6">
+        <h3 class="text-lg font-medium text-blue-900 mb-2">Current Internship</h3>
+        <div class="text-blue-800 dark:text-blue-200">
+          <p><strong>Position:</strong> {{ current_internship.position.title|default:"N/A" }}</p>
+          <p><strong>Company:</strong> {{ current_internship.mentor.company.name|default:"N/A" }}</p>
+          <p><strong>Duration:</strong> {{ current_internship.start_date }} to {{ current_internship.end_date }}</p>
+          <p><strong>Mentor:</strong> {{ current_internship.mentor.user.get_full_name }}</p>
+        </div>
+      </div>
+      {% else %}
+      <div class="bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 rounded-lg p-4 mb-6">
+        <h3 class="text-lg font-medium text-yellow-900 mb-2">No Active Internship</h3>
+        <p class="text-yellow-800 dark:text-yellow-200">You need an active internship to submit weekly activity logs.</p>
+      </div>
+      {% endif %}
+
+      <!-- Weekly Logs List -->
+      {% if weekly_logs %}
+      <div class="space-y-4">
+        {% for log in weekly_logs %}
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="p-6">
+            <div class="flex justify-between items-start">
+              <div class="flex-1">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  Week of {{ log.week_starting|date:"F d, Y" }}
+                </h3>
+                
+                <!-- Activities Summary -->
+                <div class="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                  <p><strong>Activities:</strong> {{ log.activities.count }} logged</p>
+                  <p><strong>Total Hours:</strong> 
+                    {% with total_hours=0 %}
+                      {% for activity in log.activities.all %}
+                        {% widthratio activity.hours_spent 1 1 as hours %}
+                        {% widthratio total_hours 1 1 as current_total %}
+                        {% widthratio current_total|add:hours 1 1 as total_hours %}
+                      {% endfor %}
+                      {{ total_hours|floatformat:1 }} hours
+                    {% endwith %}
+                  </p>
+                  <p><strong>Submitted:</strong> {{ log.submitted_at|date:"M d, Y g:i A" }}</p>
+                  {% if log.updated_at != log.submitted_at %}
+                  <p><strong>Last Updated:</strong> {{ log.updated_at|date:"M d, Y g:i A" }}</p>
+                  {% endif %}
+                </div>
+              </div>
+              
+              <!-- Actions -->
+              <div class="flex space-x-2 ml-4">
+                <a
+                  href="{% url 'view_weekly_activity_log' log.nanoid %}"
+                  class="inline-flex items-center px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-md transition-colors">
+                  👁️ View
+                </a>
+                <a
+                  href="{% url 'edit_weekly_activity_log' log.nanoid %}"
+                  class="inline-flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900 hover:bg-blue-200 text-blue-700 text-sm font-medium rounded-md transition-colors">
+                  ✏️ Edit
+                </a>
+              </div>
+            </div>
+
+            <!-- Sample Activities Preview -->
+            {% if log.activities.all %}
+            <div class="mt-4 pt-4 border-t border-gray-100">
+              <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Recent Activities:</h4>
+              <div class="space-y-1">
+                {% for activity in log.activities.all|slice:":3" %}
+                <div class="text-sm text-gray-600 dark:text-gray-300">
+                  <span class="font-medium">{{ activity.date_performed|date:"M d" }}:</span>
+                  {{ activity.task_description|truncatechars:80 }}
+                  <span class="text-gray-500">({{ activity.hours_spent }}h)</span>
+                </div>
+                {% endfor %}
+                {% if log.activities.count > 3 %}
+                <div class="text-sm text-gray-500">
+                  ... and {{ log.activities.count|add:"-3" }} more activities
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center py-12">
+        <div class="text-6xl mb-4">📝</div>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">No Weekly Logs Yet</h3>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">Start tracking your internship activities by creating your first weekly log.</p>
+        {% if current_internship %}
+        <a
+          href="{% url 'create_weekly_activity_log' %}"
+          class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
+          📝 Create Your First Log
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -20,11 +20,11 @@ class InstituteAdmin(admin.ModelAdmin):
     
     def domain_verification_status(self, obj):
         if obj.domain_verified:
-            return format_html('<span style="color: green;">✓ Domain Verified</span>')
+            return format_html('<span >✓ Domain Verified</span>')
         elif obj.email_domain:
-            return format_html('<span style="color: orange;">⚠ Domain Set, Not Verified</span>')
+            return format_html('<span >⚠ Domain Set, Not Verified</span>')
         else:
-            return format_html('<span style="color: gray;">No Domain Set</span>')
+            return format_html('<span >No Domain Set</span>')
     domain_verification_status.short_description = 'Domain Status'
     
     def approve_institutes(self, request, queryset):
@@ -57,11 +57,11 @@ class CompanyAdmin(admin.ModelAdmin):
     
     def domain_verification_status(self, obj):
         if obj.domain_verified:
-            return format_html('<span style="color: green;">✓ Domain Verified</span>')
+            return format_html('<span >✓ Domain Verified</span>')
         elif obj.email_domain:
-            return format_html('<span style="color: orange;">⚠ Domain Set, Not Verified</span>')
+            return format_html('<span >⚠ Domain Set, Not Verified</span>')
         else:
-            return format_html('<span style="color: gray;">No Domain Set</span>')
+            return format_html('<span >No Domain Set</span>')
     domain_verification_status.short_description = 'Domain Status'
     
     def approve_companies(self, request, queryset):
@@ -93,9 +93,9 @@ class StudentProfileAdmin(admin.ModelAdmin):
     
     def availability_status(self, obj):
         if obj.is_available_for_internship:
-            return format_html('<span style="color: green;">✓ Available</span>')
+            return format_html('<span >✓ Available</span>')
         else:
-            return format_html('<span style="color: orange;">● Unavailable</span>')
+            return format_html('<span >● Unavailable</span>')
     availability_status.short_description = 'Availability'
     
     def mark_available(self, request, queryset):
@@ -131,9 +131,9 @@ class MentorProfileAdmin(admin.ModelAdmin):
     
     def verification_status(self, obj):
         if obj.is_verified:
-            return format_html('<span style="color: green;">✓ Verified</span>')
+            return format_html('<span >✓ Verified</span>')
         else:
-            return format_html('<span style="color: red;">✗ Not Verified</span>')
+            return format_html('<span >✗ Not Verified</span>')
     verification_status.short_description = 'Verification Status'
     
     def verify_mentors(self, request, queryset):
@@ -191,9 +191,9 @@ class InternshipPositionAdmin(admin.ModelAdmin):
     
     def position_status(self, obj):
         if obj.is_active:
-            return format_html('<span style="color: green;">✓ Active</span>')
+            return format_html('<span >✓ Active</span>')
         else:
-            return format_html('<span style="color: red;">✗ Inactive</span>')
+            return format_html('<span >✗ Inactive</span>')
     position_status.short_description = 'Status'
     
     def activate_positions(self, request, queryset):
@@ -235,7 +235,7 @@ class InternshipApplicationAdmin(admin.ModelAdmin):
             'withdrawn': '#6c757d',  # gray
         }
         color = status_colors.get(obj.status, '#000000')
-        return format_html('<span style="color: {};">● {}</span>', color, obj.get_status_display())
+        return format_html('<span >● {}</span>', color, obj.get_status_display())
     application_status.short_description = 'Status'
     
     def approve_applications(self, request, queryset):
@@ -312,9 +312,9 @@ class NotificationAdmin(admin.ModelAdmin):
     
     def read_status(self, obj):
         if obj.is_read:
-            return format_html('<span style="color: green;">✓ Read</span>')
+            return format_html('<span >✓ Read</span>')
         else:
-            return format_html('<span style="color: blue;">● Unread</span>')
+            return format_html('<span >● Unread</span>')
     read_status.short_description = 'Read Status'
     
     def mark_as_read(self, request, queryset):

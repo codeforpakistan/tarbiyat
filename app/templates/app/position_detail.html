@@ -1,257 +1,257 @@
-{% extends 'app/page.html' %}
-{% load user_tags %}
-
-{% block title %}{{ position.title }} at {{ position.company.name }} - Tarbiyat{% endblock %}
-
-{% block content %}
+{% extends 'app/page.html' %} {% load user_tags %} {% block title %}{{ position.title }} at {{ position.company.name }}
+- Tarbiyat{% endblock %} {% block content %}
 <div class="min-h-screen py-8">
-        <!-- Breadcrumb -->
-        <nav class="mb-6">
-            <ol class="flex items-center space-x-2  text-gray-500">
-                <li><a href="{% url 'home' %}" class="hover:text-gray-700">Home</a></li>
-                <li>›</li>
-                <li><a href="{% url 'browse_positions' %}" class="hover:text-gray-700">Browse Positions</a></li>
-                <li>›</li>
-                <li class="text-gray-900">{{ position.title }}</li>
-            </ol>
-        </nav>
+  <!-- Breadcrumb -->
+  <nav class="mb-6">
+    <ol class="flex items-center space-x-2 text-gray-500">
+      <li><a href="{% url 'home' %}" class="hover:text-gray-700 dark:text-gray-300">Home</a></li>
+      <li>›</li>
+      <li>
+        <a href="{% url 'browse_positions' %}" class="hover:text-gray-700 dark:text-gray-300">Browse Positions</a>
+      </li>
+      <li>›</li>
+      <li class="text-gray-900 dark:text-gray-100">{{ position.title }}</li>
+    </ol>
+  </nav>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Main Content -->
-            <div class="lg:col-span-2">
-                <!-- Position Header -->
-                <div class=" rounded-lg shadow-sm p-8 mb-6">
-                    <div class="flex items-start justify-between mb-6">
-                        <div>
-                            <h1 class="text-3xl font-semibold text-gray-900 mb-2">{{ position.title }}</h1>
-                            <div class="flex items-center space-x-4 text-gray-600">
-                                <div class="flex items-center">
-                                    
-                                    <span class="text-lg">{{ position.company.name }}</span>
-                                </div>
-                                <div class="flex items-center">
-                                    
-                                    <span>{{ position.mentor.user.get_full_name }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="inline-flex items-center px-3 py-1 rounded-full  
-                                {% if position.available_spots > 0 %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
-                                {{ position.available_spots }}/{{ position.max_students }} spots available
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Key Details -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                            <div>
-                                <p class=" text-gray-500">Duration</p>
-                                <p class="font-semibold">{{ position.get_duration_display }}</p>
-                            </div>
-                            <div>
-                                <p class=" text-gray-500">Stipend</p>
-                                <p class="font-semibold">
-                                    {% if position.stipend %}PKR {{ position.stipend }}/month{% else %}Unpaid{% endif %}
-                                </p>
-                            </div>
-                            <div>
-                                <p class=" text-gray-500">Period</p>
-                                <p class="font-semibold">{{ position.start_date|date }} - {{ position.end_date|date }}</p>
-                            </div>
-                    </div>
-
-                    <!-- Application Status -->
-                    {% if user_application %}
-                        <div class="border-l-4 border-blue-500 bg-blue-50 p-4 mb-6">
-                            <div class="flex items-center">
-                                
-                                <p class="text-blue-500">
-                                    <span class="font-semibold">Application Status:</span> 
-                                    {{ user_application.get_status_display }}
-                                    {% if user_application.applied_at %}
-                                        <span class="">(Applied on {{ user_application.applied_at|date }})</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <!-- Description -->
-                <div class=" rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">About This Position</h2>
-                    <div class="prose max-w-none text-gray-700">
-                        {{ position.description|linebreaks }}
-                    </div>
-                </div>
-
-                <!-- Requirements -->
-                <div class=" rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
-                    <div class="prose max-w-none text-gray-700">
-                        {{ position.requirements|linebreaks }}
-                    </div>
-                </div>
-
-                <!-- Skills Required -->
-                <div class=" rounded-lg shadow-sm p-8 mb-6">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">Required Skills</h2>
-                    <div class="prose max-w-none text-gray-700">
-                        {{ position.skills_required|linebreaks }}
-                    </div>
-                </div>
-
-                <!-- Company Info -->
-                <div class=" rounded-lg shadow-sm p-8">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-4">About {{ position.company.name }}</h2>
-                    <div class="space-y-4">
-                        <div class="prose max-w-none text-gray-700">
-                            {{ position.company.description|linebreaks }}
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-                            <div>
-                                <span class="font-semibold text-gray-900">Industry:</span>
-                                <span class="text-gray-700">{{ position.company.industry }}</span>
-                            </div>
-                            <div>
-                                <span class="font-semibold text-gray-900">Location:</span>
-                                <span class="text-gray-700">{{ position.company.address }}</span>
-                            </div>
-                            {% if position.company.website %}
-                            <div>
-                                <span class="font-semibold text-gray-900">Website:</span>
-                                <a href="{{ position.company.website }}" target="_blank" class="text-blue-500 hover:text-blue-800">
-                                    {{ position.company.website }}
-                                </a>
-                            </div>
-                            {% endif %}
-                            <div>
-                                <span class="font-semibold text-gray-900">Contact:</span>
-                                <span class="text-gray-700">{{ position.company.contact_email }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <div class="lg:col-span-2">
+      <!-- Position Header -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-6">
+        <div class="flex items-start justify-between mb-6">
+          <div>
+            <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ position.title }}</h1>
+            <div class="flex items-center space-x-4 text-gray-600 dark:text-gray-300">
+              <div class="flex items-center">
+                <span class="text-lg">{{ position.company.name }}</span>
+              </div>
+              <div class="flex items-center">
+                <span>{{ position.mentor.user.get_full_name }}</span>
+              </div>
             </div>
-
-            <!-- Sidebar -->
-            <div class="lg:col-span-1">
-                <!-- Application Card -->
-                <div class=" rounded-lg shadow-sm p-6 mb-6 sticky top-6">
-                    {% if user.is_authenticated and user|get_user_type == 'student' %}
-                        {% if user_application %}
-                            <div class="text-center">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Application Submitted</h3>
-                                <p class="text-gray-600 mb-4">Your application is {{ user_application.get_status_display|lower }}</p>
-                                <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md  cursor-not-allowed" disabled>
-                                    Already Applied
-                                </button>
-                            </div>
-                        {% elif position.available_spots > 0 %}
-                            <div class="text-center">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Apply?</h3>
-                                <p class="text-gray-600 mb-4">Submit your application for this position</p>
-                                <a href="{% url 'apply_position' position.nanoid %}" class="block w-full text-white bg-blue-500 hover:bg-blue-700  px-4 py-3 rounded-md  transition duration-200 text-center">
-                                    Apply Now
-                                </a>
-                            </div>
-                        {% else %}
-                            <div class="text-center">
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">No Spots Available</h3>
-                                <p class="text-gray-600 mb-4">This position is currently full</p>
-                                <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md  cursor-not-allowed" disabled>
-                                    Position Full
-                                </button>
-                            </div>
-                        {% endif %}
-                    {% elif not user.is_authenticated %}
-                        <div class="text-center">
-                            <h3 class="text-lg font-semibold text-gray-900 mb-2">Apply for this position</h3>
-                            <p class="text-gray-600 mb-4">Create an account or login to apply for this position</p>
-                            <div class="space-y-2">
-                                <a href="{% url 'account_login' %}" class="block w-full text-white bg-blue-500 hover:bg-blue-700  px-4 py-3 rounded-md  transition duration-200 text-center">
-                                    Login
-                                </a>
-                                <a href="{% url 'account_signup' %}" class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 px-4 py-3 rounded-md  transition duration-200 text-center">
-                                    Sign Up
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-
-                <!-- Quick Info -->
-                <div class=" rounded-lg shadow-sm p-6 mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Info</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Posted:</span>
-                            <span class="">{{ position.created_at|date }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Start Date:</span>
-                            <span class="">{{ position.start_date|date }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">End Date:</span>
-                            <span class="">{{ position.end_date|date }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Max Students:</span>
-                            <span class="">{{ position.max_students }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Applications:</span>
-                            <span class="">{{ total_applications }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Share -->
-                <div class=" rounded-lg shadow-sm p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Share This Position</h3>
-                    <div class="flex space-x-3">
-                        <button class="flex-1 text-white bg-blue-500 hover:bg-blue-700  px-3 py-2 rounded-md   transition duration-200">
-                            Facebook
-                        </button>
-                        <button class="flex-1 bg-blue-400 hover:text-white bg-blue-500  px-3 py-2 rounded-md   transition duration-200">
-                            Twitter
-                        </button>
-                        <button class="flex-1 bg-blue-700 hover:bg-blue-800  px-3 py-2 rounded-md   transition duration-200">
-                            LinkedIn
-                        </button>
-                    </div>
-                </div>
+          </div>
+          <div class="text-right">
+            <div
+              class="inline-flex items-center px-3 py-1 rounded-full {% if position.available_spots > 0 %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200{% else %}bg-gray-100 text-gray-800 dark:text-gray-200{% endif %}">
+              {{ position.available_spots }}/{{ position.max_students }} spots available
             </div>
+          </div>
         </div>
 
-        <!-- Related Positions -->
-        {% if related_positions %}
-        <div class="mt-12">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-6">More from {{ position.company.name }}</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {% for related_position in related_positions %}
-                <div class=" rounded-lg shadow-sm hover:shadow-md transition duration-200">
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                            <a href="{% url 'position_detail' related_position.nanoid %}" class="hover:text-blue-500">
-                                {{ related_position.title }}
-                            </a>
-                        </h3>
-                        <p class="text-gray-600  mb-4">{{ related_position.description|truncatewords:20 }}</p>
-                        <div class="flex items-center justify-between ">
-                            <span class="text-gray-500">{{ related_position.get_duration_display }}</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full  
-                                {% if related_position.available_spots > 0 %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
-                                {{ related_position.available_spots }} spots
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+        <!-- Key Details -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div>
+            <p class="text-gray-500">Duration</p>
+            <p class="font-semibold">{{ position.get_duration_display }}</p>
+          </div>
+          <div>
+            <p class="text-gray-500">Stipend</p>
+            <p class="font-semibold">
+              {% if position.stipend %}PKR {{ position.stipend }}/month{% else %}Unpaid{% endif %}
+            </p>
+          </div>
+          <div>
+            <p class="text-gray-500">Period</p>
+            <p class="font-semibold">{{ position.start_date|date }} - {{ position.end_date|date }}</p>
+          </div>
+        </div>
+
+        <!-- Application Status -->
+        {% if user_application %}
+        <div class="border-l-4 border-blue-500 bg-blue-50 dark:bg-blue-900 p-4 mb-6">
+          <div class="flex items-center">
+            <p class="text-blue-500">
+              <span class="font-semibold">Application Status:</span>
+              {{ user_application.get_status_display }} {% if user_application.applied_at %}
+              <span class="">(Applied on {{ user_application.applied_at|date }})</span>
+              {% endif %}
+            </p>
+          </div>
         </div>
         {% endif %}
+      </div>
+
+      <!-- Description -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">About This Position</h2>
+        <div class="prose max-w-none text-gray-700 dark:text-gray-300">{{ position.description|linebreaks }}</div>
+      </div>
+
+      <!-- Requirements -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Requirements</h2>
+        <div class="prose max-w-none text-gray-700 dark:text-gray-300">{{ position.requirements|linebreaks }}</div>
+      </div>
+
+      <!-- Skills Required -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Required Skills</h2>
+        <div class="prose max-w-none text-gray-700 dark:text-gray-300">{{ position.skills_required|linebreaks }}</div>
+      </div>
+
+      <!-- Company Info -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">About {{ position.company.name }}</h2>
+        <div class="space-y-4">
+          <div class="prose max-w-none text-gray-700 dark:text-gray-300">
+            {{ position.company.description|linebreaks }}
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-gray-100">Industry:</span>
+              <span class="text-gray-700 dark:text-gray-300">{{ position.company.industry }}</span>
+            </div>
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-gray-100">Location:</span>
+              <span class="text-gray-700 dark:text-gray-300">{{ position.company.address }}</span>
+            </div>
+            {% if position.company.website %}
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-gray-100">Website:</span>
+              <a
+                href="{{ position.company.website }}"
+                target="_blank"
+                class="text-blue-500 hover:text-blue-800 dark:text-blue-200">
+                {{ position.company.website }}
+              </a>
+            </div>
+            {% endif %}
+            <div>
+              <span class="font-semibold text-gray-900 dark:text-gray-100">Contact:</span>
+              <span class="text-gray-700 dark:text-gray-300">{{ position.company.contact_email }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1">
+      <!-- Application Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6 sticky top-6">
+        {% if user.is_authenticated and user|get_user_type == 'student' %} {% if user_application %}
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Application Submitted</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Your application is {{ user_application.get_status_display|lower }}
+          </p>
+          <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
+            Already Applied
+          </button>
+        </div>
+        {% elif position.available_spots > 0 %}
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Ready to Apply?</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Submit your application for this position</p>
+          <a
+            href="{% url 'apply_position' position.nanoid %}"
+            class="block w-full text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 px-4 py-3 rounded-md transition duration-200 text-center">
+            Apply Now
+          </a>
+        </div>
+        {% else %}
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">No Spots Available</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">This position is currently full</p>
+          <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
+            Position Full
+          </button>
+        </div>
+        {% endif %}
+        {% elif not user.is_authenticated %}
+        <div class="text-center">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Apply for this position</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Create an account or login to apply for this position</p>
+          <div class="space-y-2">
+            <a
+              href="{% url 'account_login' %}"
+              class="block w-full text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-800 px-4 py-3 rounded-md transition duration-200 text-center">
+              Login
+            </a>
+            <a
+              href="{% url 'account_signup' %}"
+              class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 dark:bg-blue-900 px-4 py-3 rounded-md transition duration-200 text-center">
+              Sign Up
+            </a>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Quick Info -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Info</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-300">Posted:</span>
+            <span class="">{{ position.created_at|date }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-300">Start Date:</span>
+            <span class="">{{ position.start_date|date }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-300">End Date:</span>
+            <span class="">{{ position.end_date|date }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-300">Max Students:</span>
+            <span class="">{{ position.max_students }}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-600 dark:text-gray-300">Applications:</span>
+            <span class="">{{ total_applications }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Share This Position</h3>
+        <div class="flex space-x-3">
+          <button
+            class="flex-1 text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 px-3 py-2 rounded-md transition duration-200">
+            Facebook
+          </button>
+          <button
+            class="flex-1 bg-blue-400 hover:text-white bg-blue-600 dark:bg-blue-700 px-3 py-2 rounded-md transition duration-200">
+            Twitter
+          </button>
+          <button class="flex-1 bg-blue-700 hover:bg-blue-800 px-3 py-2 rounded-md transition duration-200">
+            LinkedIn
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Positions -->
+  {% if related_positions %}
+  <div class="mt-12">
+    <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">More from {{ position.company.name }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for related_position in related_positions %}
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition duration-200">
+        <div class="p-6">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            <a href="{% url 'position_detail' related_position.nanoid %}" class="hover:text-blue-500">
+              {{ related_position.title }}
+            </a>
+          </h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">{{ related_position.description|truncatewords:20 }}</p>
+          <div class="flex items-center justify-between">
+            <span class="text-gray-500">{{ related_position.get_duration_display }}</span>
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full {% if related_position.available_spots > 0 %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200{% else %}bg-gray-100 text-gray-800 dark:text-gray-200{% endif %}">
+              {{ related_position.available_spots }} spots
+            </span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

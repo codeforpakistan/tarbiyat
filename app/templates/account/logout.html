@@ -15,7 +15,7 @@
             </p>
         </div>
 
-        <div class="py-8 px-6 shadow-xl rounded-lg">
+        <div class="py-8 px-6 shadow-xl rounded-lg bg-white dark:bg-gray-800">
             <form class="space-y-6" method="post">
                 {% csrf_token %}
                 
@@ -25,7 +25,7 @@
                         Yes, sign out
                     </button>
                     
-                    <a href="{% url 'home' %}" class="flex-1 flex justify-center py-3 px-4 border border-gray-300   rounded-lg text-gray-700   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                    <a href="{% url 'home' %}" class="flex-1 flex justify-center py-3 px-4 border border-gray-300   rounded-lg text-gray-700   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 bg-white dark:bg-gray-800">
                         
                         Cancel
                     </a>

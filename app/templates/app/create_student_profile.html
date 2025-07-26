@@ -7,30 +7,30 @@
 <div class="min-h-[calc(100vh-65px)] bg-gradient-to-br from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full mx-auto">
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-semibold text-gray-900">Create Student Profile</h2>
-            <p class="mt-2  text-gray-600">
+            <h2 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">Create Student Profile</h2>
+            <p class="mt-2 text-gray-600 dark:text-gray-300">
                 Complete your student profile to access internship opportunities
             </p>
         </div>
 
-        <div class=" py-8 px-6 shadow-xl rounded-lg">
+        <div class="py-8 px-6 shadow-xl rounded-lg bg-white dark:bg-gray-800">
             <form method="post" class="space-y-6">
                 {% csrf_token %}
                 
                 <div class="text-center">
-                    <p class=" text-gray-600 mb-6">
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
                         Welcome, {{ user.get_full_name|default:user.username }}! Let's set up your student profile.
                     </p>
                 </div>
 
                 <div class="text-center">
-                    <p class=" text-gray-500 mb-4">
+                    <p class="text-gray-500 mb-4">
                         A basic profile will be created for you. You can update it later from your dashboard.
                     </p>
                 </div>
 
                 <div>
-                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent   rounded-lg  text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-white bg-blue-600 dark:bg-blue-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
                         <span class="mr-2">
                             
                         </span>
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{% url 'home' %}" class=" text-gray-600 hover:text-gray-500">
+                    <a href="{% url 'home' %}" class="text-gray-600 dark:text-gray-300 hover:text-gray-500">
                         Back to Home
                     </a>
                 </div>
