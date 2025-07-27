@@ -5,168 +5,26 @@
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700">
-        <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">Student Portal</h5>
-        <nav class="space-y-2">
-          <a
-            href="{% url 'dashboard' %}"
-            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
-            Dashboard
-          </a>
-          <a
-            href="{% url 'edit_profile' %}"
-            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
-            My Profile
-          </a>
-          <a
-            href="{% url 'browse_positions' %}"
-            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
-            Browse Positions
-          </a>
-          <a
-            href="{% url 'student_applications' %}"
-            class="flex items-center px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 rounded-md">
-            My Applications
-          </a>
-          <a
-            href="{% url 'student_weekly_activities' %}"
-            class="flex items-center px-3 py-2 text-white bg-blue-600 dark:bg-blue-700 rounded-md">
-            📝 Weekly Activities
-          </a>
-        </nav>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="lg:col-span-3">
-      <!-- Header -->
-      <div class="flex justify-between items-center mb-8">
-        <div>
-          <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Create Weekly Activity Log</h2>
-          <p class="text-gray-600 dark:text-gray-300">Document your weekly activities and hours</p>
-        </div>
-        <a
-          href="{% url 'student_weekly_activities' %}"
-          class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-md transition-colors">
-          ← Back to Logs
-        </a>
-      </div>
-
-      <!-- Current Internship Info -->
-      <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 class="text-lg font-medium text-blue-900 mb-2">Current Internship</h3>
-        <div class="text-blue-800 dark:text-blue-200">
-          <p><strong>Position:</strong> {{ current_internship.position.title|default:"N/A" }}</p>
-          <p><strong>Company:</strong> {{ current_internship.mentor.company.name|default:"N/A" }}</p>
-          <p><strong>Mentor:</strong> {{ current_internship.mentor.user.get_full_name }}</p>
-        </div>
-      </div>
-
-      <!-- Form -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <form method="post" class="p-6">
-          {% csrf_token %}
-          
-          <!-- Week Selection -->
-          <div class="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Week Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="{{ log_form.week_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Week Starting Date
-                </label>
-                {{ log_form.week_starting }}
-                {% if log_form.week_starting.errors %}
-                  <div class="mt-1 text-sm text-red-600 dark:text-red-400">
-                    {{ log_form.week_starting.errors.0 }}
-                  </div>
-                {% endif %}
-                <p class="mt-1 text-sm text-gray-500">Select the Monday of the week you're reporting</p>
+      <div class="bg-white 'dashboard' %}"
+            class="flex items-center px-3 py-2 text-gray-600 'edit_profile' %}"
+            class="flex items-center px-3 py-2 text-gray-600 'browse_positions' %}"
+            class="flex items-center px-3 py-2 text-gray-600 'student_applications' %}"
+            class="flex items-center px-3 py-2 text-gray-600 'student_weekly_activities' %}"
+            class="flex items-center px-3 py-2 text-white bg-blue-500 'student_weekly_activities' %}"
+          class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 're reporting</p>
               </div>
             </div>
           </div>
 
           <!-- Activities Section -->
           <div class="mb-6">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">Weekly Activities</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Add at least one activity. You can add more activities by clicking "Add Another Activity" below.</p>
-            
-            <div id="activity-formset">
-              {{ activity_formset.management_form }}
-              {% for form in activity_formset %}
-              <div class="activity-form mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg relative bg-white dark:bg-gray-800" data-form-index="{{ forloop.counter0 }}">
-                <!-- Delete checkbox (hidden) -->
-                {% if form.DELETE %}
-                  {{ form.DELETE }}
-                {% endif %}
-                
-                <!-- Form fields -->
-                <div class="grid grid-cols-1 gap-4">
-                  <!-- Task Description -->
-                  <div>
-                    <label for="{{ form.task_description.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Task Description <span class="text-red-500">*</span>
-                    </label>
-                    {{ form.task_description }}
-                    {% if form.task_description.errors %}
-                      <div class="mt-1 text-sm text-red-600 dark:text-red-400">
-                        {{ form.task_description.errors.0 }}
-                      </div>
-                    {% endif %}
-                  </div>
-                  
-                  <!-- Hours and Date Row -->
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label for="{{ form.hours_spent.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Hours Spent <span class="text-red-500">*</span>
-                      </label>
-                      {{ form.hours_spent }}
-                      {% if form.hours_spent.errors %}
-                        <div class="mt-1 text-sm text-red-600 dark:text-red-400">
-                          {{ form.hours_spent.errors.0 }}
-                        </div>
-                      {% endif %}
-                    </div>
-                    
-                    <div>
-                      <label for="{{ form.date_performed.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Date Performed <span class="text-red-500">*</span>
-                      </label>
-                      {{ form.date_performed }}
-                      {% if form.date_performed.errors %}
-                        <div class="mt-1 text-sm text-red-600 dark:text-red-400">
-                          {{ form.date_performed.errors.0 }}
-                        </div>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Delete button -->
-                <button type="button" class="delete-activity absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm font-medium" style="display: none;">
-                  🗑️ Remove
-                </button>
-              </div>
-              {% endfor %}
-            </div>
-            
-            <!-- Add More Activity Button -->
-            <button type="button" id="add-activity" class="inline-flex items-center px-4 py-2 bg-green-100 dark:bg-green-900 hover:bg-green-200 text-green-700 text-sm font-medium rounded-md transition-colors">
-              ➕ Add Another Activity
-            </button>
-          </div>
-
-          <!-- Submit Buttons -->
-          <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <a
-              href="{% url 'student_weekly_activities' %}"
-              class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 dark:text-gray-300 font-medium rounded-md transition-colors">
+            <h3 class="text-lg font-medium text-gray-900 'student_weekly_activities' %}"
+              class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors">
               Cancel
             </a>
             <button
               type="submit"
-              class="inline-flex items-center px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
+              class="inline-flex items-center px-6 py-2 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
               📝 Create Weekly Log
             </button>
           </div>
@@ -176,9 +34,5 @@
   </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    initializeFormset('activity-formset', 'add-activity', 'id_form-TOTAL_FORMS', {{ activity_formset.total_form_count }});
-});
-</script>
 {% endblock %}
+

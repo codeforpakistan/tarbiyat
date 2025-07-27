@@ -683,13 +683,13 @@ def complete_profile(request):
             
             # Redirect based on user type
             if user_type == 'student':
-                return redirect('student_dashboard')
+                return redirect('dashboard')
             elif user_type == 'mentor':
-                return redirect('mentor_dashboard')
+                return redirect('dashboard')
             elif user_type == 'teacher':
-                return redirect('teacher_dashboard')
+                return redirect('dashboard')
             elif user_type == 'official':
-                return redirect('official_dashboard')
+                return redirect('dashboard')
             else:
                 return redirect('home')
     else:
@@ -1112,7 +1112,7 @@ def edit_student_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('student_dashboard')
+        return redirect('dashboard')
     
     available_institutes = get_available_institutes_for_user(request.user)
     context = {
@@ -1167,7 +1167,7 @@ def edit_mentor_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     available_companies = get_available_companies_for_user(request.user)
     context = {
@@ -1192,7 +1192,7 @@ def edit_company(request):
     
     if not mentor_profile.can_edit_company():
         messages.error(request, 'You can only edit companies that you registered.')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     company = mentor_profile.company
     
@@ -1567,7 +1567,7 @@ def student_weekly_activities(request):
     
     if not current_internship:
         messages.info(request, 'You need an active internship to submit weekly activity logs.')
-        return redirect('student_dashboard')
+        return redirect('dashboard')
     
     # Get all weekly activity logs for this internship
     weekly_logs = StudentWeeklyActivityLog.objects.filter(
@@ -1604,7 +1604,7 @@ def create_weekly_activity_log(request):
     
     if not current_internship:
         messages.error(request, 'You need an active internship to submit weekly activity logs.')
-        return redirect('student_dashboard')
+        return redirect('dashboard')
     
     if request.method == 'POST':
         log_form = StudentWeeklyActivityLogForm(request.POST)
@@ -2320,6 +2320,10 @@ def edit_progress_report(request, report_nanoid):
     }
     
     return render(request, 'app/edit_progress_report.html', context)
+
+def component_demo(request):
+    """Demo page showing custom CSS components"""
+    return render(request, 'app/component_demo.html')
 
 def documentation_index(request):
     """Documentation homepage with available guides"""

@@ -37,10 +37,10 @@ urlpatterns = [
     path('applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
     
     # Student weekly activity log management
-    path('students/weekly-activities/', views.student_weekly_activities, name='student_weekly_activities'),
-    path('students/weekly-activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
-    path('students/weekly-activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
-    path('students/weekly-activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
+    path('activities/', views.student_weekly_activities, name='student_weekly_activities'),
+    path('activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
+    path('activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
+    path('activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
     
     # Position management URLs (specific patterns first)
     path('positions/', views.browse_positions, name='browse_positions'),
@@ -54,7 +54,8 @@ urlpatterns = [
     path('internships/<str:internship_nanoid>/progress-reports/create/', views.create_progress_report, name='create_progress_report'),
     path('progress-reports/<str:report_nanoid>/edit/', views.edit_progress_report, name='edit_progress_report'),
     
-    # Documentation URLs
+    # Demo and Documentation URLs
+    path('demo/', views.component_demo, name='component_demo'),
     path('docs/', views.documentation_index, name='documentation_index'),
     path('docs/<str:user_type>/<str:topic>/', views.documentation_guide, name='documentation_guide'),
 ]

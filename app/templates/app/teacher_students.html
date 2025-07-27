@@ -6,15 +6,15 @@
 {% block content %}
 <div class="px-4 py-8">
     <!-- Header -->
-    <div class="shadow-lg rounded-lg p-6 mb-8 bg-white dark:bg-gray-800">
+    <div class="shadow-lg rounded-lg p-6 mb-8 bg-white">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div>
-                <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-2">My Students</h1>
-                <p class="text-gray-600 dark:text-gray-300">{{ teacher_profile.institute.name }}</p>
+                <h1 class="text-3xl font-semibold text-gray-900 mb-2">My Students</h1>
+                <p class="text-gray-600">{{ teacher_profile.institute.name }}</p>
             </div>
             <div class="mt-4 lg:mt-0">
                 <a href="{% url 'dashboard' %}" 
-                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -25,24 +25,24 @@
     </div>
 
     <!-- Search and Filters -->
-    <div class="shadow-lg rounded-lg p-6 mb-8 bg-white dark:bg-gray-800">
+    <div class="shadow-lg rounded-lg p-6 mb-8 bg-white">
         <form method="get" class="space-y-4">
             <div class="flex flex-col lg:flex-row lg:items-end lg:space-x-4 space-y-4 lg:space-y-0">
                 <!-- Search Input -->
                 <div class="flex-1">
-                    <label for="search" class="block text-gray-700 dark:text-gray-300 mb-2">Search Students</label>
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-2">Search Students</label>
                     <input type="text" 
                            id="search"
                            name="search" 
                            value="{{ search_query|default:'' }}"
                            placeholder="Search by name, email, student ID, or major..."
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                 </div>
                 
                 <!-- Year Filter -->
                 <div class="lg:w-48">
-                    <label for="year" class="block text-gray-700 dark:text-gray-300 mb-2">Year of Study</label>
-                    <select name="year" id="year" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <label for="year" class="block text-sm font-medium text-gray-700 mb-2">Year of Study</label>
+                    <select name="year" id="year" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Years</option>
                         {% for value, display in year_choices %}
                         <option value="{{ value }}" {% if year_filter == value|stringformat:"s" %}selected{% endif %}>{{ display }}</option>
@@ -52,8 +52,8 @@
                 
                 <!-- Internship Status Filter -->
                 <div class="lg:w-48">
-                    <label for="internship_status" class="block text-gray-700 dark:text-gray-300 mb-2">Internship Status</label>
-                    <select name="internship_status" id="internship_status" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <label for="internship_status" class="block text-sm font-medium text-gray-700 mb-2">Internship Status</label>
+                    <select name="internship_status" id="internship_status" class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Students</option>
                         <option value="active" {% if internship_filter == 'active' %}selected{% endif %}>Active Internship</option>
                         <option value="completed" {% if internship_filter == 'completed' %}selected{% endif %}>Completed Internship</option>
@@ -64,7 +64,7 @@
                 <!-- Search Button -->
                 <div>
                     <button type="submit" 
-                            class="w-full lg:w-auto px-6 py-2 text-white bg-blue-600 dark:bg-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+                            class="w-full lg:w-auto px-6 py-2 text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
                         <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
@@ -77,7 +77,7 @@
             {% if search_query or year_filter or internship_filter %}
             <div class="flex justify-end">
                 <a href="{% url 'teacher_students' %}" 
-                   class="text-blue-500 hover:text-blue-800 dark:text-blue-200">
+                   class="text-blue-600 hover:text-blue-800">
                     Clear all filters
                 </a>
             </div>
@@ -86,74 +86,74 @@
     </div>
 
     <!-- Students List -->
-    <div class="shadow-lg rounded-lg overflow-hidden bg-white dark:bg-gray-800">
+    <div class="shadow-lg rounded-lg overflow-hidden bg-white">
         {% if page_obj %}
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="">
+                <thead class="bg-gray-50">
                     <tr>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Student</th>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Student ID</th>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Major</th>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Year</th>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Internship Status</th>
-                        <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Contact</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Major</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Internship Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200">
                     {% for student in page_obj %}
-                    <tr class="">
+                    <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
-                                    <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                                    <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
                                         <span class="text-blue-500">
                                             {{ student.user.first_name|first|upper }}{{ student.user.last_name|first|upper }}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="ml-4">
-                                    <div class="text-gray-900 dark:text-gray-100">
+                                    <div class="text-sm font-medium text-gray-900">
                                         {{ student.user.get_full_name }}
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ student.student_id|default:"Not provided" }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ student.major|default:"Not specified" }}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ student.get_year_of_study_display|default:"Not specified" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {% if student.internships.all %}
                                 {% with latest_internship=student.internships.all|first %}
                                 {% if latest_internship.status == 'active' %}
-                                <span class="inline-flex px-2 py-1 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
                                 </span>
                                 {% elif latest_internship.status == 'completed' %}
-                                <span class="inline-flex px-2 py-1 font-semibold rounded-full bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                                     Completed
                                 </span>
                                 {% else %}
-                                <span class="inline-flex px-2 py-1 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                     {{ latest_internship.get_status_display }}
                                 </span>
                                 {% endif %}
                                 {% endwith %}
                             {% else %}
-                            <span class="inline-flex px-2 py-1 font-semibold rounded-full bg-gray-100 text-gray-800 dark:text-gray-200">
+                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
                                 No Internship
                             </span>
                             {% endif %}
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <a href="mailto:{{ student.user.email }}" 
-                               class="text-blue-500 hover:text-blue-800 dark:text-blue-200">
+                               class="text-blue-600 hover:text-blue-800">
                                 {{ student.user.email }}
                             </a>
                         </td>
@@ -165,50 +165,50 @@
 
         <!-- Pagination -->
         {% if page_obj.has_other_pages %}
-        <div class="px-6 py-3 flex items-center justify-between border-t border-gray-200 dark:border-gray-700">
+        <div class="px-6 py-3 flex items-center justify-between border-t border-gray-200">
             <div class="flex-1 flex justify-between sm:hidden">
                 {% if page_obj.has_previous %}
                 <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if year_filter %}&year={{ year_filter }}{% endif %}{% if internship_filter %}&internship_status={{ internship_filter }}{% endif %}" 
-                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700">
                     Previous
                 </a>
                 {% endif %}
                 {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if year_filter %}&year={{ year_filter }}{% endif %}{% if internship_filter %}&internship_status={{ internship_filter }}{% endif %}" 
-                   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                   class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 rounded-md text-gray-700">
                     Next
                 </a>
                 {% endif %}
             </div>
             <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
-                    <p class="text-gray-700 dark:text-gray-300">
+                    <p class="text-sm text-gray-700">
                         Showing 
-                        <span class="">{{ page_obj.start_index }}</span>
+                        <span class="font-medium">{{ page_obj.start_index }}</span>
                         to 
-                        <span class="">{{ page_obj.end_index }}</span>
+                        <span class="font-medium">{{ page_obj.end_index }}</span>
                         of 
-                        <span class="">{{ page_obj.paginator.count }}</span>
+                        <span class="font-medium">{{ page_obj.paginator.count }}</span>
                         results
                     </p>
                 </div>
                 <div>
-                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px bg-white dark:bg-gray-800">
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px bg-white">
                         {% if page_obj.has_previous %}
                         <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if year_filter %}&year={{ year_filter }}{% endif %}{% if internship_filter %}&internship_status={{ internship_filter }}{% endif %}" 
-                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-gray-500">
                             Previous
                         </a>
                         {% endif %}
                         
                         {% for num in page_obj.paginator.page_range %}
                         {% if page_obj.number == num %}
-                        <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 dark:bg-blue-900 text-blue-500">
+                        <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-blue-600 font-medium">
                             {{ num }}
                         </span>
                         {% elif num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
                         <a href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if year_filter %}&year={{ year_filter }}{% endif %}{% if internship_filter %}&internship_status={{ internship_filter }}{% endif %}" 
-                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 dark:text-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50">
                             {{ num }}
                         </a>
                         {% endif %}
@@ -216,7 +216,7 @@
                         
                         {% if page_obj.has_next %}
                         <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if year_filter %}&year={{ year_filter }}{% endif %}{% if internship_filter %}&internship_status={{ internship_filter }}{% endif %}" 
-                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 text-gray-500">
                             Next
                         </a>
                         {% endif %}
@@ -231,8 +231,8 @@
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
-            <h3 class="mt-2 text-gray-900 dark:text-gray-100">No students found</h3>
-            <p class="mt-1 text-gray-500">
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No students found</h3>
+            <p class="mt-1 text-sm text-gray-500">
                 {% if search_query or year_filter or internship_filter %}
                 No students match your current filters. Try adjusting your search criteria.
                 {% else %}

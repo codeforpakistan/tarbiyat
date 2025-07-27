@@ -1,417 +1,511 @@
-{% extends 'docs/base.html' %}
-
-{% block title %}Creating Positions - Mentors - Tarbiyat{% endblock %}
-
+{% extends 'docs/base.html' %} 
+{% block title %}Creating Positions - Mentors - Tarbiyat{% endblock %} 
 {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
-        <span class="mr-2">←</span> Back to Documentation
-    </a>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎯 Creating Positions - Mentor Guide</h1>
-    <p class="text-gray-600">Complete guide to creating attractive, well-defined internship positions that attract quality applicants</p>
+  <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
+    <span class="mr-2">←</span>
+    Back to Documentation
+  </a>
+  <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎯 Creating Positions - Mentor Guide</h1>
+  <p class="text-gray-600">
+    Complete guide to creating attractive, well-defined internship positions that attract quality applicants
+  </p>
 </div>
 
-<div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 space-y-6">
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Getting Started with Position Creation</h2>
-        <p class="text-gray-700 mb-4">
-            Creating effective internship positions is crucial for attracting the right students and ensuring successful internship programs. This guide covers everything from initial setup to ongoing management.
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Getting Started with Position Creation</h2>
+    <p class="text-gray-700 mb-4">
+      Creating effective internship positions is crucial for attracting the right students and ensuring successful
+      internship programs. This guide covers everything from initial setup to ongoing management.
+    </p>
+    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+      <p class="text-green-800">
+        <strong>Prerequisites:</strong>
+        Ensure your mentor profile is complete and your company is approved before creating positions.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Accessing Position Creation</h2>
+
+    <div class="space-y-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📝 From Dashboard</h3>
+        <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
+          <li>Click "Create New Position" quick action button</li>
+          <li>Use the "+" icon in the positions summary section</li>
+          <li>Access via the main dashboard statistics</li>
+        </ol>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📋 From Navigation</h3>
+        <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
+          <li>Go to "My Positions" from the mentor menu</li>
+          <li>Click "Create New Position" button</li>
+          <li>Fill out the position creation form</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Information Fields</h2>
+
+    <div class="space-y-6">
+      <div class="border-l-4 border-blue-500 pl-4">
+        <h3 class="font-semibold text-gray-800 mb-3">Basic Information</h3>
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Position Title
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Clear, specific job title that describes the role</p>
+            <div class="text-base text-gray-500">
+              <span class="text-green-600">✓ Good:</span>
+              "Software Development Intern - Web Applications"
+              <br />
+              <span class="text-red-600">✗ Avoid:</span>
+              "Intern" or "General Position"
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Department
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Select from available departments in your organization</p>
+            <div class="text-base text-gray-500">Common options: IT, Marketing, HR, Finance, Operations, R&amp;D</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Position Type
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Choose the internship format</p>
+            <ul class="text-base text-gray-500 space-y-1">
+              <li>
+                <strong>Full-time:</strong>
+                40 hours/week, complete immersion
+              </li>
+              <li>
+                <strong>Part-time:</strong>
+                20-30 hours/week, flexible schedule
+              </li>
+              <li>
+                <strong>Project-based:</strong>
+                Specific deliverable focus
+              </li>
+              <li>
+                <strong>Remote:</strong>
+                Work from home opportunity
+              </li>
+              <li>
+                <strong>Hybrid:</strong>
+                Mix of office and remote work
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-l-4 border-green-500 pl-4">
+        <h3 class="font-semibold text-gray-800 mb-3">Position Details</h3>
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Description
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Detailed position overview (500-1000 words recommended)</p>
+            <div class="text-base text-gray-500">
+              Include: Role overview, daily responsibilities, learning objectives, company culture fit
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Key Responsibilities
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Specific tasks the intern will perform (bullet points work well)</p>
+            <div class="text-base text-gray-500">Example: "Develop web applications using React and Node.js"</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Learning Outcomes</h4>
+            <p class="text-base text-gray-600 mb-2">What skills/knowledge the intern will gain</p>
+            <div class="text-base text-gray-500">Focus on professional development and transferable skills</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-l-4 border-purple-500 pl-4">
+        <h3 class="font-semibold text-gray-800 mb-3">Requirements &amp;Qualifications</h3>
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Required Skills
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Essential technical and soft skills</p>
+            <div class="text-base text-gray-500">Separate with commas: "Python, Django, Git, Problem Solving"</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Preferred Skills</h4>
+            <p class="text-base text-gray-600 mb-2">Nice-to-have skills that make candidates stand out</p>
+            <div class="text-base text-gray-500">Example: "Docker, AWS, React, Previous internship experience"</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Education Requirements</h4>
+            <p class="text-base text-gray-600 mb-2">Academic qualifications needed</p>
+            <ul class="text-base text-gray-500 space-y-1">
+              <li>
+                <strong>Year of Study:</strong>
+                Freshman, Sophomore, Junior, Senior
+              </li>
+              <li>
+                <strong>Major/Field:</strong>
+                Computer Science, Engineering, Business, etc.
+              </li>
+              <li>
+                <strong>Minimum GPA:</strong>
+                If required (e.g., 3.0 or above)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-l-4 border-orange-500 pl-4">
+        <h3 class="font-semibold text-gray-800 mb-3">Internship Logistics</h3>
+        <div class="space-y-4">
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">
+              Duration
+              <span class="text-red-500">*</span>
+            </h4>
+            <p class="text-base text-gray-600 mb-2">Expected length of the internship</p>
+            <div class="text-base text-gray-500">
+              Common durations: 8 weeks (summer), 12 weeks (semester), 16 weeks (co-op)
+            </div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Start Date</h4>
+            <p class="text-base text-gray-600 mb-2">When the internship will begin (can be flexible)</p>
+            <div class="text-base text-gray-500">Consider academic calendars when setting dates</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Location</h4>
+            <p class="text-base text-gray-600 mb-2">Physical location or remote work setup</p>
+            <div class="text-base text-gray-500">Include address for on-site positions, timezone for remote work</div>
+          </div>
+
+          <div class="border border-gray-200 rounded p-3 bg-white">
+            <h4 class="font-semibold text-gray-800 text-base mb-1">Compensation</h4>
+            <p class="text-base text-gray-600 mb-2">Salary, stipend, or unpaid (if legally compliant)</p>
+            <div class="text-base text-gray-500">
+              Be transparent about compensation structure and any additional benefits
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Writing Effective Position Descriptions</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+        <h3 class="font-semibold text-green-800 mb-2">✅ Best Practices</h3>
+        <ul class="list-disc list-inside text-base text-green-700 space-y-1">
+          <li>Use clear, specific language</li>
+          <li>Include real examples of tasks</li>
+          <li>Mention learning opportunities</li>
+          <li>Describe team and company culture</li>
+          <li>Be honest about expectations</li>
+          <li>Use bullet points for readability</li>
+          <li>Include growth potential</li>
+        </ul>
+      </div>
+      <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+        <h3 class="font-semibold text-red-800 mb-2">❌ Avoid These Mistakes</h3>
+        <ul class="list-disc list-inside text-base text-red-700 space-y-1">
+          <li>Vague job descriptions</li>
+          <li>Unrealistic skill requirements</li>
+          <li>Generic, template language</li>
+          <li>Missing key logistics information</li>
+          <li>Overly long requirement lists</li>
+          <li>No mention of learning value</li>
+          <li>Unclear compensation details</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <h3 class="font-semibold text-blue-800 mb-2">📝 Description Template Structure</h3>
+      <div class="text-base text-blue-500 space-y-2">
+        <p>
+          <strong>1. Opening Hook:</strong>
+          Brief, engaging introduction to the role
         </p>
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-            <p class="text-green-800">
-                <strong>Prerequisites:</strong> Ensure your mentor profile is complete and your company is approved before creating positions.
-            </p>
+        <p>
+          <strong>2. Company Context:</strong>
+          What your organization does and its mission
+        </p>
+        <p>
+          <strong>3. Role Overview:</strong>
+          High-level summary of the position
+        </p>
+        <p>
+          <strong>4. Daily Responsibilities:</strong>
+          Specific tasks and projects
+        </p>
+        <p>
+          <strong>5. Learning Opportunities:</strong>
+          Skills to be developed
+        </p>
+        <p>
+          <strong>6. Team Structure:</strong>
+          Who they'll work with
+        </p>
+        <p>
+          <strong>7. Success Metrics:</strong>
+          How performance will be measured
+        </p>
+        <p>
+          <strong>8. Growth Path:</strong>
+          Potential for future opportunities
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Setting Requirements Strategically</h2>
+
+    <div class="space-y-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">🎯 Requirement Categories</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-base">
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-1">Must-Have</h4>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>Essential technical skills</li>
+              <li>Minimum GPA (if required)</li>
+              <li>Specific year of study</li>
+              <li>Relevant academic major</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-1">Preferred</h4>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>Additional technical skills</li>
+              <li>Previous experience</li>
+              <li>Portfolio examples</li>
+              <li>Leadership experience</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-800 mb-1">Bonus</h4>
+            <ul class="list-disc list-inside text-gray-700 space-y-1">
+              <li>Specialized knowledge</li>
+              <li>Industry certifications</li>
+              <li>Multilingual abilities</li>
+              <li>Unique perspectives</li>
+            </ul>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Accessing Position Creation</h2>
-        
-        <div class="space-y-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📝 From Dashboard</h3>
-                <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
-                    <li>Click "Create New Position" quick action button</li>
-                    <li>Use the "+" icon in the positions summary section</li>
-                    <li>Access via the main dashboard statistics</li>
-                </ol>
-            </div>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <h3 class="font-semibold text-yellow-800 mb-2">⚖️ Balancing Requirements</h3>
+        <p class="text-yellow-700 text-base mb-2">Consider these factors when setting requirements:</p>
+        <ul class="list-disc list-inside text-base text-yellow-700 space-y-1">
+          <li>
+            <strong>Internship Level:</strong>
+            Entry-level should have minimal requirements
+          </li>
+          <li>
+            <strong>Learning Focus:</strong>
+            Emphasize willingness to learn over existing skills
+          </li>
+          <li>
+            <strong>Market Reality:</strong>
+            Don't require 5 years experience for an internship
+          </li>
+          <li>
+            <strong>Diversity:</strong>
+            Avoid requirements that inadvertently exclude qualified candidates
+          </li>
+          <li>
+            <strong>Growth Mindset:</strong>
+            Value potential and enthusiasm alongside skills
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📋 From Navigation</h3>
-                <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
-                    <li>Go to "My Positions" from the mentor menu</li>
-                    <li>Click "Create New Position" button</li>
-                    <li>Fill out the position creation form</li>
-                </ol>
-            </div>
-        </div>
-    </section>
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Settings &amp;Management</h2>
 
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Information Fields</h2>
-        
-        <div class="space-y-6">
-            <div class="border-l-4 border-blue-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Basic Information</h3>
-                <div class="space-y-4">
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Position Title <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Clear, specific job title that describes the role</p>
-                        <div class="text-base text-gray-500">
-                            <span class="text-green-600">✓ Good:</span> "Software Development Intern - Web Applications"<br>
-                            <span class="text-red-600">✗ Avoid:</span> "Intern" or "General Position"
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Department <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Select from available departments in your organization</p>
-                        <div class="text-base text-gray-500">
-                            Common options: IT, Marketing, HR, Finance, Operations, R&D
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Position Type <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Choose the internship format</p>
-                        <ul class="text-base text-gray-500 space-y-1">
-                            <li><strong>Full-time:</strong> 40 hours/week, complete immersion</li>
-                            <li><strong>Part-time:</strong> 20-30 hours/week, flexible schedule</li>
-                            <li><strong>Project-based:</strong> Specific deliverable focus</li>
-                            <li><strong>Remote:</strong> Work from home opportunity</li>
-                            <li><strong>Hybrid:</strong> Mix of office and remote work</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-l-4 border-green-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Position Details</h3>
-                <div class="space-y-4">
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Description <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Detailed position overview (500-1000 words recommended)</p>
-                        <div class="text-base text-gray-500">
-                            Include: Role overview, daily responsibilities, learning objectives, company culture fit
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Key Responsibilities <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Specific tasks the intern will perform (bullet points work well)</p>
-                        <div class="text-base text-gray-500">
-                            Example: "Develop web applications using React and Node.js"
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Learning Outcomes</h4>
-                        <p class="text-base text-gray-600 mb-2">What skills/knowledge the intern will gain</p>
-                        <div class="text-base text-gray-500">
-                            Focus on professional development and transferable skills
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-l-4 border-purple-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Requirements & Qualifications</h3>
-                <div class="space-y-4">
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Required Skills <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Essential technical and soft skills</p>
-                        <div class="text-base text-gray-500">
-                            Separate with commas: "Python, Django, Git, Problem Solving"
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Preferred Skills</h4>
-                        <p class="text-base text-gray-600 mb-2">Nice-to-have skills that make candidates stand out</p>
-                        <div class="text-base text-gray-500">
-                            Example: "Docker, AWS, React, Previous internship experience"
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Education Requirements</h4>
-                        <p class="text-base text-gray-600 mb-2">Academic qualifications needed</p>
-                        <ul class="text-base text-gray-500 space-y-1">
-                            <li><strong>Year of Study:</strong> Freshman, Sophomore, Junior, Senior</li>
-                            <li><strong>Major/Field:</strong> Computer Science, Engineering, Business, etc.</li>
-                            <li><strong>Minimum GPA:</strong> If required (e.g., 3.0 or above)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-l-4 border-orange-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Internship Logistics</h3>
-                <div class="space-y-4">
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Duration <span class="text-red-500">*</span></h4>
-                        <p class="text-base text-gray-600 mb-2">Expected length of the internship</p>
-                        <div class="text-base text-gray-500">
-                            Common durations: 8 weeks (summer), 12 weeks (semester), 16 weeks (co-op)
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Start Date</h4>
-                        <p class="text-base text-gray-600 mb-2">When the internship will begin (can be flexible)</p>
-                        <div class="text-base text-gray-500">
-                            Consider academic calendars when setting dates
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Location</h4>
-                        <p class="text-base text-gray-600 mb-2">Physical location or remote work setup</p>
-                        <div class="text-base text-gray-500">
-                            Include address for on-site positions, timezone for remote work
-                        </div>
-                    </div>
-
-                    <div class=" border border-gray-200 rounded p-3 bg-white dark:bg-gray-800">
-                        <h4 class="font-semibold text-gray-800 text-base mb-1">Compensation</h4>
-                        <p class="text-base text-gray-600 mb-2">Salary, stipend, or unpaid (if legally compliant)</p>
-                        <div class="text-base text-gray-500">
-                            Be transparent about compensation structure and any additional benefits
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Writing Effective Position Descriptions</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                <h3 class="font-semibold text-green-800 mb-2">✅ Best Practices</h3>
-                <ul class="list-disc list-inside text-base text-green-700 space-y-1">
-                    <li>Use clear, specific language</li>
-                    <li>Include real examples of tasks</li>
-                    <li>Mention learning opportunities</li>
-                    <li>Describe team and company culture</li>
-                    <li>Be honest about expectations</li>
-                    <li>Use bullet points for readability</li>
-                    <li>Include growth potential</li>
-                </ul>
-            </div>
-            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                <h3 class="font-semibold text-red-800 mb-2">❌ Avoid These Mistakes</h3>
-                <ul class="list-disc list-inside text-base text-red-700 space-y-1">
-                    <li>Vague job descriptions</li>
-                    <li>Unrealistic skill requirements</li>
-                    <li>Generic, template language</li>
-                    <li>Missing key logistics information</li>
-                    <li>Overly long requirement lists</li>
-                    <li>No mention of learning value</li>
-                    <li>Unclear compensation details</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 class="font-semibold text-blue-800 mb-2">📝 Description Template Structure</h3>
-            <div class="text-base text-blue-500 space-y-2">
-                <p><strong>1. Opening Hook:</strong> Brief, engaging introduction to the role</p>
-                <p><strong>2. Company Context:</strong> What your organization does and its mission</p>
-                <p><strong>3. Role Overview:</strong> High-level summary of the position</p>
-                <p><strong>4. Daily Responsibilities:</strong> Specific tasks and projects</p>
-                <p><strong>5. Learning Opportunities:</strong> Skills to be developed</p>
-                <p><strong>6. Team Structure:</strong> Who they'll work with</p>
-                <p><strong>7. Success Metrics:</strong> How performance will be measured</p>
-                <p><strong>8. Growth Path:</strong> Potential for future opportunities</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Setting Requirements Strategically</h2>
-        
-        <div class="space-y-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">🎯 Requirement Categories</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-base">
-                    <div>
-                        <h4 class="font-semibold text-gray-800 mb-1">Must-Have</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Essential technical skills</li>
-                            <li>Minimum GPA (if required)</li>
-                            <li>Specific year of study</li>
-                            <li>Relevant academic major</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-800 mb-1">Preferred</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Additional technical skills</li>
-                            <li>Previous experience</li>
-                            <li>Portfolio examples</li>
-                            <li>Leadership experience</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-800 mb-1">Bonus</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            <li>Specialized knowledge</li>
-                            <li>Industry certifications</li>
-                            <li>Multilingual abilities</li>
-                            <li>Unique perspectives</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <h3 class="font-semibold text-yellow-800 mb-2">⚖️ Balancing Requirements</h3>
-                <p class="text-yellow-700 text-base mb-2">Consider these factors when setting requirements:</p>
-                <ul class="list-disc list-inside text-base text-yellow-700 space-y-1">
-                    <li><strong>Internship Level:</strong> Entry-level should have minimal requirements</li>
-                    <li><strong>Learning Focus:</strong> Emphasize willingness to learn over existing skills</li>
-                    <li><strong>Market Reality:</strong> Don't require 5 years experience for an internship</li>
-                    <li><strong>Diversity:</strong> Avoid requirements that inadvertently exclude qualified candidates</li>
-                    <li><strong>Growth Mindset:</strong> Value potential and enthusiasm alongside skills</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Settings & Management</h2>
-        
-        <div class="space-y-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">⚙️ Application Settings</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-base text-gray-700">Application Deadline:</span>
-                        <span class="text-base text-gray-500">Set clear closing date for applications</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-base text-gray-700">Maximum Applicants:</span>
-                        <span class="text-base text-gray-500">Limit to manage review workload</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-base text-gray-700">Auto-reject Low GPA:</span>
-                        <span class="text-base text-gray-500">Automatically filter by GPA threshold</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-base text-gray-700">Required Documents:</span>
-                        <span class="text-base text-gray-500">Resume, cover letter, portfolio, transcripts</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📊 Position Status</h3>
-                <div class="space-y-2 text-base">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 text-white bg-blue-500 rounded-full"></div>
-                        <span class="text-gray-700"><strong>Draft:</strong> Still being edited, not visible to students</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
-                        <span class="text-gray-700"><strong>Published:</strong> Live and accepting applications</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <span class="text-gray-700"><strong>Paused:</strong> Temporarily not accepting new applications</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <span class="text-gray-700"><strong>Closed:</strong> No longer accepting applications</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Promoting Your Positions</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">🎯 Internal Platform</h3>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li>Optimize position title for search</li>
-                    <li>Use relevant skills keywords</li>
-                    <li>Include compelling position preview</li>
-                    <li>Maintain active status</li>
-                    <li>Respond to applications promptly</li>
-                    <li>Update position regularly</li>
-                </ul>
-            </div>
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">🌐 External Outreach</h3>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li>Share with university career centers</li>
-                    <li>Post on company social media</li>
-                    <li>Reach out to relevant academic departments</li>
-                    <li>Attend career fairs</li>
-                    <li>Connect with student organizations</li>
-                    <li>Leverage employee networks</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Management Best Practices</h2>
-        <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">✨ Creating Quality Positions</h4>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>Write from the student's perspective</li>
-                        <li>Focus on learning and growth opportunities</li>
-                        <li>Be specific about daily tasks and projects</li>
-                        <li>Include information about mentorship and support</li>
-                        <li>Mention potential for full-time opportunities</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">🔄 Ongoing Management</h4>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li>Review and update positions regularly</li>
-                        <li>Monitor application quality and volume</li>
-                        <li>Adjust requirements based on applicant pool</li>
-                        <li>Track successful placements for future improvement</li>
-                        <li>Gather feedback from previous interns</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Common Position Creation Mistakes</h2>
+    <div class="space-y-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">⚙️ Application Settings</h3>
         <div class="space-y-3">
-            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                <h4 class="font-semibold text-red-800 text-base mb-1">Overly Complex Requirements</h4>
-                <p class="text-red-700 text-base">Requiring too many skills or years of experience for entry-level internships.</p>
-            </div>
-            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                <h4 class="font-semibold text-red-800 text-base mb-1">Vague Job Descriptions</h4>
-                <p class="text-red-700 text-base">Using generic language that doesn't explain what the intern will actually do.</p>
-            </div>
-            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                <h4 class="font-semibold text-red-800 text-base mb-1">Missing Learning Outcomes</h4>
-                <p class="text-red-700 text-base">Failing to explain what skills or knowledge the student will gain.</p>
-            </div>
-            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                <h4 class="font-semibold text-red-800 text-base mb-1">Unclear Logistics</h4>
-                <p class="text-red-700 text-base">Not providing clear information about duration, location, or start dates.</p>
-            </div>
-            <div class="bg-red-50 border border-red-200 rounded-lg p-3">
-                <h4 class="font-semibold text-red-800 text-base mb-1">Poor Requirements Balance</h4>
-                <p class="text-red-700 text-base">Either too restrictive (limiting applicant pool) or too broad (attracting unqualified candidates).</p>
-            </div>
+          <div class="flex justify-between items-center">
+            <span class="text-base text-gray-700">Application Deadline:</span>
+            <span class="text-base text-gray-500">Set clear closing date for applications</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-base text-gray-700">Maximum Applicants:</span>
+            <span class="text-base text-gray-500">Limit to manage review workload</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-base text-gray-700">Auto-reject Low GPA:</span>
+            <span class="text-base text-gray-500">Automatically filter by GPA threshold</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-base text-gray-700">Required Documents:</span>
+            <span class="text-base text-gray-500">Resume, cover letter, portfolio, transcripts</span>
+          </div>
         </div>
-    </section>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📊 Position Status</h3>
+        <div class="space-y-2 text-base">
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 text-white bg-blue-500 rounded-full"></div>
+            <span class="text-gray-700">
+              <strong>Draft:</strong>
+              Still being edited, not visible to students
+            </span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span class="text-gray-700">
+              <strong>Published:</strong>
+              Live and accepting applications
+            </span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+            <span class="text-gray-700">
+              <strong>Paused:</strong>
+              Temporarily not accepting new applications
+            </span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+            <span class="text-gray-700">
+              <strong>Closed:</strong>
+              No longer accepting applications
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Promoting Your Positions</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">🎯 Internal Platform</h3>
+        <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+          <li>Optimize position title for search</li>
+          <li>Use relevant skills keywords</li>
+          <li>Include compelling position preview</li>
+          <li>Maintain active status</li>
+          <li>Respond to applications promptly</li>
+          <li>Update position regularly</li>
+        </ul>
+      </div>
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">🌐 External Outreach</h3>
+        <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+          <li>Share with university career centers</li>
+          <li>Post on company social media</li>
+          <li>Reach out to relevant academic departments</li>
+          <li>Attend career fairs</li>
+          <li>Connect with student organizations</li>
+          <li>Leverage employee networks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Position Management Best Practices</h2>
+    <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-gray-700">
+        <div>
+          <h4 class="font-semibold text-gray-800 mb-2">✨ Creating Quality Positions</h4>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Write from the student's perspective</li>
+            <li>Focus on learning and growth opportunities</li>
+            <li>Be specific about daily tasks and projects</li>
+            <li>Include information about mentorship and support</li>
+            <li>Mention potential for full-time opportunities</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold text-gray-800 mb-2">🔄 Ongoing Management</h4>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Review and update positions regularly</li>
+            <li>Monitor application quality and volume</li>
+            <li>Adjust requirements based on applicant pool</li>
+            <li>Track successful placements for future improvement</li>
+            <li>Gather feedback from previous interns</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Common Position Creation Mistakes</h2>
+    <div class="space-y-3">
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <h4 class="font-semibold text-red-800 text-base mb-1">Overly Complex Requirements</h4>
+        <p class="text-red-700 text-base">
+          Requiring too many skills or years of experience for entry-level internships.
+        </p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <h4 class="font-semibold text-red-800 text-base mb-1">Vague Job Descriptions</h4>
+        <p class="text-red-700 text-base">
+          Using generic language that doesn't explain what the intern will actually do.
+        </p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <h4 class="font-semibold text-red-800 text-base mb-1">Missing Learning Outcomes</h4>
+        <p class="text-red-700 text-base">Failing to explain what skills or knowledge the student will gain.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <h4 class="font-semibold text-red-800 text-base mb-1">Unclear Logistics</h4>
+        <p class="text-red-700 text-base">Not providing clear information about duration, location, or start dates.</p>
+      </div>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-3">
+        <h4 class="font-semibold text-red-800 text-base mb-1">Poor Requirements Balance</h4>
+        <p class="text-red-700 text-base">
+          Either too restrictive (limiting applicant pool) or too broad (attracting unqualified candidates).
+        </p>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}

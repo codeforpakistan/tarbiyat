@@ -8,48 +8,48 @@
     <div class="mb-8">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">Edit Student Profile</h2>
-                <p class="text-gray-600 dark:text-gray-300 mt-2">Update your academic information and preferences</p>
+                <h2 class="text-3xl font-semibold text-gray-900">Edit Student Profile</h2>
+                <p class="text-gray-600 mt-2">Update your academic information and preferences</p>
             </div>
-            <a href="{% url 'dashboard' %}" class="bg-gray-50 dark:bg-gray-700 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+            <a href="{% url 'dashboard' %}" class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                 Back to Dashboard
             </a>
         </div>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
         <form method="post" enctype="multipart/form-data" class="p-8">
             {% csrf_token %}
             
             <!-- Personal Information -->
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Personal Information</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Personal Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="first_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name</label>
+                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
                         <input type="text" 
                                 id="first_name" 
                                 name="first_name" 
                                 value="{{ user.first_name }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div>
-                        <label for="last_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
+                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
                         <input type="text" 
                                 id="last_name" 
                                 name="last_name" 
                                 value="{{ user.last_name }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div class="md:col-span-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                         <input type="email" 
                                 id="email" 
                                 name="email" 
                                 value="{{ user.email }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                 </div>
@@ -57,13 +57,13 @@
 
             <!-- Academic Information -->
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Academic Information</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Academic Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label for="institute" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Institute</label>
+                        <label for="institute" class="block text-sm font-medium text-gray-700 mb-2">Institute</label>
                         <select id="institute" 
                                 name="institute" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                             {% for institute in institutes %}
                                 <option value="{{ institute.id }}" 
@@ -75,13 +75,13 @@
                                 </option>
                             {% endfor %}
                         </select>
-                        <div id="domain-warning" class="hidden mt-3 p-4 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 rounded-lg">
+                        <div id="domain-warning" class="hidden mt-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                             <div class="flex items-start">
                                 <svg class="w-5 h-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                                 </svg>
                                 <div>
-                                    <p class="text-sm font-medium text-yellow-800 dark:text-yellow-200">Domain Verification Required</p>
+                                    <p class="text-sm font-medium text-yellow-800">Domain Verification Required</p>
                                     <p class="text-sm text-yellow-700 mt-1">Your email domain must match this institute's verified domain to join: <span id="required-domain" class="font-mono font-medium"></span></p>
                                     <p class="text-sm text-yellow-700 mt-1">Your current email: <span class="font-mono font-medium">{{ user.email }}</span></p>
                                 </div>
@@ -89,27 +89,27 @@
                         </div>
                     </div>
                     <div>
-                        <label for="year_of_study" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Year of Study</label>
+                        <label for="year_of_study" class="block text-sm font-medium text-gray-700 mb-2">Year of Study</label>
                         <select id="year_of_study" 
                                 name="year_of_study" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"> 
                                 required>
                             <option value="3" {% if profile.year_of_study == '3' %}selected{% endif %}>Third Year</option>
                             <option value="4" {% if profile.year_of_study == '4' %}selected{% endif %}>Fourth Year</option>
                         </select>
                     </div>
                     <div>
-                        <label for="major" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Major</label>
+                        <label for="major" class="block text-sm font-medium text-gray-700 mb-2">Major</label>
                         <input type="text" 
                                 id="major" 
                                 name="major" 
                                 value="{{ profile.major }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 placeholder="e.g., Computer Science"
                                 required>
                     </div>
                     <div>
-                        <label for="gpa" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">GPA</label>
+                        <label for="gpa" class="block text-sm font-medium text-gray-700 mb-2">GPA</label>
                         <input type="number" 
                                 id="gpa" 
                                 name="gpa" 
@@ -117,16 +117,16 @@
                                 step="0.01" 
                                 min="0" 
                                 max="4"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div>
-                        <label for="expected_graduation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Expected Graduation Date</label>
+                        <label for="expected_graduation" class="block text-sm font-medium text-gray-700 mb-2">Expected Graduation Date</label>
                         <input type="date" 
                                 id="expected_graduation" 
                                 name="expected_graduation" 
                                 value="{{ profile.expected_graduation|date:'Y-m-d' }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                 </div>
@@ -134,43 +134,43 @@
 
             <!-- Skills and Portfolio -->
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Skills and Portfolio</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Skills and Portfolio</h3>
                 <div class="space-y-6">
                     <div>
-                        <label for="skills" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Skills</label>
+                        <label for="skills" class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
                         <textarea id="skills" 
                                     name="skills" 
                                     rows="4"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 resize-vertical dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 resize-vertical"
                                     placeholder="List your technical and soft skills..."
                                     required>{{ profile.skills }}</textarea>
                         <p class="text-sm text-gray-500 mt-2">List your technical skills, programming languages, frameworks, and soft skills.</p>
                     </div>
                     <div>
-                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Portfolio URL (Optional)</label>
+                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700 mb-2">Portfolio URL (Optional)</label>
                         <input type="url" 
                                 id="portfolio_url" 
                                 name="portfolio_url" 
                                 value="{{ profile.portfolio_url }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
                                 placeholder="https://yourportfolio.com">
                     </div>
                     <div>
-                        <label for="resume" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Resume Upload</label>
+                        <label for="resume" class="block text-sm font-medium text-gray-700 mb-2">Resume Upload</label>
                         {% if profile.resume %}
-                            <div class="mb-4 p-4 bg-green-50 dark:bg-green-900 border border-green-200 rounded-lg">
+                            <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
-                                        <span class="text-green-600 dark:text-green-400 mr-3 text-lg">📄</span>
-                                        <span class="text-sm font-medium text-green-800 dark:text-green-200">Current resume: {{ profile.get_resume_filename }}</span>
+                                        <span class="text-green-600 mr-3 text-lg">📄</span>
+                                        <span class="text-sm font-medium text-green-800">Current resume: {{ profile.get_resume_filename }}</span>
                                     </div>
                                     <div class="flex items-center space-x-3">
-                                        <a href="{{ profile.resume.url }}" target="_blank" class="text-green-600 dark:text-green-400 hover:text-green-800 dark:text-green-200 text-sm font-medium underline">
+                                        <a href="{{ profile.resume.url }}" target="_blank" class="text-green-600 hover:text-green-800 text-sm font-medium underline">
                                             View
                                         </a>
                                         <label class="flex items-center cursor-pointer">
-                                            <input type="checkbox" name="delete_resume" class="mr-2 rounded border-gray-300 text-red-600 dark:text-red-400 focus:ring-red-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <span class="text-red-600 dark:text-red-400 text-sm font-medium">Delete</span>
+                                            <input type="checkbox" name="delete_resume" class="mr-2 rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                            <span class="text-red-600 text-sm font-medium">Delete</span>
                                         </label>
                                     </div>
                                 </div>
@@ -180,7 +180,7 @@
                                 id="resume" 
                                 name="resume" 
                                 accept=".pdf,.doc,.docx"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 dark:bg-blue-900 file:text-blue-700 hover:file:bg-blue-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                                 onchange="updateFileName(this)">
                         <p class="text-sm text-gray-500 mt-2" id="file-name">Upload your resume in PDF, DOC, or DOCX format. Maximum file size: 5MB.</p>
                     </div>
@@ -189,27 +189,27 @@
 
             <!-- Preferences -->
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">Preferences</h3>
-                <div class="flex items-center p-4 bg-blue-50 dark:bg-blue-900 rounded-lg border border-blue-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Preferences</h3>
+                <div class="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-200">
                     <input type="checkbox" 
                             id="available" 
                             name="available" 
                             {% if profile.is_available_for_internship %}checked{% endif %}
-                            class="h-4 w-4 text-blue-600 dark:text-blue-400 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <label for="available" class="ml-3 block text-sm font-medium text-gray-900 dark:text-gray-100">
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="available" class="ml-3 block text-sm font-medium text-gray-900">
                         I am available for internship opportunities
                     </label>
                 </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                 <a href="{% url 'dashboard' %}" 
-                    class="bg-gray-50 dark:bg-gray-700 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                     Cancel
                 </a>
                 <button type="submit" 
-                        class="bg-white dark:bg-gray-800 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 shadow-sm border border-gray-200 dark:border-gray-700">
+                        class="bg-white bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 shadow-sm border border-gray-200">
                     Save Changes
                 </button>
             </div>

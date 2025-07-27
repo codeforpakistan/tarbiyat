@@ -1,61 +1,60 @@
-{% extends 'docs/base.html' %}
-
-{% block title %}Finding Internships - Tarbiyat{% endblock %}
-
+{% extends 'docs/base.html' %} 
+{% block title %}Finding Internships - Tarbiyat{% endblock %} 
 {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
-        <span class="mr-2">←</span> Back to Documentation
-    </a>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎓 Finding Internships</h1>
-    <p class="text-gray-600">Learn how to search and apply for internships</p>
+  <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
+    <span class="mr-2">←</span>
+    Back to Documentation
+  </a>
+  <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎓 Finding Internships</h1>
+  <p class="text-gray-600">Learn how to search and apply for internships</p>
 </div>
 
-<div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 space-y-6">
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Browsing Available Positions</h2>
-            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                <li>Visit the "Browse Positions" page from your dashboard or navigation menu</li>
-                <li>Use filters to narrow down positions by location, company, or requirements</li>
-                <li>Click on any position to view detailed information</li>
-                <li>Check application deadlines and requirements carefully</li>
-            </ol>
-        </section>
+<div class="bg-white rounded-lg shadow-sm border border-gray-300 p-6 space-y-6">
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Browsing Available Positions</h2>
+    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+      <li>Visit the "Browse Positions" page from your dashboard or navigation menu</li>
+      <li>Use filters to narrow down positions by location, company, or requirements</li>
+      <li>Click on any position to view detailed information</li>
+      <li>Check application deadlines and requirements carefully</li>
+    </ol>
+  </section>
 
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Applying for Positions</h2>
-            <p class="text-gray-700 mb-4">To apply for an internship position:</p>
-            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                <li>Ensure your profile is complete with updated resume</li>
-                <li>Click "Apply" on the position details page</li>
-                <li>Write a compelling cover letter specific to the position</li>
-                <li>Review your application before submitting</li>
-                <li>Track your application status from your dashboard</li>
-            </ol>
-        </section>
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Applying for Positions</h2>
+    <p class="text-gray-700 mb-4">To apply for an internship position:</p>
+    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+      <li>Ensure your profile is complete with updated resume</li>
+      <li>Click "Apply" on the position details page</li>
+      <li>Write a compelling cover letter specific to the position</li>
+      <li>Review your application before submitting</li>
+      <li>Track your application status from your dashboard</li>
+    </ol>
+  </section>
 
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Requirements</h2>
-            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p class="text-green-800 mb-2"><strong>Before Applying, Make Sure You Have:</strong></p>
-                <ul class="list-disc list-inside space-y-1 text-green-700">
-                    <li>Complete student profile with academic information</li>
-                    <li>Updated resume (PDF, DOC, or DOCX format)</li>
-                    <li>Valid institute affiliation</li>
-                    <li>Meet the position's year of study requirements</li>
-                </ul>
-            </div>
-        </section>
-
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Tips for Success</h2>
-            <ul class="list-disc list-inside space-y-2 text-gray-700">
-                <li>Apply early - don't wait until the deadline</li>
-                <li>Customize your cover letter for each position</li>
-                <li>Highlight relevant skills and coursework</li>
-                <li>Follow up professionally if you don't hear back within a week</li>
-                <li>Maintain a professional email address and communication style</li>
-            </ul>
-        </section>
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Requirements</h2>
+    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+      <p class="text-green-800 mb-2"><strong>Before Applying, Make Sure You Have:</strong></p>
+      <ul class="list-disc list-inside space-y-1 text-green-700">
+        <li>Complete student profile with academic information</li>
+        <li>Updated resume (PDF, DOC, or DOCX format)</li>
+        <li>Valid institute affiliation</li>
+        <li>Meet the position's year of study requirements</li>
+      </ul>
     </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Tips for Success</h2>
+    <ul class="list-disc list-inside space-y-2 text-gray-700">
+      <li>Apply early - don't wait until the deadline</li>
+      <li>Customize your cover letter for each position</li>
+      <li>Highlight relevant skills and coursework</li>
+      <li>Follow up professionally if you don't hear back within a week</li>
+      <li>Maintain a professional email address and communication style</li>
+    </ul>
+  </section>
+</div>
 {% endblock %}

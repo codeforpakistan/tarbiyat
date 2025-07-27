@@ -25,13 +25,13 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             return '/admin/'
         # Check if user has a profile and redirect accordingly
         elif hasattr(request.user, 'studentprofile'):
-            return reverse('student_dashboard')
+            return reverse('dashboard')
         elif hasattr(request.user, 'mentorprofile'):
-            return reverse('mentor_dashboard')  
+            return reverse('dashboard')  
         elif hasattr(request.user, 'teacherprofile'):
-            return reverse('teacher_dashboard')
+            return reverse('dashboard')
         elif hasattr(request.user, 'officialprofile'):
-            return reverse('official_dashboard')
+            return reverse('dashboard')
         else:
             # Default redirect for users without profiles
             return reverse('home')

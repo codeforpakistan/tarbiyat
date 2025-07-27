@@ -1,0 +1,140 @@
+{% load user_tags %}
+<nav class="bg-white shadow-sm">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="{% url 'home' %}" class="flex items-center space-x-2">
+          <span class="text-2xl">🤝</span>
+          <span class="text-xl font-semibold text-gray-900">Tarbiyat</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a
+          href="{% url 'browse_positions' %}"
+          class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+          Browse Positions
+        </a>
+        <a
+          href="{% url 'documentation_index' %}"
+          class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+          Docs
+        </a>
+
+        {% if user.is_authenticated %}
+        <!-- User Dropdown -->
+        <div class="relative group">
+          <button
+            class="flex items-center space-x-2 text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+            <span
+              class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 font-semibold">
+              {{ user.first_name.0|default:user.username.0|upper }}
+            </span>
+            <span>{{ user.get_full_name|default:user.username }}</span>
+            <span class="text-xs text-gray-400">▼</span>
+          </button>
+          <div
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
+            {% if user|get_user_type %}
+            <a
+              href="{% url 'dashboard' %}"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              Dashboard
+            </a>
+            {% endif %}
+            <a
+              href="{% url 'edit_profile' %}"
+              class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+              Profile Settings
+            </a>
+            <form method="post" action="{% url 'account_logout' %}" class="m-0">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 border-0 bg-transparent">
+                Logout
+              </button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <div class="flex items-center space-x-4">
+          <a
+            href="{% url 'account_login' %}"
+            class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+            Login
+          </a>
+          <a
+            href="{% url 'account_signup' %}"
+            class="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md transition duration-200">
+            Register
+          </a>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Mobile menu button (simplified - just shows hamburger icon) -->
+      <div class="md:hidden flex items-center">
+        <span class="text-xl text-gray-600">☰</span>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Menu (always visible on small screens since no JS toggle) -->
+    <div class="md:hidden border-t border-gray-200 bg-white">
+      <div class="bg-white px-2 pt-2 pb-3 space-y-1">
+        <a
+          href="{% url 'browse_positions' %}"
+          class="block text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base">
+          Browse Positions
+        </a>
+        <a
+          href="{% url 'documentation_index' %}"
+          class="block text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base">
+          <span class="inline-block mr-2">📚</span>
+          Documentation
+        </a>
+
+        {% if user.is_authenticated %}
+        <div class="bg-white border-t border-gray-200 pt-2">
+          {% if user|get_user_type %}
+          <a
+            href="{% url 'dashboard' %}"
+            class="block text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base">
+            Dashboard
+          </a>
+          {% endif %}
+          <a
+            href="{% url 'edit_profile' %}"
+            class="block text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base">
+            Profile Settings
+          </a>
+          <form method="post" action="{% url 'account_logout' %}" class="m-0">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="w-full text-left text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base border-0 bg-transparent">
+              Logout
+            </button>
+          </form>
+        </div>
+        {% else %}
+        <div class="bg-white border-t border-gray-200 pt-2">
+          <a
+            href="{% url 'account_login' %}"
+            class="block text-gray-600 hover:text-gray-900 hover:bg-gray-100 px-3 py-2 rounded-md text-base">
+            Login
+          </a>
+          <a
+            href="{% url 'account_signup' %}"
+            class="block text-white bg-blue-500 hover:bg-blue-700 px-3 py-2 rounded-md text-base transition duration-200">
+            Register
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+

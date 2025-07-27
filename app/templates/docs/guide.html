@@ -1,330 +1,320 @@
-{% extends 'app/page.html' %}
-
-{% block title %}{{ title }} - Documentation{% endblock %}
-
+{% extends 'app/page.html' %} 
+{% block title %}{{ title }} - Documentation{% endblock %} 
 {% block content %}
-    <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Sidebar with TOC -->
-        <div class="lg:w-1/4">
-            <div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 sticky top-8">
-                <h6 class="font-semibold text-blue-500 mb-4 flex items-center">
-                    <span class="mr-2">�</span>Documentation
-                </h6>
-                
-                <!-- Navigation back to docs -->
-                <div class="mb-4 pb-4 border-b border-gray-200">
-                    <a href="{% url 'documentation_index' %}" class="inline-flex items-center text-blue-500 hover:text-blue-800 ">
-                        <span class="mr-1">←</span>Back to Docs
-                    </a>
-                </div>
-                
-                <!-- Category Navigation -->
-                <nav class="space-y-2">
-                    <a href="{% url 'documentation_index' %}#getting-started" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">🚀</span>Getting Started
-                    </a>
-                    <a href="{% url 'documentation_index' %}#students" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">🎓</span>For Students
-                    </a>
-                    <a href="{% url 'documentation_index' %}#mentors" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👔</span>For Mentors
-                    </a>
-                    <a href="{% url 'documentation_index' %}#teachers" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👨‍🏫</span>For Teachers
-                    </a>
-                    <a href="{% url 'documentation_index' %}#officials" class="flex items-center text-gray-700 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
-                        <span class="mr-2">👮</span>For Officials
-                    </a>
-                </nav>
-            </div>
-        </div>
+<div class="flex flex-col lg:flex-row gap-8">
+  <!-- Sidebar with TOC -->
+  <div class="lg:w-1/4">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+      <div class="mb-4">
+        <a href="{% url 'documentation_index' %}" class="inline-flex items-center text-blue-500 hover:text-blue-800">
+          <span class="mr-1">←</span>
+          Back to Docs
+        </a>
+      </div>
 
-        <!-- Main Content -->
-        <div class="lg:w-3/4">
-            <!-- Breadcrumb -->
-            <nav class="mb-6" aria-label="breadcrumb">
-                <ol class="flex items-center space-x-2 text-base text-gray-600">
-                    <li>
-                        <a href="{% url 'documentation_index' %}" class="hover:text-blue-500 flex items-center">
-                            <span class="mr-1">📚</span>Documentation
-                        </a>
-                    </li>
-                    <li class="flex items-center">
-                        <span class="mx-2">/</span>
-                        <a href="{% url 'documentation_index' %}#{{ category }}" class="hover:text-blue-500">
-                            {{ category|title }}
-                        </a>
-                    </li>
-                    <li class="flex items-center">
-                        <span class="mx-2">/</span>
-                        <span class="text-gray-900 ">{{ title }}</span>
-                    </li>
-                </ol>
-            </nav>
-
-            <!-- Article -->
-            <article class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 overflow-hidden">
-                <div class="p-8">
-                    <!-- Article Header -->
-                    <header class="mb-8 pb-6 border-b border-gray-200">
-                        <h1 class="text-4xl font-semibold text-gray-900 mb-4">{{ title }}</h1>
-                        <div class="text-gray-600 text-base">
-                            <span class="inline-flex items-center mr-4">
-                                <span class="mr-1">📁</span>Category: {{ category|title }}
-                            </span>
-                            <span class="inline-flex items-center">
-                                <span class="mr-1">🕒</span>Last updated: Today
-                            </span>
-                        </div>
-                    </header>
-
-                    <!-- Article Content -->
-                    <div class="prose prose-lg max-w-none documentation-content">
-                        {% if content %}
-                            {{ content|safe }}
-                        {% else %}
-                            <div class="text-center py-16">
-                                <div class="text-6xl mb-4">📄</div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Content Not Available</h3>
-                                <p class="text-gray-600">The requested documentation is not currently available.</p>
-                                <div class="mt-6">
-                                    <a href="{% url 'documentation_index' %}" class="inline-flex items-center px-4 py-2 text-white bg-blue-500  rounded-lg hover:bg-blue-700 transition-colors">
-                                        <span class="mr-2">←</span>Back to Documentation
-                                    </a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Article Footer -->
-                    <footer class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                            <div>
-                                <p class="text-gray-600 dark:text-gray-400 mb-3 flex items-center">
-                                    <span class="mr-1">💬</span>
-                                    Was this guide helpful?
-                                </p>
-                                <div class="flex gap-2">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-green-300 dark:border-green-600  dark:bg-gray-800 hover:bg-green-50 dark:hover:bg-green-900 text-green-700 dark:text-green-300 rounded-md text-base transition-colors">
-                                        <span class="mr-1">👍</span>Yes
-                                    </button>
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-red-300 dark:border-red-600  dark:bg-gray-800 hover:bg-red-50 dark:hover:bg-red-900 text-red-700 dark:text-red-300 rounded-md text-base transition-colors">
-                                        <span class="mr-1">👎</span>No
-                                    </button>
-                                </div>
-                            </div>
-                            <div>
-                                <a href="{% url 'documentation_index' %}" class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800  px-4 py-2 rounded-md transition-colors">
-                                    <span class="mr-1">←</span>Back to Documentation
-                                </a>
-                            </div>
-                        </div>
-                    </footer>
-                </div>
-            </article>
-        </div>
+      <!-- Category Navigation -->
+      <nav class="space-y-2">
+        <a
+          href="{% url 'documentation_index' %}#getting-started"
+          class="flex items-center text-gray-700 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+          <span class="mr-2">🚀</span>
+          Getting Started
+        </a>
+        <a
+          href="{% url 'documentation_index' %}#students"
+          class="flex items-center text-gray-700 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+          <span class="mr-2">🎓</span>
+          For Students
+        </a>
+        <a
+          href="{% url 'documentation_index' %}#mentors"
+          class="flex items-center text-gray-700 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+          <span class="mr-2">👔</span>
+          For Mentors
+        </a>
+        <a
+          href="{% url 'documentation_index' %}#teachers"
+          class="flex items-center text-gray-700 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+          <span class="mr-2">👨‍🏫</span>
+          For Teachers
+        </a>
+        <a
+          href="{% url 'documentation_index' %}#officials"
+          class="flex items-center text-gray-700 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors">
+          <span class="mr-2">👮</span>
+          For Officials
+        </a>
+      </nav>
     </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="lg:w-3/4">
+    <!-- Breadcrumb -->
+    <nav class="mb-6" aria-label="breadcrumb">
+      <ol class="flex items-center space-x-2 text-base text-gray-600">
+        <li>
+          <a href="{% url 'documentation_index' %}" class="hover:text-blue-700 flex items-center">
+            <span class="mr-1">📚</span>
+            Documentation
+          </a>
+        </li>
+        <li class="flex items-center">
+          <span class="mx-2">/</span>
+          <a href="{% url 'documentation_index' %}#{{ category }}" class="hover:text-blue-700">{{ category|title }}</a>
+        </li>
+        <li class="flex items-center">
+          <span class="mx-2">/</span>
+          <span class="text-gray-900">{{ title }}</span>
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Article -->
+    <article class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+      <div class="documentation-content">{{ content|safe }}</div>
+
+      {% if not hide_navigation %}
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <div class="flex justify-between items-center">
+          <div>
+            {% if prev_url %}
+            <a
+              href="{{ prev_url }}"
+              class="inline-flex items-center px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+              <span class="mr-2">←</span>
+              Previous
+            </a>
+            {% endif %}
+          </div>
+          <div>
+            {% if next_url %}
+            <a
+              href="{{ next_url }}"
+              class="inline-flex items-center px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-700 transition-colors">
+              Next
+              <span class="ml-2">→</span>
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <div class="mt-8 pt-6 border-t border-gray-200">
+        <div class="text-center">
+          <a
+            href="{% url 'documentation_index' %}"
+            class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md transition-colors">
+            <span class="mr-1">←</span>
+            Back to Documentation
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
 
 <style>
-/* Enhanced Documentation Content Styling */
-.documentation-content {
+  /* Enhanced Documentation Content Styling */
+  .documentation-content {
     line-height: 1.8;
     color: #374151;
-}
+  }
 
-.documentation-content h1 {
+  .documentation-content h1 {
     @apply text-3xl font-semibold text-gray-900 mt-8 mb-6 pb-3 border-b-2 border-blue-200;
     line-height: 1.2;
-}
+  }
 
-.documentation-content h2 {
+  .documentation-content h2 {
     @apply text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b border-gray-200;
     line-height: 1.3;
-}
+  }
 
-.documentation-content h3 {
+  .documentation-content h3 {
     @apply text-xl font-semibold text-gray-800 mt-6 mb-3;
     line-height: 1.4;
-}
+  }
 
-.documentation-content h4 {
+  .documentation-content h4 {
     @apply text-lg font-semibold text-gray-700 mt-5 mb-3;
-}
+  }
 
-.documentation-content h5 {
+  .documentation-content h5 {
     @apply text-base font-semibold text-gray-700 mt-4 mb-2;
-}
+  }
 
-.documentation-content h6 {
+  .documentation-content h6 {
     @apply text-base font-semibold text-gray-600 mt-3 mb-2;
-}
+  }
 
-.documentation-content p {
+  .documentation-content p {
     @apply mb-4;
     text-align: justify;
-}
+  }
 
-.documentation-content ul,
-.documentation-content ol {
+  .documentation-content ul,
+  .documentation-content ol {
     @apply mb-4 pl-6;
-}
+  }
 
-.documentation-content ul {
+  .documentation-content ul {
     list-style-type: disc;
-}
+  }
 
-.documentation-content ol {
+  .documentation-content ol {
     list-style-type: decimal;
-}
+  }
 
-.documentation-content li {
+  .documentation-content li {
     @apply mb-2;
     line-height: 1.6;
-}
+  }
 
-.documentation-content li::marker {
+  .documentation-content li::marker {
     color: #3b82f6;
     font-weight: bold;
-}
+  }
 
-.documentation-content strong {
+  .documentation-content strong {
     @apply font-semibold text-gray-900;
-}
+  }
 
-.documentation-content em {
+  .documentation-content em {
     @apply italic text-gray-700;
-}
+  }
 
-.documentation-content blockquote {
+  .documentation-content blockquote {
     @apply border-l-4 border-blue-300 bg-blue-50 pl-4 py-3 my-6 rounded-r-lg;
-}
+  }
 
-.documentation-content blockquote p {
+  .documentation-content blockquote p {
     @apply text-blue-800 mb-0 italic;
-}
+  }
 
-.documentation-content code {
+  .documentation-content code {
     @apply bg-gray-100 text-red-600 px-2 py-1 rounded text-base font-mono;
-}
+  }
 
-.documentation-content pre {
+  .documentation-content pre {
     @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-6;
-}
+  }
 
-.documentation-content pre code {
+  .documentation-content pre code {
     @apply bg-transparent text-gray-100 p-0;
-}
+  }
 
-.documentation-content a {
-    @apply text-blue-500 hover:text-blue-800 underline ;
+  .documentation-content a {
+    @apply text-blue-500 hover:text-blue-800 underline;
     transition: color 0.2s ease;
-}
+  }
 
-.documentation-content table {
+  .documentation-content table {
     @apply w-full border-collapse border border-gray-300 my-6;
-}
+  }
 
-.documentation-content th {
+  .documentation-content th {
     @apply border border-gray-300 px-4 py-3 text-left font-semibold text-gray-900;
-}
+  }
 
-.documentation-content td {
+  .documentation-content td {
     @apply border border-gray-300 px-4 py-3;
-}
+  }
 
-.documentation-content img {
+  .documentation-content img {
     @apply rounded-lg shadow-md max-w-full h-auto my-6;
-}
+  }
 
-.documentation-content hr {
+  .documentation-content hr {
     @apply border-gray-300 my-8;
-}
+  }
 
-/* Special styling for checkmarks and cross marks */
-.documentation-content li:has-text("✅") {
+  /* Special styling for checkmarks and cross marks */
+  .documentation-content li:has-text("✅") {
     @apply text-green-700;
-}
+  }
 
-.documentation-content li:has-text("❌") {
+  .documentation-content li:has-text("❌") {
     @apply text-red-700;
-}
+  }
 
-/* Styling for keyboard shortcuts */
-.documentation-content kbd {
+  /* Styling for keyboard shortcuts */
+  .documentation-content kbd {
     @apply bg-gray-200 border border-gray-300 rounded px-2 py-1 text-base font-mono shadow-sm;
-}
+  }
 
-/* Warning and info boxes */
-.documentation-content .warning {
+  /* Warning and info boxes */
+  .documentation-content .warning {
     @apply bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4 rounded-r;
-}
+  }
 
-.documentation-content .info {
+  .documentation-content .info {
     @apply bg-blue-50 border-l-4 border-blue-400 p-4 my-4 rounded-r;
-}
+  }
 
-.documentation-content .success {
+  .documentation-content .success {
     @apply bg-green-50 border-l-4 border-green-400 p-4 my-4 rounded-r;
-}
+  }
 
-.documentation-content .error {
+  .documentation-content .error {
     @apply bg-red-50 border-l-4 border-red-400 p-4 my-4 rounded-r;
-}
+  }
 
-/* Table of Contents styling */
-.toc-content ul {
+  /* Table of Contents styling */
+  .toc-content ul {
     @apply list-none pl-0 space-y-1;
-}
+  }
 
-.toc-content ul ul {
+  .toc-content ul ul {
     @apply pl-4 mt-2;
-}
+  }
 
-.toc-content a {
-    @apply block text-gray-600 hover:text-blue-500 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors no-underline;
-}
+  .toc-content a {
+    @apply block text-gray-600 hover:text-blue-700 hover:bg-blue-50 px-3 py-2 rounded-md transition-colors no-underline;
+  }
 
-.toc-content a:hover {
+  .toc-content a:hover {
     @apply bg-blue-50 text-blue-500;
-}
+  }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
     .documentation-content h1 {
-        @apply text-2xl;
+      @apply text-2xl;
     }
-    
-    .documentation-content h2 {
-        @apply text-xl;
-    }
-    
-    .documentation-content h3 {
-        @apply text-lg;
-    }
-    
-    .documentation-content pre {
-        @apply text-base;
-    }
-    
-    .documentation-content table {
-        @apply text-base;
-    }
-}
 
-/* Print styles */
-@media print {
-    .documentation-content {
-        @apply text-black;
+    .documentation-content h2 {
+      @apply text-xl;
     }
-    
-    .documentation-content a {
-        @apply text-black no-underline;
+
+    .documentation-content h3 {
+      @apply text-lg;
     }
-    
+
     .documentation-content pre {
-        @apply bg-gray-100 text-black border;
+      @apply text-base;
     }
-}
+
+    .documentation-content table {
+      @apply text-base;
+    }
+  }
+
+  /* Print styles */
+  @media print {
+    .documentation-content {
+      @apply text-black;
+    }
+
+    .documentation-content a {
+      @apply text-black no-underline;
+    }
+
+    .documentation-content pre {
+      @apply bg-gray-100 text-black border;
+    }
+  }
 </style>
 
 {% endblock %}

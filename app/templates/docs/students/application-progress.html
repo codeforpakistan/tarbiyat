@@ -1,227 +1,303 @@
-{% extends 'docs/base.html' %}
-
-{% block title %}Managing Applications & Progress - Tarbiyat{% endblock %}
-
+{% extends 'docs/base.html' %} 
+{% block title %}Managing Applications &amp; Progress - Tarbiyat{% endblock %} 
 {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
-        <span class="mr-2">←</span> Back to Documentation
-    </a>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎓 Managing Applications & Progress</h1>
-    <p class="text-gray-600">Complete guide to tracking applications and managing internship progress</p>
+  <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
+    <span class="mr-2">←</span>
+    Back to Documentation
+  </a>
+  <h1 class="text-3xl font-semibold text-gray-900 mb-2">🎓 Managing Applications &amp;Progress</h1>
+  <p class="text-gray-600">Complete guide to tracking applications and managing internship progress</p>
 </div>
 
-<div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 space-y-6">
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Status Overview</h2>
-        <p class="text-gray-700 mb-4">
-            Once you submit an application, it goes through different stages. Understanding these statuses helps you know what to expect and when to take action.
+<div class="bg-white rounded-lg shadow-sm border border-gray-300 p-6 space-y-6">
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Status Overview</h2>
+    <p class="text-gray-700 mb-4">
+      Once you submit an application, it goes through different stages. Understanding these statuses helps you know what
+      to expect and when to take action.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+        <h3 class="font-semibold text-yellow-800 mb-2">⏳ Pending</h3>
+        <p class="text-base text-gray-700 mb-2">
+          <strong>What it means:</strong>
+          Your application is submitted and under review by the mentor.
         </p>
-        
+        <p class="text-base text-gray-700">
+          <strong>What to do:</strong>
+          Wait patiently. Most reviews take 5-7 business days.
+        </p>
+      </div>
+      <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+        <h3 class="font-semibold text-green-800 mb-2">✅ Accepted</h3>
+        <p class="text-base text-gray-700 mb-2">
+          <strong>What it means:</strong>
+          Congratulations! You've been selected for the internship.
+        </p>
+        <p class="text-base text-gray-700">
+          <strong>What to do:</strong>
+          Check your email for next steps and internship start instructions.
+        </p>
+      </div>
+      <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+        <h3 class="font-semibold text-red-800 mb-2">❌ Rejected</h3>
+        <p class="text-base text-gray-700 mb-2">
+          <strong>What it means:</strong>
+          Your application was not selected this time.
+        </p>
+        <p class="text-base text-gray-700">
+          <strong>What to do:</strong>
+          Don't get discouraged. Apply to other positions and improve your profile.
+        </p>
+      </div>
+      <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <h3 class="font-semibold text-blue-800 mb-2">🔄 Active Internship</h3>
+        <p class="text-base text-gray-700 mb-2">
+          <strong>What it means:</strong>
+          You're currently participating in the internship.
+        </p>
+        <p class="text-base text-gray-700">
+          <strong>What to do:</strong>
+          Submit regular progress reports and engage actively with your mentor.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Viewing Your Applications</h2>
+
+    <div class="space-y-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📋 My Applications Page</h3>
+        <p class="text-gray-700 mb-2">Access from your dashboard or navigation menu to see:</p>
+        <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+          <li>Complete list of all applications (current and past)</li>
+          <li>Current status of each application</li>
+          <li>Application submission date</li>
+          <li>Position details and company information</li>
+          <li>Quick action buttons (View details, Withdraw if pending)</li>
+        </ul>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">🔍 Application Details</h3>
+        <p class="text-gray-700 mb-2">Click on any application to view:</p>
+        <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+          <li>Your submitted cover letter</li>
+          <li>Resume used for this application</li>
+          <li>Position requirements and description</li>
+          <li>Timeline of status changes</li>
+          <li>Contact information for follow-up (if accepted)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Management Actions</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <h3 class="font-semibold text-blue-800 mb-2">🔄 Withdrawing Applications</h3>
+        <p class="text-base text-gray-700 mb-2"><strong>When you can withdraw:</strong></p>
+        <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
+          <li>Application status is "Pending"</li>
+          <li>You've accepted another position</li>
+          <li>Your circumstances have changed</li>
+        </ul>
+        <p class="text-base text-gray-700 mt-2">
+          <strong>How to withdraw:</strong>
+          Click "Withdraw" button on the application and confirm your decision.
+        </p>
+      </div>
+      <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+        <h3 class="font-semibold text-purple-800 mb-2">📧 Following Up</h3>
+        <p class="text-base text-gray-700 mb-2"><strong>When to follow up:</strong></p>
+        <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
+          <li>More than 7 business days with no response</li>
+          <li>Application deadline has passed</li>
+          <li>You have additional relevant qualifications</li>
+        </ul>
+        <p class="text-base text-gray-700 mt-2">
+          <strong>How to follow up:</strong>
+          Send a polite email to the contact person listed in the position details.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Progress Reports During Internships</h2>
+
+    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+      <h3 class="font-semibold text-green-800 mb-2">📊 What Are Progress Reports?</h3>
+      <p class="text-green-700 text-base">
+        Progress reports are regular updates you submit during your internship to track your learning, document
+        achievements, and communicate with your mentor and academic supervisor.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📅 Reporting Schedule</h3>
+        <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+          <li>
+            <strong>Frequency:</strong>
+            Typically weekly or bi-weekly (set by your mentor)
+          </li>
+          <li>
+            <strong>Deadline:</strong>
+            Usually due by end of week or reporting period
+          </li>
+          <li>
+            <strong>Reminders:</strong>
+            System sends notifications when reports are due
+          </li>
+          <li>
+            <strong>Late submissions:</strong>
+            May affect your internship evaluation
+          </li>
+        </ul>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">📝 What to Include in Progress Reports</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                <h3 class="font-semibold text-yellow-800 mb-2">⏳ Pending</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>What it means:</strong> Your application is submitted and under review by the mentor.</p>
-                <p class="text-base text-gray-700"><strong>What to do:</strong> Wait patiently. Most reviews take 5-7 business days.</p>
-            </div>
-            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                <h3 class="font-semibold text-green-800 mb-2">✅ Accepted</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>What it means:</strong> Congratulations! You've been selected for the internship.</p>
-                <p class="text-base text-gray-700"><strong>What to do:</strong> Check your email for next steps and internship start instructions.</p>
-            </div>
-            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-                <h3 class="font-semibold text-red-800 mb-2">❌ Rejected</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>What it means:</strong> Your application was not selected this time.</p>
-                <p class="text-base text-gray-700"><strong>What to do:</strong> Don't get discouraged. Apply to other positions and improve your profile.</p>
-            </div>
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h3 class="font-semibold text-blue-800 mb-2">🔄 Active Internship</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>What it means:</strong> You're currently participating in the internship.</p>
-                <p class="text-base text-gray-700"><strong>What to do:</strong> Submit regular progress reports and engage actively with your mentor.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Viewing Your Applications</h2>
-        
-        <div class="space-y-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📋 My Applications Page</h3>
-                <p class="text-gray-700 mb-2">Access from your dashboard or navigation menu to see:</p>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li>Complete list of all applications (current and past)</li>
-                    <li>Current status of each application</li>
-                    <li>Application submission date</li>
-                    <li>Position details and company information</li>
-                    <li>Quick action buttons (View details, Withdraw if pending)</li>
-                </ul>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">🔍 Application Details</h3>
-                <p class="text-gray-700 mb-2">Click on any application to view:</p>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li>Your submitted cover letter</li>
-                    <li>Resume used for this application</li>
-                    <li>Position requirements and description</li>
-                    <li>Timeline of status changes</li>
-                    <li>Contact information for follow-up (if accepted)</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Application Management Actions</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h3 class="font-semibold text-blue-800 mb-2">🔄 Withdrawing Applications</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>When you can withdraw:</strong></p>
-                <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
-                    <li>Application status is "Pending"</li>
-                    <li>You've accepted another position</li>
-                    <li>Your circumstances have changed</li>
-                </ul>
-                <p class="text-base text-gray-700 mt-2"><strong>How to withdraw:</strong> Click "Withdraw" button on the application and confirm your decision.</p>
-            </div>
-            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                <h3 class="font-semibold text-purple-800 mb-2">📧 Following Up</h3>
-                <p class="text-base text-gray-700 mb-2"><strong>When to follow up:</strong></p>
-                <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
-                    <li>More than 7 business days with no response</li>
-                    <li>Application deadline has passed</li>
-                    <li>You have additional relevant qualifications</li>
-                </ul>
-                <p class="text-base text-gray-700 mt-2"><strong>How to follow up:</strong> Send a polite email to the contact person listed in the position details.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Progress Reports During Internships</h2>
-        
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-            <h3 class="font-semibold text-green-800 mb-2">📊 What Are Progress Reports?</h3>
-            <p class="text-green-700 text-base">
-                Progress reports are regular updates you submit during your internship to track your learning, document achievements, and communicate with your mentor and academic supervisor.
-            </p>
-        </div>
-
-        <div class="space-y-4">
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📅 Reporting Schedule</h3>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li><strong>Frequency:</strong> Typically weekly or bi-weekly (set by your mentor)</li>
-                    <li><strong>Deadline:</strong> Usually due by end of week or reporting period</li>
-                    <li><strong>Reminders:</strong> System sends notifications when reports are due</li>
-                    <li><strong>Late submissions:</strong> May affect your internship evaluation</li>
-                </ul>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">📝 What to Include in Progress Reports</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <h4 class="font-semibold text-gray-700 text-base mb-2">Required Sections:</h4>
-                        <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
-                            <li>Tasks completed this period</li>
-                            <li>Skills learned or developed</li>
-                            <li>Challenges faced and solutions</li>
-                            <li>Goals for next period</li>
-                            <li>Overall satisfaction rating</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-700 text-base mb-2">Additional Tips:</h4>
-                        <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
-                            <li>Be specific about accomplishments</li>
-                            <li>Include metrics where possible</li>
-                            <li>Mention collaboration and teamwork</li>
-                            <li>Ask questions or request feedback</li>
-                            <li>Keep it professional but personal</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-lg p-4 bg-white dark:bg-gray-800">
-                <h3 class="font-semibold text-gray-800 mb-2">🚀 Submitting Progress Reports</h3>
-                <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
-                    <li>Navigate to your dashboard during an active internship</li>
-                    <li>Click "Submit Progress Report" or check notifications</li>
-                    <li>Fill out all required sections thoughtfully</li>
-                    <li>Review your report before submitting</li>
-                    <li>Submit before the deadline</li>
-                    <li>Check for mentor feedback on previous reports</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Communication Best Practices</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h3 class="font-semibold text-blue-800 mb-2">👥 With Your Mentor</h3>
-                <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
-                    <li>Respond to emails within 24-48 hours</li>
-                    <li>Be proactive about asking questions</li>
-                    <li>Update on project progress regularly</li>
-                    <li>Request feedback actively</li>
-                    <li>Maintain professional tone always</li>
-                </ul>
-            </div>
-            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                <h3 class="font-semibold text-orange-800 mb-2">🎓 With Academic Supervisor</h3>
-                <ul class="list-disc list-inside text-base text-orange-700 space-y-1">
-                    <li>Keep them informed of major developments</li>
-                    <li>Share progress reports when requested</li>
-                    <li>Discuss academic credit requirements</li>
-                    <li>Report any issues or concerns</li>
-                    <li>Coordinate evaluation processes</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Troubleshooting Common Issues</h2>
-        <div class="space-y-3">
-            <div class=" border border-gray-200 rounded-lg p-3 bg-white dark:bg-gray-800">
-                <h4 class="font-semibold text-gray-800 text-base mb-1">Application status hasn't changed after a week</h4>
-                <p class="text-gray-700 text-base">This is normal. Some mentors take longer to review applications. If it's been over 10 business days, consider sending a polite follow-up email.</p>
-            </div>
-            <div class=" border border-gray-200 rounded-lg p-3 bg-white dark:bg-gray-800">
-                <h4 class="font-semibold text-gray-800 text-base mb-1">Can't submit progress report</h4>
-                <p class="text-gray-700 text-base">Ensure all required fields are filled. Try refreshing the page or using a different browser. Contact support if the issue persists.</p>
-            </div>
-            <div class=" border border-gray-200 rounded-lg p-3 bg-white dark:bg-gray-800">
-                <h4 class="font-semibold text-gray-800 text-base mb-1">Mentor not responding to communications</h4>
-                <p class="text-gray-700 text-base">Try different communication channels (email, phone if provided). If unresponsive for over 3 business days, contact your academic supervisor or platform support.</p>
-            </div>
-            <div class=" border border-gray-200 rounded-lg p-3 bg-white dark:bg-gray-800">
-                <h4 class="font-semibold text-gray-800 text-base mb-1">Want to change internship after acceptance</h4>
-                <p class="text-gray-700 text-base">Contact your mentor and academic supervisor immediately. Changes after acceptance can affect your reputation and may not always be possible.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Success Tips</h2>
-        <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
-            <ul class="list-disc list-inside text-base text-gray-700 space-y-2">
-                <li><strong>Stay Organized:</strong> Keep track of all your applications in a spreadsheet if needed</li>
-                <li><strong>Set Reminders:</strong> Use calendar reminders for progress report deadlines</li>
-                <li><strong>Be Professional:</strong> All communications reflect on your professional image</li>
-                <li><strong>Document Everything:</strong> Keep records of important communications and achievements</li>
-                <li><strong>Seek Feedback:</strong> Actively ask for feedback to improve your performance</li>
-                <li><strong>Network:</strong> Build relationships that extend beyond the internship period</li>
-                <li><strong>Reflect and Learn:</strong> Use progress reports as opportunities for self-reflection</li>
+          <div>
+            <h4 class="font-semibold text-gray-700 text-base mb-2">Required Sections:</h4>
+            <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
+              <li>Tasks completed this period</li>
+              <li>Skills learned or developed</li>
+              <li>Challenges faced and solutions</li>
+              <li>Goals for next period</li>
+              <li>Overall satisfaction rating</li>
             </ul>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-700 text-base mb-2">Additional Tips:</h4>
+            <ul class="list-disc list-inside text-base text-gray-600 space-y-1">
+              <li>Be specific about accomplishments</li>
+              <li>Include metrics where possible</li>
+              <li>Mention collaboration and teamwork</li>
+              <li>Ask questions or request feedback</li>
+              <li>Keep it professional but personal</li>
+            </ul>
+          </div>
         </div>
-    </section>
+      </div>
+
+      <div class="border border-gray-200 rounded-lg p-4 bg-white">
+        <h3 class="font-semibold text-gray-800 mb-2">🚀 Submitting Progress Reports</h3>
+        <ol class="list-decimal list-inside text-base text-gray-700 space-y-1">
+          <li>Navigate to your dashboard during an active internship</li>
+          <li>Click "Submit Progress Report" or check notifications</li>
+          <li>Fill out all required sections thoughtfully</li>
+          <li>Review your report before submitting</li>
+          <li>Submit before the deadline</li>
+          <li>Check for mentor feedback on previous reports</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Communication Best Practices</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+        <h3 class="font-semibold text-blue-800 mb-2">👥 With Your Mentor</h3>
+        <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
+          <li>Respond to emails within 24-48 hours</li>
+          <li>Be proactive about asking questions</li>
+          <li>Update on project progress regularly</li>
+          <li>Request feedback actively</li>
+          <li>Maintain professional tone always</li>
+        </ul>
+      </div>
+      <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+        <h3 class="font-semibold text-orange-800 mb-2">🎓 With Academic Supervisor</h3>
+        <ul class="list-disc list-inside text-base text-orange-700 space-y-1">
+          <li>Keep them informed of major developments</li>
+          <li>Share progress reports when requested</li>
+          <li>Discuss academic credit requirements</li>
+          <li>Report any issues or concerns</li>
+          <li>Coordinate evaluation processes</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Troubleshooting Common Issues</h2>
+    <div class="space-y-3">
+      <div class="border border-gray-200 rounded-lg p-3 bg-white">
+        <h4 class="font-semibold text-gray-800 text-base mb-1">Application status hasn't changed after a week</h4>
+        <p class="text-gray-700 text-base">
+          This is normal. Some mentors take longer to review applications. If it's been over 10 business days, consider
+          sending a polite follow-up email.
+        </p>
+      </div>
+      <div class="border border-gray-200 rounded-lg p-3 bg-white">
+        <h4 class="font-semibold text-gray-800 text-base mb-1">Can't submit progress report</h4>
+        <p class="text-gray-700 text-base">
+          Ensure all required fields are filled. Try refreshing the page or using a different browser. Contact support
+          if the issue persists.
+        </p>
+      </div>
+      <div class="border border-gray-200 rounded-lg p-3 bg-white">
+        <h4 class="font-semibold text-gray-800 text-base mb-1">Mentor not responding to communications</h4>
+        <p class="text-gray-700 text-base">
+          Try different communication channels (email, phone if provided). If unresponsive for over 3 business days,
+          contact your academic supervisor or platform support.
+        </p>
+      </div>
+      <div class="border border-gray-200 rounded-lg p-3 bg-white">
+        <h4 class="font-semibold text-gray-800 text-base mb-1">Want to change internship after acceptance</h4>
+        <p class="text-gray-700 text-base">
+          Contact your mentor and academic supervisor immediately. Changes after acceptance can affect your reputation
+          and may not always be possible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Success Tips</h2>
+    <div class="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4">
+      <ul class="list-disc list-inside text-base text-gray-700 space-y-2">
+        <li>
+          <strong>Stay Organized:</strong>
+          Keep track of all your applications in a spreadsheet if needed
+        </li>
+        <li>
+          <strong>Set Reminders:</strong>
+          Use calendar reminders for progress report deadlines
+        </li>
+        <li>
+          <strong>Be Professional:</strong>
+          All communications reflect on your professional image
+        </li>
+        <li>
+          <strong>Document Everything:</strong>
+          Keep records of important communications and achievements
+        </li>
+        <li>
+          <strong>Seek Feedback:</strong>
+          Actively ask for feedback to improve your performance
+        </li>
+        <li>
+          <strong>Network:</strong>
+          Build relationships that extend beyond the internship period
+        </li>
+        <li>
+          <strong>Reflect and Learn:</strong>
+          Use progress reports as opportunities for self-reflection
+        </li>
+      </ul>
+    </div>
+  </section>
 </div>
 {% endblock %}

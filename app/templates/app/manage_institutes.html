@@ -4,22 +4,22 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="shadow rounded-lg bg-white dark:bg-gray-800">
+    <div class="shadow rounded-lg bg-white">
         <div class="p-6">
-            <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Manage Institutes</h1>
-            <p class="text-gray-600 dark:text-gray-300">Review and manage institute registrations</p>
+            <h1 class="text-3xl font-semibold text-gray-900 mb-2">Manage Institutes</h1>
+            <p class="text-gray-600">Review and manage institute registrations</p>
             
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 mb-8">
-                <div class="text-white bg-blue-600 dark:bg-blue-700 rounded-lg p-4">
+                <div class="text-white bg-blue-600 rounded-lg p-4">
                     <h5 class="text-lg font-semibold">Total Institutes</h5>
                     <h2 class="text-3xl font-semibold">{{ stats.total }}</h2>
                 </div>
-                <div class="bg-yellow-50 dark:bg-yellow-900 rounded-lg p-4">
+                <div class="bg-yellow-50 rounded-lg p-4">
                     <h5 class="text-lg font-semibold">Pending Review</h5>
                     <h2 class="text-3xl font-semibold">{{ stats.pending }}</h2>
                 </div>
-                <div class="bg-green-50 dark:bg-green-900 rounded-lg p-4">
+                <div class="bg-green-50 rounded-lg p-4">
                     <h5 class="text-lg font-semibold">Approved</h5>
                     <h2 class="text-3xl font-semibold">{{ stats.approved }}</h2>
                 </div>
@@ -34,12 +34,12 @@
                 <form method="GET" class="flex flex-wrap gap-3">
                     <div class="flex-grow">
                         <input type="text" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"  
                                name="search" 
                                placeholder="Search institutes by name, email, or address..."
                                value="{{ search_query|default:'' }}">
                     </div>
-                    <select name="status" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select name="status" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Status</option>
                         {% for value, display in status_choices %}
                             <option value="{{ value }}" 
@@ -48,13 +48,13 @@
                             </option>
                         {% endfor %}
                     </select>
-                    <select name="domain_verified" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <select name="domain_verified" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Domain Status</option>
                         <option value="true" {% if domain_filter == 'true' %}selected{% endif %}>Verified</option>
                         <option value="false" {% if domain_filter == 'false' %}selected{% endif %}>Not Verified</option>
                     </select>
-                    <button type="submit" class="px-4 py-2 text-white bg-blue-600 dark:bg-blue-700 rounded-md hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Filter</button>
-                    <a href="{% url 'manage_institutes' %}" class="px-4 py-2 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">Clear</a>
+                    <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Filter</button>
+                    <a href="{% url 'manage_institutes' %}" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Clear</a>
                 </form>
             </div>
             
@@ -82,50 +82,50 @@
                                                  alt="{{ institute.name }}" 
                                                  class="w-8 h-8 rounded mr-3 object-cover">
                                         {% else %}
-                                            <div class="w-8 h-8 text-white bg-gray-50 dark:bg-gray-700 rounded flex items-center justify-center mr-3">
+                                            <div class="w-8 h-8 text-white bg-gray-50 rounded flex items-center justify-center mr-3">
                                                 {{ institute.name|first|upper }}
                                             </div>
                                         {% endif %}
                                         <div>
-                                            <div class="text-gray-900 dark:text-gray-100">{{ institute.name }}</div>
+                                            <div class="text-gray-900">{{ institute.name }}</div>
                                             {% if institute.website %}
                                                 <div class="text-gray-500">{{ institute.website }}</div>
                                             {% endif %}
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ institute.contact_email }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ institute.contact_email }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-gray-900 dark:text-gray-100">{{ institute.address|default:"-" }}</div>
+                                    <div class="text-gray-900">{{ institute.address|default:"-" }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {% if institute.registration_status == 'pending' %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200">Pending</span>
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
                                     {% elif institute.registration_status == 'approved' %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">Approved</span>
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>
                                     {% elif institute.registration_status == 'rejected' %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">Rejected</span>
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>
                                     {% elif institute.registration_status == 'suspended' %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-gray-100 text-gray-800 dark:text-gray-200">Suspended</span>
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-gray-100 text-gray-800">Suspended</span>
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {% if institute.domain_verified %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200">
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-green-100 text-green-800">
                                             ✓ Verified
                                         </span>
                                     {% else %}
-                                        <span class="px-2 py-1 font-semibold rounded-full bg-gray-100 text-gray-800 dark:text-gray-200">
+                                        <span class="px-2 py-1 font-semibold rounded-full bg-gray-100 text-gray-800">
                                             ⏱ Unverified
                                         </span>
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-gray-900 dark:text-gray-100">{{ institute.created_at|date:"M d, Y" }}</div>
+                                    <div class="text-gray-900">{{ institute.created_at|date:"M d, Y" }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="{% url 'institute_detail_official' institute.nanoid %}" 
-                                       class="inline-flex items-center px-3 py-1 text-white bg-blue-600 dark:bg-blue-700 rounded hover:text-white">
+                                       class="inline-flex items-center px-3 py-1 text-white bg-blue-600 rounded hover:text-white">
                                         👁 View
                                     </a>
                                 </td>
@@ -137,7 +137,7 @@
                                         <div class="text-4xl mb-4">🏫</div>
                                         <p class="text-lg mb-4">No institutes found.</p>
                                         {% if search_query or status_filter or domain_filter %}
-                                            <a href="{% url 'manage_institutes' %}" class="inline-flex items-center px-4 py-2 border border-blue-300 text-blue-500 rounded-md hover:bg-blue-50 dark:bg-blue-900">
+                                            <a href="{% url 'manage_institutes' %}" class="inline-flex items-center px-4 py-2 border border-blue-300 text-blue-500 rounded-md hover:bg-blue-50">
                                                 Clear filters to see all institutes
                                             </a>
                                         {% endif %}
@@ -153,25 +153,25 @@
             {% if page_obj.has_other_pages %}
                 <nav class="flex items-center justify-between pt-6" aria-label="Pagination">
                     <div class="hidden sm:block">
-                        <p class="text-gray-700 dark:text-gray-300">
-                            Showing page <span class="">{{ page_obj.number }}</span> of <span class="">{{ page_obj.paginator.num_pages }}</span>
+                        <p class="text-gray-700">
+                            Showing page <span class="font-medium">{{ page_obj.number }}</span> of <span class="font-medium">{{ page_obj.paginator.num_pages }}</span>
                         </p>
                     </div>
                     <div class="flex-1 flex justify-center sm:justify-end">
                         <div class="flex space-x-2">
                             {% if page_obj.has_previous %}
                                 <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.previous_page_number }}"
-                                   class="px-3 py-2 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                   class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
                                     Previous
                                 </a>
                             {% endif %}
                             
                             {% for num in page_obj.paginator.page_range %}
                                 {% if page_obj.number == num %}
-                                    <span class="px-3 py-2 text-white bg-blue-600 dark:bg-blue-700 rounded-md">{{ num }}</span>
+                                    <span class="px-3 py-2 text-white bg-blue-600 rounded-md">{{ num }}</span>
                                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                                     <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ num }}"
-                                       class="px-3 py-2 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                       class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
                                         {{ num }}
                                     </a>
                                 {% endif %}
@@ -179,7 +179,7 @@
                             
                             {% if page_obj.has_next %}
                                 <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.next_page_number }}"
-                                   class="px-3 py-2 border border-gray-300 text-gray-700 dark:text-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                   class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
                                     Next
                                 </a>
                             {% endif %}

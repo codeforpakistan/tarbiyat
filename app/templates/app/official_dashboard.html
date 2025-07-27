@@ -1,11 +1,11 @@
 {% extends 'app/page.html' %} {% block title %}Official Dashboard - Tarbiyat{% endblock %} {% block content %}
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+<div class="min-h-screen bg-gray-50 py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100 mb-6">
-          <span class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center mr-3">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
+          <span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
             🏛️
           </span>
           Official Portal
@@ -19,25 +19,25 @@
           </a>
           <a
             href="#"
-            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
             <span class="mr-3">📊</span>
             System Reports
           </a>
           <a
             href="{% url 'manage_companies' %}"
-            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
             <span class="mr-3">🏢</span>
             Manage Companies
           </a>
           <a
             href="{% url 'manage_institutes' %}"
-            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
             <span class="mr-3">🏫</span>
             Manage Institutes
           </a>
           <a
             href="#"
-            class="flex items-center px-4 py-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-100 hover:bg-blue-50 dark:bg-blue-900 rounded-lg transition duration-200">
+            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
             <span class="mr-3">👥</span>
             User Management
           </a>
@@ -49,70 +49,70 @@
     <div class="lg:col-span-3">
       <!-- Welcome Header -->
       <div class="mb-8">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">System Overview</h2>
-        <p class="text-gray-600 dark:text-gray-300">Monitor and manage the internship platform</p>
+        <h2 class="text-2xl font-semibold text-gray-900">System Overview</h2>
+        <p class="text-gray-600">Monitor and manage the internship platform</p>
       </div>
 
       <!-- System Statistics -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">👥</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.total_students }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Total Students</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">👥</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.total_students }}</h4>
+          <p class="text-gray-600 font-medium">Total Students</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">🏢</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.verified_companies }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Verified Companies</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">🏢</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.verified_companies }}</h4>
+          <p class="text-gray-600 font-medium">Verified Companies</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">💼</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.active_positions }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Active Positions</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">💼</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.active_positions }}</h4>
+          <p class="text-gray-600 font-medium">Active Positions</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">🚀</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.active_internships }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Active Internships</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">🚀</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.active_internships }}</h4>
+          <p class="text-gray-600 font-medium">Active Internships</p>
         </div>
       </div>
 
       <!-- Additional Stats Row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">⏳</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.pending_applications }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Pending Applications</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">⏳</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.pending_applications }}</h4>
+          <p class="text-gray-600 font-medium">Pending Applications</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">👨‍💼</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.total_mentors }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Total Mentors</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">👨‍💼</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.total_mentors }}</h4>
+          <p class="text-gray-600 font-medium">Total Mentors</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
-          <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">✅</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.completed_internships }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Completed Internships</p>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
+          <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">✅</div>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.completed_internships }}</h4>
+          <p class="text-gray-600 font-medium">Completed Internships</p>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 text-center">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center">
           <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-lg flex items-center justify-center mx-auto mb-4 text-xl">📊</div>
-          <h4 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">{{ stats.total_applications }}</h4>
-          <p class="text-gray-600 dark:text-gray-300 font-medium">Total Applications</p>
+          <h4 class="text-2xl font-semibold text-gray-900 mb-2">{{ stats.total_applications }}</h4>
+          <p class="text-gray-600 font-medium">Total Applications</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Recent Applications -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
-              <span class="w-8 h-8 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mr-3 text-sm">📋</span>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div class="border-b border-gray-200 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900">
+              <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mr-3 text-sm">📋</span>
               Recent Applications
             </h5>
           </div>
@@ -123,14 +123,14 @@
               <div
                 class="flex justify-between items-center py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
                 <div class="flex-1">
-                  <h6 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ application.student.user.get_full_name }}</h6>
-                  <p class="text-gray-600 dark:text-gray-300 text-sm">
+                  <h6 class="font-semibold text-gray-900 mb-1">{{ application.student.user.get_full_name }}</h6>
+                  <p class="text-gray-600 text-sm">
                     {{ application.position.title }} @ {{ application.position.company.name }}
                   </p>
                 </div>
                 <div class="text-right ml-4">
                   <span
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-nowrap {% if application.status == 'pending' %}bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 elif 'approved' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 'rejected' %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 else %}bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200{% endif %}">
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-nowrap {% if application.status == 'pending' %}bg-yellow-100 text-yellow-800 elif 'approved' %}bg-green-100 text-green-800 'rejected' %}bg-red-100 text-red-800 else %}bg-blue-100 text-blue-800{% endif %}">
                     {{ application.get_status_display }}
                   </span>
                   <div class="text-gray-500 text-xs mt-1">{{ application.applied_at|date:"M d, Y" }}</div>
@@ -148,10 +148,10 @@
         </div>
 
         <!-- Recent Internships -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-          <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-            <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">
-              <span class="w-8 h-8 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mr-3 text-sm">🚀</span>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+          <div class="border-b border-gray-200 px-6 py-4">
+            <h5 class="flex items-center text-lg font-semibold text-gray-900">
+              <span class="w-8 h-8 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-3 text-sm">🚀</span>
               Recent Internships
             </h5>
           </div>
@@ -162,11 +162,11 @@
               <div class="py-3 {% if not forloop.last %}border-b border-gray-100{% endif %}">
                 <div class="flex justify-between items-start">
                   <div class="flex-1">
-                    <h6 class="font-semibold text-gray-900 dark:text-gray-100 mb-1">{{ internship.student.user.get_full_name }}</h6>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">{{ internship.mentor.company.name }}</p>
+                    <h6 class="font-semibold text-gray-900 mb-1">{{ internship.student.user.get_full_name }}</h6>
+                    <p class="text-gray-600 text-sm">{{ internship.mentor.company.name }}</p>
                     <div class="flex items-center mt-2">
                       <span
-                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {% if internship.status == 'active' %}bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 elif 'completed' %}bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 'terminated' %}bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 else %}bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200{% endif %}">
+                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {% if internship.status == 'active' %}bg-green-100 text-green-800 elif 'completed' %}bg-blue-100 text-blue-800 'terminated' %}bg-red-100 text-red-800 else %}bg-yellow-100 text-yellow-800{% endif %}">
                         {{ internship.get_status_display }}
                       </span>
                     </div>
@@ -191,34 +191,34 @@
       </div>
 
       <!-- Quick Actions -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm mt-8 border border-gray-200 dark:border-gray-700">
-        <div class="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-          <h5 class="flex items-center text-lg font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h5>
+      <div class="bg-white rounded-lg shadow-sm mt-8 border border-gray-200">
+        <div class="border-b border-gray-200 px-6 py-4">
+          <h5 class="flex items-center text-lg font-semibold text-gray-900">Quick Actions</h5>
         </div>
         <div class="p-6">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition duration-200 bg-white dark:bg-gray-800">
+              class="flex items-center p-4 border border-gray-200 rounded-lg transition duration-200 bg-white">
               <div>
-                <h6 class="font-semibold text-gray-900 dark:text-gray-100">Verify Companies</h6>
-                <p class="text-gray-600 dark:text-gray-300">Review pending company applications</p>
+                <h6 class="font-semibold text-gray-900">Verify Companies</h6>
+                <p class="text-gray-600">Review pending company applications</p>
               </div>
             </a>
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition duration-200 bg-white dark:bg-gray-800">
+              class="flex items-center p-4 border border-gray-200 rounded-lg transition duration-200 bg-white">
               <div>
-                <h6 class="font-semibold text-gray-900 dark:text-gray-100">Export Reports</h6>
-                <p class="text-gray-600 dark:text-gray-300">Generate system activity reports</p>
+                <h6 class="font-semibold text-gray-900">Export Reports</h6>
+                <p class="text-gray-600">Generate system activity reports</p>
               </div>
             </a>
             <a
               href="#"
-              class="flex items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:bg-gray-700 transition duration-200">
+              class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition duration-200">
               <div>
-                <h6 class="font-semibold text-gray-900 dark:text-gray-100">System Settings</h6>
-                <p class="text-gray-600 dark:text-gray-300">Configure platform settings</p>
+                <h6 class="font-semibold text-gray-900">System Settings</h6>
+                <p class="text-gray-600">Configure platform settings</p>
               </div>
             </a>
           </div>

@@ -1,35 +1,17 @@
-{% extends 'app/blank.html' %}
-{% load i18n %}
+{% extends 'app/blank.html' %} {% load i18n %} {% block title %}Sign Out - Tarbiyat{% endblock %} {% block content %}
+<!-- Header -->
+<div class="text-center">
+  <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-blue-100 mb-4"></div>
+  <h2 class="text-3xl font-semibold text-gray-900">Sign out</h2>
+  <p class="mt-2 text-gray-600">Are you sure you want to sign out of your account?</p>
+</div>
 
-{% block title %}Sign Out - Tarbiyat{% endblock %}
-
-{% block content %}
-        <!-- Header -->
-        <div class="text-center">
-            <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-blue-100 mb-4">
-                
-            </div>
-            <h2 class="text-3xl font-semibold text-gray-900">Sign out</h2>
-            <p class="mt-2  text-gray-600">
-                Are you sure you want to sign out of your account?
-            </p>
-        </div>
-
-        <div class="py-8 px-6 shadow-xl rounded-lg bg-white dark:bg-gray-800">
-            <form class="space-y-6" method="post">
-                {% csrf_token %}
-                
-                <div class="flex space-x-4">
-                    <button type="submit" class="flex-1 flex justify-center py-3 px-4 border border-transparent   rounded-lg  text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
-                        
-                        Yes, sign out
-                    </button>
-                    
-                    <a href="{% url 'home' %}" class="flex-1 flex justify-center py-3 px-4 border border-gray-300   rounded-lg text-gray-700   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 bg-white dark:bg-gray-800">
-                        
-                        Cancel
-                    </a>
-                </div>
-            </form>
-        </div>
+<div class="py-8 px-6 shadow-xl rounded-lg bg-white 'home' %}"
+        class="flex-1 flex justify-center py-3 px-4 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200 bg-white ">
+        Cancel
+      </a>
+    </div>
+  </form>
+</div>
 {% endblock %}
+

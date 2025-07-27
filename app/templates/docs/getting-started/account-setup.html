@@ -1,54 +1,65 @@
-{% extends 'docs/base.html' %}
-
-{% block title %}Account Setup - Tarbiyat{% endblock %}
-
-{% block doc_content %}
+{% extends 'docs/base.html' %} {% block title %}Account Setup - Tarbiyat{% endblock %} {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
-        <span class="mr-2">←</span> Back to Documentation
-    </a>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">🚀 Account Setup</h1>
-    <p class="text-gray-600">Get started with your Tarbiyat account</p>
+  <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
+    <span class="mr-2">←</span>
+    Back to Documentation
+  </a>
+  <h1 class="text-3xl font-semibold text-gray-900 mb-2">🚀 Account Setup</h1>
+  <p class="text-gray-600">Get started with your Tarbiyat account</p>
 </div>
 
-<div class=" dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 space-y-6">
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Creating Your Account</h2>
-            <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                <li>Visit the registration page and provide your email address</li>
-                <li>Choose a secure password</li>
-                <li>Verify your email address by clicking the link sent to your inbox</li>
-                <li>Complete the profile setup process</li>
-            </ol>
-        </section>
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 space-y-6">
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Creating Your Account</h2>
+    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+      <li>Visit the registration page and provide your email address</li>
+      <li>Choose a secure password</li>
+      <li>Verify your email address by clicking the link sent to your inbox</li>
+      <li>Complete the profile setup process</li>
+    </ol>
+  </section>
 
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Choosing Your Role</h2>
-            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                <p class="text-yellow-800">
-                    <strong>Important:</strong> Your role cannot be changed after selection. Choose carefully based on your primary function.
-                </p>
-            </div>
-            <p class="text-gray-700 mb-4">Select the role that best matches your function:</p>
-            <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
-                <li><strong>Student:</strong> If you're looking for internship opportunities</li>
-                <li><strong>Mentor:</strong> If you represent a company offering internships</li>
-                <li><strong>Teacher:</strong> If you're an academic supervisor from an educational institute</li>
-                <li><strong>Official:</strong> If you're a government administrator overseeing the program</li>
-            </ul>
-        </section>
-
-        <section>
-            <h2 class="text-xl font-semibold text-blue-500 mb-3">Email Domain Verification</h2>
-            <p class="text-gray-700 mb-4">
-                For verified organizations, your email domain must match the organization's official domain. 
-                This ensures institutional integrity and prevents unauthorized access.
-            </p>
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p class="text-blue-800">
-                    <strong>Example:</strong> To join "University of Example", your email must be from "@university.edu.pk"
-                </p>
-            </div>
-        </section>
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Choosing Your Role</h2>
+    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+      <p class="text-yellow-800">
+        <strong>Important:</strong>
+        Your role cannot be changed after selection. Choose carefully based on your primary function.
+      </p>
     </div>
+    <p class="text-gray-700 mb-4">Select the role that best matches your function:</p>
+    <ul class="list-disc list-inside space-y-2 text-gray-700 ml-4">
+      <li>
+        <strong>Student:</strong>
+        If you're looking for internship opportunities
+      </li>
+      <li>
+        <strong>Mentor:</strong>
+        If you represent a company offering internships
+      </li>
+      <li>
+        <strong>Teacher:</strong>
+        If you're an academic supervisor from an educational institute
+      </li>
+      <li>
+        <strong>Official:</strong>
+        If you're a government administrator overseeing the program
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-semibold text-blue-500 mb-3">Email Domain Verification</h2>
+    <p class="text-gray-700 mb-4">
+      For verified organizations, your email domain must match the organization's official domain. This ensures
+      institutional integrity and prevents unauthorized access.
+    </p>
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <p class="text-blue-800">
+        <strong>Example:</strong>
+        To join "University of Example", your email must be from "@university.edu.pk"
+      </p>
+    </div>
+  </section>
+</div>
 {% endblock %}
