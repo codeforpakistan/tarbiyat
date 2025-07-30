@@ -1,54 +1,10 @@
-{% extends 'app/page.html' %} {% block title %}Official Dashboard - Tarbiyat{% endblock %} {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
-  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-    <!-- Sidebar -->
-    <div class="lg:col-span-1">
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
-          <span class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
-            🏛️
-          </span>
-          Official Portal
-        </h5>
-        <nav class="space-y-2">
-          <a
-            href="{% url 'dashboard' %}"
-            class="flex items-center px-4 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition duration-200">
-            <span class="mr-3">🏠</span>
-            Dashboard
-          </a>
-          <a
-            href="#"
-            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
-            <span class="mr-3">📊</span>
-            System Reports
-          </a>
-          <a
-            href="{% url 'manage_companies' %}"
-            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
-            <span class="mr-3">🏢</span>
-            Manage Companies
-          </a>
-          <a
-            href="{% url 'manage_institutes' %}"
-            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
-            <span class="mr-3">🏫</span>
-            Manage Institutes
-          </a>
-          <a
-            href="#"
-            class="flex items-center px-4 py-3 text-gray-600 hover:text-gray-900 hover:bg-blue-50 rounded-lg transition duration-200">
-            <span class="mr-3">👥</span>
-            User Management
-          </a>
-        </nav>
-      </div>
-    </div>
+{% extends 'app/page.html' %} 
+{% block title %}Official Dashboard - Tarbiyat{% endblock %} 
+{% block content %}
 
-    <!-- Main Content -->
-    <div class="lg:col-span-3">
-      <!-- Welcome Header -->
-      <div class="mb-8">
+<div class="min-h-screen bg-gray-50 py-8">
+  <!-- Welcome Header -->
+  <div class="mb-8">
         <h2 class="text-2xl font-semibold text-gray-900">System Overview</h2>
         <p class="text-gray-600">Monitor and manage the internship platform</p>
       </div>
@@ -226,5 +182,4 @@
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

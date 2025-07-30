@@ -194,20 +194,23 @@
                                     </div>
                                     
                                     <div class="flex flex-col space-y-2 ml-6">
-                                        <button class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition duration-200">
+                                        <a href="{% url 'application_detail' application.nanoid %}" 
+                                           class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition duration-200 text-center">
                                             View Details
-                                        </button>
+                                        </a>
                                         {% if application.status == 'pending' or application.status == 'under_review' %}
-                                            <button class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition duration-200">
+                                            <a href="{% url 'accept_application' application.nanoid %}" 
+                                               class="text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition duration-200 text-center">
                                                 Accept
-                                            </button>
-                                            <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition duration-200">
+                                            </a>
+                                            <a href="{% url 'reject_application' application.nanoid %}" 
+                                               class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition duration-200 text-center">
                                                 Reject
-                                            </button>
+                                            </a>
                                         {% endif %}
                                         {% if application.student.resume %}
                                             <a href="{{ application.student.resume.url }}" target="_blank" 
-                                               class="text-white bg-gray-50 hover:bg-gray-700 px-4 py-2 rounded-md transition duration-200 text-center">
+                                               class="text-white bg-gray-500 hover:bg-gray-700 px-4 py-2 rounded-md transition duration-200 text-center">
                                                 View Resume
                                             </a>
                                         {% endif %}

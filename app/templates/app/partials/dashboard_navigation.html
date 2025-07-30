@@ -1,0 +1,46 @@
+{% load user_tags %}
+
+<!-- Dashboard Navigation -->
+<nav class="bg-white shadow-sm border-b border-gray-200 mb-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center space-x-8">
+        <a href="{% url 'home' %}" class="text-blue-600 font-semibold text-lg">Tarbiyat</a>
+        
+        {% if user|get_user_type == 'student' %}
+        <div class="hidden md:flex space-x-6">
+          <a href="{% url 'student_dashboard' %}" class="nav-link">🏠 Dashboard</a>
+          <a href="{% url 'internship_positions' %}" class="nav-link">💼 Positions</a>
+          <a href="{% url 'student_applications' %}" class="nav-link">📝 Applications</a>
+          <a href="{% url 'student_weekly_activities' %}" class="nav-link">📅 Activities</a>
+        </div>
+        {% elif user|get_user_type == 'mentor' %}
+        <div class="hidden md:flex space-x-6">
+          <a href="{% url 'dashboard' %}" class="nav-link">🏠 Dashboard</a>
+          <a href="{% url 'mentor_positions' %}" class="nav-link">💼 Positions</a>
+          <a href="{% url 'mentor_applications' %}" class="nav-link">📝 Applications</a>
+          <a href="{% url 'mentor_evaluations' %}" class="nav-link">📊 Evaluations</a>
+        </div>
+        {% elif user|get_user_type == 'teacher' %}
+        <div class="hidden md:flex space-x-6">
+          <a href="{% url 'teacher_dashboard' %}" class="nav-link">🏠 Dashboard</a>
+          <a href="{% url 'teacher_students' %}" class="nav-link">👥 Students</a>
+          <a href="{% url 'teacher_evaluations' %}" class="nav-link">📊 Evaluations</a>
+        </div>
+        {% elif user|get_user_type == 'official' %}
+        <div class="hidden md:flex space-x-6">
+          <a href="{% url 'official_dashboard' %}" class="nav-link">🏠 Dashboard</a>
+          <a href="{% url 'official_companies' %}" class="nav-link">🏢 Companies</a>
+          <a href="{% url 'official_institutes' %}" class="nav-link">🏛️ Institutes</a>
+          <a href="{% url 'official_approvals' %}" class="nav-link">✅ Approvals</a>
+        </div>
+        {% endif %}
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <a href="{% url 'profile_edit' %}" class="nav-link">⚙️ Profile</a>
+        <a href="{% url 'account_logout' %}" class="nav-link">🚪 Logout</a>
+      </div>
+    </div>
+  </div>
+</nav>

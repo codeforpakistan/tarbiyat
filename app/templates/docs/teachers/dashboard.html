@@ -1,98 +1,140 @@
-{% extends 'docs/base.html' %}
-
-{% block title %}Teacher Dashboard - Teachers - Tarbiyat{% endblock %}
-
+{% extends 'docs/base.html' %} 
+{% block title %}Teacher Dashboard - Teachers - Tarbiyat{% endblock %} 
 {% block doc_content %}
 <div class="mb-6">
-    <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
-        <span class="mr-2">←</span> Back to Documentation
-    </a>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">👨‍🏫 Teacher Dashboard Guide</h1>
-    <p class="text-gray-600">Complete guide to navigating and using your teacher dashboard effectively</p>
+  <a href="{% url 'documentation_index' %}" class="text-blue-500 hover:text-blue-800 flex items-center mb-4">
+    <span class="mr-2">←</span>
+    Back to Documentation
+  </a>
+  <h1 class="text-3xl font-semibold text-gray-900 mb-2">👨‍🏫 Teacher Dashboard Guide</h1>
+  <p class="text-gray-600">Complete guide to navigating and using your teacher dashboard effectively</p>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 bg-white">
+  <p class="text-gray-700 text-base">
+    If you haven't completed your teacher profile yet, you'll be redirected to create it.
+  </p>
 </div>
 
-<div class=" 'll be redirected to create it.
-                </p>
-            </div>
-        </div>
-    </section>
+<section>
+  <h2 class="text-xl font-semibold text-blue-500 mb-3">Dashboard Components</h2>
 
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Dashboard Components</h2>
-        
-        <div class="space-y-6">
-            <div class="border-l-4 border-blue-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Welcome Header</h3>
-                <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
-                    <li><strong>Personal greeting:</strong> Shows your title and full name</li>
-                    <li><strong>Institution info:</strong> Your institute name and department</li>
-                    <li><strong>Quick context:</strong> Current academic period information</li>
-                </ul>
-            </div>
-
-            <div class="border-l-4 border-green-500 pl-4">
-                <h3 class="font-semibold text-gray-800 mb-3">Statistics Cards</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                    <div class=" border border-gray-200 rounded p-3 bg-white 're an administrative contact, you'll also see:</p>
-                <ul class="list-disc list-inside text-base text-green-700 space-y-1">
-                    <li><strong>Edit Institute:</strong> Manage institutional details</li>
-                    <li><strong>Organization Requests:</strong> Review registration requests</li>
-                    <li><strong>User Management:</strong> Oversee teacher and student accounts</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Quick Actions</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                <h3 class="font-semibold text-blue-800 mb-2">📝 Submit Report</h3>
-                <p class="text-base text-blue-500 mb-2">Create weekly progress reports for students</p>
-                <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
-                    <li>Academic progress assessment</li>
-                    <li>Skill development tracking</li>
-                    <li>Mentor coordination notes</li>
-                </ul>
-            </div>
-            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
-                <h3 class="font-semibold text-green-800 mb-2">👀 Review Reports</h3>
-                <p class="text-base text-green-700 mb-2">Check student and mentor submissions</p>
-                <ul class="list-disc list-inside text-base text-green-700 space-y-1">
-                    <li>Student self-assessments</li>
-                    <li>Mentor evaluations</li>
-                    <li>Progress comparisons</li>
-                </ul>
-            </div>
-            <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                <h3 class="font-semibold text-purple-800 mb-2">📜 Issue Certificate</h3>
-                <p class="text-base text-purple-700 mb-2">Generate completion certificates</p>
-                <ul class="list-disc list-inside text-base text-purple-700 space-y-1">
-                    <li>Internship completion certificates</li>
-                    <li>Academic credit documentation</li>
-                    <li>Achievement recognition</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <h2 class="text-xl font-semibold text-blue-500 mb-3">Understanding Your Data</h2>
-        
-        <div class="space-y-4">
-            <div class=" border border-gray-200 rounded-lg p-4 bg-white 're logged in with a teacher account and have necessary permissions.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Related Guides -->
-    <div class="mt-12 p-6 'documentation_guide' 'teachers' 'student-supervision' %}" class="block p-4  'documentation_guide' 'teachers' 'progress-monitoring' %}" class="block p-4  rounded-lg shadow-base hover:shadow-lg transition-shadow border">
-                <h4 class="font-semibold text-blue-500 mb-2">Progress Monitoring</h4>
-                <p class="text-gray-700 text-base">Track and assess student progress throughout internships</p>
-            </a>
-        </div>
+  <div class="space-y-6">
+    <div class="border-l-4 border-blue-500 pl-4">
+      <h3 class="font-semibold text-gray-800 mb-3">Welcome Header</h3>
+      <ul class="list-disc list-inside text-base text-gray-700 space-y-1">
+        <li>
+          <strong>Personal greeting:</strong>
+          Shows your title and full name
+        </li>
+        <li>
+          <strong>Institution info:</strong>
+          Your institute name and department
+        </li>
+        <li>
+          <strong>Quick context:</strong>
+          Current academic period information
+        </li>
+      </ul>
     </div>
+
+    <div class="border-l-4 border-green-500 pl-4">
+      <h3 class="font-semibold text-gray-800 mb-3">Statistics Cards</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+        <div class="border border-gray-200 rounded p-3 bg-white">
+          <h4 class="font-semibold text-gray-800 mb-2">Total Students</h4>
+          <p class="text-gray-600">Students under your supervision</p>
+        </div>
+        <div class="border border-gray-200 rounded p-3 bg-white">
+          <h4 class="font-semibold text-gray-800 mb-2">Active Internships</h4>
+          <p class="text-gray-600">Currently ongoing placements</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-l-4 border-yellow-500 pl-4">
+      <h3 class="font-semibold text-gray-800 mb-3">Administrative Controls</h3>
+      <p class="text-gray-700 mb-2">If you're an administrative contact, you'll also see:</p>
+      <ul class="list-disc list-inside text-base text-green-700 space-y-1">
+        <li>
+          <strong>Edit Institute:</strong>
+          Manage institutional details
+        </li>
+        <li>
+          <strong>Organization Requests:</strong>
+          Review registration requests
+        </li>
+        <li>
+          <strong>User Management:</strong>
+          Oversee teacher and student accounts
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="text-xl font-semibold text-blue-500 mb-3">Quick Actions</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+      <h3 class="font-semibold text-blue-800 mb-2">📝 Submit Report</h3>
+      <p class="text-base text-blue-500 mb-2">Create weekly progress reports for students</p>
+      <ul class="list-disc list-inside text-base text-blue-500 space-y-1">
+        <li>Academic progress assessment</li>
+        <li>Skill development tracking</li>
+        <li>Mentor coordination notes</li>
+      </ul>
+    </div>
+    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+      <h3 class="font-semibold text-green-800 mb-2">👀 Review Reports</h3>
+      <p class="text-base text-green-700 mb-2">Check student and mentor submissions</p>
+      <ul class="list-disc list-inside text-base text-green-700 space-y-1">
+        <li>Student self-assessments</li>
+        <li>Mentor evaluations</li>
+        <li>Progress comparisons</li>
+      </ul>
+    </div>
+    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+      <h3 class="font-semibold text-purple-800 mb-2">📜 Issue Certificate</h3>
+      <p class="text-base text-purple-700 mb-2">Generate completion certificates</p>
+      <ul class="list-disc list-inside text-base text-purple-700 space-y-1">
+        <li>Internship completion certificates</li>
+        <li>Academic credit documentation</li>
+        <li>Achievement recognition</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="text-xl font-semibold text-blue-500 mb-3">Understanding Your Data</h2>
+
+  <div class="space-y-4">
+    <div class="border border-gray-200 rounded-lg p-4 bg-white">
+      <p class="text-gray-700 text-base">
+        All data shown on your dashboard is filtered to show only information relevant to your role and permissions.
+        Make sure you're logged in with a teacher account and have necessary permissions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Related Guides -->
+<div class="mt-12 p-6 bg-gray-50 rounded-lg border">
+  <h3 class="text-xl font-semibold text-gray-900 mb-4">📚 Related Teacher Guides</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <a
+      href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}"
+      class="block p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow border">
+      <h4 class="font-semibold text-blue-500 mb-2">Student Supervision</h4>
+      <p class="text-gray-700 text-sm">Learn how to effectively supervise and support students</p>
+    </a>
+    <a
+      href="{% url 'documentation_guide' 'teachers' 'progress-monitoring' %}"
+      class="block p-4 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow border">
+      <h4 class="font-semibold text-blue-500 mb-2">Progress Monitoring</h4>
+      <p class="text-gray-700 text-base">Track and assess student progress throughout internships</p>
+    </a>
+  </div>
 </div>
 {% endblock %}
-

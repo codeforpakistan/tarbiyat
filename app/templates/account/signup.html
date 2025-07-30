@@ -141,43 +141,4 @@
   </form>
 </div>
 
-{% endblock %} 
-
-{% block extra_head %}
-<style>
-  /* Custom styling for form inputs */
-  input[type="email"],
-  input[type="text"],
-  input[type="password"],
-  select {
-    appearance: none;
-    border-radius: 0.5rem;
-    border: 1px solid #d1d5db;
-    padding: 0.75rem 1rem;
-    width: 100%;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    color: #111827;
-    background-color: white;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  }
-
-  input[type="email"]:focus,
-  input[type="text"]:focus,
-  input[type="password"]:focus,
-  select:focus {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-  }
-
-  select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 0.5rem center;
-    background-repeat: no-repeat;
-    background-size: 1.5em 1.5em;
-    padding-right: 2.5rem;
-  }
-</style>
 {% endblock %}

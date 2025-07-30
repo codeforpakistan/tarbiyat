@@ -1,47 +1,7 @@
 {% extends 'app/page.html' %} 
 {% block title %}Teacher Dashboard - Tarbiyat{% endblock %} 
 {% block content %}
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-  <!-- Sidebar -->
-  <div class="lg:col-span-1">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-      <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
-        <span class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">👨‍🏫</span>
-        Teacher Portal
-      </h5>
-      <nav class="space-y-2">
-        <a
-          href="{% url 'dashboard' %}"
-          class="flex items-center px-3 py-2 text-white bg-blue-600 rounded-md">
-          Dashboard
-        </a>
-        <a
-          href="{% url 'teacher_students' %}"
-          class="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
-          My Students
-        </a>
-        {% if teacher_profile.can_edit_institute %}
-        <a
-          href="{% url 'edit_institute' %}"
-          class="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
-          Edit Institute
-        </a>
-        {% endif %}
-        <a href="#" class="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
-          Progress Monitoring
-        </a>
-        <a href="#" class="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
-          Reports
-        </a>
-        <a href="#" class="flex items-center px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md">
-          Certificates
-        </a>
-      </nav>
-    </div>
-  </div>
 
-  <!-- Main Content -->
-  <div class="lg:col-span-3">
     <!-- Welcome Header -->
     <div class="mb-8">
       <h2 class="text-2xl font-semibold text-gray-900">
@@ -320,6 +280,4 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
 {% endblock %}

@@ -1238,7 +1238,7 @@ def edit_company(request):
         company.save()
         
         messages.success(request, f'Company "{company.name}" updated successfully!')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     context = {
         'company': company,
@@ -1337,7 +1337,7 @@ def create_position(request):
     
     if not mentor_profile.is_verified:
         messages.error(request, 'Your mentor profile must be verified before creating positions.')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     if request.method == 'POST':
         # Create new position
@@ -1356,7 +1356,7 @@ def create_position(request):
         )
         
         messages.success(request, f'Position "{position.title}" created successfully!')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     context = {
         'mentor_profile': mentor_profile,
@@ -1376,13 +1376,13 @@ def edit_position(request, position_nanoid):
         position = InternshipPosition.objects.get(nanoid=position_nanoid, mentor=mentor_profile)
     except (MentorProfile.DoesNotExist, InternshipPosition.DoesNotExist):
         messages.error(request, 'Position not found or access denied.')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     # Check if position has applications - prevent editing if it does
     has_applications = position.applications.exists()
     if has_applications and request.method == 'POST':
         messages.error(request, 'Cannot edit position that already has applications. Please create a new position instead.')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     if request.method == 'POST':
         # Update position
@@ -1400,7 +1400,7 @@ def edit_position(request, position_nanoid):
         position.save()
         
         messages.success(request, f'Position "{position.title}" updated successfully!')
-        return redirect('mentor_dashboard')
+        return redirect('dashboard')
     
     context = {
         'position': position,
@@ -1799,7 +1799,7 @@ def register_organization(request):
             profile = request.user.mentor_profile
             if not profile.can_register_organization:
                 messages.error(request, 'You do not have permission to register new organizations.')
-                return redirect('mentor_dashboard')
+                return redirect('dashboard')
         except MentorProfile.DoesNotExist:
             messages.error(request, 'Please complete your mentor profile first.')
             return redirect('create_profile')
@@ -2090,6 +2090,171 @@ def mentor_applications(request):
     return render(request, 'app/mentor_applications.html', context)
 
 @login_required
+def accept_application(request, application_nanoid):
+    """Accept a student application (mentor only)"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_profile')
+    
+    try:
+        application = InternshipApplication.objects.select_related(
+            'student__user', 'position__company'
+        ).get(
+            nanoid=application_nanoid,
+            position__mentor=mentor_profile
+        )
+    except InternshipApplication.DoesNotExist:
+        messages.error(request, 'Application not found or access denied.')
+        return redirect('mentor_applications')
+    
+    # Check if application can be accepted
+    if application.status not in ['pending', 'under_review']:
+        status_display = dict(InternshipApplication.STATUS_CHOICES).get(application.status or 'unknown', 'Unknown')
+        messages.error(request, f'Cannot accept application with status: {status_display}')
+        return redirect('mentor_applications')
+    
+    if request.method == 'POST':
+        # Update application status
+        application.status = 'approved'
+        application.reviewed_at = timezone.now()
+        application.reviewer_notes = request.POST.get('notes', '')
+        application.save()
+        
+        # Create notification for student
+        try:
+            from .models import Notification
+            student_name = application.student.user.get_full_name() if application.student and application.student.user else 'Student'
+            position_title = application.position.title if application.position else 'Position'
+            company_name = application.position.company.name if application.position and application.position.company else 'Company'
+            
+            Notification.objects.create(
+                recipient=application.student.user,
+                title="Application Approved!",
+                message=f"Congratulations! Your application for {position_title} at {company_name} has been approved. Check your email for next steps.",
+                notification_type='application_status'
+            )
+        except Exception as e:
+            # Continue even if notification creation fails
+            pass
+        
+        student_name = application.student.user.get_full_name() if application.student and application.student.user else 'Student'
+        messages.success(request, f'Application from {student_name} has been approved!')
+        return redirect('mentor_applications')
+    
+    context = {
+        'application': application,
+        'mentor_profile': mentor_profile,
+    }
+    return render(request, 'app/accept_application.html', context)
+
+@login_required
+def reject_application(request, application_nanoid):
+    """Reject a student application (mentor only)"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_profile')
+    
+    try:
+        application = InternshipApplication.objects.select_related(
+            'student__user', 'position__company'
+        ).get(
+            nanoid=application_nanoid,
+            position__mentor=mentor_profile
+        )
+    except InternshipApplication.DoesNotExist:
+        messages.error(request, 'Application not found or access denied.')
+        return redirect('mentor_applications')
+    
+    # Check if application can be rejected
+    if application.status not in ['pending', 'under_review']:
+        status_display = dict(InternshipApplication.STATUS_CHOICES).get(application.status or 'unknown', 'Unknown')
+        messages.error(request, f'Cannot reject application with status: {status_display}')
+        return redirect('mentor_applications')
+    
+    if request.method == 'POST':
+        # Update application status
+        application.status = 'rejected'
+        application.reviewed_at = timezone.now()
+        application.reviewer_notes = request.POST.get('feedback', '')
+        application.save()
+        
+        # Create notification for student
+        try:
+            from .models import Notification
+            feedback_message = request.POST.get('feedback', '')
+            position_title = application.position.title if application.position else 'Position'
+            company_name = application.position.company.name if application.position and application.position.company else 'Company'
+            
+            notification_message = f"Thank you for your interest in {position_title} at {company_name}. Unfortunately, your application was not selected at this time."
+            if feedback_message:
+                notification_message += f"\n\nFeedback: {feedback_message}"
+            
+            Notification.objects.create(
+                recipient=application.student.user,
+                title="Application Status Update",
+                message=notification_message,
+                notification_type='application_status'
+            )
+        except Exception as e:
+            # Continue even if notification creation fails
+            pass
+        
+        student_name = application.student.user.get_full_name() if application.student and application.student.user else 'Student'
+        messages.success(request, f'Application from {student_name} has been rejected.')
+        return redirect('mentor_applications')
+    
+    context = {
+        'application': application,
+        'mentor_profile': mentor_profile,
+    }
+    return render(request, 'app/reject_application.html', context)
+
+@login_required
+def application_detail(request, application_nanoid):
+    """View detailed application information (mentor only)"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_profile')
+    
+    try:
+        application = InternshipApplication.objects.select_related(
+            'student__user', 'position__company'
+        ).get(
+            nanoid=application_nanoid,
+            position__mentor=mentor_profile
+        )
+    except InternshipApplication.DoesNotExist:
+        messages.error(request, 'Application not found or access denied.')
+        return redirect('mentor_applications')
+    
+    context = {
+        'application': application,
+        'mentor_profile': mentor_profile,
+    }
+    return render(request, 'app/application_detail.html', context)
+
+@login_required
 def mentor_interns(request):
     """View all active and past interns"""
     user_type = get_user_type(request.user)
@@ -2356,6 +2521,7 @@ def documentation_guide(request, user_type, topic):
             'dashboard': 'docs/teachers/dashboard.html',
             'student-supervision': 'docs/teachers/student-supervision.html',
             'progress-monitoring': 'docs/teachers/progress-monitoring.html',
+            'institute-registration': 'docs/teachers/institute-registration.html',
         },
         'officials': {
             'dashboard': 'docs/officials/dashboard.html',

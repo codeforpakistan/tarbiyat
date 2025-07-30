@@ -66,77 +66,7 @@
         <!-- Position Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {% for position in page_obj %}
-                <div class="bg-white text-dark rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200">
-                    <div class="p-6">
-                        <!-- Company Info -->
-                        <div class="flex items-center mb-4">
-                            <div class="w-12 h-12 text-white bg-blue-600 rounded-full flex items-center justify-center text-lg font-semibold mr-3">
-                                {{ position.company.name|first }}
-                            </div>
-                            <div>
-                                <h6 class="font-semibold text-gray-900">{{ position.company.name }}</h6>
-                                <p class="text-gray-600">{{ position.company.industry }}</p>
-                            </div>
-                        </div>
-
-                        <!-- Position Info -->
-                        <h5 class="text-lg font-semibold text-gray-900 mb-3">{{ position.title }}</h5>
-                        <p class="text-gray-600 mb-4 line-clamp-3">
-                            {{ position.description|truncatewords:20 }}
-                        </p>
-
-                        <!-- Position Details -->
-                        <div class="space-y-2 mb-4">
-                            <div class="flex items-center text-gray-600">
-                                
-                                <span>{{ position.start_date }} - {{ position.end_date }}</span>
-                            </div>
-                            <div class="flex items-center text-gray-600">
-                                
-                                <span>{{ position.get_duration_display }}</span>
-                            </div>
-                            <div class="flex items-center {% if position.stipend %}text-green-600{% else %}text-gray-600{% endif %}">
-                                
-                                <span>{% if position.stipend %}PKR {{ position.stipend }}/month{% else %}Unpaid{% endif %}</span>
-                            </div>
-                        </div>
-
-                        <!-- Available Spots -->
-                        <div class="flex items-center justify-between mb-4">
-                            <span class="text-gray-600">Available Spots</span>
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full {% if position.available_spots > 0 %}bg-green-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
-                                {{ position.available_spots }}/{{ position.max_students }}
-                            </span>
-                        </div>
-
-                        <!-- Action Button -->
-                        <div class="w-full">
-                            {% if position.available_spots > 0 %}
-                                {% if user.is_authenticated and user|get_user_type == 'student' %}
-                                    <a href="{% url 'apply_position' position.nanoid %}" class="block w-full text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition duration-200 text-center">
-                                        Apply Now
-                                    </a>
-                                {% else %}
-                                    <a href="{% url 'position_detail' position.nanoid %}" class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 px-4 py-2 rounded-md transition duration-200 text-center">
-                                        View Details
-                                    </a>
-                                {% endif %}
-                            {% else %}
-                                <a href="{% url 'position_detail' position.nanoid %}" class="block w-full bg-gray-300 text-gray-500 px-4 py-2 rounded-md text-center">
-                                    View Details
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                    <!-- Card Footer -->
-                    <div class="border-t border-gray-100 px-6 py-3">
-                        <div class="flex items-center text-gray-600">
-                            
-                            <span>Mentor: {{ position.mentor.user.get_full_name }}</span>
-                        </div>
-                    </div>
-                </div>
+                {% include 'app/components/position_card.html' with position=position %}
             {% empty %}
                 <div class="col-span-full">
                     <div class="text-center py-16">

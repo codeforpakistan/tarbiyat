@@ -1,44 +1,148 @@
-{% extends 'docs/base.html' %} 
-{% load user_tags %} 
-{% block title %}Documentation - Tarbiyat Platform{% endblock %} 
+{% extends 'docs/base.html' %}
+{% load user_tags %}
+{% block title %}Documentation - Tarbiyat Platform{% endblock %}
 
 {% block doc_content %}
 <div class="mb-8">
-  <h1 class="text-4xl font-semibold text-gray-900 'documentation_guide' 'officials' 'dashboard' %}"
-        class="inline-flex items-center text-gray-800 'documentation_guide' 'getting-started' 'overview' %}"
-          class="inline-flex items-center text-blue-500 'documentation_guide' 'getting-started' 'account-setup' %}"
-          class="inline-flex items-center text-blue-500 'documentation_guide' 'students' 'dashboard' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'students' 'profile-management' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'students' 'finding-internships' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'students' 'applying-positions' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'students' 'application-progress' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'mentors' 'dashboard' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'mentors' 'creating-positions' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'mentors' 'company-registration' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'mentors' 'managing-applications' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'mentors' 'intern-supervision' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'teachers' 'dashboard' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'teachers' 'institute-registration' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'teachers' 'student-supervision' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'teachers' 'progress-monitoring' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'officials' 'dashboard' %}"
-          class="inline-flex items-center text-gray-800 'documentation_guide' 'officials' 'managing-organizations' %}"
-          class="inline-flex items-center text-gray-800 'browse_positions' %}"
-        class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 'complete_profile' %}"
-        class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
-        Get Started
+  <h1 class="text-4xl font-semibold text-gray-900 mb-4">📚 Tarbiyat Documentation</h1>
+  <p class="text-xl text-gray-600">Complete guides for all platform users</p>
+</div>
+
+<div class="documentation-content">
+  <!-- Getting Started Section -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">🚀 Getting Started</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="{% url 'documentation_guide' 'getting-started' 'overview' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📖 Platform Overview</h3>
+        <p class="text-gray-600">Learn about the Tarbiyat platform and its features</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'getting-started' 'account-setup' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">👤 Account Setup</h3>
+        <p class="text-gray-600">Set up your account and complete your profile</p>
       </a>
     </div>
-    <div class="text-center">
-      <div class="text-3xl mb-2">❓</div>
-      <h5 class="font-semibold mb-2 text-gray-900">Need Help?</h5>
-      <a
-        href="#getting-started"
-        class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors">
-        Getting Started
+  </section>
+
+  <!-- Students Section -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">🎓 For Students</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="{% url 'documentation_guide' 'students' 'dashboard' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📊 Student Dashboard</h3>
+        <p class="text-gray-600">Navigate your student dashboard effectively</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'students' 'profile-management' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">👤 Profile Management</h3>
+        <p class="text-gray-600">Manage your student profile and resume</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'students' 'finding-internships' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">🔍 Finding Internships</h3>
+        <p class="text-gray-600">Search and discover internship opportunities</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'students' 'applying-positions' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📝 Applying for Positions</h3>
+        <p class="text-gray-600">Apply for internship positions effectively</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'students' 'application-progress' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📈 Application Progress</h3>
+        <p class="text-gray-600">Track your application status and progress</p>
       </a>
     </div>
-  </div>
+  </section>
+
+  <!-- Mentors Section -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">👨‍💼 For Mentors</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="{% url 'documentation_guide' 'mentors' 'dashboard' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📊 Mentor Dashboard</h3>
+        <p class="text-gray-600">Navigate your mentor dashboard and features</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'mentors' 'creating-positions' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">➕ Creating Positions</h3>
+        <p class="text-gray-600">Create and manage internship positions</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'mentors' 'company-registration' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">🏢 Company Registration</h3>
+        <p class="text-gray-600">Register your company on the platform</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'mentors' 'managing-applications' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📋 Managing Applications</h3>
+        <p class="text-gray-600">Review and manage student applications</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'mentors' 'intern-supervision' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">👥 Intern Supervision</h3>
+        <p class="text-gray-600">Guide and supervise your interns</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Teachers Section -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">👨‍🏫 For Teachers</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <a href="{% url 'documentation_guide' 'teachers' 'dashboard' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📊 Teacher Dashboard</h3>
+        <p class="text-gray-600">Navigate your teacher dashboard and tools</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'teachers' 'institute-registration' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">🏫 Institute Registration</h3>
+        <p class="text-gray-600">Register your educational institute</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'teachers' 'student-supervision' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">👥 Student Supervision</h3>
+        <p class="text-gray-600">Supervise students during internships</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'teachers' 'progress-monitoring' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📈 Progress Monitoring</h3>
+        <p class="text-gray-600">Monitor and assess student progress</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Officials Section -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">🏛️ For Officials</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="{% url 'documentation_guide' 'officials' 'dashboard' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">📊 Official Dashboard</h3>
+        <p class="text-gray-600">System oversight and platform management</p>
+      </a>
+      <a href="{% url 'documentation_guide' 'officials' 'managing-organizations' %}" class="doc-card">
+        <h3 class="font-semibold text-gray-800 mb-2">🏢 Managing Organizations</h3>
+        <p class="text-gray-600">Approve and manage companies and institutes</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="mb-12">
+    <h2 class="text-2xl font-semibold text-blue-500 mb-6">⚡ Quick Actions</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="text-center p-6 bg-blue-50 rounded-lg border">
+        <div class="text-3xl mb-2">🔍</div>
+        <h3 class="font-semibold mb-2 text-gray-900">Browse Positions</h3>
+        <a href="{% url 'browse_positions' %}" class="inline-flex items-center text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded-md transition-colors">
+          View Positions
+        </a>
+      </div>
+      <div class="text-center p-6 bg-green-50 rounded-lg border">
+        <div class="text-3xl mb-2">👤</div>
+        <h3 class="font-semibold mb-2 text-gray-900">Complete Profile</h3>
+        <a href="{% url 'complete_profile' %}" class="inline-flex items-center text-white bg-green-500 hover:bg-green-700 px-4 py-2 rounded-md transition-colors">
+          Get Started
+        </a>
+      </div>
+      <div class="text-center p-6 bg-purple-50 rounded-lg border">
+        <div class="text-3xl mb-2">❓</div>
+        <h3 class="font-semibold mb-2 text-gray-900">Need Help?</h3>
+        <a href="{% url 'documentation_guide' 'getting-started' 'overview' %}" class="inline-flex items-center text-white bg-purple-500 hover:bg-purple-700 px-4 py-2 rounded-md transition-colors">
+          Getting Started
+        </a>
+      </div>
+    </div>
+  </section>
 </div>
 {% endblock %}
 

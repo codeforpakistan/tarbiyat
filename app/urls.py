@@ -8,6 +8,9 @@ urlpatterns = [
     # Mentor management URLs
     path('mentors/positions/', views.mentor_positions, name='mentor_positions'),
     path('mentors/applications/', views.mentor_applications, name='mentor_applications'),
+    path('mentors/applications/<str:application_nanoid>/accept/', views.accept_application, name='accept_application'),
+    path('mentors/applications/<str:application_nanoid>/reject/', views.reject_application, name='reject_application'),
+    path('mentors/applications/<str:application_nanoid>/detail/', views.application_detail, name='application_detail'),
     path('mentors/interns/', views.mentor_interns, name='mentor_interns'),
     
     path('complete-profile/', views.complete_profile, name='complete_profile'),
@@ -55,7 +58,6 @@ urlpatterns = [
     path('progress-reports/<str:report_nanoid>/edit/', views.edit_progress_report, name='edit_progress_report'),
     
     # Demo and Documentation URLs
-    path('demo/', views.component_demo, name='component_demo'),
     path('docs/', views.documentation_index, name='documentation_index'),
     path('docs/<str:user_type>/<str:topic>/', views.documentation_guide, name='documentation_guide'),
 ]

@@ -2,13 +2,13 @@
 {% load user_tags %} 
 {% block page %}
 {% include "app/partials/navbar.html" %}
-<div class="container min-h-[calc(100vh-162px)] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-7xl min-h-[calc(100vh-162px)] mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Messages -->
   {% include "app/partials/messages.html" %}
   {% block content %}{% endblock %}
 </div>
 <footer class="bg-white py-8">
-  <div class="container mx-auto flex flex-col items-center justify-between gap-4 md:flex-row px-4">
+  <div class="max-w-7xl mx-auto flex flex-col items-center justify-between gap-4 md:flex-row px-4">
     <div class="flex items-center gap-2">
       <span class="text-2xl">🤝</span>
       <span class="font-semibold text-gray-600">Tarbiyat Internship Platform</span>
