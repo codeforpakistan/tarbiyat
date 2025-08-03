@@ -3,11 +3,18 @@
 {% block title %}Manage Institutes - Official Dashboard{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
-    <div class=" rounded-lg bg-white">
-        <div class="p-6">
-            <h1 class="text-3xl font-semibold text-gray-900 mb-2">Manage Institutes</h1>
-            <p class="text-gray-600">Review and manage institute registrations</p>
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/official_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <div class="space-y-6">
+                <div class=" rounded-lg bg-white">
+                    <div class="p-6">
+                        <h1 class="text-3xl font-semibold text-gray-900 mb-2">Manage Institutes</h1>
+                        <p class="text-gray-600">Review and manage institute registrations</p>
             
             <!-- Statistics Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 mb-8">
@@ -58,11 +65,54 @@
                 </form>
             </div>
             
+            <!-- Mass Actions Form -->
+            <form method="POST" action="{% url 'mass_verify_institutes' %}" id="massActionForm">
+                {% csrf_token %}
+                
+                <!-- Mass Actions Bar -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="selectAll" 
+                                   class="mr-2 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="selectAll" class="text-sm font-medium text-gray-700">Select All</label>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <select name="action" 
+                                    class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    required>
+                                <option value="">Choose Action</option>
+                                <option value="approve">✅ Approve Selected</option>
+                                <option value="reject">❌ Reject Selected</option>
+                                <option value="verify_domain">🔒 Verify Domain</option>
+                                <option value="unverify_domain">🔓 Unverify Domain</option>
+                            </select>
+                            
+                            <button type="submit" 
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    onclick="return confirm('Are you sure you want to perform this action on selected institutes?')">
+                                🚀 Apply to Selected
+                            </button>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600">
+                            <span id="selectedCount">0</span> institutes selected
+                        </div>
+                    </div>
+                </div>
+            
             <!-- Institutes Table -->
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="">
                         <tr>
+                            <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">
+                                <input type="checkbox" 
+                                       id="selectAllTable" 
+                                       class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            </th>
                             <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Institute Name</th>
                             <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Contact Email</th>
                             <th class="px-6 py-3 text-left text-gray-500 uppercase tracking-wider">Location</th>
@@ -75,6 +125,12 @@
                     <tbody class="divide-y divide-gray-200">
                         {% for institute in page_obj %}
                             <tr class="">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <input type="checkbox" 
+                                           name="institute_ids" 
+                                           value="{{ institute.nanoid }}" 
+                                           class="institute-checkbox rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         {% if institute.logo %}
@@ -187,7 +243,68 @@
                     </div>
                 </nav>
             {% endif %}
+            </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllTop = document.getElementById('selectAll');
+    const selectAllTable = document.getElementById('selectAllTable');
+    const instituteCheckboxes = document.querySelectorAll('.institute-checkbox');
+    const selectedCount = document.getElementById('selectedCount');
+    
+    // Function to update selected count
+    function updateSelectedCount() {
+        const checkedBoxes = document.querySelectorAll('.institute-checkbox:checked');
+        selectedCount.textContent = checkedBoxes.length;
+    }
+    
+    // Function to update select all checkboxes
+    function updateSelectAll() {
+        const checkedBoxes = document.querySelectorAll('.institute-checkbox:checked');
+        const allChecked = checkedBoxes.length === instituteCheckboxes.length && instituteCheckboxes.length > 0;
+        const someChecked = checkedBoxes.length > 0;
+        
+        selectAllTop.checked = allChecked;
+        selectAllTable.checked = allChecked;
+        selectAllTop.indeterminate = someChecked && !allChecked;
+        selectAllTable.indeterminate = someChecked && !allChecked;
+    }
+    
+    // Handle select all (top)
+    selectAllTop.addEventListener('change', function() {
+        instituteCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        selectAllTable.checked = this.checked;
+        updateSelectedCount();
+    });
+    
+    // Handle select all (table header)
+    selectAllTable.addEventListener('change', function() {
+        instituteCheckboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+        selectAllTop.checked = this.checked;
+        updateSelectedCount();
+    });
+    
+    // Handle individual checkboxes
+    instituteCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateSelectAll();
+            updateSelectedCount();
+        });
+    });
+    
+    // Initial update
+    updateSelectedCount();
+    updateSelectAll();
+});
+</script>
 {% endblock %}

@@ -15,7 +15,7 @@ from .models import (
     StudentProfile, MentorProfile, TeacherProfile, OfficialProfile,
     InternshipPosition, InternshipApplication, Internship, Company, Institute, 
     Notification, OrganizationRegistrationRequest, ProgressReport,
-    StudentWeeklyActivityLog, StudentWeeklyActivity
+    StudentWeeklyActivityLog, StudentWeeklyActivity, StudentInternshipReport
 )
 from .forms import (
     StudentWeeklyActivityLogForm, StudentWeeklyActivityFormSet
@@ -26,6 +26,23 @@ from .utils import (
     get_available_institutes_for_user, 
     get_available_companies_for_user
 )
+
+def redirect_to_role_dashboard(user):
+    """Helper function to redirect users to their role-specific dashboard"""
+    user_type = get_user_type(user)
+    
+    if user_type == 'student':
+        return redirect('student_dashboard')
+    elif user_type == 'mentor':
+        return redirect('mentor_dashboard')
+    elif user_type == 'teacher':
+        return redirect('teacher_dashboard')
+    elif user_type == 'official':
+        return redirect('official_dashboard')
+    elif user_type == 'admin':
+        return redirect('/admin/')
+    else:
+        return redirect('home')
 
 def get_user_type(user):
     """Helper function to get user type from groups"""
@@ -53,7 +70,7 @@ def home(request):
         elif user_type == 'admin':
             return redirect('/admin/')
         elif user_type in ['student', 'mentor', 'teacher', 'official']:
-            return redirect('dashboard')
+            return redirect_to_role_dashboard(request.user)
     
     context = {
         'total_companies': Company.objects.filter(is_verified=True).count(),
@@ -82,7 +99,7 @@ def dashboard(request):
     elif user_type == 'official':
         return official_dashboard_view(request)
     elif user_type == 'admin':
-        return official_dashboard_view(request)  # Admins see official dashboard
+        return redirect('/admin/')  # Admins go to Django admin
     else:
         messages.error(request, 'Invalid user type. Please contact support.')
         return redirect('home')
@@ -254,15 +271,15 @@ def teacher_students(request):
     internship_filter = request.GET.get('internship_status')
     if internship_filter == 'active':
         students = students.filter(
-            internships__status='active'
+            internship__status='active'
         ).distinct()
     elif internship_filter == 'completed':
         students = students.filter(
-            internships__status='completed'
+            internship__status='completed'
         ).distinct()
     elif internship_filter == 'none':
         students = students.filter(
-            internships__isnull=True
+            internship__isnull=True
         )
     
     # Pagination
@@ -281,6 +298,187 @@ def teacher_students(request):
     return render(request, 'app/teacher_students.html', context)
 
 @login_required
+def teacher_internships(request):
+    """View all internships for students from teacher's institute"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please complete your teacher profile first.')
+        return redirect('complete_profile')
+    
+    # Get all internships for students from teacher's institute
+    internships = Internship.objects.filter(
+        student__institute=teacher_profile.institute
+    ).select_related(
+        'student__user', 'mentor__user', 'mentor__company'
+    ).prefetch_related('student_reports', 'weekly_activity_logs').order_by('-created_at')
+    
+    # Filter by status if provided
+    status_filter = request.GET.get('status', '')
+    if status_filter:
+        internships = internships.filter(status=status_filter)
+    
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        internships = internships.filter(
+            Q(student__user__first_name__icontains=search_query) |
+            Q(student__user__last_name__icontains=search_query) |
+            Q(student__student_id__icontains=search_query) |
+            Q(mentor__company__name__icontains=search_query)
+        )
+    
+    # Pagination
+    paginator = Paginator(internships, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        'teacher_profile': teacher_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'status_choices': Internship.STATUS_CHOICES,
+    }
+    return render(request, 'app/teacher_internships.html', context)
+
+@login_required
+def teacher_internship_detail(request, internship_nanoid):
+    """View detailed information about a specific internship"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please complete your teacher profile first.')
+        return redirect('complete_profile')
+    
+    try:
+        internship = Internship.objects.select_related(
+            'student__user', 'mentor__user', 'mentor__company', 'teacher__user'
+        ).prefetch_related(
+            'student_reports', 'weekly_activity_logs'
+        ).get(nanoid=internship_nanoid)
+        
+        # Ensure the internship belongs to a student from teacher's institute
+        if internship.student.institute != teacher_profile.institute:
+            messages.error(request, 'This internship does not belong to a student from your institute.')
+            return redirect('teacher_internships')
+            
+    except Internship.DoesNotExist:
+        messages.error(request, 'Internship not found.')
+        return redirect('teacher_internships')
+    
+    # Get reports and activity logs
+    student_reports = internship.student_reports.all().order_by('-report_month')
+    weekly_logs = internship.weekly_activity_logs.all().order_by('-week_starting')
+    
+    context = {
+        'teacher_profile': teacher_profile,
+        'internship': internship,
+        'student_reports': student_reports,
+        'weekly_logs': weekly_logs,
+    }
+    return render(request, 'app/teacher_internship_detail.html', context)
+
+@login_required
+def teacher_reports(request):
+    """View all reports from students in teacher's institute"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please complete your teacher profile first.')
+        return redirect('complete_profile')
+    
+    # Get all reports for students from teacher's institute
+    reports = StudentInternshipReport.objects.filter(
+        internship__student__institute=teacher_profile.institute
+    ).select_related(
+        'internship__student__user', 'teacher__user', 'internship__mentor__company'
+    ).order_by('-report_month')
+    
+    # Filter by report type or student
+    student_filter = request.GET.get('student', '')
+    if student_filter:
+        reports = reports.filter(internship__student__nanoid=student_filter)
+    
+    # Search functionality
+    search_query = request.GET.get('search', '')
+    if search_query:
+        reports = reports.filter(
+            Q(internship__student__user__first_name__icontains=search_query) |
+            Q(internship__student__user__last_name__icontains=search_query) |
+            Q(internship__student__student_id__icontains=search_query)
+        )
+    
+    # Pagination
+    paginator = Paginator(reports, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    # Get students for filter dropdown
+    students = StudentProfile.objects.filter(
+        institute=teacher_profile.institute,
+        internship__isnull=False
+    ).distinct().order_by('user__first_name')
+    
+    context = {
+        'teacher_profile': teacher_profile,
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'student_filter': student_filter,
+        'students': students,
+    }
+    return render(request, 'app/teacher_reports.html', context)
+
+@login_required
+def teacher_report_detail(request, report_nanoid):
+    """View detailed information about a specific report"""
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+    
+    try:
+        teacher_profile = request.user.teacher_profile
+    except TeacherProfile.DoesNotExist:
+        messages.error(request, 'Please complete your teacher profile first.')
+        return redirect('complete_profile')
+    
+    try:
+        report = StudentInternshipReport.objects.select_related(
+            'internship__student__user', 'teacher__user', 'internship__mentor__user', 'internship__mentor__company'
+        ).get(nanoid=report_nanoid)
+        
+        # Ensure the report belongs to a student from teacher's institute
+        if report.internship.student.institute != teacher_profile.institute:
+            messages.error(request, 'This report does not belong to a student from your institute.')
+            return redirect('teacher_reports')
+            
+    except StudentInternshipReport.DoesNotExist:
+        messages.error(request, 'Report not found.')
+        return redirect('teacher_reports')
+    
+    context = {
+        'teacher_profile': teacher_profile,
+        'report': report,
+    }
+    return render(request, 'app/teacher_report_detail.html', context)
+
+@login_required
 def edit_institute(request):
     """Edit institute information (for teachers who registered the institute)"""
     user_type = get_user_type(request.user)
@@ -296,7 +494,7 @@ def edit_institute(request):
     
     if not teacher_profile.can_edit_institute():
         messages.error(request, 'You can only edit institutes that you registered.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     institute = teacher_profile.institute
     
@@ -342,7 +540,7 @@ def edit_institute(request):
         institute.save()
         
         messages.success(request, f'Institute "{institute.name}" updated successfully!')
-        return redirect('teacher_dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'institute': institute,
@@ -407,6 +605,62 @@ def manage_companies(request):
     return render(request, 'app/manage_companies.html', context)
 
 @login_required
+def mass_verify_companies(request):
+    """Official view to mass verify companies"""
+    user_type = get_user_type(request.user)
+    if user_type != 'official':
+        messages.error(request, 'Access denied. Official account required.')
+        return redirect('home')
+    
+    if request.method == 'POST':
+        # Get selected company IDs from the form
+        company_ids = request.POST.getlist('company_ids')
+        action = request.POST.get('action')
+        
+        if not company_ids:
+            messages.error(request, 'Please select at least one company.')
+            return redirect('manage_companies')
+        
+        # Get the companies
+        companies = Company.objects.filter(nanoid__in=company_ids)
+        
+        if action == 'approve':
+            # Approve selected companies
+            updated_count = companies.update(
+                registration_status='approved',
+                approved_at=timezone.now(),
+                approved_by=request.user
+            )
+            messages.success(request, f'Successfully approved {updated_count} companies.')
+            
+        elif action == 'reject':
+            # Reject selected companies
+            updated_count = companies.update(
+                registration_status='rejected',
+                approved_at=timezone.now(),
+                approved_by=request.user
+            )
+            messages.success(request, f'Successfully rejected {updated_count} companies.')
+            
+        elif action == 'verify_domain':
+            # Verify domain for selected companies
+            updated_count = companies.update(domain_verified=True)
+            messages.success(request, f'Successfully verified domain for {updated_count} companies.')
+            
+        elif action == 'unverify_domain':
+            # Unverify domain for selected companies
+            updated_count = companies.update(domain_verified=False)
+            messages.success(request, f'Successfully unverified domain for {updated_count} companies.')
+            
+        else:
+            messages.error(request, 'Invalid action selected.')
+        
+        return redirect('manage_companies')
+    
+    # If GET request, redirect to manage companies
+    return redirect('manage_companies')
+
+@login_required
 def manage_institutes(request):
     """Official view to manage institutes"""
     user_type = get_user_type(request.user)
@@ -461,6 +715,172 @@ def manage_institutes(request):
         'status_choices': Institute._meta.get_field('registration_status').choices,
     }
     return render(request, 'app/manage_institutes.html', context)
+
+@login_required
+def mass_verify_institutes(request):
+    """Official view to mass verify institutes"""
+    user_type = get_user_type(request.user)
+    if user_type != 'official':
+        messages.error(request, 'Access denied. Official account required.')
+        return redirect('home')
+    
+    if request.method == 'POST':
+        # Get selected institute IDs from the form
+        institute_ids = request.POST.getlist('institute_ids')
+        action = request.POST.get('action')
+        
+        if not institute_ids:
+            messages.error(request, 'Please select at least one institute.')
+            return redirect('manage_institutes')
+        
+        # Get the institutes
+        institutes = Institute.objects.filter(nanoid__in=institute_ids)
+        
+        if action == 'approve':
+            # Approve selected institutes
+            updated_count = institutes.update(
+                registration_status='approved',
+                approved_at=timezone.now(),
+                approved_by=request.user
+            )
+            messages.success(request, f'Successfully approved {updated_count} institutes.')
+            
+        elif action == 'reject':
+            # Reject selected institutes
+            updated_count = institutes.update(
+                registration_status='rejected',
+                approved_at=timezone.now(),
+                approved_by=request.user
+            )
+            messages.success(request, f'Successfully rejected {updated_count} institutes.')
+            
+        elif action == 'verify_domain':
+            # Verify domain for selected institutes
+            updated_count = institutes.update(domain_verified=True)
+            messages.success(request, f'Successfully verified domain for {updated_count} institutes.')
+            
+        elif action == 'unverify_domain':
+            # Unverify domain for selected institutes
+            updated_count = institutes.update(domain_verified=False)
+            messages.success(request, f'Successfully unverified domain for {updated_count} institutes.')
+            
+        else:
+            messages.error(request, 'Invalid action selected.')
+        
+        return redirect('manage_institutes')
+    
+    # If GET request, redirect to manage institutes
+    return redirect('manage_institutes')
+
+@login_required
+def official_reports(request):
+    """Official view to generate and view system reports"""
+    user_type = get_user_type(request.user)
+    if user_type != 'official':
+        messages.error(request, 'Access denied. Official account required.')
+        return redirect('home')
+    
+    # Entity Counts
+    entity_counts = {
+        # User Counts
+        'total_users': User.objects.count(),
+        'students': User.objects.filter(groups__name='student').count(),
+        'mentors': User.objects.filter(groups__name='mentor').count(),
+        'teachers': User.objects.filter(groups__name='teacher').count(),
+        'officials': User.objects.filter(groups__name='official').count(),
+        
+        # Organization Counts
+        'total_companies': Company.objects.count(),
+        'approved_companies': Company.objects.filter(registration_status='approved').count(),
+        'pending_companies': Company.objects.filter(registration_status='pending').count(),
+        'rejected_companies': Company.objects.filter(registration_status='rejected').count(),
+        'verified_companies': Company.objects.filter(domain_verified=True).count(),
+        
+        'total_institutes': Institute.objects.count(),
+        'approved_institutes': Institute.objects.filter(registration_status='approved').count(),
+        'pending_institutes': Institute.objects.filter(registration_status='pending').count(),
+        'rejected_institutes': Institute.objects.filter(registration_status='rejected').count(),
+        'verified_institutes': Institute.objects.filter(domain_verified=True).count(),
+        
+        # Position and Application Counts
+        'total_positions': InternshipPosition.objects.count(),
+        'active_positions': InternshipPosition.objects.filter(is_active=True).count(),
+        'total_applications': InternshipApplication.objects.count(),
+        'pending_applications': InternshipApplication.objects.filter(status='pending').count(),
+        'accepted_applications': InternshipApplication.objects.filter(status='accepted').count(),
+        'rejected_applications': InternshipApplication.objects.filter(status='rejected').count(),
+        
+        # Internship Counts
+        'total_internships': Internship.objects.count(),
+        'active_internships': Internship.objects.filter(status='active').count(),
+        'completed_internships': Internship.objects.filter(status='completed').count(),
+        'terminated_internships': Internship.objects.filter(status='terminated').count(),
+    }
+    
+    # Recent Activity (last 30 days)
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    recent_activity = {
+        'new_users': User.objects.filter(date_joined__gte=thirty_days_ago).count(),
+        'new_companies': Company.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'new_institutes': Institute.objects.filter(created_at__gte=thirty_days_ago).count(),
+        'new_applications': InternshipApplication.objects.filter(applied_at__gte=thirty_days_ago).count(),
+        'new_internships': Internship.objects.filter(start_date__gte=thirty_days_ago).count(),
+    }
+    
+    # Monthly Trends (last 6 months)
+    monthly_trends = []
+    for i in range(6):
+        month_start = timezone.now().replace(day=1) - timedelta(days=30*i)
+        month_end = (month_start + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+        
+        monthly_trends.append({
+            'month': month_start.strftime('%B %Y'),
+            'users': User.objects.filter(date_joined__range=[month_start, month_end]).count(),
+            'companies': Company.objects.filter(created_at__range=[month_start, month_end]).count(),
+            'applications': InternshipApplication.objects.filter(applied_at__range=[month_start, month_end]).count(),
+            'internships': Internship.objects.filter(start_date__range=[month_start, month_end]).count(),
+        })
+    
+    monthly_trends.reverse()  # Show oldest first
+    
+    # Success Metrics
+    success_metrics = {
+        'application_success_rate': 0,
+        'company_approval_rate': 0,
+        'institute_approval_rate': 0,
+        'internship_completion_rate': 0,
+    }
+    
+    # Calculate success rates
+    total_apps = InternshipApplication.objects.count()
+    if total_apps > 0:
+        accepted_apps = InternshipApplication.objects.filter(status='accepted').count()
+        success_metrics['application_success_rate'] = round((accepted_apps / total_apps) * 100, 1)
+    
+    total_companies = Company.objects.count()
+    if total_companies > 0:
+        approved_companies = Company.objects.filter(registration_status='approved').count()
+        success_metrics['company_approval_rate'] = round((approved_companies / total_companies) * 100, 1)
+    
+    total_institutes = Institute.objects.count()
+    if total_institutes > 0:
+        approved_institutes = Institute.objects.filter(registration_status='approved').count()
+        success_metrics['institute_approval_rate'] = round((approved_institutes / total_institutes) * 100, 1)
+    
+    total_internships = Internship.objects.count()
+    if total_internships > 0:
+        completed_internships = Internship.objects.filter(status='completed').count()
+        success_metrics['internship_completion_rate'] = round((completed_internships / total_internships) * 100, 1)
+    
+    context = {
+        'entity_counts': entity_counts,
+        'recent_activity': recent_activity,
+        'monthly_trends': monthly_trends,
+        'success_metrics': success_metrics,
+        'report_generated_at': timezone.now(),
+    }
+    
+    return render(request, 'app/official_reports.html', context)
 
 @login_required
 def company_detail_official(request, company_nanoid):
@@ -690,13 +1110,13 @@ def complete_profile(request):
             
             # Redirect based on user type
             if user_type == 'student':
-                return redirect('dashboard')
+                return redirect_to_role_dashboard(request.user)
             elif user_type == 'mentor':
-                return redirect('dashboard')
+                return redirect_to_role_dashboard(request.user)
             elif user_type == 'teacher':
-                return redirect('dashboard')
+                return redirect_to_role_dashboard(request.user)
             elif user_type == 'official':
-                return redirect('dashboard')
+                return redirect_to_role_dashboard(request.user)
             else:
                 return redirect('home')
     else:
@@ -723,7 +1143,7 @@ def profile(request):
     elif user_type == 'official':
         return official_profile_view(request)
     elif user_type == 'admin':
-        return official_profile_view(request)  # Admins see official profile
+        return redirect('/admin/')  # Admins go to Django admin
     else:
         messages.error(request, 'Invalid user type. Please contact support.')
         return redirect('home')
@@ -770,7 +1190,7 @@ def edit_profile(request):
     elif user_type == 'official':
         return edit_official_profile_view(request)
     elif user_type == 'admin':
-        return edit_official_profile_view(request)  # Admins use official profile
+        return redirect('/admin/')  # Admins go to Django admin
     else:
         messages.error(request, 'Invalid user type. Please contact support.')
         return redirect('home')
@@ -925,7 +1345,7 @@ def edit_student_profile_view(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     available_institutes = get_available_institutes_for_user(request.user)
     context = {
@@ -974,7 +1394,7 @@ def edit_mentor_profile_view(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     available_companies = get_available_companies_for_user(request.user)
     context = {
@@ -1007,7 +1427,7 @@ def edit_teacher_profile_view(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     institutes = Institute.objects.all()
     context = {
@@ -1044,7 +1464,7 @@ def edit_official_profile_view(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'profile': profile,
@@ -1119,7 +1539,7 @@ def edit_student_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     available_institutes = get_available_institutes_for_user(request.user)
     context = {
@@ -1174,7 +1594,7 @@ def edit_mentor_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     available_companies = get_available_companies_for_user(request.user)
     context = {
@@ -1199,7 +1619,7 @@ def edit_company(request):
     
     if not mentor_profile.can_edit_company():
         messages.error(request, 'You can only edit companies that you registered.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     company = mentor_profile.company
     
@@ -1245,7 +1665,7 @@ def edit_company(request):
         company.save()
         
         messages.success(request, f'Company "{company.name}" updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'company': company,
@@ -1283,7 +1703,7 @@ def edit_teacher_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('teacher_dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     institutes = Institute.objects.all()
     context = {
@@ -1321,7 +1741,7 @@ def edit_official_profile(request):
         request.user.save()
         
         messages.success(request, 'Profile updated successfully!')
-        return redirect('official_dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'profile': profile,
@@ -1344,7 +1764,7 @@ def create_position(request):
     
     if not mentor_profile.is_verified:
         messages.error(request, 'Your mentor profile must be verified before creating positions.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     if request.method == 'POST':
         # Create new position
@@ -1363,7 +1783,7 @@ def create_position(request):
         )
         
         messages.success(request, f'Position "{position.title}" created successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'mentor_profile': mentor_profile,
@@ -1383,13 +1803,13 @@ def edit_position(request, position_nanoid):
         position = InternshipPosition.objects.get(nanoid=position_nanoid, mentor=mentor_profile)
     except (MentorProfile.DoesNotExist, InternshipPosition.DoesNotExist):
         messages.error(request, 'Position not found or access denied.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     # Check if position has applications - prevent editing if it does
     has_applications = position.applications.exists()
     if has_applications and request.method == 'POST':
         messages.error(request, 'Cannot edit position that already has applications. Please create a new position instead.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     if request.method == 'POST':
         # Update position
@@ -1407,7 +1827,7 @@ def edit_position(request, position_nanoid):
         position.save()
         
         messages.success(request, f'Position "{position.title}" updated successfully!')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     context = {
         'position': position,
@@ -1499,6 +1919,12 @@ def student_applications(request):
         student=student_profile
     ).select_related('position', 'position__mentor', 'position__company').order_by('-applied_at')
     
+    # Get current internship for sidebar
+    current_internship = Internship.objects.filter(
+        student=student_profile,
+        status='active'
+    ).first()
+    
     # Pagination
     paginator = Paginator(applications, 10)  # Show 10 applications per page
     page_number = request.GET.get('page')
@@ -1507,6 +1933,7 @@ def student_applications(request):
     context = {
         'applications': page_obj,
         'student_profile': student_profile,
+        'current_internship': current_internship,
     }
     return render(request, 'app/student_applications.html', context)
 
@@ -1552,6 +1979,57 @@ def withdraw_application(request, application_id):
     return redirect('student_applications')
 
 @login_required
+def student_internship(request):
+    """Display student's current internship details"""
+    user_type = get_user_type(request.user)
+    if user_type != 'student':
+        messages.error(request, 'Access denied. Student account required.')
+        return redirect('home')
+    
+    try:
+        student_profile = request.user.student_profile
+    except StudentProfile.DoesNotExist:
+        messages.error(request, 'Please create your student profile first.')
+        return redirect('create_profile')
+    
+    # Get current internship
+    current_internship = Internship.objects.filter(
+        student=student_profile,
+        status='active'
+    ).first()
+    
+    # Initialize context variables
+    recent_activities = []
+    progress_reports = []
+    
+    # If there's an active internship, get related data
+    if current_internship:
+        # Get recent activity logs for this internship
+        recent_activities = StudentWeeklyActivityLog.objects.filter(
+            internship=current_internship,
+            submitted_at__gte=current_internship.created_at
+        ).order_by('-week_starting')[:5]
+        
+        # Get any evaluations or progress reports
+        progress_reports = ProgressReport.objects.filter(
+            internship=current_internship
+        ).order_by('-created_at')
+    
+    # Get student's applications to show internship opportunities
+    student_applications = InternshipApplication.objects.filter(
+        student=student_profile
+    ).select_related('position', 'position__company').order_by('-applied_at')[:5]
+    
+    context = {
+        'student_profile': student_profile,
+        'current_internship': current_internship,
+        'recent_activities': recent_activities,
+        'progress_reports': progress_reports,
+        'student_applications': student_applications,
+    }
+    return render(request, 'app/student_internship.html', context)
+
+@login_required
 def student_weekly_activities(request):
     """Display all weekly activity logs for the current student"""
     # Check if user is a student
@@ -1574,7 +2052,7 @@ def student_weekly_activities(request):
     
     if not current_internship:
         messages.info(request, 'You need an active internship to submit weekly activity logs.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     # Get all weekly activity logs for this internship
     weekly_logs = StudentWeeklyActivityLog.objects.filter(
@@ -1611,7 +2089,7 @@ def create_weekly_activity_log(request):
     
     if not current_internship:
         messages.error(request, 'You need an active internship to submit weekly activity logs.')
-        return redirect('dashboard')
+        return redirect_to_role_dashboard(request.user)
     
     if request.method == 'POST':
         log_form = StudentWeeklyActivityLogForm(request.POST)
@@ -1747,6 +2225,7 @@ def edit_weekly_activity_log(request, log_nanoid):
         'activity_formset': activity_formset,
         'weekly_log': weekly_log,
         'student_profile': student_profile,
+        'current_internship': weekly_log.internship,
     }
     return render(request, 'app/edit_weekly_activity_log.html', context)
 
@@ -1788,6 +2267,7 @@ def view_weekly_activity_log(request, log_nanoid):
         'activities': activities,
         'total_hours': total_hours,
         'student_profile': student_profile,
+        'current_internship': weekly_log.internship,
     }
     return render(request, 'app/view_weekly_activity_log.html', context)
 
@@ -1806,7 +2286,7 @@ def register_organization(request):
             profile = request.user.mentor_profile
             if not profile.can_register_organization:
                 messages.error(request, 'You do not have permission to register new organizations.')
-                return redirect('dashboard')
+                return redirect_to_role_dashboard(request.user)
         except MentorProfile.DoesNotExist:
             messages.error(request, 'Please complete your mentor profile first.')
             return redirect('create_profile')
@@ -1815,7 +2295,7 @@ def register_organization(request):
             profile = request.user.teacher_profile
             if not profile.can_register_organization:
                 messages.error(request, 'You do not have permission to register new organizations.')
-                return redirect('teacher_dashboard')
+                return redirect_to_role_dashboard(request.user)
         except TeacherProfile.DoesNotExist:
             messages.error(request, 'Please complete your teacher profile first.')
             return redirect('create_profile')
@@ -1899,7 +2379,7 @@ def approve_organization_request(request, request_nanoid):
         official_profile = request.user.official_profile
         if not official_profile.can_approve_organizations:
             messages.error(request, 'You do not have permission to approve organizations.')
-            return redirect('official_dashboard')
+            return redirect_to_role_dashboard(request.user)
     except OfficialProfile.DoesNotExist:
         messages.error(request, 'Please complete your official profile first.')
         return redirect('create_profile')

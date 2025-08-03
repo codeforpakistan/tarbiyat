@@ -1,0 +1,273 @@
+{% extends 'app/page.html' %}
+
+{% block title %}System Reports - Official Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/official_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-semibold text-gray-900 mb-2">📊 System Reports</h1>
+                <p class="text-gray-600">Comprehensive platform statistics and analytics</p>
+                <p class="text-sm text-gray-500 mt-1">
+                    Report generated on {{ report_generated_at|date:"F d, Y \a\t g:i A" }}
+                </p>
+            </div>
+
+            <!-- Entity Counts Overview -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">📈 Platform Overview</h2>
+                
+                <!-- User Statistics -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">👥 User Statistics</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-blue-600">{{ entity_counts.total_users }}</div>
+                            <div class="text-sm text-blue-800">Total Users</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-green-600">{{ entity_counts.students }}</div>
+                            <div class="text-sm text-green-800">Students</div>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-purple-600">{{ entity_counts.mentors }}</div>
+                            <div class="text-sm text-purple-800">Mentors</div>
+                        </div>
+                        <div class="bg-yellow-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-yellow-600">{{ entity_counts.teachers }}</div>
+                            <div class="text-sm text-yellow-800">Teachers</div>
+                        </div>
+                        <div class="bg-red-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-red-600">{{ entity_counts.officials }}</div>
+                            <div class="text-sm text-red-800">Officials</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organization Statistics -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">🏢 Organization Statistics</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Companies -->
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Companies</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-700">Total Companies</span>
+                                    <span class="font-semibold text-gray-900">{{ entity_counts.total_companies }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                                    <span class="text-green-700">✅ Approved</span>
+                                    <span class="font-semibold text-green-900">{{ entity_counts.approved_companies }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                                    <span class="text-yellow-700">⏳ Pending</span>
+                                    <span class="font-semibold text-yellow-900">{{ entity_counts.pending_companies }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                    <span class="text-red-700">❌ Rejected</span>
+                                    <span class="font-semibold text-red-900">{{ entity_counts.rejected_companies }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                                    <span class="text-blue-700">🔒 Domain Verified</span>
+                                    <span class="font-semibold text-blue-900">{{ entity_counts.verified_companies }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Institutes -->
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Educational Institutes</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-700">Total Institutes</span>
+                                    <span class="font-semibold text-gray-900">{{ entity_counts.total_institutes }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                                    <span class="text-green-700">✅ Approved</span>
+                                    <span class="font-semibold text-green-900">{{ entity_counts.approved_institutes }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                                    <span class="text-yellow-700">⏳ Pending</span>
+                                    <span class="font-semibold text-yellow-900">{{ entity_counts.pending_institutes }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                    <span class="text-red-700">❌ Rejected</span>
+                                    <span class="font-semibold text-red-900">{{ entity_counts.rejected_institutes }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                                    <span class="text-blue-700">🔒 Domain Verified</span>
+                                    <span class="font-semibold text-blue-900">{{ entity_counts.verified_institutes }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application & Internship Statistics -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">💼 Application & Internship Statistics</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Positions & Applications -->
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Positions & Applications</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-700">Total Positions</span>
+                                    <span class="font-semibold text-gray-900">{{ entity_counts.total_positions }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                                    <span class="text-green-700">🟢 Active Positions</span>
+                                    <span class="font-semibold text-green-900">{{ entity_counts.active_positions }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                                    <span class="text-blue-700">Total Applications</span>
+                                    <span class="font-semibold text-blue-900">{{ entity_counts.total_applications }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                                    <span class="text-yellow-700">⏳ Pending Applications</span>
+                                    <span class="font-semibold text-yellow-900">{{ entity_counts.pending_applications }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                                    <span class="text-green-700">✅ Accepted Applications</span>
+                                    <span class="font-semibold text-green-900">{{ entity_counts.accepted_applications }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                    <span class="text-red-700">❌ Rejected Applications</span>
+                                    <span class="font-semibold text-red-900">{{ entity_counts.rejected_applications }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Internships -->
+                        <div>
+                            <h4 class="font-medium text-gray-700 mb-3">Internships</h4>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span class="text-gray-700">Total Internships</span>
+                                    <span class="font-semibold text-gray-900">{{ entity_counts.total_internships }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                                    <span class="text-green-700">🟢 Active Internships</span>
+                                    <span class="font-semibold text-green-900">{{ entity_counts.active_internships }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                                    <span class="text-blue-700">✅ Completed Internships</span>
+                                    <span class="font-semibold text-blue-900">{{ entity_counts.completed_internships }}</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                                    <span class="text-red-700">⚠️ Terminated Internships</span>
+                                    <span class="font-semibold text-red-900">{{ entity_counts.terminated_internships }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Metrics -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">🎯 Success Metrics</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">📝</span>
+                        </div>
+                        <div class="text-2xl font-bold text-blue-600">{{ success_metrics.application_success_rate }}%</div>
+                        <div class="text-sm text-gray-600">Application Success Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">🏢</span>
+                        </div>
+                        <div class="text-2xl font-bold text-green-600">{{ success_metrics.company_approval_rate }}%</div>
+                        <div class="text-sm text-gray-600">Company Approval Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">🏫</span>
+                        </div>
+                        <div class="text-2xl font-bold text-purple-600">{{ success_metrics.institute_approval_rate }}%</div>
+                        <div class="text-sm text-gray-600">Institute Approval Rate</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                        <div class="text-2xl font-bold text-orange-600">{{ success_metrics.internship_completion_rate }}%</div>
+                        <div class="text-sm text-gray-600">Internship Completion Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6 mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">⚡ Recent Activity (Last 30 Days)</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="bg-blue-50 rounded-lg p-4 text-center">
+                        <div class="text-xl font-bold text-blue-600">{{ recent_activity.new_users }}</div>
+                        <div class="text-sm text-blue-800">New Users</div>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4 text-center">
+                        <div class="text-xl font-bold text-green-600">{{ recent_activity.new_companies }}</div>
+                        <div class="text-sm text-green-800">New Companies</div>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4 text-center">
+                        <div class="text-xl font-bold text-purple-600">{{ recent_activity.new_institutes }}</div>
+                        <div class="text-sm text-purple-800">New Institutes</div>
+                    </div>
+                    <div class="bg-yellow-50 rounded-lg p-4 text-center">
+                        <div class="text-xl font-bold text-yellow-600">{{ recent_activity.new_applications }}</div>
+                        <div class="text-sm text-yellow-800">New Applications</div>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-4 text-center">
+                        <div class="text-xl font-bold text-orange-600">{{ recent_activity.new_internships }}</div>
+                        <div class="text-sm text-orange-800">New Internships</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Trends -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-6">📈 Monthly Trends (Last 6 Months)</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b border-gray-200">
+                                <th class="text-left py-3 px-4 font-medium text-gray-700">Month</th>
+                                <th class="text-center py-3 px-4 font-medium text-gray-700">New Users</th>
+                                <th class="text-center py-3 px-4 font-medium text-gray-700">New Companies</th>
+                                <th class="text-center py-3 px-4 font-medium text-gray-700">New Applications</th>
+                                <th class="text-center py-3 px-4 font-medium text-gray-700">New Internships</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trend in monthly_trends %}
+                            <tr class="{% if not forloop.last %}border-b border-gray-100{% endif %}">
+                                <td class="py-3 px-4 font-medium text-gray-900">{{ trend.month }}</td>
+                                <td class="py-3 px-4 text-center text-blue-600 font-semibold">{{ trend.users }}</td>
+                                <td class="py-3 px-4 text-center text-green-600 font-semibold">{{ trend.companies }}</td>
+                                <td class="py-3 px-4 text-center text-yellow-600 font-semibold">{{ trend.applications }}</td>
+                                <td class="py-3 px-4 text-center text-orange-600 font-semibold">{{ trend.internships }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="py-8 px-4 text-center text-gray-500">
+                                    No trend data available
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends "app/page.html" %}
+{% load static %}
+
+{% block title %}Internship Detail - {{ internship.student.user.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/teacher_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="rounded-lg p-6 mb-8 bg-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-semibold text-gray-900 mb-2">
+                            {{ internship.student.user.get_full_name }}'s Internship
+                        </h1>
+                        <p class="text-gray-600">
+                            {% if internship.mentor.company %}
+                                {{ internship.mentor.company.name }}
+                            {% else %}
+                                No Company Assigned
+                            {% endif %}
+                        </p>
+                    </div>
+                    <span class="inline-flex px-3 py-1 text-sm font-semibold rounded-full 
+                        {% if internship.status == 'active' %}bg-green-100 text-green-800
+                        {% elif internship.status == 'completed' %}bg-blue-100 text-blue-800
+                        {% elif internship.status == 'terminated' %}bg-red-100 text-red-800
+                        {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                        {{ internship.get_status_display }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Internship Overview -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Student Info -->
+                <div class="bg-white rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Student Information</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-sm text-gray-500">Name:</span>
+                            <p class="font-medium">{{ internship.student.user.get_full_name }}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Student ID:</span>
+                            <p class="font-medium">{{ internship.student.student_id|default:"Not provided" }}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Major:</span>
+                            <p class="font-medium">{{ internship.student.major|default:"Not specified" }}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Year:</span>
+                            <p class="font-medium">{{ internship.student.get_year_of_study_display|default:"Not specified" }}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Email:</span>
+                            <p class="font-medium">
+                                <a href="mailto:{{ internship.student.user.email }}" 
+                                   class="text-blue-600 hover:text-blue-800">
+                                    {{ internship.student.user.email }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Internship Details -->
+                <div class="bg-white rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Internship Details</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <span class="text-sm text-gray-500">Duration:</span>
+                            <p class="font-medium">
+                                {% if internship.start_date and internship.end_date %}
+                                    {{ internship.start_date|date:"M d, Y" }} - {{ internship.end_date|date:"M d, Y" }}
+                                {% else %}
+                                    Not specified
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Progress:</span>
+                            <div class="flex items-center">
+                                <div class="flex-1 bg-gray-200 rounded-full h-2 mr-3">
+                                    <div class="bg-blue-600 h-2 rounded-full" 
+                                         style="width: {{ internship.get_progress_percentage }}%"></div>
+                                </div>
+                                <span class="text-sm font-medium">{{ internship.get_progress_percentage|floatformat:0 }}%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Created:</span>
+                            <p class="font-medium">{{ internship.created_at|date:"M d, Y" }}</p>
+                        </div>
+                        {% if internship.final_grade %}
+                        <div>
+                            <span class="text-sm text-gray-500">Final Grade:</span>
+                            <p class="font-medium">{{ internship.final_grade }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Company & Mentor Info -->
+                <div class="bg-white rounded-lg p-6 border border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Company & Mentor</h3>
+                    <div class="space-y-3">
+                        {% if internship.mentor %}
+                        <div>
+                            <span class="text-sm text-gray-500">Mentor:</span>
+                            <p class="font-medium">{{ internship.mentor.user.get_full_name }}</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-gray-500">Title:</span>
+                            <p class="font-medium">{{ internship.mentor.title|default:"Not specified" }}</p>
+                        </div>
+                        {% if internship.mentor.company %}
+                        <div>
+                            <span class="text-sm text-gray-500">Company:</span>
+                            <p class="font-medium">{{ internship.mentor.company.name }}</p>
+                        </div>
+                        {% endif %}
+                        <div>
+                            <span class="text-sm text-gray-500">Contact:</span>
+                            <p class="font-medium">
+                                <a href="mailto:{{ internship.mentor.user.email }}" 
+                                   class="text-blue-600 hover:text-blue-800">
+                                    {{ internship.mentor.user.email }}
+                                </a>
+                            </p>
+                        </div>
+                        {% else %}
+                        <p class="text-gray-500">No mentor assigned</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports and Activities -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Student Reports -->
+                <div class="bg-white rounded-lg border border-gray-200">
+                    <div class="border-b border-gray-200 px-6 py-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Monthly Reports</h3>
+                    </div>
+                    <div class="p-6">
+                        {% if student_reports %}
+                        <div class="space-y-4">
+                            {% for report in student_reports %}
+                            <div class="border-b border-gray-100 pb-4 {% if forloop.last %}border-b-0 pb-0{% endif %}">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">
+                                            {{ report.report_month|date:"F Y" }} Report
+                                        </h4>
+                                        <p class="text-sm text-gray-600">
+                                            Total Score: {{ report.get_total_score }}/30
+                                        </p>
+                                        <p class="text-sm text-gray-500">
+                                            Submitted: {{ report.submitted_at|date:"M d, Y" }}
+                                        </p>
+                                    </div>
+                                    <a href="{% url 'teacher_report_detail' report.nanoid %}" 
+                                       class="text-blue-600 hover:text-blue-800 text-sm">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-8">
+                            <p class="text-gray-500">No reports submitted yet</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Weekly Activity Logs -->
+                <div class="bg-white rounded-lg border border-gray-200">
+                    <div class="border-b border-gray-200 px-6 py-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Weekly Activity Logs</h3>
+                    </div>
+                    <div class="p-6">
+                        {% if weekly_logs %}
+                        <div class="space-y-4">
+                            {% for log in weekly_logs|slice:":5" %}
+                            <div class="border-b border-gray-100 pb-4 {% if forloop.last %}border-b-0 pb-0{% endif %}">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">
+                                            Week of {{ log.week_starting|date:"M d, Y" }}
+                                        </h4>
+                                        <p class="text-sm text-gray-500">
+                                            Submitted: {{ log.submitted_at|date:"M d, Y" }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% if weekly_logs.count > 5 %}
+                            <p class="text-sm text-gray-500 text-center">
+                                And {{ weekly_logs.count|add:"-5" }} more activity logs...
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-8">
+                            <p class="text-gray-500">No activity logs submitted yet</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

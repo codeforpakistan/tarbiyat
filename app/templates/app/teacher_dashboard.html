@@ -2,28 +2,29 @@
 {% block title %}Teacher Dashboard - Tarbiyat{% endblock %} 
 {% block content %}
 
-    <!-- Welcome Header -->
-    <div class="mb-8">
-      <h2 class="text-2xl font-semibold text-gray-900">
-        Welcome back, {{ user.teacher_profile.title }} {{ user.get_full_name }}!
-      </h2>
-      <p class="text-gray-600">
-        {{ user.teacher_profile.institute.name }} - {{ user.teacher_profile.department }}
-      </p>
-    </div>
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/teacher_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Welcome Header -->
+            <div class="mb-8">
+              <h2 class="text-2xl font-semibold text-gray-900">
+                Welcome back, {{ user.teacher_profile.title }} {{ user.get_full_name }}!
+              </h2>
+              <p class="text-gray-600">
+                {{ user.teacher_profile.institute.name }} - {{ user.teacher_profile.department }}
+              </p>
+            </div>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div class="bg-white rounded-lg  p-6 border border-gray-200">
         <div class="flex items-center">
           <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
+            <span class="text-blue-500 text-2xl">👥</span>
           </div>
           <div class="ml-4">
             <h4 class="text-2xl font-semibold text-gray-900">{{ institute_students.count }}</h4>
@@ -35,17 +36,7 @@
       <div class="bg-white rounded-lg  p-6 border border-gray-200">
         <div class="flex items-center">
           <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-            <svg
-              class="w-6 h-6 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
+            <span class="text-green-600 text-2xl">✅</span>
           </div>
           <div class="ml-4">
             <h4 class="text-2xl font-semibold text-gray-900">{{ students_with_internships }}</h4>
@@ -57,17 +48,7 @@
       <div class="bg-white rounded-lg  p-6 border border-gray-200">
         <div class="flex items-center">
           <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-            <svg
-              class="w-6 h-6 text-yellow-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-            </svg>
+            <span class="text-yellow-600 text-2xl">📋</span>
           </div>
           <div class="ml-4">
             <h4 class="text-2xl font-semibold text-gray-900">{{ active_internships.count }}</h4>
@@ -79,17 +60,7 @@
       <div class="bg-white rounded-lg  p-6 border border-gray-200">
         <div class="flex items-center">
           <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-            <svg
-              class="w-6 h-6 text-purple-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-            </svg>
+            <span class="text-purple-600 text-2xl">🏫</span>
           </div>
           <div class="ml-4">
             <h4 class="text-2xl font-semibold text-gray-900">
@@ -280,4 +251,7 @@
         </div>
       </div>
     </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

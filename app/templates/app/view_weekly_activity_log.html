@@ -1,23 +1,35 @@
-{% extends 'app/page.html' %} 
-{% block title %}Weekly Activity Log - Tarbiyat{% endblock %} 
+{% extends 'app/page.html' %}
+{% block title %}Weekly Activity Log - Tarbiyat{% endblock %}
 {% block content %}
 <div class="min-h-screen py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
     <!-- Sidebar -->
     <div class="lg:col-span-1">
-      <div class="bg-white rounded-lg  border border-gray-200 p-6 mb-6">
-        <div class="space-y-2">
-          <a
-            href="{% url 'edit_weekly_activity_log' weekly_log.nanoid %}"
-            class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium rounded-md transition-colors">
-            ✏️ Edit Log
-          </a>
-        </div>
-      </div>
+      {% include 'app/partials/student_sidebar.html' %}
+    </div>
 
-      <!-- Log Summary -->
-      <div class="bg-white rounded-lg  border border-gray-200 p-6 mb-6">
-        <h3 class="text-lg font-medium text-gray-900 mb-4">Summary</h3>
+    <!-- Main Content -->
+    <div class="lg:col-span-3">
+      <!-- Header -->
+      <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900">Weekly Activity Log</h1>
+            <p class="text-gray-600">Week of {{ weekly_log.week_starting|date:"F d, Y" }}</p>
+          </div>
+          <div class="flex space-x-2">
+            <a href="{% url 'student_weekly_activities' %}"
+              class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
+              ← Back to Activities
+            </a>
+            <a href="{% url 'edit_weekly_activity_log' weekly_log.nanoid %}"
+              class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium rounded-md transition-colors">
+              ✏ Edit Log
+            </a>
+          </div>
+        </div>
+
+        <!-- Log Summary -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="text-center p-4 bg-blue-50 rounded-lg">
             <div class="text-2xl font-semibold text-blue-500">{{ activities.count }}</div>
@@ -28,10 +40,8 @@
             <div class="text-sm text-green-800">Total Hours</div>
           </div>
           <div class="text-center p-4 bg-purple-50 rounded-lg">
-            <div class="text-2xl font-semibold text-purple-600">
-              {% if total_hours %} {{ total_hours|floatformat:1 }} {% else %} 0.0 {% endif %}
-            </div>
-            <div class="text-sm text-purple-800">Avg Hours/Day</div>
+            <div class="text-2xl font-semibold text-purple-600">{{ activities.count }}</div>
+            <div class="text-sm text-purple-800">Activities</div>
           </div>
         </div>
 
@@ -52,73 +62,62 @@
       </div>
 
       <!-- Activities List -->
-      <div class="bg-white rounded-lg  border border-gray-200">
+      <div class="bg-white rounded-lg border border-gray-200">
         <div class="px-6 py-4 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">Activities</h3>
+          <h3 class="text-lg font-medium text-gray-900">Weekly Activities</h3>
         </div>
 
         {% if activities %}
         <div class="divide-y divide-gray-200">
           {% for activity in activities %}
           <div class="p-6">
-            <div class="flex justify-between items-start mb-2">
-              <div class="text-sm font-medium text-gray-900">{{ activity.date_performed|date:"l, F d, Y" }}</div>
-              <div class="text-sm font-semibold text-blue-500">{{ activity.hours_spent }} hours</div>
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <div class="text-sm font-medium text-gray-900">{{ activity.date_performed|date:"l, F d, Y" }}</div>
+                <div class="text-sm text-gray-500">Activity {{ forloop.counter }}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-lg font-semibold text-blue-500">{{ activity.hours_spent }} hrs</div>
+                <div class="text-xs text-gray-500">
+                  {% widthratio activity.hours_spent 8 100 %}% of 8hr day
+                </div>
+              </div>
             </div>
 
-            <div class="text-gray-700">{{ activity.task_description|linebreaks }}</div>
+            <div class="text-gray-700 mb-3">{{ activity.task_description|linebreaks }}</div>
 
             <!-- Activity visualization -->
-            <div class="mt-3 flex items-center space-x-2">
+            <div class="flex items-center space-x-2">
               <div class="flex-1 bg-gray-200 rounded-full h-2">
                 <div
                   class="bg-blue-500 rounded-full h-2"
                   style="width: {% widthratio activity.hours_spent 8 100 %}%"></div>
               </div>
-              <div class="text-xs text-gray-500">{% widthratio activity.hours_spent 8 100 %}% of 8hr day</div>
+              <div class="text-xs text-gray-500">{{ activity.hours_spent }} hours</div>
             </div>
           </div>
           {% endfor %}
         </div>
+
+        <!-- Weekly Summary -->
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-700">Weekly Total:</span>
+            <span class="text-lg font-semibold text-green-600">{{ total_hours|floatformat:1 }} hours</span>
+          </div>
+        </div>
         {% else %}
-        <div class="p-6 text-center text-gray-500">
-          <div class="text-4xl mb-2">📝</div>
-          <p>No activities logged for this week.</p>
+        <div class="p-8 text-center text-gray-500">
+          <div class="text-4xl mb-4">📝</div>
+          <h3 class="text-lg font-medium text-gray-900 mb-2">No Activities Logged</h3>
+          <p class="text-gray-600 mb-4">No activities have been logged for this week yet.</p>
+          <a href="{% url 'edit_weekly_activity_log' weekly_log.nanoid %}"
+            class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors">
+            ✏ Add Activities
+          </a>
         </div>
         {% endif %}
       </div>
-
-      <!-- Timeline View (Optional) -->
-      {% if activities %}
-      <div class="bg-white rounded-lg  border border-gray-200 mt-6">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">Weekly Timeline</h3>
-        </div>
-
-        <div class="p-6">
-          <!-- Week days -->
-          {% for day in "0123456"|make_list %}
-          <div
-            class="flex items-start space-x-4 mb-4 pb-4 {% if not forloop.last %}border-b border-gray-100{% endif %}">
-            <div class="flex-shrink-0 w-20">
-              <div class="text-sm font-medium text-gray-900">Day {{ day }}</div>
-            </div>
-
-            <div class="flex-1">
-              {% for activity in activities %}
-              <div class="mb-2 p-2 bg-blue-50 rounded">
-                <div class="text-sm text-gray-900">{{ activity.task_description|truncatechars:100 }}</div>
-                <div class="text-xs text-blue-500 mt-1">{{ activity.hours_spent }} hours</div>
-              </div>
-              {% empty %}
-              <div class="text-sm text-gray-400 italic">No activities logged</div>
-              {% endfor %}
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-      {% endif %}
     </div>
   </div>
 </div>

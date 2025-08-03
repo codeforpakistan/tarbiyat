@@ -3,17 +3,46 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('dashboard/', views.dashboard, name='dashboard'),
     
-    # Dashboard URLs (role-specific management)
-    path('dashboard/positions/', views.mentor_positions, name='mentor_positions'),
-    path('dashboard/applications/', views.mentor_applications, name='mentor_applications'),
-    path('dashboard/applications/<str:application_nanoid>/', views.application_detail, name='application_detail'),
-    path('dashboard/applications/<str:application_nanoid>/accept/', views.accept_application, name='accept_application'),
-    path('dashboard/applications/<str:application_nanoid>/reject/', views.reject_application, name='reject_application'),
-    path('dashboard/interns/', views.mentor_interns, name='mentor_interns'),
+    # Mentor URLs
+    path('mentor/', views.mentor_dashboard_view, name='mentor_dashboard'),
+    path('mentor/positions/', views.mentor_positions, name='mentor_positions'),
+    path('mentor/applications/', views.mentor_applications, name='mentor_applications'),
+    path('mentor/applications/<str:application_nanoid>/', views.application_detail, name='application_detail'),
+    path('mentor/applications/<str:application_nanoid>/accept/', views.accept_application, name='accept_application'),
+    path('mentor/applications/<str:application_nanoid>/reject/', views.reject_application, name='reject_application'),
+    path('mentor/interns/', views.mentor_interns, name='mentor_interns'),
+    
+    # Student URLs
+    path('student/', views.student_dashboard_view, name='student_dashboard'),
+    path('student/applications/', views.student_applications, name='student_applications'),
+    path('student/applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
+    path('student/internship/', views.student_internship, name='student_internship'),
+    path('student/activities/', views.student_weekly_activities, name='student_weekly_activities'),
+    path('student/activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
+    path('student/activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
+    path('student/activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
+    
+    # Teacher URLs
+    path('teacher/', views.teacher_dashboard_view, name='teacher_dashboard'),
+    path('teacher/students/', views.teacher_students, name='teacher_students'),
+    path('teacher/internships/', views.teacher_internships, name='teacher_internships'),
+    path('teacher/internship/<str:internship_nanoid>/', views.teacher_internship_detail, name='teacher_internship_detail'),
+    path('teacher/reports/', views.teacher_reports, name='teacher_reports'),
+    path('teacher/reports/<str:report_nanoid>/', views.teacher_report_detail, name='teacher_report_detail'),
+    
+    # Official URLs
+    path('official/', views.official_dashboard_view, name='official_dashboard'),
+    path('official/companies/', views.manage_companies, name='manage_companies'),
+    path('official/companies/mass-verify/', views.mass_verify_companies, name='mass_verify_companies'),
+    path('official/companies/<str:company_nanoid>/', views.company_detail_official, name='company_detail_official'),
+    path('official/institutes/', views.manage_institutes, name='manage_institutes'),
+    path('official/institutes/mass-verify/', views.mass_verify_institutes, name='mass_verify_institutes'),
+    path('official/institutes/<str:institute_nanoid>/', views.institute_detail_official, name='institute_detail_official'),
+    path('official/reports/', views.official_reports, name='official_reports'),
+    
+    # Shared URLs
     path('students/<str:student_nanoid>/', views.student_profile_detail, name='student_profile_detail'),
-    
     path('complete-profile/', views.complete_profile, name='complete_profile'),
     
     # Unified profile management URLs
@@ -26,26 +55,6 @@ urlpatterns = [
     
     # Institute editing URL
     path('institutes/edit/', views.edit_institute, name='edit_institute'),
-    
-    # Student management URLs
-    path('students/', views.teacher_students, name='teacher_students'),
-    
-    # Management URLs
-    path('companies/', views.manage_companies, name='manage_companies'),
-    path('companies/<str:company_nanoid>/', views.company_detail_official, name='company_detail_official'),
-
-    path('institutes/', views.manage_institutes, name='manage_institutes'),
-    path('institutes/<str:institute_nanoid>/', views.institute_detail_official, name='institute_detail_official'),
-    
-    # Application management (renamed from student applications to avoid conflict)
-    path('my-applications/', views.student_applications, name='student_applications'),
-    path('my-applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
-    
-    # Activity log management
-    path('activities/', views.student_weekly_activities, name='student_weekly_activities'),
-    path('activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
-    path('activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
-    path('activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
     
     # Public position browsing URLs (specific patterns first)
     path('positions/', views.browse_positions, name='browse_positions'),

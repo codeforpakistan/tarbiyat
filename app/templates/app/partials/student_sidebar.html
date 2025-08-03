@@ -1,0 +1,56 @@
+<!-- Student Sidebar -->
+<div class="lg:col-span-1">
+    <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
+        <div class="flex items-center mb-6">
+            <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center mr-3 text-lg">
+                👨‍🎓
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-900">Student Portal</h3>
+                <p class="text-sm text-gray-600">{{ user.get_full_name }}</p>
+            </div>
+        </div>
+        
+        <nav class="space-y-2">
+            <a href="{% url 'student_dashboard' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_dashboard' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">📊</span>
+                Dashboard
+            </a>
+            
+            <a href="{% url 'browse_positions' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'browse_positions' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">🔍</span>
+                Browse Positions
+            </a>
+            
+            <a href="{% url 'student_applications' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_applications' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">📋</span>
+                My Applications
+            </a>
+            
+            <a href="{% url 'student_weekly_activities' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_weekly_activities' or request.resolver_match.url_name == 'create_weekly_activity_log' or request.resolver_match.url_name == 'edit_weekly_activity_log' or request.resolver_match.url_name == 'view_weekly_activity_log' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">📅</span>
+                My Activities
+            </a>
+            
+            {% if current_internship %}
+            <a href="{% url 'student_internship' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_internship' %}bg-blue-100 text-blue-700 font-medium{% else %}text-green-600 hover:text-green-800 hover:bg-green-50{% endif %}">
+                <span class="mr-3">🚀</span>
+                My Internship
+            </a>
+            {% endif %}
+            
+            <div class="border-t border-gray-200 pt-2 mt-2">
+                <a href="{% url 'edit_profile' %}" 
+                   class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'edit_profile' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                    <span class="mr-3">✏️</span>
+                    Edit Profile
+                </a>
+            </div>
+        </nav>
+    </div>
+</div>

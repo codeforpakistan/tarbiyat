@@ -1,228 +1,239 @@
 
 {% extends 'app/page.html' %}
 
-{% block title %}My Applications{% endblock %}
+{% block title %}My Applications - Tarbiyat{% endblock %}
 
 {% block content %}
-<div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-semibold text-gray-900">My Applications</h2>
-            <a href="{% url 'browse_positions' %}" class="text-white bg-blue-600 hover:bg-blue-700 font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center">
-                <span class="mr-2">🔍</span>
-                Browse Positions
-            </a>
-        </div>
 
-        {% if applications %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {% for application in applications %}
-                <div class="bg-white rounded-lg  border border-gray-200 flex flex-col h-full">
-                <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                    <h6 class="text-lg font-semibold text-gray-900 mb-0">{{ application.position.title }}</h6>
-                    {% if application.status == 'pending' %}
-                        <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full">Pending</span>
-                    {% elif application.status == 'approved' %}
-                        <span class="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full">Approved</span>
-                    {% elif application.status == 'rejected' %}
-                        <span class="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full">Rejected</span>
-                    {% elif application.status == 'withdrawn' %}
-                        <span class="bg-gray-100 text-gray-800 px-2.5 py-0.5 rounded-full">Withdrawn</span>
-                    {% endif %}
-                </div>
-                <div class="px-6 py-4 flex-1">
-                    <div class="text-gray-600 space-y-2">
-                        <div><span class="text-gray-900">Company:</span> {{ application.position.company.name }}</div>
-                        <div><span class="text-gray-900">Location:</span> {{ application.position.company.address }}</div>
-                        <div><span class="text-gray-900">Duration:</span> {{ application.position.get_duration_display }}</div>
-                        <div><span class="text-gray-900">Stipend:</span> ${{ application.position.stipend|default:"Not specified" }}</div>
-                    </div>
-                    
-                    <div class="mt-4">
-                        <div class="text-gray-500">
-                            Applied on {{ application.applied_at|date:"M d, Y" }}
-                        </div>
-                    </div>
+<div class="min-h-screen py-8">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Sidebar -->
+    {% include 'app/partials/student_sidebar.html' %}
 
-                    <!-- Cover Letter Preview -->
-                    <div class="mt-4">
-                        <div class="text-gray-900">Cover Letter:</div>
-                        <p class="text-gray-600 mt-1">
-                            {{ application.cover_letter|truncatewords:20 }}
-                            {% if application.cover_letter|length > 100 %}...{% endif %}
-                        </p>
-                    </div>
-                </div>
-                <div class="px-6 py-4 border-t border-gray-200">
-                    <div class="flex justify-between items-center">
-                        <a href="{% url 'position_detail' application.position.nanoid %}" class="text-blue-500 hover:text-blue-800 flex items-center">
-                            <span class="mr-1">👁️</span>
-                            View Position
-                        </a>
-                        
-                        <div class="flex items-center space-x-3">
-                            {% if application.status == 'pending' %}
-                                <div class="text-gray-500">Status will be updated by mentor</div>
-                                <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
-                                    Withdraw
-                                </button>
-                            {% elif application.status == 'under_review' %}
-                                <div class="text-gray-500">Under review by mentor</div>
-                                <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
-                                    Withdraw
-                                </button>
-                            {% elif application.status == 'interview_scheduled' %}
-                                <div class="text-blue-500">Interview scheduled</div>
-                                <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
-                                        class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
-                                    Withdraw
-                                </button>
-                            {% elif application.status == 'approved' %}
-                                <div class="text-green-600 flex items-center">
-                                    <span class="mr-1">✅</span>
-                                    Congratulations!
-                                </div>
-                            {% elif application.status == 'rejected' %}
-                                <div class="text-gray-500">Application not selected</div>
-                            {% elif application.status == 'withdrawn' %}
-                                <div class="text-gray-400 flex items-center">
-                                    <span class="mr-1">↩️</span>
-                                    Withdrawn by you
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+    <!-- Main Content -->
+    <div class="lg:col-span-3">
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-semibold text-gray-900">My Applications</h2>
+        <a href="{% url 'browse_positions' %}" class="text-white bg-blue-600 hover:bg-blue-700 font-medium py-2 px-4 rounded-lg transition duration-200 flex items-center">
+          <span class="mr-2">🔍</span>
+          Browse Positions
+        </a>
+      </div>
+
+      {% if applications %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for application in applications %}
+          <div class="bg-white rounded-lg border border-gray-200 flex flex-col h-full">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+              <h6 class="text-lg font-semibold text-gray-900 mb-0">{{ application.position.title }}</h6>
+              {% if application.status == 'pending' %}
+                <span class="bg-yellow-100 text-yellow-800 px-2.5 py-0.5 rounded-full">Pending</span>
+              {% elif application.status == 'approved' %}
+                <span class="bg-green-100 text-green-800 px-2.5 py-0.5 rounded-full">Approved</span>
+              {% elif application.status == 'rejected' %}
+                <span class="bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full">Rejected</span>
+              {% elif application.status == 'withdrawn' %}
+                <span class="bg-gray-100 text-gray-800 px-2.5 py-0.5 rounded-full">Withdrawn</span>
+              {% endif %}
             </div>
-            {% endfor %}
-        </div>
+            <div class="px-6 py-4 flex-1">
+              <div class="text-gray-600 space-y-2">
+                <div><span class="text-gray-900">Company:</span> {{ application.position.company.name }}</div>
+                <div><span class="text-gray-900">Location:</span> {{ application.position.company.address }}</div>
+                <div><span class="text-gray-900">Duration:</span> {{ application.position.get_duration_display }}</div>
+                <div><span class="text-gray-900">Stipend:</span> ${{ application.position.stipend|default:"Not specified" }}</div>
+              </div>
+              
+              <div class="mt-4">
+                <div class="text-gray-500">
+                  Applied on {{ application.applied_at|date:"M d, Y" }}
+                </div>
+              </div>
 
+              <!-- Cover Letter Preview -->
+              <div class="mt-4">
+                <div class="text-gray-900">Cover Letter:</div>
+                <p class="text-gray-600 mt-1">
+                  {{ application.cover_letter|truncatewords:20 }}
+                  {% if application.cover_letter|length > 100 %}...{% endif %}
+                </p>
+              </div>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+              <div class="flex justify-between items-center">
+                <a href="{% url 'position_detail' application.position.nanoid %}" class="text-blue-500 hover:text-blue-800 flex items-center">
+                  <span class="mr-1">👁️</span>
+                  View Position
+                </a>
+                
+                <div class="flex items-center space-x-3">
+                  {% if application.status == 'pending' %}
+                    <div class="text-gray-500">Status will be updated by mentor</div>
+                    <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
+                            class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
+                      Withdraw
+                    </button>
+                  {% elif application.status == 'under_review' %}
+                    <div class="text-gray-500">Under review by mentor</div>
+                    <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
+                            class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
+                      Withdraw
+                    </button>
+                  {% elif application.status == 'interview_scheduled' %}
+                    <div class="text-blue-500">Interview scheduled</div>
+                    <button onclick="confirmWithdraw('{{ application.nanoid }}', '{{ application.position.title|escapejs }}')" 
+                            class="bg-red-50 hover:bg-red-600 px-3 py-1 rounded-md transition duration-200">
+                      Withdraw
+                    </button>
+                  {% elif application.status == 'approved' %}
+                    <div class="text-green-600 flex items-center">
+                      <span class="mr-1">✅</span>
+                      Congratulations!
+                    </div>
+                  {% elif application.status == 'rejected' %}
+                    <div class="text-gray-500">Application not selected</div>
+                  {% elif application.status == 'withdrawn' %}
+                    <div class="text-gray-400 flex items-center">
+                      <span class="mr-1">↩️</span>
+                      Withdrawn by you
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
         <!-- Pagination -->
         {% if applications.has_other_pages %}
         <nav aria-label="Applications pagination" class="mt-8">
-            <div class="flex items-center justify-center">
-                <div class="flex items-center space-x-1">
-                    {% if applications.has_previous %}
-                        <a href="?page=1" class="px-3 py-2 text-gray-500 border border-gray-200 rounded-l-md">
-                            First
-                        </a>
-                        <a href="?page={{ applications.previous_page_number }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
-                            Previous
-                        </a>
-                    {% endif %}
+          <div class="flex items-center justify-center">
+            <div class="flex items-center space-x-1">
+              {% if applications.has_previous %}
+                <a href="?page=1" class="px-3 py-2 text-gray-500 border border-gray-200 rounded-l-md">
+                  First
+                </a>
+                <a href="?page={{ applications.previous_page_number }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
+                  Previous
+                </a>
+              {% endif %}
 
-                    {% for num in applications.paginator.page_range %}
-                        {% if applications.number == num %}
-                            <span class="px-3 py-2 text-blue-500 bg-blue-50 border border-blue-300">
-                                {{ num }}
-                            </span>
-                        {% elif num > applications.number|add:'-3' and num < applications.number|add:'3' %}
-                            <a href="?page={{ num }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
-                                {{ num }}
-                            </a>
-                        {% endif %}
-                    {% endfor %}
+              {% for num in applications.paginator.page_range %}
+                {% if applications.number == num %}
+                  <span class="px-3 py-2 text-blue-500 bg-blue-50 border border-blue-300">
+                    {{ num }}
+                  </span>
+                {% elif num > applications.number|add:'-3' and num < applications.number|add:'3' %}
+                  <a href="?page={{ num }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
+                    {{ num }}
+                  </a>
+                {% endif %}
+              {% endfor %}
 
-                    {% if applications.has_next %}
-                        <a href="?page={{ applications.next_page_number }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
-                            Next
-                        </a>
-                        <a href="?page={{ applications.paginator.num_pages }}" class="px-3 py-2 text-gray-500 border border-gray-200 rounded-r-md">
-                            Last
-                        </a>
-                    {% endif %}
-                </div>
+              {% if applications.has_next %}
+                <a href="?page={{ applications.next_page_number }}" class="px-3 py-2 text-gray-500 border-t border-b border-gray-200">
+                  Next
+                </a>
+                <a href="?page={{ applications.paginator.num_pages }}" class="px-3 py-2 text-gray-500 border border-gray-200 rounded-r-md">
+                  Last
+                </a>
+              {% endif %}
             </div>
+          </div>
         </nav>
         {% endif %}
 
-    {% else %}
+      {% else %}
         <!-- No Applications State -->
         <div class="text-center py-16">
-            <div class="mb-8">
-                <div class="mx-auto text-6xl text-gray-400">📥</div>
-            </div>
-            <h4 class="text-xl font-semibold text-gray-900 mb-4">No Applications Yet</h4>
-            <p class="text-gray-600 mb-8 max-w-md mx-auto">
-                You haven't applied for any internship positions yet. 
-                Browse available positions and start applying!
-            </p>
-            <a href="{% url 'browse_positions' %}" class="text-white bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
-                <span class="mr-2">🔍</span>
-                Browse Positions
-            </a>
+          <div class="mb-8">
+            <div class="mx-auto text-6xl text-gray-400">📥</div>
+          </div>
+          <h4 class="text-xl font-semibold text-gray-900 mb-4">No Applications Yet</h4>
+          <p class="text-gray-600 mb-8 max-w-md mx-auto">
+            You haven't applied for any internship positions yet. 
+            Browse available positions and start applying!
+          </p>
+          <a href="{% url 'browse_positions' %}" class="text-white bg-blue-600 hover:bg-blue-700 py-3 px-6 rounded-lg transition duration-200 inline-flex items-center">
+            <span class="mr-2">🔍</span>
+            Browse Positions
+          </a>
         </div>
-    {% endif %}
+      {% endif %}
 
-    <!-- Application Summary Card -->
-    {% if applications %}
-    <div class="mt-8">
-        <div class="bg-white rounded-lg  border border-gray-200">
-            <div class="px-6 py-4">
-                <h6 class="text-lg font-semibold text-gray-900 mb-4">Application Summary</h6>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                    <div>
-                        <div class="text-2xl font-semibold text-blue-500">{{ applications.paginator.count }}</div>
-                        <div class="text-gray-500">Total Applications</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-semibold text-yellow-600">
-                            {{ applications.object_list|length }}
-                        </div>
-                        <div class="text-gray-500">On This Page</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-semibold text-purple-600">{{ applications.paginator.num_pages }}</div>
-                        <div class="text-gray-500">Total Pages</div>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-semibold text-green-600">
-                            {% with accepted_count=0 %}
-                                {% for app in applications.object_list %}
-                                    {% if app.status == 'approved' %}
-                                        {% with accepted_count=accepted_count|add:1 %}{% endwith %}
-                                    {% endif %}
-                                {% endfor %}
-                                {{ accepted_count }}
-                            {% endwith %}
-                        </div>
-                        <div class="text-gray-500">Approved</div>
-                    </div>
+      <!-- Application Summary Card -->
+      {% if applications %}
+      <div class="mt-8">
+        <div class="bg-white rounded-lg border border-gray-200">
+          <div class="px-6 py-4">
+            <h6 class="text-lg font-semibold text-gray-900 mb-4">Application Summary</h6>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <div class="text-2xl font-semibold text-blue-500">{{ applications.paginator.count }}</div>
+                <div class="text-gray-500">Total Applications</div>
+              </div>
+              <div>
+                <div class="text-2xl font-semibold text-yellow-600">
+                  {{ applications.object_list|length }}
                 </div>
+                <div class="text-gray-500">On This Page</div>
+              </div>
+              <div>
+                <div class="text-2xl font-semibold text-purple-600">{{ applications.paginator.num_pages }}</div>
+                <div class="text-gray-500">Total Pages</div>
+              </div>
+              <div>
+                <div class="text-2xl font-semibold text-green-600">
+                  {% with accepted_count=0 %}
+                    {% for app in applications.object_list %}
+                      {% if app.status == 'approved' %}
+                        {% with accepted_count=accepted_count|add:1 %}{% endwith %}
+                      {% endif %}
+                    {% endfor %}
+                    {{ accepted_count }}
+                  {% endwith %}
+                </div>
+                <div class="text-gray-500">Approved</div>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    {% endif %}
+      </div>
+      {% endif %}
 
-<!-- Withdrawal Confirmation Modal -->
-<div id="withdrawModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96  rounded-md bg-white">
-        <div class="mt-3 text-center">
+      <!-- Withdrawal Confirmation Modal -->
+      <div id="withdrawModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 rounded-md bg-white">
+          <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                <span class="text-red-600 text-2xl">⚠️</span>
+              <span class="text-red-600 text-2xl">⚠️</span>
             </div>
             <h3 class="text-lg text-gray-900 mt-4" id="modalTitle">Withdraw Application</h3>
             <div class="mt-2 px-7 py-3">
-                <p class="text-gray-500" id="modalMessage">
-                    Are you sure you want to withdraw your application? This action cannot be undone.
-                </p>
+              <p class="text-gray-500" id="modalMessage">
+                Are you sure you want to withdraw your application? This action cannot be undone.
+              </p>
             </div>
             <div class="items-center px-4 py-3">
-                <form id="withdrawForm" method="post" action="">
-                    {% csrf_token %}
-                    <div class="flex space-x-3">
-                        <button type="button" onclick="closeModal()" 
-                                class="px-4 py-2 bg-gray-300 text-gray-900 text-base rounded-md w-full  hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
-                            Cancel
-                        </button>
-                        <button type="submit" 
-                                class="px-4 py-2 bg-red-600 text-base rounded-md w-full  hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-                            Withdraw Application
-                        </button>
-                    </div>
-                </form>
+              <form id="withdrawForm" method="post" action="">
+                {% csrf_token %}
+                <div class="flex space-x-3">
+                  <button type="button" onclick="closeModal()" 
+                          class="px-4 py-2 bg-gray-300 text-gray-900 text-base rounded-md w-full hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Cancel
+                  </button>
+                  <button type="submit" 
+                          class="px-4 py-2 bg-red-600 text-base rounded-md w-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                    Withdraw Application
+                  </button>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
+
 {% endblock %}

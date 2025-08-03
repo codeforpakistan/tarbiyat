@@ -4,27 +4,22 @@
 {% block title %}My Students - {{ teacher_profile.institute.name }}{% endblock %}
 
 {% block content %}
-<div class="px-4 py-8">
-    <!-- Header -->
-    <div class=" rounded-lg p-6 mb-8 bg-white">
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-            <div>
-                <h1 class="text-3xl font-semibold text-gray-900 mb-2">My Students</h1>
-                <p class="text-gray-600">{{ teacher_profile.institute.name }}</p>
-            </div>
-            <div class="mt-4 lg:mt-0">
-                <a href="{% url 'dashboard' %}" 
-                   class="inline-flex items-center px-4 py-2 border border-gray-200 rounded-md  text-gray-700">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    Back to Dashboard
-                </a>
-            </div>
-        </div>
-    </div>
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/teacher_sidebar.html' %}
 
-    <!-- Search and Filters -->
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class=" rounded-lg p-6 mb-8 bg-white">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                        <h1 class="text-3xl font-semibold text-gray-900 mb-2">My Students</h1>
+                        <p class="text-gray-600">{{ teacher_profile.institute.name }}</p>
+                    </div>
+                </div>
+            </div>    <!-- Search and Filters -->
     <div class=" rounded-lg p-6 mb-8 bg-white">
         <form method="get" class="space-y-4">
             <div class="flex flex-col lg:flex-row lg:items-end lg:space-x-4 space-y-4 lg:space-y-0">
@@ -65,9 +60,7 @@
                 <div>
                     <button type="submit" 
                             class="w-full lg:w-auto px-6 py-2 text-white bg-blue-600 rounded-md  hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
-                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
+                        <span class="inline mr-2">🔍</span>
                         Search
                     </button>
                 </div>
@@ -129,8 +122,8 @@
                             {{ student.get_year_of_study_display|default:"Not specified" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            {% if student.internships.all %}
-                                {% with latest_internship=student.internships.all|first %}
+                            {% if student.internship %}
+                                {% with latest_internship=student.internship %}
                                 {% if latest_internship.status == 'active' %}
                                 <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
                                     Active
@@ -228,9 +221,7 @@
         {% else %}
         <!-- Empty State -->
         <div class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
+            <div class="mx-auto h-12 w-12 text-gray-400 text-5xl mb-4">👥</div>
             <h3 class="mt-2 text-sm font-medium text-gray-900">No students found</h3>
             <p class="mt-1 text-sm text-gray-500">
                 {% if search_query or year_filter or internship_filter %}
@@ -241,6 +232,8 @@
             </p>
         </div>
         {% endif %}
+    </div>
+        </div>
     </div>
 </div>
 {% endblock %}

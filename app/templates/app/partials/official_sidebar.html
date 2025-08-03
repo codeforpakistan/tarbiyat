@@ -1,0 +1,48 @@
+<!-- Official Dashboard Sidebar -->
+<div class="lg:col-span-1">
+    <div class="bg-white rounded-lg p-6 border border-gray-200 sticky top-6">
+        <h5 class="flex items-center text-lg font-semibold text-gray-900 mb-6">
+            <span class="mr-2 text-blue-600">🏛️</span>
+            Official Portal
+        </h5>
+        <nav class="space-y-2">
+            <a href="{% url 'official_dashboard' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200 
+                {% if request.resolver_match.url_name == 'official_dashboard' %}text-white bg-blue-600
+                {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">🏠</span>
+                Dashboard
+            </a>
+            
+            <a href="{% url 'manage_companies' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200
+                {% if request.resolver_match.url_name == 'manage_companies' or request.resolver_match.url_name == 'company_detail_official' %}text-white bg-blue-600
+                {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">🏢</span>
+                Companies
+            </a>
+            
+            <a href="{% url 'manage_institutes' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200
+                {% if request.resolver_match.url_name == 'manage_institutes' or request.resolver_match.url_name == 'institute_detail_official' %}text-white bg-blue-600
+                {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">🏫</span>
+                Institutes
+            </a>
+            
+            <a href="{% url 'official_reports' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200
+                {% if request.resolver_match.url_name == 'official_reports' %}text-white bg-blue-600
+                {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                <span class="mr-3">📊</span>
+                Reports
+            </a>
+
+            <!-- Secondary Actions -->
+            <div class="border-t border-gray-200 pt-4 mt-4">
+                <a href="{% url 'edit_profile' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200
+                    {% if request.resolver_match.url_name == 'edit_profile' %}text-white bg-purple-600
+                    {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                    <span class="mr-3">👤</span>
+                    Edit Profile
+                </a>
+            </div>
+        </nav>
+    </div>
+</div>

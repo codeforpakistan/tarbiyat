@@ -3,25 +3,32 @@
 {% block title %}{{ institute.name }} - Institute Management{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
-    <!-- Breadcrumb -->
-    <nav class="flex" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-4">
-            <li>
-                <a href="{% url 'dashboard' %}" class="text-blue-500 hover:text-blue-500">Dashboard</a>
-            </li>
-            <li>
-                <span class="text-gray-400">/</span>
-            </li>
-            <li>
-                <a href="{% url 'manage_institutes' %}" class="text-blue-500 hover:text-blue-500">Manage Institutes</a>
-            </li>
-            <li>
-                <span class="text-gray-400">/</span>
-            </li>
-            <li class="text-gray-500">{{ institute.name }}</li>
-        </ol>
-    </nav>
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/official_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <div class="space-y-6">
+                <!-- Breadcrumb -->
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="flex items-center space-x-4">
+                        <li>
+                            <a href="{% url 'official_dashboard' %}" class="text-blue-500 hover:text-blue-500">Dashboard</a>
+                        </li>
+                        <li>
+                            <span class="text-gray-400">/</span>
+                        </li>
+                        <li>
+                            <a href="{% url 'manage_institutes' %}" class="text-blue-500 hover:text-blue-500">Manage Institutes</a>
+                        </li>
+                        <li>
+                            <span class="text-gray-400">/</span>
+                        </li>
+                        <li class="text-gray-500">{{ institute.name }}</li>
+                    </ol>
+                </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Institute Details -->
@@ -213,6 +220,8 @@
                             <code class="bg-gray-100 px-2 py-1 rounded">{{ institute.nanoid }}</code>
                         </div>
                     </div>
+                </div>
+            </div>
                 </div>
             </div>
         </div>
