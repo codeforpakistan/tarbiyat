@@ -263,8 +263,14 @@ class ResponseContentTest(ViewTestCase):
         """Test that CSRF protection is enabled"""
         response = self.client.get(reverse('home'))
         
-        # Should include CSRF token in forms (if any)
+        # Check that CSRF middleware is enabled by looking for csrfmiddlewaretoken
+        # in any forms on the page, or just check that the response doesn't have errors
+        self.assertEqual(response.status_code, 200)
+        
+        # Test with a page that should have forms - login page
+        response = self.client.get(reverse('account_login'))
         content = response.content.decode()
+        # Login page should have CSRF protection
         if 'form' in content.lower():
             self.assertIn('csrf', content.lower())
 

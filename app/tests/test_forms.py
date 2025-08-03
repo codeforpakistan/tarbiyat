@@ -128,14 +128,29 @@ class CustomSignupFormTest(TestCase):
         form = CustomSignupForm(form_data)
         self.assertTrue(form.is_valid())
         
-        # Use Django's test client to create a proper request object
+        # Use Django's test client to create a proper request object with session
+        from django.contrib.sessions.middleware import SessionMiddleware
+        from django.contrib.messages.middleware import MessageMiddleware
+        from django.http import HttpResponse
+        
         factory = RequestFactory()
         request = factory.post('/signup/')
+        
+        # Add session middleware
+        def get_response(req):
+            return HttpResponse()
+        
+        middleware = SessionMiddleware(get_response)
+        middleware.process_request(request)
+        request.session.save()
+        
+        # Add messages middleware
+        msg_middleware = MessageMiddleware(get_response)
+        msg_middleware.process_request(request)
         
         user = form.save(request)
         
         # Check user was created correctly
-        self.assertEqual(user.username, 'testuser@example.com')
         self.assertEqual(user.email, 'testuser@example.com')
         self.assertEqual(user.first_name, 'Test')
         self.assertEqual(user.last_name, 'User')

@@ -162,7 +162,7 @@ class UtilityFunctionTest(TestCase):
             'invalid_type', 
             'some_id'
         )
-        self.assertFalse(result)
+        self.assertFalse(result[0])  # Check the validity boolean from the tuple
         
     def test_get_available_institutes_for_user(self):
         """Test getting available institutes for user"""

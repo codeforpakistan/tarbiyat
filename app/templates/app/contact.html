@@ -1,0 +1,64 @@
+{% extends 'app/page.html' %}
+
+{% block title %}Contact Us - Tarbiyat Internship Platform{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Contact Us</h1>
+    
+    <div class="grid md:grid-cols-2 gap-8">
+        <div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Get in Touch</h2>
+            <p class="text-gray-600 mb-6">
+                Have questions about the Tarbiyat platform? We're here to help students, teachers, mentors, and organizations navigate the internship process.
+            </p>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-semibold text-gray-900">📧 Email Support</h3>
+                    <p class="text-gray-600">support@tarbiyat.gov.pk</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-900">📞 Phone Support</h3>
+                    <p class="text-gray-600">+92-51-111-INTERN (468376)</p>
+                    <p class="text-sm text-gray-500">Monday to Friday, 9 AM to 5 PM</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-semibold text-gray-900">🏢 Office Address</h3>
+                    <p class="text-gray-600">
+                        Ministry of Education<br>
+                        Block D, Secretariat<br>
+                        Islamabad, Pakistan
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div>
+            <h2 class="text-2xl font-semibold text-gray-900 mb-4">Quick Help</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-blue-900">👨‍🎓 For Students</h3>
+                    <p class="text-blue-700 text-sm">Need help with applications or finding internships?</p>
+                    <a href="/docs/students/" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Student Guide →</a>
+                </div>
+                
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-green-900">🏢 For Companies</h3>
+                    <p class="text-green-700 text-sm">Questions about posting positions or verification?</p>
+                    <a href="/docs/mentors/" class="text-green-600 hover:text-green-800 text-sm font-medium">View Company Guide →</a>
+                </div>
+                
+                <div class="bg-purple-50 p-4 rounded-lg">
+                    <h3 class="font-semibold text-purple-900">👩‍🏫 For Teachers</h3>
+                    <p class="text-purple-700 text-sm">Need help monitoring student progress?</p>
+                    <a href="/docs/teachers/" class="text-purple-600 hover:text-purple-800 text-sm font-medium">View Teacher Guide →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

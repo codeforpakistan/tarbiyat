@@ -46,7 +46,7 @@ def redirect_to_role_dashboard(user):
 
 def get_user_type(user):
     """Helper function to get user type from groups"""
-    if not user.is_authenticated:
+    if not user or not user.is_authenticated:
         return None
     
     # Check if user is superuser (admin) first
@@ -3116,3 +3116,27 @@ def documentation_guide(request, user_type, topic):
         return render(request, template_name)
     else:
         raise Http404("Documentation page not found")
+
+# Public pages
+def about(request):
+    """About page"""
+    return render(request, 'app/about.html')
+
+def contact(request):
+    """Contact page"""
+    return render(request, 'app/contact.html')
+
+def privacy_policy(request):
+    """Privacy policy page"""
+    return render(request, 'app/privacy_policy.html')
+
+def terms_of_service(request):
+    """Terms of service page"""
+    return render(request, 'app/terms_of_service.html')
+
+def dashboard_redirect(request):
+    """Generic dashboard redirect"""
+    if request.user.is_authenticated:
+        return redirect_to_role_dashboard(request.user)
+    else:
+        return redirect('account_login')

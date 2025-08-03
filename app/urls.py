@@ -4,6 +4,13 @@ from . import views
 urlpatterns = [
     path('', views.home, name='home'),
     
+    # Public pages
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('privacy/', views.privacy_policy, name='privacy_policy'),
+    path('terms/', views.terms_of_service, name='terms_of_service'),
+    path('dashboard/', views.dashboard_redirect, name='dashboard'),
+    
     # Mentor URLs
     path('mentor/', views.mentor_dashboard_view, name='mentor_dashboard'),
     path('mentor/positions/', views.mentor_positions, name='mentor_positions'),

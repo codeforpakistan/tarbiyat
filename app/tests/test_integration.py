@@ -404,7 +404,7 @@ class IntegrationTest(TestCase):
             user=multi_role_user,
             institute=self.institute,
             department='Computer Science',
-            position='Professor'
+            title='Professor'
         )
         
         official_profile = OfficialProfile.objects.create(
