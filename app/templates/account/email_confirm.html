@@ -17,7 +17,7 @@
   <p class="mt-2 text-gray-600">Please confirm that you want to use this email address</p>
 </div>
 
-<div class="py-8 px-6 shadow-xl rounded-lg bg-white">
+<div class="py-8 px-6  rounded-lg bg-white">
   {% if confirmation %}
   <div class="space-y-4">
     <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
@@ -34,7 +34,7 @@
 
     <a
       href="{% url 'account_login' %}"
-      class="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
+      class="w-full inline-flex justify-center py-3 px-4 border border-gray-200 rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
       Back to Login
     </a>
   </div>

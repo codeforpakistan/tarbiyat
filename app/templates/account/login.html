@@ -11,7 +11,7 @@
   <p class="mt-2  text-gray-600">Sign in to your Tarbiyat account</p>
 </div>
 
-<div class="py-8 px-6 bg-white shadow-xl rounded-lg">
+<div class="py-8 px-6 bg-white border border-gray-200 rounded-lg">
   <!-- Error Messages -->
   {% if form.errors %}
   <div class="mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded-md">
@@ -38,7 +38,7 @@
       {% csrf_token %}
       <button
         type="submit"
-        class="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm  transition duration-200 group bg-white">
+        class="w-full flex justify-center items-center px-4 py-3 border border-gray-200 rounded-lg   transition duration-200 group bg-white">
         <svg class="w-5 h-5 mr-3 group-hover:scale-110 transition-transform duration-200" viewBox="0 0 24 24">
           <path
             fill="#4285F4"
@@ -62,7 +62,7 @@
   <!-- Divider -->
   <div class="relative mb-6">
     <div class="absolute inset-0 flex items-center">
-      <div class="w-full border-t border-gray-300"></div>
+      <div class="w-full border-t border-gray-200"></div>
     </div>
     <div class="relative flex justify-center ">
       <span class="bg-white px-3 text-gray-500">Or sign in with email</span>

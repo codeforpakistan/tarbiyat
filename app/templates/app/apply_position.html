@@ -21,7 +21,7 @@
     <!-- Main Content -->
     <div class="lg:col-span-2">
       <!-- Page Header -->
-      <div class="bg-white rounded-lg shadow-sm p-8 mb-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-8 mb-6 border border-gray-200">
         <div class="mb-6">
           <h1 class="text-3xl font-semibold text-gray-900 mb-2">Apply for {{ position.title }}</h1>
           <p class="text-gray-600">Submit your application to {{ position.company.name }}</p>
@@ -29,7 +29,7 @@
       </div>
 
       <!-- Position Summary -->
-      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 mb-6 border border-gray-200">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">Position Overview</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="flex items-center space-x-3">
@@ -72,7 +72,7 @@
       </div>
 
       <!-- Student Information -->
-      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 mb-6 border border-gray-200">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">Your Profile Information</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -117,7 +117,7 @@
       </div>
 
       <!-- Application Form -->
-      <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 border border-gray-200">
         <h2 class="text-xl font-semibold text-gray-900 mb-6">Submit Your Application</h2>
         <form method="post" class="space-y-6">
           {% csrf_token %}
@@ -134,7 +134,7 @@
               rows="8"
               placeholder="Tell us why you're interested in this position and how your skills and experience make you a great fit. Include specific examples of relevant projects or experiences..."
               required
-              class="bg-white w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-200"></textarea>
+              class="bg-white w-full px-3 py-2 border border-gray-200 rounded-lg  focus:ring-2 focus:ring-blue-500 focus:border-blue-500 border-gray-200"></textarea>
             <p class="mt-2 text-gray-500">
               Write a compelling cover letter that highlights your enthusiasm and relevant qualifications.
             </p>
@@ -144,12 +144,12 @@
           <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 pt-4">
             <a
               href="{% url 'position_detail' position.nanoid %}"
-              class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              class="inline-flex items-center px-4 py-2 border border-gray-200 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
               ← Back to Position
             </a>
             <button
               type="submit"
-              class="bg-white inline-flex items-center px-6 py-3 border border-transparent text-base rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-sm border-gray-200">
+              class="bg-white inline-flex items-center px-6 py-3 border border-transparent text-base rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500  border-gray-200">
               Submit Application
             </button>
           </div>
@@ -160,7 +160,7 @@
     <!-- Sidebar -->
     <div class="lg:col-span-1">
       <!-- Application Tips -->
-      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 mb-6 border border-gray-200">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Application Tips</h3>
         <div class="space-y-4">
           <div class="flex items-start space-x-3">
@@ -228,7 +228,7 @@
 
       <!-- Position Requirements (if available) -->
       {% if position.requirements %}
-      <div class="bg-white rounded-lg shadow-sm p-6 mt-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 mt-6 border border-gray-200">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Requirements</h3>
         <div class="prose prose-sm max-w-none text-gray-600">{{ position.requirements|linebreaks }}</div>
       </div>
@@ -236,7 +236,7 @@
 
       <!-- Skills Required (if available) -->
       {% if position.skills_required %}
-      <div class="bg-white rounded-lg shadow-sm p-6 mt-6 border border-gray-200">
+      <div class="bg-white rounded-lg  p-6 mt-6 border border-gray-200">
         <h3 class="text-lg font-semibold text-gray-900 mb-4">Skills Required</h3>
         <div class="prose prose-sm max-w-none text-gray-600">{{ position.skills_required|linebreaks }}</div>
       </div>

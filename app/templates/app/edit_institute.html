@@ -5,7 +5,7 @@
 
 {% block content %}
     <!-- Header -->
-    <div class="shadow-lg rounded-lg p-6 mb-8 bg-white
+    <div class=" rounded-lg p-6 mb-8 bg-white
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
             <div>
                 <h1 class="text-3xl font-semibold text-gray-900 mb-2">Edit Institute</h1>
@@ -13,7 +13,7 @@
             </div>
             <div class="mt-4 lg:mt-0">
                 <a href="{% url 'dashboard' %}" 
-                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700
+                   class="inline-flex items-center px-4 py-2 border border-gray-200 rounded-md  text-gray-700
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- Edit Form -->
-    <div class="shadow-lg rounded-lg p-6 bg-white
+    <div class=" rounded-lg p-6 bg-white
         <form method="post" class="space-y-8">
             {% csrf_token %}
             
@@ -41,7 +41,7 @@
                                name="name" 
                                value="{{ institute.name }}"
                                required
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                     
                     <div>
@@ -50,7 +50,7 @@
                         </label>
                         <select id="institute_type" 
                                 name="institute_type" 
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                                class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                             <option value="">Select Type</option>
                             <option value="university" {% if institute.institute_type == 'university' %}selected{% endif %}>University</option>
                             <option value="college" {% if institute.institute_type == 'college' %}selected{% endif %}>College</option>
@@ -71,7 +71,7 @@
                                value="{{ institute.established_year|default:'' }}"
                                min="1800" 
                                max="2024"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                     
                     <div>
@@ -83,7 +83,7 @@
                                name="website" 
                                value="{{ institute.website|default:'' }}"
                                placeholder="https://example.edu"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                 </div>
                 
@@ -94,7 +94,7 @@
                     <textarea id="description" 
                               name="description" 
                               rows="4" 
-                              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 
+                              class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500 
                               placeholder="Brief description of the institute...">{{ institute.description|default:'' }}</textarea>
                 </div>
                 
@@ -105,7 +105,7 @@
                     <textarea id="address" 
                               name="address" 
                               rows="3" 
-                              class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 
+                              class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500 
                               placeholder="Institute address...">{{ institute.address|default:'' }}</textarea>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                                id="contact_email" 
                                name="contact_email" 
                                value="{{ institute.contact_email|default:'' }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                     
                     <div>
@@ -133,7 +133,7 @@
                                id="phone" 
                                name="phone" 
                                value="{{ institute.phone|default:'' }}"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
                                name="email_domain" 
                                value="{{ institute.email_domain|default:'' }}"
                                placeholder="university.edu.pk"
-                               class="flex-1 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500
+                               class="flex-1 px-4 py-2 border border-gray-200 rounded-md  focus:ring-blue-500 focus:border-blue-500
                     </div>
                     <p class="mt-2 text-gray-500">
                         Enter the domain without the @ symbol. Leave blank if you don't want domain verification.
@@ -214,11 +214,11 @@
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
                 <a href="{% url 'dashboard' %}" 
-                   class="px-6 py-2 border border-gray-300 rounded-md shadow-sm text-gray-700
+                   class="px-6 py-2 border border-gray-200 rounded-md  text-gray-700
                     Cancel
                 </a>
                 <button type="submit" 
-                        class="px-6 py-2 text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+                        class="px-6 py-2 text-white bg-blue-600 rounded-md  hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
                     <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>

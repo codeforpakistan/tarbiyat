@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+    <div class="bg-white rounded-xl  border border-gray-200">
         <form method="post" enctype="multipart/form-data" class="p-8">
             {% csrf_token %}
             
@@ -38,7 +38,7 @@
                                 id="first_name" 
                                 name="first_name" 
                                 value="{{ user.first_name }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div>
@@ -47,7 +47,7 @@
                                 id="last_name" 
                                 name="last_name" 
                                 value="{{ user.last_name }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div class="md:col-span-2">
@@ -56,7 +56,7 @@
                                 id="email" 
                                 name="email" 
                                 value="{{ user.email }}"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company</label>
                         <select id="company" 
                                 name="company" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                             {% for company in companies %}
                                 <option value="{{ company.id }}" 
@@ -102,7 +102,7 @@
                                 name="job_title" 
                                 value="{{ profile.job_title }}"
                                 placeholder="e.g., Senior Software Engineer, Product Manager"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div>
@@ -112,14 +112,14 @@
                                 name="department" 
                                 value="{{ profile.department }}"
                                 placeholder="e.g., Engineering, Marketing, HR"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                     </div>
                     <div>
                         <label for="years_of_experience" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
                         <select id="years_of_experience" 
                                 name="years_of_experience" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                 required>
                             <option value="">Select Experience Level</option>
                             <option value="1-2" {% if profile.years_of_experience == '1-2' %}selected{% endif %}>1-2 years</option>
@@ -135,7 +135,7 @@
                                 name="linkedin_profile" 
                                 value="{{ profile.linkedin_profile }}"
                                 placeholder="https://linkedin.com/in/yourprofile"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                                   name="bio" 
                                   rows="4"
                                   placeholder="Describe your professional background, expertise, and what makes you a great mentor..."
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                   required>{{ profile.bio }}</textarea>
                         <p class="text-sm text-gray-500 mt-2">This will be visible to students when they view internship positions.</p>
                     </div>
@@ -160,7 +160,7 @@
                                   name="expertise_areas" 
                                   rows="3"
                                   placeholder="e.g., Software Development, Data Analysis, Project Management, Digital Marketing..."
-                                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                                   required>{{ profile.expertise_areas }}</textarea>
                         <p class="text-sm text-gray-500 mt-2">List your key areas of expertise, separated by commas.</p>
                     </div>
@@ -175,7 +175,7 @@
                         <label for="max_interns" class="block text-sm font-medium text-gray-700 mb-2">Maximum Interns per Position</label>
                         <select id="max_interns" 
                                 name="max_interns" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             <option value="1" {% if profile.max_interns == 1 %}selected{% endif %}>1 intern</option>
                             <option value="2" {% if profile.max_interns == 2 %}selected{% endif %}>2 interns</option>
                             <option value="3" {% if profile.max_interns == 3 %}selected{% endif %}>3 interns</option>
@@ -187,7 +187,7 @@
                         <label for="preferred_duration" class="block text-sm font-medium text-gray-700 mb-2">Preferred Internship Duration</label>
                         <select id="preferred_duration" 
                                 name="preferred_duration" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
                             <option value="2" {% if profile.preferred_duration == 2 %}selected{% endif %}>2 months</option>
                             <option value="3" {% if profile.preferred_duration == 3 %}selected{% endif %}>3 months</option>
                             <option value="6" {% if profile.preferred_duration == 6 %}selected{% endif %}>6 months</option>

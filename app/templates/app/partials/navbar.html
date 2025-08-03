@@ -1,5 +1,5 @@
 {% load user_tags %}
-<nav class="bg-white shadow-sm">
+<nav class="bg-white border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo -->
@@ -36,7 +36,7 @@
             <span class="text-xs text-gray-400">▼</span>
           </button>
           <div
-            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md  py-1 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
             {% if user|get_user_type %}
             <a
               href="{% url 'dashboard' %}"

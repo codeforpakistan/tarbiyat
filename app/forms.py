@@ -40,19 +40,19 @@ class StudentWeeklyActivityForm(forms.ModelForm):
         fields = ['task_description', 'hours_spent', 'date_performed']
         widgets = {
             'task_description': forms.Textarea(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'rows': 3,
                 'placeholder': 'Describe the task or activity you performed...'
             }),
             'hours_spent': forms.NumberInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'step': '0.1',
                 'min': '0',
                 'max': '60',
                 'placeholder': '0.0'
             }),
             'date_performed': forms.DateInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'type': 'date'
             }),
         }
@@ -64,7 +64,7 @@ class StudentWeeklyActivityLogForm(forms.ModelForm):
         fields = ['week_starting']
         widgets = {
             'week_starting': forms.DateInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'type': 'date'
             }),
         }

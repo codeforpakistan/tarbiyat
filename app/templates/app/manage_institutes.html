@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="shadow rounded-lg bg-white">
+    <div class=" rounded-lg bg-white">
         <div class="p-6">
             <h1 class="text-3xl font-semibold text-gray-900 mb-2">Manage Institutes</h1>
             <p class="text-gray-600">Review and manage institute registrations</p>
@@ -34,12 +34,12 @@
                 <form method="GET" class="flex flex-wrap gap-3">
                     <div class="flex-grow">
                         <input type="text" 
-                               class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"  
+                               class="w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500"  
                                name="search" 
                                placeholder="Search institutes by name, email, or address..."
                                value="{{ search_query|default:'' }}">
                     </div>
-                    <select name="status" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <select name="status" class="px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">All Status</option>
                         {% for value, display in status_choices %}
                             <option value="{{ value }}" 
@@ -48,13 +48,13 @@
                             </option>
                         {% endfor %}
                     </select>
-                    <select name="domain_verified" class="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <select name="domain_verified" class="px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                         <option value="">Domain Status</option>
                         <option value="true" {% if domain_filter == 'true' %}selected{% endif %}>Verified</option>
                         <option value="false" {% if domain_filter == 'false' %}selected{% endif %}>Not Verified</option>
                     </select>
                     <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Filter</button>
-                    <a href="{% url 'manage_institutes' %}" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Clear</a>
+                    <a href="{% url 'manage_institutes' %}" class="px-4 py-2 border border-gray-200 text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Clear</a>
                 </form>
             </div>
             
@@ -161,7 +161,7 @@
                         <div class="flex space-x-2">
                             {% if page_obj.has_previous %}
                                 <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.previous_page_number }}"
-                                   class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
+                                   class="px-3 py-2 border border-gray-200 text-gray-700 rounded-md">
                                     Previous
                                 </a>
                             {% endif %}
@@ -171,7 +171,7 @@
                                     <span class="px-3 py-2 text-white bg-blue-600 rounded-md">{{ num }}</span>
                                 {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
                                     <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ num }}"
-                                       class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
+                                       class="px-3 py-2 border border-gray-200 text-gray-700 rounded-md">
                                         {{ num }}
                                     </a>
                                 {% endif %}
@@ -179,7 +179,7 @@
                             
                             {% if page_obj.has_next %}
                                 <a href="?{% if search_query %}search={{ search_query }}&{% endif %}{% if status_filter %}status={{ status_filter }}&{% endif %}{% if domain_filter %}domain_verified={{ domain_filter }}&{% endif %}page={{ page_obj.next_page_number }}"
-                                   class="px-3 py-2 border border-gray-300 text-gray-700 rounded-md">
+                                   class="px-3 py-2 border border-gray-200 text-gray-700 rounded-md">
                                     Next
                                 </a>
                             {% endif %}

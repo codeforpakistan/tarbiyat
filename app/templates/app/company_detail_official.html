@@ -26,7 +26,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Company Details -->
         <div class="lg:col-span-2 space-y-6">
-            <div class="shadow rounded-lg p-6 bg-white">
+            <div class=" rounded-lg p-6 bg-white">
                 <div class="flex items-start">
                     {% if company.logo %}
                         <img src="{{ company.logo.url }}" 
@@ -88,7 +88,7 @@
             
             <!-- Full Description -->
             {% if company.description %}
-                <div class="shadow rounded-lg p-6 bg-white">
+                <div class=" rounded-lg p-6 bg-white">
                     <h5 class="text-lg font-semibold text-gray-900 mb-4">Company Description</h5>
                     <p class="text-gray-700">{{ company.description }}</p>
                 </div>
@@ -96,7 +96,7 @@
             
             <!-- Registration Notes -->
             {% if company.registration_notes %}
-                <div class="shadow rounded-lg p-6 bg-white">
+                <div class=" rounded-lg p-6 bg-white">
                     <h5 class="text-lg font-semibold text-gray-900 mb-4">Registration Notes</h5>
                     <p class="text-gray-700 mb-4">{{ company.registration_notes }}</p>
                     {% if company.approved_by and company.approved_at %}
@@ -111,14 +111,14 @@
         
         <!-- Actions Panel -->
         <div class="lg:col-span-1">
-            <div class="shadow rounded-lg p-6 sticky top-6 bg-white">
+            <div class=" rounded-lg p-6 sticky top-6 bg-white">
                 <h5 class="text-lg font-semibold text-gray-900 mb-4">Management Actions</h5>
                 
                 <form method="POST" id="actionForm">
                     {% csrf_token %}
                     <div class="mb-4">
                         <label for="notes" class="block text-gray-700 mb-2">Notes (Optional)</label>
-                        <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                        <textarea class="w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
                                   id="notes" 
                                   name="notes" 
                                   rows="3" 
