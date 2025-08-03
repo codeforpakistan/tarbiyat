@@ -144,13 +144,20 @@ def mentor_dashboard_view(request):
         status='active'
     )
     
+    # Calculate stats for the dashboard
+    stats = {
+        'active_positions': positions.filter(is_active=True).count(),
+        'pending_applications': pending_applications.count(),
+        'current_interns': active_internships.count(),
+        'scheduled_interviews': 0,  # Add interview functionality later if needed
+    }
+    
     context = {
         'mentor_profile': mentor_profile,
         'positions': positions,
-        'pending_applications': pending_applications[:10],
-        'active_internships': active_internships,
-        'total_positions': positions.count(),
-        'total_applications': pending_applications.count(),
+        'recent_applications': pending_applications[:5],  # Recent applications for dashboard
+        'current_interns': active_internships,  # Current active internships
+        'stats': stats,
     }
     return render(request, 'app/mentor_dashboard.html', context)
 
@@ -2011,7 +2018,15 @@ def mentor_positions(request):
     # Status filter
     status_filter = request.GET.get('status', '')
     if status_filter:
-        positions = positions.filter(status=status_filter)
+        if status_filter == 'active':
+            positions = positions.filter(is_active=True, end_date__gte=timezone.now().date())
+        elif status_filter == 'inactive':
+            positions = positions.filter(is_active=False)
+        elif status_filter == 'expired':
+            positions = positions.filter(end_date__lt=timezone.now().date())
+        elif status_filter == 'draft':
+            # Assuming draft means positions without proper dates or inactive
+            positions = positions.filter(Q(start_date__isnull=True) | Q(end_date__isnull=True) | Q(is_active=False))
     
     # Pagination
     paginator = Paginator(positions, 10)
@@ -2024,6 +2039,7 @@ def mentor_positions(request):
         'search_query': search_query,
         'status_filter': status_filter,
         'total_positions': positions.count(),
+        'today': timezone.now().date(),
     }
     
     return render(request, 'app/mentor_positions.html', context)
@@ -2066,8 +2082,18 @@ def mentor_applications(request):
     
     # Position filter
     position_filter = request.GET.get('position', '')
+    position_filter_name = None
     if position_filter:
-        applications = applications.filter(position__nanoid=position_filter)
+        try:
+            filtered_position = InternshipPosition.objects.get(
+                nanoid=position_filter, 
+                mentor=mentor_profile
+            )
+            applications = applications.filter(position=filtered_position)
+            position_filter_name = filtered_position.title
+        except InternshipPosition.DoesNotExist:
+            # If position doesn't exist or doesn't belong to mentor, ignore filter
+            position_filter = ''
     
     # Pagination
     paginator = Paginator(applications, 20)
@@ -2083,6 +2109,7 @@ def mentor_applications(request):
         'search_query': search_query,
         'status_filter': status_filter,
         'position_filter': position_filter,
+        'position_filter_name': position_filter_name,
         'mentor_positions': mentor_positions,
         'total_applications': applications.count(),
     }
@@ -2126,6 +2153,38 @@ def accept_application(request, application_nanoid):
         application.reviewed_at = timezone.now()
         application.reviewer_notes = request.POST.get('notes', '')
         application.save()
+        
+        # Create internship record
+        try:
+            from datetime import datetime
+            
+            # Calculate start and end dates (start today, duration from position)
+            start_date = datetime.now().date()
+            duration_months = 3  # Default duration
+            if application.position and hasattr(application.position, 'duration') and application.position.duration:
+                try:
+                    duration_months = int(application.position.duration)
+                except (ValueError, TypeError):
+                    duration_months = 3
+            
+            end_date = start_date + timedelta(days=duration_months * 30)  # Approximate months to days
+            
+            # Get mentor from position
+            mentor = application.position.mentor if application.position else None
+            
+            internship = Internship.objects.create(
+                application=application,
+                student=application.student,
+                mentor=mentor,
+                teacher=None,  # Teacher assignment can be done separately
+                start_date=start_date,
+                end_date=end_date,
+                status='active'
+            )
+            
+        except Exception as e:
+            # Log error but continue - internship can be created manually later
+            pass
         
         # Create notification for student
         try:
@@ -2310,6 +2369,47 @@ def mentor_interns(request):
     }
     
     return render(request, 'app/mentor_interns.html', context)
+
+@login_required
+def student_profile_detail(request, student_nanoid):
+    """View detailed student profile (for mentors to view their interns)"""
+    user_type = get_user_type(request.user)
+    if user_type != 'mentor':
+        messages.error(request, 'Access denied. Mentor account required.')
+        return redirect('home')
+    
+    try:
+        mentor_profile = request.user.mentor_profile
+    except MentorProfile.DoesNotExist:
+        messages.warning(request, 'Please complete your mentor profile first.')
+        return redirect('create_profile')
+    
+    # Get the student profile and verify mentor has access
+    try:
+        student_profile = StudentProfile.objects.select_related(
+            'user', 'institute'
+        ).get(nanoid=student_nanoid)
+        
+        # Verify this mentor has an internship with this student
+        internship = Internship.objects.filter(
+            mentor=mentor_profile,
+            student=student_profile
+        ).first()
+        
+        if not internship:
+            messages.error(request, 'Access denied. You can only view profiles of your interns.')
+            return redirect('mentor_interns')
+            
+    except StudentProfile.DoesNotExist:
+        messages.error(request, 'Student profile not found.')
+        return redirect('mentor_interns')
+    
+    context = {
+        'student_profile': student_profile,
+        'mentor_profile': mentor_profile,
+        'internship': internship,
+    }
+    return render(request, 'app/student_profile_detail.html', context)
 
 @login_required
 def create_progress_report(request, internship_nanoid):

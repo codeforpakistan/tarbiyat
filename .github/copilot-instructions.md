@@ -53,8 +53,11 @@ env\Scripts\python manage.py runserver
 
 ### Command Execution Guidelines
 - **Python Path**: Always use `env\Scripts\python` for Python commands
-- **Terminal Mode**: Use foreground terminals for all command execution (never background)
+- **Terminal Mode**: Always use foreground terminals for all command execution (never background)
 - **Virtual Environment**: Commands assume activated virtual environment
+- **Foreground Execution**: Set `isBackground=false` for all `run_in_terminal` calls to ensure proper output visibility and interaction
+- **Windows CMD**: Use simple single commands or create temporary files for complex scripts - avoid multi-line scripts in quotes
+- **Git Commits**: Always use separate `-m` flags for multi-line commit messages instead of newlines in quotes
 
 ### Database & Models
 - **SQLite**: Used for both development and production (no PostgreSQL setup needed)

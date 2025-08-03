@@ -130,52 +130,97 @@
     <div class="lg:col-span-1">
       <!-- Application Card -->
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6 sticky top-6">
-        {% if user.is_authenticated and user|get_user_type == 'student' %} {% if user_application %}
-        <div class="text-center">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Application Submitted</h3>
-          <p class="text-gray-600 mb-4">
-            Your application is {{ user_application.get_status_display|lower }}
-          </p>
-          <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
-            Already Applied
-          </button>
-        </div>
-        {% elif position.available_spots > 0 %}
-        <div class="text-center">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Apply?</h3>
-          <p class="text-gray-600 mb-4">Submit your application for this position</p>
-          <a
-            href="{% url 'apply_position' position.nanoid %}"
-            class="block w-full text-white bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-md transition duration-200 text-center">
-            Apply Now
-          </a>
-        </div>
-        {% else %}
-        <div class="text-center">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">No Spots Available</h3>
-          <p class="text-gray-600 mb-4">This position is currently full</p>
-          <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
-            Position Full
-          </button>
-        </div>
-        {% endif %}
-        {% elif not user.is_authenticated %}
-        <div class="text-center">
-          <h3 class="text-lg font-semibold text-gray-900 mb-2">Apply for this position</h3>
-          <p class="text-gray-600 mb-4">Create an account or login to apply for this position</p>
-          <div class="space-y-2">
+        {% if user.is_authenticated and user|get_user_type == 'student' %} 
+          {% if user_application %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Application Submitted</h3>
+            <p class="text-gray-600 mb-4">
+              Your application is {{ user_application.get_status_display|lower }}
+            </p>
+            <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
+              Already Applied
+            </button>
+          </div>
+          {% elif position.available_spots > 0 %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Ready to Apply?</h3>
+            <p class="text-gray-600 mb-4">Submit your application for this position</p>
             <a
-              href="{% url 'account_login' %}"
+              href="{% url 'apply_position' position.nanoid %}"
               class="block w-full text-white bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-md transition duration-200 text-center">
-              Login
-            </a>
-            <a
-              href="{% url 'account_signup' %}"
-              class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 px-4 py-3 rounded-md transition duration-200 text-center">
-              Sign Up
+              Apply Now
             </a>
           </div>
-        </div>
+          {% else %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">No Spots Available</h3>
+            <p class="text-gray-600 mb-4">This position is currently full</p>
+            <button class="w-full bg-gray-300 text-gray-500 px-4 py-3 rounded-md cursor-not-allowed" disabled>
+              Position Full
+            </button>
+          </div>
+          {% endif %}
+        {% elif user.is_authenticated and user|get_user_type == 'mentor' %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">📋 Mentor View</h3>
+            {% if position.mentor.user == user %}
+              <p class="text-green-600 mb-4">✓ This is your position</p>
+              <a
+                href="{% url 'mentor_applications' %}?position={{ position.nanoid }}"
+                class="block w-full text-white bg-green-600 hover:bg-green-700 px-4 py-3 rounded-md transition duration-200 text-center mb-2">
+                View Applications for This Position
+              </a>
+              <a
+                href="{% url 'mentor_applications' %}"
+                class="block w-full border border-green-600 text-green-600 hover:bg-green-50 px-4 py-3 rounded-md transition duration-200 text-center">
+                View All Applications
+              </a>
+            {% else %}
+              <p class="text-gray-600 mb-4">You are viewing this position as a mentor</p>
+              <a
+                href="{% url 'dashboard' %}"
+                class="block w-full border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-3 rounded-md transition duration-200 text-center">
+                View Your Dashboard
+              </a>
+            {% endif %}
+          </div>
+        {% elif user.is_authenticated and user|get_user_type == 'teacher' %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">👨‍🏫 Teacher View</h3>
+            <p class="text-gray-600 mb-4">You are viewing this position as a teacher</p>
+            <a
+              href="{% url 'dashboard' %}"
+              class="block w-full border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-3 rounded-md transition duration-200 text-center">
+              View Your Dashboard
+            </a>
+          </div>
+        {% elif user.is_authenticated and user|get_user_type == 'official' %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">🏛️ Official View</h3>
+            <p class="text-gray-600 mb-4">You are viewing this position as an official</p>
+            <a
+              href="{% url 'dashboard' %}"
+              class="block w-full border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-3 rounded-md transition duration-200 text-center">
+              View Your Dashboard
+            </a>
+          </div>
+        {% elif not user.is_authenticated %}
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Apply for this position</h3>
+            <p class="text-gray-600 mb-4">Create an account or login to apply for this position</p>
+            <div class="space-y-2">
+              <a
+                href="{% url 'account_login' %}"
+                class="block w-full text-white bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-md transition duration-200 text-center">
+                Login
+              </a>
+              <a
+                href="{% url 'account_signup' %}"
+                class="block w-full border border-blue-600 text-blue-500 hover:bg-blue-50 px-4 py-3 rounded-md transition duration-200 text-center">
+                Sign Up
+              </a>
+            </div>
+          </div>
         {% endif %}
       </div>
 
@@ -215,10 +260,10 @@
             Facebook
           </button>
           <button
-            class="flex-1 bg-blue-400 hover:text-white bg-blue-600 px-3 py-2 rounded-md transition duration-200">
+            class="flex-1 text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md transition duration-200">
             Twitter
           </button>
-          <button class="flex-1 bg-blue-700 hover:bg-blue-800 px-3 py-2 rounded-md transition duration-200">
+          <button class="flex-1 text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-md transition duration-200">
             LinkedIn
           </button>
         </div>

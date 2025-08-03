@@ -16,7 +16,10 @@ import random
 User = get_user_model()
 
 class Command(BaseCommand):
-    help = 'Seed the database with initial data for testing'
+    help = '''Seed the database with initial data for testing in stages:
+    Stage 1: Admin user and basic setup
+    Stage 2: Organizations and users (includes Stage 1)
+    Stage 3: Internships and applications (includes Stages 1 & 2)'''
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -24,54 +27,140 @@ class Command(BaseCommand):
             action='store_true',
             help='Clear existing data before seeding',
         )
+        parser.add_argument(
+            '--stage',
+            type=int,
+            choices=[1, 2, 3],
+            help='Seeding stage: 1=admin only, 2=users and organizations, 3=internships and applications',
+        )
+        parser.add_argument(
+            '--all',
+            action='store_true',
+            help='Run all stages (equivalent to --stage 3)',
+        )
+        parser.add_argument(
+            '--only',
+            action='store_true',
+            help='Run only the specified stage (requires prerequisites to exist)',
+        )
 
     def handle(self, *args, **options):
         if options['clear']:
             self.stdout.write(self.style.WARNING('Clearing existing data...'))
             self.clear_data()
 
-        self.stdout.write(self.style.SUCCESS('Starting database seeding...'))
+        stage = options.get('stage')
+        run_all = options.get('all')
+        only_stage = options.get('only')
+        
+        # If no stage specified and --all not used, show help
+        if stage is None and not run_all:
+            self.stdout.write(
+                self.style.WARNING('No stage specified. Use --stage 1|2|3 or --all. Run with --help for details.')
+            )
+            self.stdout.write('')
+            self.stdout.write('Seeding stages:')
+            self.stdout.write('  Stage 1: Admin user and basic setup')
+            self.stdout.write('  Stage 2: Organizations and users (includes Stage 1)')
+            self.stdout.write('  Stage 3: Internships and applications (includes Stages 1 & 2)')
+            self.stdout.write('')
+            self.stdout.write('Examples:')
+            self.stdout.write('  env\\Scripts\\python manage.py seed --stage 1')
+            self.stdout.write('  env\\Scripts\\python manage.py seed --stage 2')
+            self.stdout.write('  env\\Scripts\\python manage.py seed --stage 3 --only  # Only stage 3')
+            self.stdout.write('  env\\Scripts\\python manage.py seed --all')
+            return
+            
+        # If --all is used, run all stages
+        if run_all:
+            stage = 3
+            only_stage = False
+            
+        # At this point, stage should always be a valid integer
+        assert stage is not None, "Stage should not be None at this point"
+
+        if only_stage:
+            self.stdout.write(self.style.SUCCESS(f'Starting database seeding - Stage {stage} only...'))
+        else:
+            self.stdout.write(self.style.SUCCESS(f'Starting database seeding - Stage {stage}...'))
         
         with transaction.atomic():
-            # Create admin user
-            self.create_admin_user()
+            # Stage 1: Admin user and basic setup
+            if not only_stage or stage == 1:
+                self.stdout.write(self.style.SUCCESS('=== Stage 1: Creating admin user and basic setup ==='))
+                self.create_admin_user()
+                self.create_google_social_app()
             
-            # Create Google social app
-            self.create_google_social_app()
+            # Stage 2: Organizations and users
+            if (stage >= 2 and not only_stage) or (only_stage and stage == 2):
+                self.stdout.write(self.style.SUCCESS('=== Stage 2: Creating organizations and users ==='))
+                # Create institutes
+                institutes = self.create_institutes()
+                
+                # Create companies
+                companies = self.create_companies()
+                
+                # Create users and profiles
+                students = self.create_students(institutes)
+                mentors = self.create_mentors(companies)
+                teachers = self.create_teachers(institutes)
+                officials = self.create_officials()
             
-            # Create institutes
-            institutes = self.create_institutes()
-            
-            # Create companies
-            companies = self.create_companies()
-            
-            # Create users and profiles
-            students = self.create_students(institutes)
-            mentors = self.create_mentors(companies)
-            teachers = self.create_teachers(institutes)
-            officials = self.create_officials()
-            
-            # Create internship positions
-            positions = self.create_internship_positions(companies, mentors)
-            
-            # Create sample applications and internships
-            self.create_sample_applications_and_internships(students, positions, mentors, teachers)
+            # Stage 3: Internships and applications
+            if (stage >= 3 and not only_stage) or (only_stage and stage == 3):
+                self.stdout.write(self.style.SUCCESS('=== Stage 3: Creating internships and applications ==='))
+                # Get existing data if we're only running stage 3
+                if only_stage and stage == 3:
+                    institutes = list(Institute.objects.all())
+                    companies = list(Company.objects.all())
+                    students = list(StudentProfile.objects.all())
+                    mentors = list(MentorProfile.objects.all())
+                    teachers = list(TeacherProfile.objects.all())
+                    
+                    if not institutes or not companies or not students or not mentors:
+                        self.stdout.write(
+                            self.style.ERROR('Stage 3 requires existing organizations and users. Run stages 1 and 2 first.')
+                        )
+                        return
+                
+                # Create internship positions
+                positions = self.create_internship_positions(companies, mentors)
+                
+                # Create sample applications and internships
+                self.create_sample_applications_and_internships(students, positions, mentors, teachers)
 
-        self.stdout.write(
-            self.style.SUCCESS('Database seeding completed successfully!')
-        )
+        if only_stage:
+            self.stdout.write(
+                self.style.SUCCESS(f'Database seeding Stage {stage} only completed successfully!')
+            )
+        else:
+            self.stdout.write(
+                self.style.SUCCESS(f'Database seeding Stage {stage} completed successfully!')
+            )
 
     def clear_data(self):
         """Clear existing data"""
-        models_to_clear = [
-            ProgressReport, Internship, InternshipApplication, 
-            InternshipPosition, StudentProfile, MentorProfile, 
-            TeacherProfile, OfficialProfile, Company, Institute,
-            Notification
-        ]
+        # Clear in the correct order to handle foreign key constraints
         
-        for model in models_to_clear:
-            model.objects.all().delete()
+        # First, clear related data that references main models
+        ProgressReport.objects.all().delete()
+        Notification.objects.all().delete()
+        Internship.objects.all().delete()
+        InternshipApplication.objects.all().delete()
+        InternshipPosition.objects.all().delete()
+        
+        # Remove foreign key references before deleting profiles
+        Company.objects.all().update(registered_by=None)
+        
+        # Clear profile models (which reference companies/institutes)
+        StudentProfile.objects.all().delete()
+        MentorProfile.objects.all().delete()
+        TeacherProfile.objects.all().delete()
+        OfficialProfile.objects.all().delete()
+        
+        # Clear organization models
+        Company.objects.all().delete()
+        Institute.objects.all().delete()
         
         # Clear users except superusers
         User.objects.filter(is_superuser=False).delete()
@@ -512,10 +601,11 @@ class Command(BaseCommand):
                 position = positions[i % len(positions)]
                 
                 # Create application
+                company_name = position.company.name if position.company else "Unknown Company"
                 application = InternshipApplication.objects.create(
                     student=student,
                     position=position,
-                    cover_letter=f"Dear Hiring Manager,\n\nI am very interested in the {position.title} position at {position.company.name}. As a {student.major} student with a GPA of {student.gpa}, I believe I would be a great fit for this role.\n\nMy skills in {student.skills[:50]}... align well with your requirements. I am eager to contribute to your team and learn from experienced professionals.\n\nThank you for considering my application.\n\nBest regards,\n{student.user.get_full_name()}",
+                    cover_letter=f"Dear Hiring Manager,\n\nI am very interested in the {position.title} position at {company_name}. As a {student.major} student with a GPA of {student.gpa}, I believe I would be a great fit for this role.\n\nMy skills in {student.skills[:50]}... align well with your requirements. I am eager to contribute to your team and learn from experienced professionals.\n\nThank you for considering my application.\n\nBest regards,\n{student.user.get_full_name()}",
                     status=random.choice(['pending', 'under_review', 'approved', 'rejected'])
                 )
                 self.stdout.write(f'Created application: {student.user.username} -> {position.title}')
@@ -533,25 +623,28 @@ class Command(BaseCommand):
                         final_grade=random.choice(['A', 'B+', 'B', 'C+']) if random.choice([True, False]) else '',
                         certificate_issued=random.choice([True, False])
                     )
-                    self.stdout.write(f'Created internship: {student.user.username} at {position.company.name}')
+                    company_name = position.company.name if position.company else "Unknown Company"
+                    self.stdout.write(f'Created internship: {student.user.username} at {company_name}')
                     
                     # Create progress reports for active/completed internships
                     self.create_sample_progress_reports(internship)
                     
                     # Create notifications
+                    company_name = position.company.name if position.company else "Unknown Company"
                     Notification.objects.create(
                         recipient=student.user,
                         notification_type='application_status',
                         title=f'Application Approved - {position.title}',
-                        message=f'Congratulations! Your application for {position.title} at {position.company.name} has been approved. Your internship starts on {position.start_date}.'
+                        message=f'Congratulations! Your application for {position.title} at {company_name} has been approved. Your internship starts on {position.start_date}.'
                     )
                     
                 elif application.status == 'rejected':
+                    company_name = position.company.name if position.company else "Unknown Company"
                     Notification.objects.create(
                         recipient=student.user,
                         notification_type='application_status',
                         title=f'Application Update - {position.title}',
-                        message=f'Thank you for your interest in {position.title} at {position.company.name}. Unfortunately, we have decided to move forward with other candidates.'
+                        message=f'Thank you for your interest in {position.title} at {company_name}. Unfortunately, we have decided to move forward with other candidates.'
                     )
 
     def create_sample_progress_reports(self, internship):

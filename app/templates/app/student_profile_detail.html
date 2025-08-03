@@ -1,0 +1,240 @@
+{% extends 'app/page.html' %}
+
+{% block title %}{{ student_profile.user.get_full_name }} - Student Profile - Tarbiyat{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/mentor_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <a href="{% url 'mentor_interns' %}" class="text-gray-500 hover:text-gray-700">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </a>
+                        <div>
+                            <h2 class="text-3xl font-semibold text-gray-900">Student Profile</h2>
+                            <p class="text-gray-600 mt-2">Detailed information about your intern</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if student_profile %}
+            <!-- Student Information -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Personal Information</h3>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-start space-x-6">
+                        <div class="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center">
+                            <span class="text-2xl text-blue-500 font-semibold">
+                                {% if student_profile.user and student_profile.user.first_name and student_profile.user.last_name %}
+                                    {{ student_profile.user.first_name|first }}{{ student_profile.user.last_name|first }}
+                                {% elif student_profile.user %}
+                                    {{ student_profile.user.username|first|upper }}
+                                {% else %}
+                                    ?
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-2xl font-semibold text-gray-900 mb-2">
+                                {% if student_profile.user %}
+                                    {{ student_profile.user.get_full_name|default:student_profile.user.username }}
+                                {% else %}
+                                    Student (User Deleted)
+                                {% endif %}
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <span class="text-gray-500">Email:</span>
+                                    <span class="ml-2 font-medium">
+                                        {% if student_profile.user %}
+                                            {{ student_profile.user.email }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Student ID:</span>
+                                    <span class="ml-2 font-medium">{{ student_profile.student_id|default:"N/A" }}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Phone:</span>
+                                    <span class="ml-2 font-medium">{{ student_profile.phone|default:"N/A" }}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Date of Birth:</span>
+                                    <span class="ml-2 font-medium">{{ student_profile.date_of_birth|date:"M d, Y"|default:"N/A" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Information -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Academic Information</h3>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <span class="text-gray-500">Institute:</span>
+                            <span class="ml-2 font-medium">{{ student_profile.institute.name|default:"N/A" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Major/Program:</span>
+                            <span class="ml-2 font-medium">{{ student_profile.major|default:"N/A" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Department:</span>
+                            <span class="ml-2 font-medium">{{ student_profile.department|default:"N/A" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Current Year:</span>
+                            <span class="ml-2 font-medium">{{ student_profile.current_year|default:"N/A" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">GPA:</span>
+                            <span class="ml-2 font-medium">
+                                {% if student_profile.gpa %}
+                                    {{ student_profile.gpa|floatformat:2 }}
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Expected Graduation:</span>
+                            <span class="ml-2 font-medium">{{ student_profile.expected_graduation|date:"M Y"|default:"N/A" }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Skills & Interests -->
+            {% if student_profile.skills or student_profile.interests %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Skills & Interests</h3>
+                </div>
+                <div class="p-6">
+                    {% if student_profile.skills %}
+                    <div class="mb-4">
+                        <h4 class="text-gray-900 font-medium mb-2">Skills:</h4>
+                        <p class="text-gray-700">{{ student_profile.skills }}</p>
+                    </div>
+                    {% endif %}
+                    {% if student_profile.interests %}
+                    <div>
+                        <h4 class="text-gray-900 font-medium mb-2">Interests:</h4>
+                        <p class="text-gray-700">{{ student_profile.interests }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Bio -->
+            {% if student_profile.bio %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">About</h3>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ student_profile.bio }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Internship Information -->
+            {% if internship %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Current Internship</h3>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-gray-500">Position:</span>
+                            <span class="ml-2 font-medium">{{ internship.application.position.title|default:"N/A" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Status:</span>
+                            <span class="ml-2 px-2 py-1 rounded-full text-sm {% if internship.status == 'active' %}bg-green-100 text-green-800{% elif internship.status == 'completed' %}bg-blue-100 text-blue-800{% else %}bg-red-100 text-red-800{% endif %}">
+                                {{ internship.get_status_display }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Start Date:</span>
+                            <span class="ml-2 font-medium">{{ internship.start_date|date:"M d, Y" }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">End Date:</span>
+                            <span class="ml-2 font-medium">{{ internship.end_date|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    
+                    {% if internship.status == 'active' %}
+                    <div class="mt-6 flex space-x-4">
+                        <a href="{% url 'mentor_progress_reports' internship.nanoid %}" 
+                           class="text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition duration-200">
+                            View Progress Reports
+                        </a>
+                        <a href="{% url 'create_progress_report' internship.nanoid %}" 
+                           class="text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-md transition duration-200">
+                            Create Progress Report
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Resume -->
+            {% if student_profile.resume %}
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+                <div class="border-b border-gray-200 px-6 py-4">
+                    <h3 class="text-lg font-semibold text-gray-900">Resume</h3>
+                </div>
+                <div class="p-6 text-center">
+                    <a href="{{ student_profile.resume.url }}" target="_blank" 
+                       class="inline-flex items-center text-white bg-gray-600 hover:bg-gray-700 px-6 py-3 rounded-md transition duration-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        📄 View Resume
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
+            {% else %}
+            <div class="text-center py-12">
+                <svg class="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Student Profile Not Found</h3>
+                <p class="text-gray-600 mb-6">The student profile could not be found or has been deleted.</p>
+                <a href="{% url 'mentor_interns' %}" 
+                   class="text-white bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-md transition duration-200 inline-flex items-center">
+                    Back to My Interns
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

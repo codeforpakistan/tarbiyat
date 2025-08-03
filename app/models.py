@@ -133,7 +133,7 @@ class StudentProfile(models.Model):
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, null=True, blank=True)
+    institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     student_id = models.CharField(max_length=50, null=True, blank=True)
     year_of_study = models.CharField(max_length=1, choices=YEAR_CHOICES, null=True, blank=True)
     major = models.CharField(max_length=100, null=True, blank=True)
@@ -223,7 +223,7 @@ class MentorProfile(models.Model):
     """Mentor profile for company representatives"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='mentor_profile')
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     position = models.CharField(max_length=100, null=True, blank=True)
     department = models.CharField(max_length=100, null=True, blank=True)
     experience_years = models.IntegerField(null=True, blank=True)
@@ -269,7 +269,7 @@ class TeacherProfile(models.Model):
     """Teacher profile for institute staff"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, null=True, blank=True)
+    institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=50, null=True, blank=True)  # Professor, Associate Professor, etc.
     employee_id = models.CharField(max_length=50, null=True, blank=True)
@@ -380,9 +380,9 @@ class OrganizationRegistrationRequest(models.Model):
     )
     
     # Request details
-    requested_by_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organization_requests')
-    requested_by_mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, null=True, blank=True)
-    requested_by_teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, null=True, blank=True)
+    requested_by_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='organization_requests')
+    requested_by_mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    requested_by_teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
     
     # Approval workflow
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -391,8 +391,8 @@ class OrganizationRegistrationRequest(models.Model):
     review_notes = models.TextField(null=True, blank=True)
     
     # Created organization (set when approved)
-    approved_company = models.OneToOneField(Company, on_delete=models.CASCADE, null=True, blank=True)
-    approved_institute = models.OneToOneField(Institute, on_delete=models.CASCADE, null=True, blank=True)
+    approved_company = models.OneToOneField(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    approved_institute = models.OneToOneField(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -415,8 +415,8 @@ class InternshipPosition(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_position_id, unique=True, db_index=True, editable=False)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, null=True, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     requirements = models.TextField(null=True, blank=True)
@@ -467,8 +467,8 @@ class InternshipApplication(models.Model):
     )
     
     nanoid = models.CharField(max_length=14, default=generate_application_id, unique=True, db_index=True, editable=False)
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
-    position = models.ForeignKey(InternshipPosition, on_delete=models.CASCADE, related_name='applications', null=True, blank=True)
+    student = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    position = models.ForeignKey(InternshipPosition, on_delete=models.SET_NULL, related_name='applications', null=True, blank=True)
     cover_letter = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
@@ -476,6 +476,8 @@ class InternshipApplication(models.Model):
     reviewer_notes = models.TextField(null=True, blank=True)
     
     class Meta:
+        # Note: unique_together with nullable fields may allow multiple null combinations
+        # Consider using a custom constraint if needed
         unique_together = ['student', 'position']
     
     def __str__(self):
@@ -493,8 +495,8 @@ class Interview(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    application = models.OneToOneField(InternshipApplication, on_delete=models.CASCADE, null=True, blank=True)
-    interviewer = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, null=True, blank=True)
+    application = models.OneToOneField(InternshipApplication, on_delete=models.SET_NULL, null=True, blank=True)
+    interviewer = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     scheduled_date = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)  # or online link
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='scheduled', null=True, blank=True)
@@ -518,9 +520,9 @@ class Internship(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    application = models.OneToOneField(InternshipApplication, on_delete=models.CASCADE, null=True, blank=True)
-    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, null=True, blank=True)
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, null=True, blank=True)
+    application = models.OneToOneField(InternshipApplication, on_delete=models.SET_NULL, null=True, blank=True)
+    student = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -570,9 +572,9 @@ class ProgressReport(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='progress_reports', null=True, blank=True)
+    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='progress_reports', null=True, blank=True)
     report_type = models.CharField(max_length=10, choices=REPORT_TYPE_CHOICES, null=True, blank=True)
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     week_number = models.IntegerField(null=True, blank=True)
     
     # Student-specific fields
@@ -601,6 +603,7 @@ class ProgressReport(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
+        # Note: unique_together with nullable fields may allow multiple null combinations
         unique_together = ['internship', 'report_type', 'week_number']
     
     def __str__(self):
@@ -624,7 +627,7 @@ class Payment(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     payment_type = models.CharField(max_length=15, choices=PAYMENT_TYPE_CHOICES, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="Amount in PKR", null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending', null=True, blank=True)
@@ -642,8 +645,8 @@ class Payment(models.Model):
 class StudentInternshipReport(models.Model):
     """Monthly student internship evaluation report filled by teachers"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='student_reports')
-    teacher = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE)
+    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='student_reports', null=True, blank=True)
+    teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
     report_month = models.DateField(help_text="Month and year for this report")
     
     # Report sections with descriptions and scores
@@ -676,6 +679,7 @@ class StudentInternshipReport(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
+        # Note: unique_together with nullable fields may allow multiple null combinations
         unique_together = ['internship', 'report_month']
         ordering = ['-report_month']
         
@@ -684,25 +688,32 @@ class StudentInternshipReport(models.Model):
         return self.tasks_performed_score + self.learning_experience_score + self.challenges_score
     
     def __str__(self):
-        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        if self.internship and self.internship.student:
+            student_name = self.internship.student.user.get_full_name()
+        else:
+            student_name = "No Student"
         return f"Report for {student_name} - {self.report_month.strftime('%B %Y')}"
 
 class StudentWeeklyActivityLog(models.Model):
     """Weekly activity log report filled by students during their internship"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='weekly_activity_logs')
+    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='weekly_activity_logs', null=True, blank=True)
     week_starting = models.DateField(help_text="Starting date of the week")
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-week_starting']
+        # Note: unique_together with nullable fields may allow multiple null combinations
         unique_together = ['internship', 'week_starting']
         verbose_name = "Student Weekly Activity Log"
         verbose_name_plural = "Student Weekly Activity Logs"
 
     def __str__(self):
-        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        if self.internship and self.internship.student:
+            student_name = self.internship.student.user.get_full_name()
+        else:
+            student_name = "No Student"
         return f"Weekly Log: {student_name} - Week of {self.week_starting.strftime('%Y-%m-%d')}"
 
 class StudentWeeklyActivity(models.Model):
@@ -742,8 +753,8 @@ class InternshipSupervisorEvaluation(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.OneToOneField(Internship, on_delete=models.CASCADE, related_name='supervisor_evaluation')
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE)
+    internship = models.OneToOneField(Internship, on_delete=models.SET_NULL, related_name='supervisor_evaluation', null=True, blank=True)
+    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     
     # Performance Indicators (1-4 scale)
@@ -820,7 +831,10 @@ class InternshipSupervisorEvaluation(models.Model):
         return sum(scores) / len(scores)
     
     def __str__(self):
-        student_name = self.internship.student.user.get_full_name() if self.internship.student else "No Student"
+        if self.internship and self.internship.student:
+            student_name = self.internship.student.user.get_full_name()
+        else:
+            student_name = "No Student"
         return f"Supervisor Evaluation for {student_name} - {self.submitted_at.strftime('%Y-%m-%d')}"
 
 class Notification(models.Model):
@@ -834,7 +848,7 @@ class Notification(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
+    recipient = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='notifications', null=True, blank=True)
     notification_type = models.CharField(max_length=20, choices=NOTIFICATION_TYPES, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     message = models.TextField(null=True, blank=True)
