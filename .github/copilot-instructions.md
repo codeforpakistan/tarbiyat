@@ -41,14 +41,14 @@ if user_type != 'expected_role':
 ### Essential Django Commands
 ```bash
 # Initial setup (always use env\Scripts\python in activated environment)
-env\Scripts\python manage.py setup_groups    # Creates role-based groups
-env\Scripts\python manage.py seed            # Generates test data
-env\Scripts\python manage.py check_env       # Validates environment configuration
+.venv\Scripts\python manage.py setup_groups    # Creates role-based groups
+.venv\Scripts\python manage.py seed            # Generates test data
+.venv\Scripts\python manage.py check_env       # Validates environment configuration
 
 # Standard Django commands
-env\Scripts\python manage.py makemigrations
-env\Scripts\python manage.py migrate
-env\Scripts\python manage.py runserver
+.venv\Scripts\python manage.py makemigrations
+.venv\Scripts\python manage.py migrate
+.venv\Scripts\python manage.py runserver
 ```
 
 ### Command Execution Guidelines
