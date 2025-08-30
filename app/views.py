@@ -1926,15 +1926,23 @@ def apply_position(request, position_nanoid):
         messages.error(request, 'Only students from 4th to 8th semester are eligible for internships as per HEC policy.')
         return redirect('position_detail', position_nanoid=position_nanoid)
     
-    # Check if student has already applied
-    existing_application = InternshipApplication.objects.filter(
+    # Check if student has an active application (pending, under_review, interview_scheduled, approved)
+    active_application = InternshipApplication.objects.filter(
         student=student_profile,
-        position=position
+        position=position,
+        status__in=['pending', 'under_review', 'interview_scheduled', 'approved']
     ).first()
     
-    if existing_application:
-        messages.info(request, 'You have already applied for this position.')
+    if active_application:
+        messages.info(request, f'You have an active application for this position with status: {active_application.get_status_display()}.')
         return redirect('position_detail', position_nanoid=position_nanoid)
+    
+    # Check for previous applications to show appropriate messaging
+    previous_applications = InternshipApplication.objects.filter(
+        student=student_profile,
+        position=position,
+        status__in=['rejected', 'withdrawn']
+    ).order_by('-applied_at')
     
     if request.method == 'POST':
         cover_letter = request.POST.get('cover_letter', '').strip()
@@ -1963,9 +1971,16 @@ def apply_position(request, position_nanoid):
             messages.success(request, 'Your application has been submitted successfully!')
             return redirect('position_detail', position_nanoid=position_nanoid)
     
+    # Get all previous applications for this position
+    all_previous_applications = InternshipApplication.objects.filter(
+        student=student_profile,
+        position=position
+    ).order_by('-applied_at')
+    
     context = {
         'position': position,
         'student_profile': student_profile,
+        'previous_applications': all_previous_applications,
     }
     return render(request, 'app/apply_position.html', context)
 

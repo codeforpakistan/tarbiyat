@@ -601,9 +601,14 @@ class InternshipApplication(models.Model):
     reviewer_notes = models.TextField(null=True, blank=True)
     
     class Meta:
-        # Note: unique_together with nullable fields may allow multiple null combinations
-        # Consider using a custom constraint if needed
-        unique_together = ['student', 'position']
+        # Allow reapplication after rejection/withdrawal by only preventing duplicate active applications
+        constraints = [
+            models.UniqueConstraint(
+                fields=['student', 'position'],
+                condition=models.Q(status__in=['pending', 'under_review', 'interview_scheduled', 'approved']),
+                name='unique_active_application'
+            )
+        ]
     
     def __str__(self):
         student_name = self.student.user.get_full_name() if self.student else "No Student"
