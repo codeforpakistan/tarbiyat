@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Status Update</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #3b82f6;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background-color: #f9fafb;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+        }
+        .footer {
+            background-color: #374151;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #10b981;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .status-box {
+            background-color: {% if status == 'approved' %}#dcfce7{% elif status == 'rejected' %}#fef2f2{% else %}#fef3c7{% endif %};
+            border: 2px solid {% if status == 'approved' %}#10b981{% elif status == 'rejected' %}#ef4444{% else %}#f59e0b{% endif %};
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .status-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📝 Application Status Update</h1>
+    </div>
+    
+    <div class="content">
+        <h2>Hello {{ user_name }}!</h2>
+        
+        <p>We have an update regarding your internship application:</p>
+        
+        <div class="status-box">
+            <div class="status-icon">
+                {% if status == 'approved' %}✅{% elif status == 'rejected' %}❌{% elif status == 'interview_scheduled' %}📅{% else %}🔄{% endif %}
+            </div>
+            <h3>{{ position_title }}</h3>
+            <p><strong>{{ company_name }}</strong></p>
+            <p><strong>Status:</strong> {{ status_message }}</p>
+        </div>
+        
+        {% if status == 'approved' %}
+        <p>Congratulations! Your application has been approved. You will be contacted soon with next steps and onboarding information.</p>
+        {% elif status == 'rejected' %}
+        <p>While this particular opportunity didn't work out, we encourage you to keep applying to other positions. Each application is a learning experience!</p>
+        {% elif status == 'interview_scheduled' %}
+        <p>Great news! An interview has been scheduled for your application. Please check your dashboard for interview details and prepare accordingly.</p>
+        {% else %}
+        <p>Your application status has been updated. Please check your dashboard for more details.</p>
+        {% endif %}
+        
+        <div style="text-align: center;">
+            <a href="{{ applications_url }}" class="button">View Your Applications</a>
+        </div>
+        
+        <p>Best regards,<br>
+        The {{ platform_name }} Team</p>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 {{ platform_name }} - Government of Pakistan Internship Platform</p>
+    </div>
+</body>
+</html>

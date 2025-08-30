@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Scheduled</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #f59e0b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        .content {
+            background-color: #f9fafb;
+            padding: 30px;
+            border: 1px solid #e5e7eb;
+        }
+        .footer {
+            background-color: #374151;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 0 0 8px 8px;
+            font-size: 14px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        .interview-details {
+            background-color: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📅 Interview Scheduled</h1>
+    </div>
+    
+    <div class="content">
+        <h2>Hello {{ user_name }}!</h2>
+        
+        <p>Great news! An interview has been scheduled for your internship application:</p>
+        
+        <div class="interview-details">
+            <h3>📝 Interview Details</h3>
+            <p><strong>Position:</strong> {{ position_title }}</p>
+            <p><strong>Company:</strong> {{ company_name }}</p>
+            <p><strong>Date & Time:</strong> {{ interview_date }}</p>
+            <p><strong>Location:</strong> {{ interview_location }}</p>
+        </div>
+        
+        <h3>📋 Preparation Tips:</h3>
+        <ul>
+            <li><strong>Research the Company:</strong> Review the company's website and recent news</li>
+            <li><strong>Prepare Questions:</strong> Have thoughtful questions about the role and company culture</li>
+            <li><strong>Review Your Application:</strong> Be ready to discuss your skills and experiences</li>
+            <li><strong>Plan Your Route:</strong> If in-person, plan your journey to arrive on time</li>
+            <li><strong>Professional Attire:</strong> Dress appropriately for the interview</li>
+        </ul>
+        
+        <h3>📱 What to Bring:</h3>
+        <ul>
+            <li>Updated resume/CV</li>
+            <li>Portfolio (if applicable)</li>
+            <li>Valid ID</li>
+            <li>Notebook and pen</li>
+            <li>References list</li>
+        </ul>
+        
+        <div style="text-align: center;">
+            <a href="{{ interviews_url }}" class="button">View Interview Details</a>
+        </div>
+        
+        <p>We're rooting for you! Remember to be confident, authentic, and let your enthusiasm shine through.</p>
+        
+        <p>Best of luck!</p>
+        
+        <p>Best regards,<br>
+        The {{ platform_name }} Team</p>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 {{ platform_name }} - Government of Pakistan Internship Platform</p>
+    </div>
+</body>
+</html>
