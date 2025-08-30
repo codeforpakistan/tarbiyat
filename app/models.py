@@ -40,6 +40,7 @@ class Institute(models.Model):
     address = models.TextField(null=True, blank=True)
     website = models.URLField(null=True, blank=True)
     contact_email = models.EmailField(null=True, blank=True)
+    phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     # Email domain verification
     email_domain = models.CharField(max_length=100, null=True, blank=True, help_text="Official email domain (e.g., university.edu.pk)")
     domain_verified = models.BooleanField(default=False, help_text="Whether the email domain has been verified")
