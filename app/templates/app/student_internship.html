@@ -1,12 +1,10 @@
-{% extends "app/base.html" %}
+{% extends "app/page.html" %}
 {% load user_tags %}
 
 {% block title %}My Internship - Tarbiyat{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="lg:grid lg:grid-cols-4 lg:gap-8">
+<div class="lg:grid lg:grid-cols-4 lg:gap-8">
             
             {% include 'app/partials/student_sidebar.html' %}
             
@@ -215,6 +213,4 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
 {% endblock %}

@@ -36,13 +36,11 @@
                 My Activities
             </a>
             
-            {% if current_internship %}
             <a href="{% url 'student_internship' %}" 
-               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_internship' %}bg-blue-100 text-blue-700 font-medium{% else %}text-green-600 hover:text-green-800 hover:bg-green-50{% endif %}">
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_internship' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
                 <span class="mr-3">🚀</span>
                 My Internship
             </a>
-            {% endif %}
             
             <div class="border-t border-gray-200 pt-2 mt-2">
                 <a href="{% url 'edit_profile' %}" 
