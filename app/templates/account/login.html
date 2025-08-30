@@ -85,8 +85,12 @@
 
       <div>
         <label for="{{ form.password.id_for_label }}" class="block   text-gray-700">Password</label>
-        <div class="mt-1">
-          {{ form.password }} {% if form.password.errors %}
+        <div class="mt-1 relative">
+          {{ form.password }}
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 focus:outline-none" onclick="togglePassword('id_password', this)">
+            <span id="eye-id_password" aria-label="Show password">👁️</span>
+          </button>
+          {% if form.password.errors %}
           <p class="mt-2  text-red-600">{{ form.password.errors }}</p>
           {% endif %}
         </div>
@@ -123,4 +127,19 @@
     </div>
   </form>
 </div>
+<script>
+  function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const eye = btn.querySelector('span');
+    if (input.type === "password") {
+      input.type = "text";
+      eye.textContent = "🙈";
+      eye.setAttribute('aria-label', 'Hide password');
+    } else {
+      input.type = "password";
+      eye.textContent = "👁️";
+      eye.setAttribute('aria-label', 'Show password');
+    }
+  }
+</script>
 {% endblock %}

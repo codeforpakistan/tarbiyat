@@ -105,18 +105,26 @@
       </div>
 
       <div>
-        <label for="{{ form.password1.id_for_label }}" class="block  text-gray-700">Password</label>
-        <div class="mt-1">
-          {{ form.password1 }} {% if form.password1.errors %}
+        <label for="{{ form.password1.id_for_label }}" class="block text-gray-700">Password</label>
+        <div class="mt-1 relative">
+          {{ form.password1 }}
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 focus:outline-none" onclick="togglePassword('id_password1', this)">
+            <span id="eye-id_password1" aria-label="Show password">👁️</span>
+          </button>
+          {% if form.password1.errors %}
           <p class="mt-2 text-red-600">{{ form.password1.errors }}</p>
           {% endif %}
         </div>
       </div>
 
       <div>
-        <label for="{{ form.password2.id_for_label }}" class="block  text-gray-700">Confirm password</label>
-        <div class="mt-1">
-          {{ form.password2 }} {% if form.password2.errors %}
+        <label for="{{ form.password2.id_for_label }}" class="block text-gray-700">Confirm password</label>
+        <div class="mt-1 relative">
+          {{ form.password2 }}
+          <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 focus:outline-none" onclick="togglePassword('id_password2', this)">
+            <span id="eye-id_password2" aria-label="Show password">👁️</span>
+          </button>
+          {% if form.password2.errors %}
           <p class="mt-2 text-red-600">{{ form.password2.errors }}</p>
           {% endif %}
         </div>
@@ -140,5 +148,20 @@
     </div>
   </form>
 </div>
-
+<!-- Script for Password Show & Hide -->
+<script>
+  function togglePassword(fieldId, btn) {
+    const input = document.getElementById(fieldId);
+    const eye = btn.querySelector('span');
+    if (input.type === "password") {
+      input.type = "text";
+      eye.textContent = "🙈";
+      eye.setAttribute('aria-label', 'Hide password');
+    } else {
+      input.type = "password";
+      eye.textContent = "👁️";
+      eye.setAttribute('aria-label', 'Show password');
+    }
+  }
+</script>
 {% endblock %}
