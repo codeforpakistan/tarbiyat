@@ -262,6 +262,8 @@ class StudentProfile(models.Model):
     portfolio_url = models.URLField(null=True, blank=True)
     expected_graduation = models.DateField(null=True, blank=True)
     is_available_for_internship = models.BooleanField(default=True)
+    # Contact information
+    phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     
     def get_profile_completion(self):
         """Calculate profile completion percentage"""
@@ -285,6 +287,7 @@ class StudentProfile(models.Model):
             self.student_id,
             self.portfolio_url,
             self.resume,
+            self.phone,
         ]
         
         # Count filled required fields (weight: 80%)
@@ -342,6 +345,8 @@ class MentorProfile(models.Model):
     experience_years = models.IntegerField(null=True, blank=True)
     specialization = models.CharField(max_length=200, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    # Contact information
+    phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     # Administrative contact status
     is_admin_contact = models.BooleanField(default=False, help_text="Whether this mentor is an administrative contact for their company")
     can_register_organization = models.BooleanField(default=True, help_text="Whether this mentor can register a new company")
@@ -386,6 +391,8 @@ class TeacherProfile(models.Model):
     department = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=50, null=True, blank=True)  # Professor, Associate Professor, etc.
     employee_id = models.CharField(max_length=50, null=True, blank=True)
+    # Contact information
+    phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     # Administrative contact status
     is_admin_contact = models.BooleanField(default=False, help_text="Whether this teacher is an administrative contact for their institute")
     can_register_organization = models.BooleanField(default=True, help_text="Whether this teacher can register a new institute")
@@ -427,6 +434,8 @@ class OfficialProfile(models.Model):
     department = models.CharField(max_length=100, null=True, blank=True)
     position = models.CharField(max_length=100, null=True, blank=True)
     employee_id = models.CharField(max_length=50, null=True, blank=True)
+    # Contact information
+    phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     # Approval permissions
     can_approve_organizations = models.BooleanField(default=True, help_text="Whether this official can approve organization registrations")
     approval_authority_level = models.CharField(

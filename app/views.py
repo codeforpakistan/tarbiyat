@@ -1367,6 +1367,7 @@ def edit_student_profile_view(request):
         profile.portfolio_url = request.POST.get('portfolio_url', '')
         profile.expected_graduation = request.POST.get('expected_graduation')
         profile.is_available_for_internship = 'available' in request.POST
+        profile.phone = request.POST.get('phone', '')
         
         # Handle resume upload and deletion
         if 'delete_resume' in request.POST and profile.resume:
