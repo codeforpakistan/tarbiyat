@@ -3190,6 +3190,10 @@ def terms_of_service(request):
     """Terms of service page"""
     return render(request, 'app/terms_of_service.html')
 
+def anti_harassment_policy(request):
+    """Anti-sexual harassment policy page"""
+    return render(request, 'app/anti_harassment_policy.html')
+
 def dashboard_redirect(request):
     """Generic dashboard redirect"""
     if request.user.is_authenticated:

@@ -9,6 +9,7 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     path('privacy/', views.privacy_policy, name='privacy_policy'),
     path('terms/', views.terms_of_service, name='terms_of_service'),
+    path('harassment/', views.anti_harassment_policy, name='anti_harassment_policy'),
     path('dashboard/', views.dashboard_redirect, name='dashboard'),
     
     # Mentor URLs
