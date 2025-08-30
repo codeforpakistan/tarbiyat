@@ -521,6 +521,15 @@ def edit_institute(request):
         institute.email_domain = request.POST.get('email_domain', '').strip() or None
         institute.established_year = request.POST.get('established_year') or None
         
+        # Update demographic fields
+        institute.district = request.POST.get('district', '') or None
+        institute.male_students_count = int(request.POST.get('male_students_count', 0) or 0)
+        institute.female_students_count = int(request.POST.get('female_students_count', 0) or 0)
+        institute.degree_programs = request.POST.get('degree_programs') == 'on'
+        institute.postgraduate_programs = request.POST.get('postgraduate_programs') == 'on'
+        institute.management_programs = request.POST.get('management_programs') == 'on'
+        institute.primary_education_level = request.POST.get('primary_education_level', '') or None
+        
         # Validate email domain format if provided
         email_domain = institute.email_domain
         if email_domain:

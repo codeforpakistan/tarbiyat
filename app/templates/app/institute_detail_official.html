@@ -88,6 +88,9 @@
                             <div><span class="font-semibold">Established:</span> {{ institute.established_year|default:"Not specified" }}</div>
                             <div><span class="font-semibold">Contact Email:</span> {{ institute.contact_email }}</div>
                             <div><span class="font-semibold">Contact Phone:</span> {{ institute.contact_phone|default:"Not provided" }}</div>
+                            {% if institute.district %}
+                                <div><span class="font-semibold">District:</span> {{ institute.district }}</div>
+                            {% endif %}
                             {% if institute.address %}
                                 <div class="col-span-2"><span class="font-semibold">Address:</span> {{ institute.address }}</div>
                             {% endif %}
@@ -95,6 +98,82 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Demographics Information -->
+            {% if institute.district or institute.get_total_students > 0 or institute.get_offered_programs %}
+                <div class="rounded-lg p-6 bg-white">
+                    <h5 class="text-lg font-semibold text-gray-900 mb-4">Demographics & Programs</h5>
+                    
+                    <!-- Student Demographics -->
+                    {% if institute.get_total_students > 0 %}
+                        <div class="mb-4">
+                            <h6 class="text-md font-medium text-gray-800 mb-2">Student Demographics</h6>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="grid grid-cols-2 gap-4 text-center">
+                                    <div>
+                                        <div class="text-2xl font-bold text-blue-600">{{ institute.male_students_count }}</div>
+                                        <div class="text-sm text-gray-600">Male Students</div>
+                                    </div>
+                                    <div>
+                                        <div class="text-2xl font-bold text-pink-600">{{ institute.female_students_count }}</div>
+                                        <div class="text-sm text-gray-600">Female Students</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 pt-4 border-t border-gray-200">
+                                    <div class="text-center">
+                                        <div class="text-xl font-bold text-gray-800">{{ institute.get_total_students }}</div>
+                                        <div class="text-sm text-gray-600">Total Students</div>
+                                    </div>
+                                    
+                                    {% with ratio=institute.get_gender_ratio %}
+                                        <div class="mt-3 flex items-center space-x-2">
+                                            <div class="flex-1 bg-blue-200 rounded-full h-3">
+                                                <div class="bg-blue-600 h-3 rounded-full" style="width: {{ ratio.male }}%"></div>
+                                            </div>
+                                            <span class="text-xs text-gray-600 w-16">{{ ratio.male }}% M</span>
+                                            <span class="text-xs text-gray-600 w-16">{{ ratio.female }}% F</span>
+                                            <div class="flex-1 bg-pink-200 rounded-full h-3">
+                                                <div class="bg-pink-600 h-3 rounded-full" style="width: {{ ratio.female }}%"></div>
+                                            </div>
+                                        </div>
+                                    {% endwith %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Education Programs -->
+                    {% with programs=institute.get_offered_programs %}
+                        {% if programs %}
+                            <div class="mb-4">
+                                <h6 class="text-md font-medium text-gray-800 mb-2">Education Programs Offered</h6>
+                                <div class="flex flex-wrap gap-2">
+                                    {% for program in programs %}
+                                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+                                            {% if program == 'Degree' %}
+                                                🎓 Degree Programs
+                                            {% elif program == 'Post Graduate' %}
+                                                🎓 Post Graduate Programs
+                                            {% elif program == 'Management' %}
+                                                📊 Management Programs
+                                            {% endif %}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                                
+                                {% if institute.primary_education_level %}
+                                    <div class="mt-3 p-3 bg-blue-50 rounded-lg">
+                                        <span class="text-sm text-blue-700">
+                                            <strong>Primary Focus:</strong> {{ institute.primary_education_level }} level education
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            {% endif %}
             
             <!-- Full Description -->
             {% if institute.description %}

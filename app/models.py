@@ -60,6 +60,85 @@ class Institute(models.Model):
     registration_notes = models.TextField(null=True, blank=True, help_text="Notes from government official during review")
     created_at = models.DateTimeField(auto_now_add=True)
     
+    # Location and demographics
+    district = models.CharField(
+        max_length=100, 
+        null=True, 
+        blank=True,
+        choices=[
+            ('Abbottabad', 'Abbottabad'),
+            ('Bajaur', 'Bajaur'),
+            ('Bannu', 'Bannu'),
+            ('Battagram', 'Battagram'),
+            ('Bunner', 'Bunner'),
+            ('Charsadda', 'Charsadda'),
+            ('D.I.Khan', 'D.I.Khan'),
+            ('Dir Lower', 'Dir Lower'),
+            ('Dir Upper', 'Dir Upper'),
+            ('Hangu', 'Hangu'),
+            ('Haripur', 'Haripur'),
+            ('Karak', 'Karak'),
+            ('Khyber', 'Khyber'),
+            ('Kohat', 'Kohat'),
+            ('Kohistan', 'Kohistan'),
+            ('Kurram', 'Kurram'),
+            ('Lakki Marwat', 'Lakki Marwat'),
+            ('Lower Chitral', 'Lower Chitral'),
+            ('Malakand', 'Malakand'),
+            ('Mansehra', 'Mansehra'),
+            ('Mardan', 'Mardan'),
+            ('Mohmand', 'Mohmand'),
+            ('North Waziristan', 'North Waziristan'),
+            ('Nowshera', 'Nowshera'),
+            ('Orakzai', 'Orakzai'),
+            ('Peshawar', 'Peshawar'),
+            ('Shangla', 'Shangla'),
+            ('South Waziristan', 'South Waziristan'),
+            ('Swabi', 'Swabi'),
+            ('Swat', 'Swat'),
+            ('Tank', 'Tank'),
+            ('Upper Chitral', 'Upper Chitral'),
+        ],
+        help_text="District where the institute is located"
+    )
+    
+    # Gender ratio tracking
+    male_students_count = models.PositiveIntegerField(
+        default=0,
+        help_text="Number of male students enrolled"
+    )
+    female_students_count = models.PositiveIntegerField(
+        default=0,
+        help_text="Number of female students enrolled"
+    )
+    
+    # Education level offerings
+    degree_programs = models.BooleanField(
+        default=False,
+        help_text="Offers degree-level programs"
+    )
+    postgraduate_programs = models.BooleanField(
+        default=False,
+        help_text="Offers postgraduate programs"
+    )
+    management_programs = models.BooleanField(
+        default=False,
+        help_text="Offers management programs"
+    )
+    
+    # Additional demographic and program details
+    primary_education_level = models.CharField(
+        max_length=20,
+        choices=[
+            ('Degree', 'Degree'),
+            ('PostGraduate', 'Post Graduate'),
+            ('Management', 'Management'),
+        ],
+        null=True,
+        blank=True,
+        help_text="Primary level of education offered"
+    )
+    
     def is_email_from_institute(self, email):
         """Check if email belongs to this institute's domain"""
         if not self.email_domain or not email:
@@ -71,9 +150,43 @@ class Institute(models.Model):
         """Check if institute is approved for operations"""
         return self.registration_status == 'approved'
     
+    def get_total_students(self):
+        """Get total number of students"""
+        return self.male_students_count + self.female_students_count
+    
+    def get_gender_ratio(self):
+        """Get gender ratio as percentage"""
+        total = self.get_total_students()
+        if total == 0:
+            return {'male': 0, 'female': 0}
+        
+        male_percentage = (self.male_students_count / total) * 100
+        female_percentage = (self.female_students_count / total) * 100
+        
+        return {
+            'male': round(male_percentage, 1),
+            'female': round(female_percentage, 1)
+        }
+    
+    def get_offered_programs(self):
+        """Get list of offered education programs"""
+        programs = []
+        if self.degree_programs:
+            programs.append('Degree')
+        if self.postgraduate_programs:
+            programs.append('Post Graduate')
+        if self.management_programs:
+            programs.append('Management')
+        return programs
+    
+    def get_district_display_name(self):
+        """Get display name for district"""
+        return self.district if self.district else "Not specified"
+    
     def __str__(self):
         status_indicator = "✓" if self.is_approved() else "⚠"
-        return f"{status_indicator} {self.name or 'Unnamed Institute'}"
+        district_info = f" ({self.district})" if self.district else ""
+        return f"{status_indicator} {self.name or 'Unnamed Institute'}{district_info}"
 
 class Company(models.Model):
     """Company model for organizations offering internships"""

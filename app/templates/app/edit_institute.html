@@ -203,6 +203,155 @@
                 {% endif %}
             </div>
 
+            <!-- Demographics & Programs -->
+            <div class="border-b border-gray-200 pb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Demographics & Programs</h3>
+                
+                <!-- Location -->
+                <div class="mb-6">
+                    <label for="district" class="block text-gray-700 mb-2">
+                        District
+                    </label>
+                    <select id="district" 
+                            name="district" 
+                            class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Select District</option>
+                        <option value="Abbottabad" {% if institute.district == 'Abbottabad' %}selected{% endif %}>Abbottabad</option>
+                        <option value="Bajaur" {% if institute.district == 'Bajaur' %}selected{% endif %}>Bajaur</option>
+                        <option value="Bannu" {% if institute.district == 'Bannu' %}selected{% endif %}>Bannu</option>
+                        <option value="Battagram" {% if institute.district == 'Battagram' %}selected{% endif %}>Battagram</option>
+                        <option value="Bunner" {% if institute.district == 'Bunner' %}selected{% endif %}>Bunner</option>
+                        <option value="Charsadda" {% if institute.district == 'Charsadda' %}selected{% endif %}>Charsadda</option>
+                        <option value="D.I.Khan" {% if institute.district == 'D.I.Khan' %}selected{% endif %}>D.I.Khan</option>
+                        <option value="Dir Lower" {% if institute.district == 'Dir Lower' %}selected{% endif %}>Dir Lower</option>
+                        <option value="Dir Upper" {% if institute.district == 'Dir Upper' %}selected{% endif %}>Dir Upper</option>
+                        <option value="Hangu" {% if institute.district == 'Hangu' %}selected{% endif %}>Hangu</option>
+                        <option value="Haripur" {% if institute.district == 'Haripur' %}selected{% endif %}>Haripur</option>
+                        <option value="Karak" {% if institute.district == 'Karak' %}selected{% endif %}>Karak</option>
+                        <option value="Khyber" {% if institute.district == 'Khyber' %}selected{% endif %}>Khyber</option>
+                        <option value="Kohat" {% if institute.district == 'Kohat' %}selected{% endif %}>Kohat</option>
+                        <option value="Kohistan" {% if institute.district == 'Kohistan' %}selected{% endif %}>Kohistan</option>
+                        <option value="Kurram" {% if institute.district == 'Kurram' %}selected{% endif %}>Kurram</option>
+                        <option value="Lakki Marwat" {% if institute.district == 'Lakki Marwat' %}selected{% endif %}>Lakki Marwat</option>
+                        <option value="Lower Chitral" {% if institute.district == 'Lower Chitral' %}selected{% endif %}>Lower Chitral</option>
+                        <option value="Malakand" {% if institute.district == 'Malakand' %}selected{% endif %}>Malakand</option>
+                        <option value="Mansehra" {% if institute.district == 'Mansehra' %}selected{% endif %}>Mansehra</option>
+                        <option value="Mardan" {% if institute.district == 'Mardan' %}selected{% endif %}>Mardan</option>
+                        <option value="Mohmand" {% if institute.district == 'Mohmand' %}selected{% endif %}>Mohmand</option>
+                        <option value="North Waziristan" {% if institute.district == 'North Waziristan' %}selected{% endif %}>North Waziristan</option>
+                        <option value="Nowshera" {% if institute.district == 'Nowshera' %}selected{% endif %}>Nowshera</option>
+                        <option value="Orakzai" {% if institute.district == 'Orakzai' %}selected{% endif %}>Orakzai</option>
+                        <option value="Peshawar" {% if institute.district == 'Peshawar' %}selected{% endif %}>Peshawar</option>
+                        <option value="Shangla" {% if institute.district == 'Shangla' %}selected{% endif %}>Shangla</option>
+                        <option value="South Waziristan" {% if institute.district == 'South Waziristan' %}selected{% endif %}>South Waziristan</option>
+                        <option value="Swabi" {% if institute.district == 'Swabi' %}selected{% endif %}>Swabi</option>
+                        <option value="Swat" {% if institute.district == 'Swat' %}selected{% endif %}>Swat</option>
+                        <option value="Tank" {% if institute.district == 'Tank' %}selected{% endif %}>Tank</option>
+                        <option value="Upper Chitral" {% if institute.district == 'Upper Chitral' %}selected{% endif %}>Upper Chitral</option>
+                    </select>
+                </div>
+
+                <!-- Student Demographics -->
+                <div class="mb-6">
+                    <h4 class="text-md font-medium text-gray-800 mb-3">Student Demographics</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <label for="male_students_count" class="block text-gray-700 mb-2">
+                                Male Students Count
+                            </label>
+                            <input type="number" 
+                                   id="male_students_count" 
+                                   name="male_students_count" 
+                                   value="{{ institute.male_students_count|default:'0' }}"
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label for="female_students_count" class="block text-gray-700 mb-2">
+                                Female Students Count
+                            </label>
+                            <input type="number" 
+                                   id="female_students_count" 
+                                   name="female_students_count" 
+                                   value="{{ institute.female_students_count|default:'0' }}"
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <!-- Gender Ratio Display -->
+                    <div class="mt-4 p-4 bg-gray-50 rounded-md">
+                        <p class="text-sm text-gray-600">
+                            <strong>Total Students:</strong> <span id="total-students">{{ institute.get_total_students }}</span> |
+                            <strong>Gender Ratio:</strong> 
+                            <span id="gender-ratio">
+                                {% with ratio=institute.get_gender_ratio %}
+                                    Male: {{ ratio.male }}% | Female: {{ ratio.female }}%
+                                {% endwith %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Education Programs Offered -->
+                <div class="mb-6">
+                    <h4 class="text-md font-medium text-gray-800 mb-3">Education Programs Offered</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="degree_programs" 
+                                   name="degree_programs" 
+                                   {% if institute.degree_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="degree_programs" class="ml-2 text-gray-700">
+                                Degree Programs (Bachelor's level)
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="postgraduate_programs" 
+                                   name="postgraduate_programs" 
+                                   {% if institute.postgraduate_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="postgraduate_programs" class="ml-2 text-gray-700">
+                                Post Graduate Programs (Master's, PhD)
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="management_programs" 
+                                   name="management_programs" 
+                                   {% if institute.management_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="management_programs" class="ml-2 text-gray-700">
+                                Management Programs (MBA, Executive programs)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Education Level -->
+                <div>
+                    <label for="primary_education_level" class="block text-gray-700 mb-2">
+                        Primary Education Level
+                    </label>
+                    <select id="primary_education_level" 
+                            name="primary_education_level" 
+                            class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Select Primary Level</option>
+                        <option value="Degree" {% if institute.primary_education_level == 'Degree' %}selected{% endif %}>Degree</option>
+                        <option value="PostGraduate" {% if institute.primary_education_level == 'PostGraduate' %}selected{% endif %}>Post Graduate</option>
+                        <option value="Management" {% if institute.primary_education_level == 'Management' %}selected{% endif %}>Management</option>
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Select the primary level of education your institute focuses on.
+                    </p>
+                </div>
+            </div>
+
             <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
                 <a href="{% url 'teacher_dashboard' %}" 
@@ -217,4 +366,37 @@
             </div>
         </form>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-calculate gender ratio and total students
+    function updateStudentStats() {
+        const maleCount = parseInt(document.getElementById('male_students_count').value) || 0;
+        const femaleCount = parseInt(document.getElementById('female_students_count').value) || 0;
+        const total = maleCount + femaleCount;
+        
+        document.getElementById('total-students').textContent = total;
+        
+        if (total > 0) {
+            const malePercentage = ((maleCount / total) * 100).toFixed(1);
+            const femalePercentage = ((femaleCount / total) * 100).toFixed(1);
+            document.getElementById('gender-ratio').textContent = `Male: ${malePercentage}% | Female: ${femalePercentage}%`;
+        } else {
+            document.getElementById('gender-ratio').textContent = 'Male: 0% | Female: 0%';
+        }
+    }
+    
+    // Add event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const maleInput = document.getElementById('male_students_count');
+        const femaleInput = document.getElementById('female_students_count');
+        
+        maleInput.addEventListener('input', updateStudentStats);
+        femaleInput.addEventListener('input', updateStudentStats);
+        
+        // Initial calculation
+        updateStudentStats();
+    });
+</script>
 {% endblock %}
