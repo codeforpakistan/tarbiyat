@@ -388,7 +388,7 @@ class Command(BaseCommand):
                     user=user,
                     institute=random.choice(institutes),
                     student_id=f'STU{2024000 + i + 1}',
-                    year_of_study=random.choice(['3', '4']),
+                    semester_of_study=random.choice(['4', '5', '6', '7', '8']),
                     major=major,
                     gpa=round(random.uniform(2.5, 4.0), 2),
                     skills=f'Python, JavaScript, Problem Solving, Communication, {major}-related skills',

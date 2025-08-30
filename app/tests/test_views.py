@@ -201,7 +201,7 @@ class ProfileCompletionMiddlewareTest(ViewTestCase):
             user=self.student_user,
             institute=institute,
             student_id='STU001',
-            year_of_study='3',
+            semester_of_study='4',
             major='Computer Science'
         )
         

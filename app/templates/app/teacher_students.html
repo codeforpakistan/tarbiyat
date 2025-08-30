@@ -119,7 +119,7 @@
                             {{ student.major|default:"Not specified" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                            {{ student.get_year_of_study_display|default:"Not specified" }}
+                            {{ student.get_semester_of_study_display|default:"Not specified" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             {% if student.internship %}

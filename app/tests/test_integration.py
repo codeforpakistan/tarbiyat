@@ -34,7 +34,7 @@ class IntegrationTest(TestCase):
             user=self.student_user,
             institute=self.institute,
             student_id='STU001',
-            year_of_study='3',
+            semester_of_study='4',
             major='Computer Science',
             gpa=Decimal('3.5'),
             skills='Python, Django',
@@ -260,7 +260,7 @@ class IntegrationTest(TestCase):
             user=student2,
             institute=self.institute,
             student_id='STU002',
-            year_of_study='2',
+            semester_of_study='5',
             major='Computer Science',
             gpa=Decimal('3.8'),
             expected_graduation=date.today() + timedelta(days=730)

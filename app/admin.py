@@ -86,8 +86,8 @@ class CompanyAdmin(admin.ModelAdmin):
 
 @admin.register(StudentProfile)
 class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'student_id', 'institute', 'year_of_study', 'major', 'gpa', 'availability_status')
-    list_filter = ('institute', 'year_of_study', 'is_available_for_internship', 'major')
+    list_display = ('user', 'student_id', 'institute', 'semester_of_study', 'major', 'gpa', 'availability_status')
+    list_filter = ('institute', 'semester_of_study', 'is_available_for_internship', 'major')
     search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 'student_id', 'major')
     actions = ['mark_available', 'mark_unavailable', 'send_welcome_notification']
     

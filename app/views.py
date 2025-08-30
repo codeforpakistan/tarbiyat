@@ -262,10 +262,10 @@ def teacher_students(request):
             Q(major__icontains=search_query)
         )
     
-    # Filter by year of study
+    # Filter by semester of study
     year_filter = request.GET.get('year')
     if year_filter:
-        students = students.filter(year_of_study=year_filter)
+        students = students.filter(semester_of_study=year_filter)
     
     # Filter by internship status
     internship_filter = request.GET.get('internship_status')
@@ -1263,7 +1263,7 @@ def create_student_profile_view(request):
                 user=request.user,
                 # Set defaults for optional fields
                 student_id='',
-                year_of_study='',
+                semester_of_study='',
                 major='',
                 skills=''
             )
@@ -1360,7 +1360,7 @@ def edit_student_profile_view(request):
         
         # Update profile fields
         profile.institute_id = new_institute_id
-        profile.year_of_study = request.POST.get('year_of_study')
+        profile.semester_of_study = request.POST.get('semester_of_study')
         profile.major = request.POST.get('major')
         profile.gpa = float(request.POST.get('gpa', 0))
         profile.skills = request.POST.get('skills')
@@ -1569,7 +1569,7 @@ def edit_student_profile(request):
         
         # Update profile fields
         profile.institute_id = new_institute_id
-        profile.year_of_study = request.POST.get('year_of_study')
+        profile.semester_of_study = request.POST.get('semester_of_study')
         profile.major = request.POST.get('major')
         profile.gpa = float(request.POST.get('gpa', 0))
         profile.skills = request.POST.get('skills')
@@ -1920,6 +1920,11 @@ def apply_position(request, position_nanoid):
     except StudentProfile.DoesNotExist:
         messages.error(request, 'You must complete your student profile before applying.')
         return redirect('create_profile')
+    
+    # Check HEC eligibility: Only 4th-8th semester students can apply for internships
+    if not student_profile.semester_of_study or student_profile.semester_of_study not in ['4', '5', '6', '7', '8']:
+        messages.error(request, 'Only students from 4th to 8th semester are eligible for internships as per HEC policy.')
+        return redirect('position_detail', position_nanoid=position_nanoid)
     
     # Check if student has already applied
     existing_application = InternshipApplication.objects.filter(

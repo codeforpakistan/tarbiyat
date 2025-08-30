@@ -239,16 +239,19 @@ class Company(models.Model):
 
 class StudentProfile(models.Model):
     """Student profile with academic information"""
-    YEAR_CHOICES = (
-        ('3', 'Third Year'),
-        ('4', 'Fourth Year'),
+    SEMESTER_CHOICES = (
+        ('4', '4th Semester'),
+        ('5', '5th Semester'),
+        ('6', '6th Semester'),
+        ('7', '7th Semester'),
+        ('8', '8th Semester'),
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
     institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     student_id = models.CharField(max_length=50, null=True, blank=True)
-    year_of_study = models.CharField(max_length=1, choices=YEAR_CHOICES, null=True, blank=True)
+    semester_of_study = models.CharField(max_length=1, choices=SEMESTER_CHOICES, null=True, blank=True)
     major = models.CharField(max_length=100, null=True, blank=True)
     gpa = models.DecimalField(max_digits=3, decimal_places=2, validators=[MinValueValidator(0), MaxValueValidator(4)], null=True, blank=True)
     skills = models.TextField(help_text="List your technical and soft skills", null=True, blank=True)
@@ -275,7 +278,7 @@ class StudentProfile(models.Model):
             self.user.email,
             # Profile fields
             self.institute,
-            self.year_of_study,
+            self.semester_of_study,
             self.major,
             self.gpa,
             self.skills,

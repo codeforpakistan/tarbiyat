@@ -104,13 +104,17 @@
                         </div>
                     </div>
                     <div>
-                        <label for="year_of_study" class="block text-sm font-medium text-gray-700 mb-2">Year of Study</label>
-                        <select id="year_of_study" 
-                                name="year_of_study" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"> 
+                        <label for="semester_of_study" class="block text-sm font-medium text-gray-700 mb-2">Semester of Study</label>
+                        <select id="semester_of_study" 
+                                name="semester_of_study" 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
                                 required>
-                            <option value="3" {% if profile.year_of_study == '3' %}selected{% endif %}>Third Year</option>
-                            <option value="4" {% if profile.year_of_study == '4' %}selected{% endif %}>Fourth Year</option>
+                            <option value="">Select Semester</option>
+                            <option value="4" {% if profile.semester_of_study == '4' %}selected{% endif %}>4th Semester</option>
+                            <option value="5" {% if profile.semester_of_study == '5' %}selected{% endif %}>5th Semester</option>
+                            <option value="6" {% if profile.semester_of_study == '6' %}selected{% endif %}>6th Semester</option>
+                            <option value="7" {% if profile.semester_of_study == '7' %}selected{% endif %}>7th Semester</option>
+                            <option value="8" {% if profile.semester_of_study == '8' %}selected{% endif %}>8th Semester</option>
                         </select>
                     </div>
                     <div>
