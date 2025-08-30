@@ -1,271 +1,699 @@
-# DigitalOcean App Platform Deployment Guide
+# 🚀 Tarbiyat Platform Deployment Guide
 
-This guide will help you deploy the Tarbiyat application to DigitalOcean App Platform.
+## Table of Contents
+1. [System Requirements](#system-requirements)
+2. [Infrastructure Specifications](#infrastructure-specifications)
+3. [Database Configuration](#database-configuration)
+4. [Environment Setup](#environment-setup)
+5. [Deployment Options](#deployment-options)
+6. [Security Configuration](#security-configuration)
+7. [Monitoring & Maintenance](#monitoring--maintenance)
+8. [Backup & Recovery](#backup--recovery)
+9. [Troubleshooting](#troubleshooting)
 
-## Prerequisites
+---
 
-1. **DigitalOcean Account**: Sign up at [DigitalOcean](https://www.digitalocean.com/)
-2. **GitHub Repository**: Your code should be pushed to GitHub
-3. **Domain (Optional)**: Custom domain for your application
+## System Requirements
 
-## Deployment Methods
+### Minimum Hardware Specifications
 
-### Method 1: Using DigitalOcean Control Panel (Recommended)
+| Component | Development | Production (Small) | Production (Medium) | Production (Large) |
+|-----------|------------|-------------------|--------------------|--------------------|
+| **CPU** | 2 vCPUs | 2 vCPUs | 4 vCPUs | 8+ vCPUs |
+| **RAM** | 2 GB | 4 GB | 8 GB | 16+ GB |
+| **Storage** | 20 GB SSD | 50 GB SSD | 100 GB SSD | 200+ GB SSD |
+| **Network** | Basic | 1 Gbps | 1 Gbps | 10+ Gbps |
+| **Users** | 1-10 | 50-200 | 500-2000 | 5000+ |
 
-#### Step 1: Create New App
+### Software Requirements
 
-1. Log into your DigitalOcean dashboard
-2. Click **"Apps"** in the left sidebar
-3. Click **"Create App"**
-4. Choose **"GitHub"** as your source
-5. Authorize DigitalOcean to access your GitHub account
-6. Select the **`codeforpakistan/tarbiyat`** repository
-7. Choose the **`master`** branch
-8. Click **"Next"**
+- **Operating System:** Ubuntu 22.04 LTS (recommended) or CentOS 8+
+- **Python:** 3.12+ (as specified in `runtime.txt`)
+- **Web Server:** Nginx 1.18+
+- **Process Manager:** Gunicorn or uWSGI
+- **Database:** SQLite (development) / PostgreSQL 14+ (production)
+- **Reverse Proxy:** Nginx
+- **SSL/TLS:** Let's Encrypt or commercial certificate
+- **Process Supervisor:** systemd or supervisor
 
-#### Step 2: Configure Resources
+---
 
-1. **Web Service Configuration**:
-   - Name: `tarbiyat-web`
-   - Environment Variables (set these in the Environment tab):
-     ```
-     SECRET_KEY=your-super-secret-key-here-make-it-long-and-random
-     DEBUG=False
-     ALLOWED_HOSTS=.ondigitalocean.app,.your-domain.com
-     ```
-   - Build Command: (leave empty, uses requirements.txt automatically)
-   - Run Command: `gunicorn --worker-tmp-dir /dev/shm project.wsgi`
-   - Instance Size: Basic ($5/month) or higher
+## Infrastructure Specifications
 
-2. **Database**: SQLite is used by default (no separate database service needed)
+### Cloud Provider Recommendations
 
-#### Step 3: Environment Variables
+#### AWS EC2 Instances
+| Size | Instance Type | vCPUs | Memory | Storage | Use Case |
+|------|---------------|-------|---------|---------|----------|
+| Small | t3.small | 2 | 2 GB | 20 GB GP3 | Development/Testing |
+| Medium | t3.medium | 2 | 4 GB | 50 GB GP3 | Small Production |
+| Large | t3.large | 2 | 8 GB | 100 GB GP3 | Medium Production |
+| XLarge | t3.xlarge | 4 | 16 GB | 200 GB GP3 | Large Production |
 
-Add these environment variables in the App Platform dashboard:
+#### Digital Ocean Droplets
+| Size | Droplet Type | vCPUs | Memory | Storage | Use Case |
+|------|--------------|-------|---------|---------|----------|
+| Small | Regular $12/mo | 1 | 2 GB | 50 GB SSD | Development |
+| Medium | Regular $24/mo | 2 | 4 GB | 80 GB SSD | Small Production |
+| Large | Regular $48/mo | 4 | 8 GB | 160 GB SSD | Medium Production |
+| XLarge | Regular $96/mo | 8 | 16 GB | 320 GB SSD | Large Production |
 
-| Key | Value | Type |
-|-----|-------|------|
-| `SECRET_KEY` | Generate a secure key | Secret |
-| `DEBUG` | `False` | Plain Text |
-| `ALLOWED_HOSTS` | `.ondigitalocean.app` | Plain Text |
+#### Google Cloud Compute Engine
+| Size | Machine Type | vCPUs | Memory | Storage | Use Case |
+|------|--------------|-------|---------|---------|----------|
+| Small | e2-small | 2 | 2 GB | 20 GB SSD | Development |
+| Medium | e2-medium | 2 | 4 GB | 50 GB SSD | Small Production |
+| Large | e2-standard-4 | 4 | 16 GB | 100 GB SSD | Medium Production |
+| XLarge | e2-standard-8 | 8 | 32 GB | 200 GB SSD | Large Production |
 
-#### Step 4: Deploy
+### Network Configuration
 
-1. Review your configuration
-2. Click **"Create Resources"**
-3. Wait for the initial deployment (5-10 minutes)
-
-### Method 2: Using App Spec (app.yaml)
-
-1. Fork/clone the repository
-2. The `app.yaml` file is already configured
-3. Update environment variables in the file
-4. Deploy using the DigitalOcean CLI or import the spec
-
-## Post-Deployment Configuration
-
-### Step 1: Run Database Migrations
-
-Access your app's console:
-
-1. Go to your app in the DigitalOcean dashboard
-2. Click on **"Console"** tab
-3. Select your web service
-4. Run the following commands:
-
+#### Firewall Rules
 ```bash
-# Run migrations
-python manage.py migrate
+# HTTP/HTTPS Traffic
+Port 80 (HTTP) - Open to 0.0.0.0/0
+Port 443 (HTTPS) - Open to 0.0.0.0/0
 
-# Create user groups
-python manage.py setup_groups
+# SSH Access (restrict to admin IPs)
+Port 22 (SSH) - Open to admin IP ranges only
 
-# Create a superuser
-python manage.py createsuperuser
+# Database (if separate server)
+Port 5432 (PostgreSQL) - Open to application server only
 
-# Optional: Load sample data
-python manage.py seed
+# Application Server (internal)
+Port 8000 (Gunicorn) - Open to reverse proxy only
 ```
 
-### Step 2: Configure Django Admin
+#### Domain Configuration
+- **Primary Domain:** `tarbiyat.pk`
+- **Subdomain Options:** 
+  - `www.tarbiyat.pk` (redirect to primary)
+  - `api.tarbiyat.pk` (if API is separated)
+  - `admin.tarbiyat.pk` (admin interface)
 
-1. Navigate to `https://your-app-url.ondigitalocean.app/admin/`
-2. Login with your superuser credentials
-3. Add a **Site** object:
-   - Domain: `your-app-url.ondigitalocean.app`
-   - Display name: `Tarbiyat`
-
-### Step 3: Test the Application
-
-1. Visit your application URL
-2. Test user registration and login
-3. Create test profiles for different user types
-4. Verify all functionality works correctly
-
-## Environment Variables Reference
-
-### Required Variables
-
-```bash
-# Security (REQUIRED)
-SECRET_KEY=your-secret-key-minimum-50-characters-long
-
-# Environment (REQUIRED)
-DEBUG=False
-ALLOWED_HOSTS=.ondigitalocean.app,your-custom-domain.com
-
-# Database: SQLite is used by default (no configuration needed)
-```
-
-### Optional Variables
-
-```bash
-# Email Configuration (for password reset, notifications)
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USE_TLS=True
-EMAIL_HOST_USER=your-email@gmail.com
-EMAIL_HOST_PASSWORD=your-app-password
-
-# Security Headers (automatically set for production)
-SECURE_SSL_REDIRECT=True
-SESSION_COOKIE_SECURE=True
-CSRF_COOKIE_SECURE=True
-```
+---
 
 ## Database Configuration
 
-### SQLite (Default)
-The application uses SQLite by default, which is suitable for:
-- Small to medium-sized deployments
-- Development and testing
-- Quick deployment without database setup
-- Cost-effective hosting
-
-### When to Consider PostgreSQL
-Consider upgrading to PostgreSQL if you need:
-- High concurrent users (500+ simultaneous)
-- Advanced database features
-- Better performance for complex queries
-- Database replication and backup features
-
-To switch to PostgreSQL:
-1. Add a PostgreSQL database in DigitalOcean App Platform
-2. Update your environment variables with `DATABASE_URL`
-3. Install `psycopg2-binary` and `dj-database-url` in requirements.txt
-
-### Add Custom Domain
-
-1. In your DigitalOcean App dashboard
-2. Go to **"Settings"** → **"Domains"**
-3. Click **"Add Domain"**
-4. Enter your domain name
-5. Update your DNS records as instructed
-
-### Update Environment Variables
-
-Add your custom domain to `ALLOWED_HOSTS`:
-```
-ALLOWED_HOSTS=.ondigitalocean.app,yourdomain.com,www.yourdomain.com
+### Development Database (SQLite)
+```python
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 ```
 
-## Scaling and Performance
+### Production Database (PostgreSQL)
 
-### Vertical Scaling
-- Upgrade your dyno size for more CPU/memory
-- Basic ($5) → Professional ($12) → Professional XL ($25)
+#### PostgreSQL Installation
+```bash
+# Ubuntu/Debian
+sudo apt update
+sudo apt install postgresql postgresql-contrib
 
-### Horizontal Scaling
-- Increase instance count in the app settings
-- Add load balancer for high traffic
+# Create database and user
+sudo -u postgres psql
+CREATE DATABASE tarbiyat_db;
+CREATE USER tarbiyat_user WITH PASSWORD 'secure_password_here';
+GRANT ALL PRIVILEGES ON DATABASE tarbiyat_db TO tarbiyat_user;
+ALTER USER tarbiyat_user CREATEDB;
+\q
+```
 
-### Database Scaling
-- Dev Database ($7) → Basic ($15) → Production plans
-- Enable connection pooling for better performance
+#### Django Configuration
+```python
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_NAME', default='tarbiyat_db'),
+        'USER': config('DB_USER', default='tarbiyat_user'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
+        'OPTIONS': {
+            'sslmode': config('DB_SSLMODE', default='prefer'),
+        },
+    }
+}
+```
 
-## Monitoring and Logs
+#### Database Optimization
+```sql
+-- PostgreSQL performance tuning
+ALTER SYSTEM SET shared_buffers = '256MB';
+ALTER SYSTEM SET effective_cache_size = '2GB';
+ALTER SYSTEM SET maintenance_work_mem = '64MB';
+ALTER SYSTEM SET checkpoint_completion_target = 0.9;
+ALTER SYSTEM SET wal_buffers = '16MB';
+ALTER SYSTEM SET default_statistics_target = 100;
+SELECT pg_reload_conf();
+```
 
-### View Application Logs
-1. Go to your app dashboard
-2. Click **"Runtime Logs"**
-3. Monitor for errors and performance issues
+---
 
-### Set Up Alerts
-1. Configure alerts for high CPU, memory usage
-2. Set up uptime monitoring
-3. Monitor database performance
+## Environment Setup
+
+### System Dependencies
+```bash
+# Ubuntu 22.04 LTS
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y python3.12 python3.12-venv python3-pip nginx postgresql postgresql-contrib
+sudo apt install -y git curl wget unzip supervisor redis-server
+sudo apt install -y build-essential libpq-dev python3.12-dev
+```
+
+### Application Deployment
+
+#### 1. Create Application User
+```bash
+sudo adduser --system --group tarbiyat
+sudo mkdir -p /var/www/tarbiyat
+sudo chown tarbiyat:tarbiyat /var/www/tarbiyat
+```
+
+#### 2. Clone Repository
+```bash
+sudo -u tarbiyat git clone https://github.com/codeforpakistan/tarbiyat.git /var/www/tarbiyat
+cd /var/www/tarbiyat
+```
+
+#### 3. Create Virtual Environment
+```bash
+sudo -u tarbiyat python3.12 -m venv venv
+sudo -u tarbiyat ./venv/bin/pip install --upgrade pip
+sudo -u tarbiyat ./venv/bin/pip install -r requirements.txt
+sudo -u tarbiyat ./venv/bin/pip install gunicorn psycopg2-binary
+```
+
+#### 4. Environment Configuration
+```bash
+# Create production environment file
+sudo -u tarbiyat cp .env.example .env
+sudo -u tarbiyat nano .env
+```
+
+### Production Environment Variables
+```bash
+# .env file for production
+# Django Settings
+SECRET_KEY=your-very-long-and-secure-secret-key-here
+DEBUG=False
+ALLOWED_HOSTS=tarbiyat.pk,www.tarbiyat.pk,your-server-ip
+
+# Database Settings (PostgreSQL)
+DB_NAME=tarbiyat_db
+DB_USER=tarbiyat_user
+DB_PASSWORD=your-secure-database-password
+DB_HOST=localhost
+DB_PORT=5432
+DB_SSLMODE=prefer
+
+# Email Settings (SendGrid)
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.sendgrid.net
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=apikey
+EMAIL_HOST_PASSWORD=your-sendgrid-api-key
+DEFAULT_FROM_EMAIL=noreply@tarbiyat.pk
+SENDGRID_API_KEY=your-sendgrid-api-key
+
+# Site Settings
+SITE_ID=1
+
+# Security Settings (Production)
+SECURE_HSTS_SECONDS=31536000
+SECURE_SSL_REDIRECT=True
+SESSION_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE=True
+
+# Google OAuth2 Settings
+GOOGLE_OAUTH2_CLIENT_ID=your-google-client-id
+GOOGLE_OAUTH2_CLIENT_SECRET=your-google-client-secret
+```
+
+#### 5. Database Migration
+```bash
+---
+
+## Deployment Options
+
+### Option 1: Traditional VM Deployment
+
+#### Gunicorn Configuration
+```bash
+# /var/www/tarbiyat/gunicorn.conf.py
+bind = "127.0.0.1:8000"
+workers = 4
+worker_class = "sync"
+worker_connections = 1000
+max_requests = 1000
+max_requests_jitter = 100
+timeout = 30
+keepalive = 2
+preload_app = True
+```
+
+#### Systemd Service
+```ini
+# /etc/systemd/system/tarbiyat.service
+[Unit]
+Description=Tarbiyat Django Application
+After=network.target
+
+[Service]
+Type=notify
+User=tarbiyat
+Group=tarbiyat
+WorkingDirectory=/var/www/tarbiyat
+Environment=DJANGO_SETTINGS_MODULE=project.settings
+ExecStart=/var/www/tarbiyat/venv/bin/gunicorn project.wsgi:application -c gunicorn.conf.py
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Nginx Configuration
+```nginx
+# /etc/nginx/sites-available/tarbiyat
+server {
+    listen 80;
+    server_name tarbiyat.pk www.tarbiyat.pk;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name tarbiyat.pk www.tarbiyat.pk;
+
+    ssl_certificate /etc/letsencrypt/live/tarbiyat.pk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tarbiyat.pk/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:10m;
+
+    client_max_body_size 100M;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    
+    location /static/ {
+        alias /var/www/tarbiyat/staticfiles/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /media/ {
+        alias /var/www/tarbiyat/media/;
+        expires 1y;
+        add_header Cache-Control "public";
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_redirect off;
+    }
+
+    # Security headers
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+}
+```
+
+#### Enable Services
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable tarbiyat
+sudo systemctl start tarbiyat
+sudo systemctl enable nginx
+sudo systemctl restart nginx
+
+# Enable site
+sudo ln -s /etc/nginx/sites-available/tarbiyat /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+### Option 2: Docker Deployment
+
+#### Dockerfile
+```dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Create non-root user
+RUN adduser --disabled-password --gecos '' appuser
+RUN chown -R appuser:appuser /app
+USER appuser
+
+# Expose port
+EXPOSE 8000
+
+# Start application
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "project.wsgi:application"]
+```
+
+#### Docker Compose
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: tarbiyat_db
+      POSTGRES_USER: tarbiyat_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - DB_HOST=db
+    depends_on:
+      - db
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/var/www/static
+      - media_volume:/var/www/media
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+```
+
+### Option 3: DigitalOcean App Platform
+
+#### Quick Setup
+1. Fork the repository to your GitHub
+2. Create new app in DigitalOcean App Platform
+3. Connect your GitHub repository
+4. Configure environment variables:
+```bash
+SECRET_KEY=your-secret-key
+DEBUG=False
+ALLOWED_HOSTS=.ondigitalocean.app
+```
+5. Deploy and run migrations via console
+
+#### Cost: $5-12/month for basic setup
+
+### Option 4: Heroku Deployment
+```bash
+# Install Heroku CLI
+curl https://cli-assets.heroku.com/install.sh | sh
+
+# Login and create app
+heroku login
+heroku create tarbiyat-platform
+
+# Configure environment variables
+heroku config:set SECRET_KEY=your-secret-key
+heroku config:set DEBUG=False
+
+# Add PostgreSQL addon
+heroku addons:create heroku-postgresql:hobby-dev
+
+# Deploy
+git push heroku main
+heroku run python manage.py migrate
+heroku run python manage.py setup_groups
+```
+
+---
+
+## Security Configuration
+
+### SSL/TLS Setup with Let's Encrypt
+```bash
+# Install Certbot
+sudo apt install certbot python3-certbot-nginx
+
+# Obtain SSL certificate
+sudo certbot --nginx -d tarbiyat.pk -d www.tarbiyat.pk
+
+# Auto-renewal setup
+sudo crontab -e
+# Add line: 0 12 * * * /usr/bin/certbot renew --quiet
+```
+
+### Firewall Configuration
+```bash
+# UFW (Ubuntu Firewall)
+sudo ufw enable
+sudo ufw allow 22/tcp      # SSH
+sudo ufw allow 80/tcp      # HTTP
+sudo ufw allow 443/tcp     # HTTPS
+sudo ufw deny 8000/tcp     # Block direct access to Django
+```
+
+### Security Hardening
+```bash
+# Disable root login
+sudo sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo systemctl restart ssh
+
+# Install fail2ban
+sudo apt install fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+---
+
+## Monitoring & Maintenance
+
+### Health Monitoring Script
+```bash
+#!/bin/bash
+# /usr/local/bin/health-check.sh
+
+# Check if Tarbiyat service is running
+if ! systemctl is-active --quiet tarbiyat; then
+    echo "Tarbiyat service is down, restarting..."
+    systemctl restart tarbiyat
+fi
+
+# Check disk usage
+DISK_USAGE=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+if [ $DISK_USAGE -gt 80 ]; then
+    echo "Warning: Disk usage is $DISK_USAGE%"
+fi
+```
+
+### Log Management
+```bash
+# Application logs
+sudo mkdir -p /var/log/tarbiyat
+sudo chown tarbiyat:tarbiyat /var/log/tarbiyat
+
+# Logrotate configuration
+# /etc/logrotate.d/tarbiyat
+/var/log/tarbiyat/*.log {
+    daily
+    rotate 30
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0644 tarbiyat tarbiyat
+}
+```
+
+---
+
+## Backup & Recovery
+
+### Database Backup Script
+```bash
+#!/bin/bash
+# /usr/local/bin/backup-database.sh
+
+DATE=$(date +%Y%m%d_%H%M%S)
+BACKUP_DIR="/var/backups/tarbiyat"
+DB_NAME="tarbiyat_db"
+
+mkdir -p $BACKUP_DIR
+
+# Create database backup
+sudo -u postgres pg_dump $DB_NAME | gzip > $BACKUP_DIR/db_backup_$DATE.sql.gz
+
+# Create media files backup
+tar -czf $BACKUP_DIR/media_backup_$DATE.tar.gz -C /var/www/tarbiyat media/
+
+# Remove backups older than 30 days
+find $BACKUP_DIR -name "*.gz" -mtime +30 -delete
+
+echo "Backup completed: $DATE"
+```
+
+### Automated Backup Cron Jobs
+```bash
+# Add to crontab (sudo crontab -e)
+# Daily database backup at 2 AM
+0 2 * * * /usr/local/bin/backup-database.sh >> /var/log/backup.log 2>&1
+```
+
+---
 
 ## Troubleshooting
 
 ### Common Issues
 
-#### 1. Static Files Not Loading
+#### 1. Application Won't Start
 ```bash
-# Collect static files during build
-python manage.py collectstatic --noinput
+# Check service status
+sudo systemctl status tarbiyat
+
+# Check logs
+sudo journalctl -u tarbiyat -f
+
+# Restart service
+sudo systemctl restart tarbiyat
 ```
 
 #### 2. Database Connection Issues
-- SQLite database is created automatically
-- Ensure migrations have been run
-- Check file permissions if database errors occur
+```bash
+# Test database connection
+sudo -u tarbiyat ./venv/bin/python manage.py dbshell
 
-#### 3. Secret Key Errors
-- Generate a new secret key (50+ characters)
-- Update environment variable
-- Restart the application
-
-#### 4. ALLOWED_HOSTS Error
-- Add your domain to ALLOWED_HOSTS
-- Include both with and without 'www'
-- Include the DigitalOcean app URL
-
-### Generate Secret Key
-```python
-# Run this in Python to generate a secret key
-import secrets
-import string
-
-alphabet = string.ascii_letters + string.digits + '!@#$%^&*(-_=+)'
-secret_key = ''.join(secrets.choice(alphabet) for i in range(50))
-print(secret_key)
+# Check PostgreSQL status
+sudo systemctl status postgresql
 ```
 
-## Cost Estimation
+#### 3. Static Files Not Loading
+```bash
+# Recollect static files
+sudo -u tarbiyat ./venv/bin/python manage.py collectstatic --clear --noinput
 
-### Minimum Setup
-- Web Service (Basic): $5/month
-- **Total: $5/month** (SQLite included)
+# Check nginx configuration
+sudo nginx -t
+sudo systemctl reload nginx
+```
 
-### Production Setup
-- Web Service (Professional): $12/month
-- **Total: $12/month** (SQLite included)
+#### 4. Email Issues
+```bash
+# Test email configuration
+sudo -u tarbiyat ./venv/bin/python manage.py test_email test@example.com
+```
 
-## Security Best Practices
+### Emergency Procedures
 
-1. **Environment Variables**: Never commit secrets to GitHub
-2. **HTTPS**: Always enabled on DigitalOcean App Platform
-3. **Regular Updates**: Keep dependencies updated
-4. **Monitoring**: Set up error tracking and monitoring
-5. **Backups**: Enable automatic database backups
-
-## Support and Resources
-
-- [DigitalOcean App Platform Documentation](https://docs.digitalocean.com/products/app-platform/)
-- [Django Deployment Checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
-- [Tarbiyat GitHub Repository](https://github.com/codeforpakistan/tarbiyat)
-
-## Next Steps
-
-After successful deployment:
-
-1. **Configure Email**: Set up SMTP for password reset functionality
-2. **Add Monitoring**: Implement error tracking (Sentry, etc.)
-3. **Backup Strategy**: Set up regular database backups
-4. **Performance Optimization**: Monitor and optimize slow queries
-5. **Security Audit**: Regular security reviews and updates
+#### Service Recovery
+```bash
+# Emergency restart sequence
+sudo systemctl stop tarbiyat
+sudo systemctl stop nginx
+sudo systemctl restart postgresql
+sudo systemctl start tarbiyat
+sudo systemctl start nginx
+```
 
 ---
 
-For additional support, please create an issue in the [GitHub repository](https://github.com/codeforpakistan/tarbiyat/issues) or contact Code for Pakistan.
+## Deployment Checklist
+
+### Pre-Deployment
+- [ ] Server provisioned with required specifications
+- [ ] Domain name configured and DNS pointing to server
+- [ ] SSL certificate obtained
+- [ ] Database setup and configured
+- [ ] Environment variables configured
+
+### Deployment
+- [ ] Application code deployed
+- [ ] Dependencies installed
+- [ ] Database migrations applied
+- [ ] Static files collected
+- [ ] Services configured and started
+
+### Post-Deployment
+- [ ] Functionality testing completed
+- [ ] Performance testing completed
+- [ ] Security scan performed
+- [ ] Monitoring tools configured
+- [ ] Backup procedures tested
+
+---
+
+## Cost Estimation
+
+### Development Environment
+- **Digital Ocean Droplet (2GB):** $12/month
+- **Domain:** $10-15/year
+- **SSL Certificate:** Free (Let's Encrypt)
+- **Total:** ~$15/month
+
+### Small Production (50-200 users)
+- **Digital Ocean Droplet (4GB):** $24/month
+- **Domain:** $10-15/year
+- **SSL Certificate:** Free (Let's Encrypt)
+- **Backups:** $2.40/month (10% of droplet cost)
+- **Total:** ~$27/month
+
+### Medium Production (500-2000 users)
+- **Digital Ocean Droplet (8GB):** $48/month
+- **Database (PostgreSQL):** $15/month
+- **Load Balancer:** $10/month
+- **Domain:** $10-15/year
+- **Total:** ~$75/month
+
+### Large Production (5000+ users)
+- **Digital Ocean Droplet (16GB):** $96/month
+- **Database (PostgreSQL Pro):** $50/month
+- **Load Balancer:** $10/month
+- **CDN:** $5/month
+- **Monitoring:** $20/month
+- **Total:** ~$180/month
+
+---
+
+*This comprehensive deployment guide covers VM specifications, database configuration, security, monitoring, and maintenance for the Tarbiyat platform. Choose the deployment option that best fits your requirements and budget.*
