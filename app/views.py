@@ -1029,7 +1029,7 @@ def browse_positions(request):
     page_obj = paginator.get_page(page_number)
     
     # Get filter options
-    companies = Company.objects.filter(is_verified=True).order_by('name')
+    companies = Company.objects.filter(registration_status='approved').order_by('name')
     
     context = {
         'page_obj': page_obj,
@@ -1248,11 +1248,24 @@ def create_student_profile_view(request):
         return redirect('edit_profile')
     
     if request.method == 'POST':
-        # Handle form submission (existing logic from create_student_profile)
-        # This would contain the form processing logic
-        pass
+        try:
+            # Create student profile with basic information
+            student_profile = StudentProfile.objects.create(
+                user=request.user,
+                # Set defaults for optional fields
+                student_id='',
+                year_of_study='',
+                major='',
+                skills=''
+            )
+            
+            messages.success(request, 'Your student profile has been created successfully! You can now update your details.')
+            return redirect('edit_profile')
+            
+        except Exception as e:
+            messages.error(request, f'Error creating profile: {str(e)}')
     
-    institutes = Institute.objects.all()
+    institutes = Institute.objects.filter(registration_status='approved')
     return render(request, 'app/create_student_profile.html', {'institutes': institutes})
 
 def create_mentor_profile_view(request):
@@ -1263,10 +1276,24 @@ def create_mentor_profile_view(request):
         return redirect('edit_profile')
     
     if request.method == 'POST':
-        # Handle form submission (existing logic from create_mentor_profile)
-        pass
+        try:
+            # Create mentor profile with basic information
+            mentor_profile = MentorProfile.objects.create(
+                user=request.user,
+                # Set defaults for optional fields
+                position='',
+                department='',
+                experience_years=0,
+                specialization=''
+            )
+            
+            messages.success(request, 'Your mentor profile has been created successfully! You can now update your details.')
+            return redirect('edit_profile')
+            
+        except Exception as e:
+            messages.error(request, f'Error creating profile: {str(e)}')
     
-    companies = Company.objects.filter(is_verified=True)
+    companies = Company.objects.filter(registration_status='approved')
     return render(request, 'app/create_mentor_profile.html', {'companies': companies})
 
 def create_teacher_profile_view(request):
@@ -1277,10 +1304,25 @@ def create_teacher_profile_view(request):
         return redirect('edit_profile')
     
     if request.method == 'POST':
-        # Handle form submission (existing logic from create_teacher_profile)
-        pass
+        try:
+            # Create teacher profile with basic information
+            teacher_profile = TeacherProfile.objects.create(
+                user=request.user,
+                # Set defaults for optional fields
+                department='',
+                title='',
+                employee_id='',
+                is_admin_contact=False,
+                can_register_organization=True
+            )
+            
+            messages.success(request, 'Your teacher profile has been created successfully! You can now update your details.')
+            return redirect('edit_profile')
+            
+        except Exception as e:
+            messages.error(request, f'Error creating profile: {str(e)}')
     
-    institutes = Institute.objects.all()
+    institutes = Institute.objects.filter(registration_status='approved')
     return render(request, 'app/create_teacher_profile.html', {'institutes': institutes})
 
 def edit_student_profile_view(request):
@@ -1412,8 +1454,23 @@ def edit_teacher_profile_view(request):
         return redirect('create_profile')
     
     if request.method == 'POST':
+        # Validate institute membership before updating
+        new_institute_id = request.POST.get('institute')
+        if new_institute_id and new_institute_id != str(profile.institute.pk if profile.institute else ''):
+            is_valid, error_message = validate_user_organization_membership(
+                request.user, 'institute', int(new_institute_id)
+            )
+            if not is_valid:
+                messages.error(request, error_message or "Invalid organization selection.")
+                available_institutes = get_available_institutes_for_user(request.user)
+                return render(request, 'app/edit_teacher_profile.html', {
+                    'profile': profile,
+                    'institutes': available_institutes,
+                    'domain_error': True,
+                })
+        
         # Update profile fields
-        profile.institute_id = request.POST.get('institute')
+        profile.institute_id = new_institute_id
         profile.department = request.POST.get('department')
         profile.title = request.POST.get('title')
         profile.employee_id = request.POST.get('employee_id')
@@ -1429,10 +1486,10 @@ def edit_teacher_profile_view(request):
         messages.success(request, 'Profile updated successfully!')
         return redirect_to_role_dashboard(request.user)
     
-    institutes = Institute.objects.all()
+    available_institutes = get_available_institutes_for_user(request.user)
     context = {
         'profile': profile,
-        'institutes': institutes,
+        'institutes': available_institutes,
     }
     return render(request, 'app/edit_teacher_profile.html', context)
 
@@ -1444,7 +1501,6 @@ def edit_official_profile_view(request):
         # Create a basic official profile if it doesn't exist
         profile = OfficialProfile.objects.create(
             user=request.user,
-            full_name=f"{request.user.first_name} {request.user.last_name}".strip() or request.user.username,
             department="Not specified"
         )
         messages.success(request, 'Official profile created successfully.')

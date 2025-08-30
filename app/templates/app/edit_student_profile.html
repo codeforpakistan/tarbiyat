@@ -4,18 +4,25 @@
 {% block title %}Edit Student Profile - Tarbiyat{% endblock %}
 
 {% block content %}
-    <!-- Header -->
-    <div class="mb-8">
-        <div class="flex items-center justify-between">
-            <div>
-                <h2 class="text-3xl font-semibold text-gray-900">Edit Student Profile</h2>
-                <p class="text-gray-600 mt-2">Update your academic information and preferences</p>
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/student_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-semibold text-gray-900">Edit Student Profile</h2>
+                        <p class="text-gray-600 mt-2">Update your academic information and preferences</p>
+                    </div>
+                    <a href="{% url 'student_dashboard' %}" class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        Back to Dashboard
+                    </a>
+                </div>
             </div>
-            <a href="{% url 'student_dashboard' %}" class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                Back to Dashboard
-            </a>
-        </div>
-    </div>
 
     <div class="bg-white rounded-xl  border border-gray-200">
         <form method="post" enctype="multipart/form-data" class="p-8">
@@ -213,6 +220,9 @@
             </div>
         </form>
     </div>
+        </div> <!-- End Main Content -->
+    </div> <!-- End Grid -->
+</div> <!-- End Container -->
 {% endblock %}
 
 {% block scripts %}

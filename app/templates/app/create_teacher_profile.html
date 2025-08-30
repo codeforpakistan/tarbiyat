@@ -7,7 +7,22 @@
 <div class="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full mx-auto">
         <div class="text-center mb-8">
-            <h2 class="text-3xl font-semibold text-gray-900 's set up your teacher profile.
+            <h2 class="text-3xl font-semibold text-gray-900">Create Teacher Profile</h2>
+            <p class="mt-2 text-gray-600">
+                Set up your teacher profile to manage students and internships
+            </p>
+        </div>
+
+        <div class="py-8 px-6 rounded-lg bg-white">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="text-center">
+                    <div class="mx-auto h-16 w-16 flex items-center justify-center rounded-full bg-purple-100 mb-4">
+                        👨‍🏫
+                    </div>
+                    <p class="text-gray-600 mb-6">
+                        Welcome, {{ user.get_full_name|default:user.username }}! Let's set up your teacher profile.
                     </p>
                 </div>
 
@@ -20,7 +35,7 @@
                 <div>
                     <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-200">
                         <span class="mr-2">
-                            
+                            🎓
                         </span>
                         Create Teacher Profile
                     </button>
