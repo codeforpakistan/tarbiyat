@@ -825,31 +825,31 @@ class StudentInternshipReport(models.Model):
             student_name = "No Student"
         return f"Report for {student_name} - {self.report_month.strftime('%B %Y')}"
 
-class StudentWeeklyActivityLog(models.Model):
-    """Weekly activity log report filled by students during their internship"""
+class StudentActivityLog(models.Model):
+    """Activity log report filled by students during their internship"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='weekly_activity_logs', null=True, blank=True)
-    week_starting = models.DateField(help_text="Starting date of the week")
+    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='activity_logs', null=True, blank=True)
+    period_starting = models.DateField(help_text="Starting date of the reporting period")
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-week_starting']
+        ordering = ['-period_starting']
         # Note: unique_together with nullable fields may allow multiple null combinations
-        unique_together = ['internship', 'week_starting']
-        verbose_name = "Student Weekly Activity Log"
-        verbose_name_plural = "Student Weekly Activity Logs"
+        unique_together = ['internship', 'period_starting']
+        verbose_name = "Student Activity Log"
+        verbose_name_plural = "Student Activity Logs"
 
     def __str__(self):
         if self.internship and self.internship.student:
             student_name = self.internship.student.user.get_full_name()
         else:
             student_name = "No Student"
-        return f"Weekly Log: {student_name} - Week of {self.week_starting.strftime('%Y-%m-%d')}"
+        return f"Activity Log: {student_name} - Period starting {self.period_starting.strftime('%Y-%m-%d')}"
 
-class StudentWeeklyActivity(models.Model):
-    """Individual activities and hours logged by students in their weekly reports"""
-    activity_log = models.ForeignKey(StudentWeeklyActivityLog, on_delete=models.CASCADE, related_name='activities')
+class StudentActivity(models.Model):
+    """Individual activities and hours logged by students in their activity reports"""
+    activity_log = models.ForeignKey(StudentActivityLog, on_delete=models.CASCADE, related_name='activities')
     task_description = models.TextField(help_text="Description of the task or activity performed")
     hours_spent = models.DecimalField(
         max_digits=4, 
@@ -861,8 +861,8 @@ class StudentWeeklyActivity(models.Model):
     
     class Meta:
         ordering = ['date_performed']
-        verbose_name = "Weekly Activity Entry"
-        verbose_name_plural = "Weekly Activity Entries"
+        verbose_name = "Activity Entry"
+        verbose_name_plural = "Activity Entries"
 
     def __str__(self):
         return f"{self.date_performed}: {self.task_description[:50]}... ({self.hours_spent} hours)"

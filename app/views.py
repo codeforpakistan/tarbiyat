@@ -15,10 +15,10 @@ from .models import (
     StudentProfile, MentorProfile, TeacherProfile, OfficialProfile,
     InternshipPosition, InternshipApplication, Internship, Company, Institute, 
     Notification, OrganizationRegistrationRequest, ProgressReport,
-    StudentWeeklyActivityLog, StudentWeeklyActivity, StudentInternshipReport
+    StudentActivityLog, StudentActivity, StudentInternshipReport
 )
 from .forms import (
-    StudentWeeklyActivityLogForm, StudentWeeklyActivityFormSet
+    StudentActivityLogForm, StudentActivityFormSet
 )
 from django import forms
 from .utils import (
@@ -316,7 +316,7 @@ def teacher_internships(request):
         student__institute=teacher_profile.institute
     ).select_related(
         'student__user', 'mentor__user', 'mentor__company'
-    ).prefetch_related('student_reports', 'weekly_activity_logs').order_by('-created_at')
+    ).prefetch_related('student_reports', 'activity_logs').order_by('-created_at')
     
     # Filter by status if provided
     status_filter = request.GET.get('status', '')
@@ -365,7 +365,7 @@ def teacher_internship_detail(request, internship_nanoid):
         internship = Internship.objects.select_related(
             'student__user', 'mentor__user', 'mentor__company', 'teacher__user'
         ).prefetch_related(
-            'student_reports', 'weekly_activity_logs'
+            'student_reports', 'activity_logs'
         ).get(nanoid=internship_nanoid)
         
         # Ensure the internship belongs to a student from teacher's institute
@@ -379,13 +379,13 @@ def teacher_internship_detail(request, internship_nanoid):
     
     # Get reports and activity logs
     student_reports = internship.student_reports.all().order_by('-report_month')
-    weekly_logs = internship.weekly_activity_logs.all().order_by('-week_starting')
+    activity_logs = internship.activity_logs.all().order_by('-period_starting')
     
     context = {
         'teacher_profile': teacher_profile,
         'internship': internship,
         'student_reports': student_reports,
-        'weekly_logs': weekly_logs,
+        'activity_logs': activity_logs,
     }
     return render(request, 'app/teacher_internship_detail.html', context)
 
@@ -2091,10 +2091,10 @@ def student_internship(request):
     # If there's an active internship, get related data
     if current_internship:
         # Get recent activity logs for this internship
-        recent_activities = StudentWeeklyActivityLog.objects.filter(
+        recent_activities = StudentActivityLog.objects.filter(
             internship=current_internship,
             submitted_at__gte=current_internship.created_at
-        ).order_by('-week_starting')[:5]
+        ).order_by('-period_starting')[:5]
         
         # Get any evaluations or progress reports
         progress_reports = ProgressReport.objects.filter(
@@ -2116,11 +2116,11 @@ def student_internship(request):
     return render(request, 'app/student_internship.html', context)
 
 @login_required
-def student_weekly_activities(request):
-    """Display all weekly activity logs for the current student"""
+def student_activities(request):
+    """Display all activity logs for the current student"""
     # Check if user is a student
     if not request.user.groups.filter(name='student').exists():
-        messages.error(request, 'Only students can view weekly activity logs.')
+        messages.error(request, 'Only students can view activity logs.')
         return redirect('home')
     
     # Get student profile
@@ -2137,27 +2137,27 @@ def student_weekly_activities(request):
     ).first()
     
     if not current_internship:
-        messages.info(request, 'You need an active internship to submit weekly activity logs.')
+        messages.info(request, 'You need an active internship to submit activity logs.')
         return redirect_to_role_dashboard(request.user)
     
-    # Get all weekly activity logs for this internship
-    weekly_logs = StudentWeeklyActivityLog.objects.filter(
+    # Get all activity logs for this internship
+    activity_logs = StudentActivityLog.objects.filter(
         internship=current_internship
-    ).prefetch_related('activities').order_by('-week_starting')
+    ).prefetch_related('activities').order_by('-period_starting')
     
     context = {
-        'weekly_logs': weekly_logs,
+        'activity_logs': activity_logs,
         'current_internship': current_internship,
         'student_profile': student_profile,
     }
-    return render(request, 'app/student_weekly_activities.html', context)
+    return render(request, 'app/student_activities.html', context)
 
 @login_required
-def create_weekly_activity_log(request):
-    """Create a new weekly activity log"""
+def create_activity_log(request):
+    """Create a new activity log"""
     # Check if user is a student
     if not request.user.groups.filter(name='student').exists():
-        messages.error(request, 'Only students can create weekly activity logs.')
+        messages.error(request, 'Only students can create activity logs.')
         return redirect('home')
     
     # Get student profile
@@ -2174,46 +2174,46 @@ def create_weekly_activity_log(request):
     ).first()
     
     if not current_internship:
-        messages.error(request, 'You need an active internship to submit weekly activity logs.')
+        messages.error(request, 'You need an active internship to submit activity logs.')
         return redirect_to_role_dashboard(request.user)
     
     if request.method == 'POST':
-        log_form = StudentWeeklyActivityLogForm(request.POST)
-        activity_formset = StudentWeeklyActivityFormSet(request.POST)
+        log_form = StudentActivityLogForm(request.POST)
+        activity_formset = StudentActivityFormSet(request.POST)
         
         if log_form.is_valid() and activity_formset.is_valid():
             # Check if a log already exists for this week
-            week_starting = log_form.cleaned_data['week_starting']
-            existing_log = StudentWeeklyActivityLog.objects.filter(
+            period_starting = log_form.cleaned_data['period_starting']
+            existing_log = StudentActivityLog.objects.filter(
                 internship=current_internship,
-                week_starting=week_starting
+                period_starting=period_starting
             ).first()
             
             if existing_log:
-                messages.error(request, f'A weekly log already exists for the week starting {week_starting.strftime("%Y-%m-%d")}.')
-                return redirect('student_weekly_activities')
+                messages.error(request, f'A weekly log already exists for the week starting {period_starting.strftime("%Y-%m-%d")}.')
+                return redirect('student_activities')
             
             # Create the weekly log
-            weekly_log = log_form.save(commit=False)
-            weekly_log.internship = current_internship
-            weekly_log.save()
+            activity_log = log_form.save(commit=False)
+            activity_log.internship = current_internship
+            activity_log.save()
             
             # Create the activities
             activities_created = 0
             for activity_form in activity_formset:
                 if activity_form.cleaned_data and not activity_form.cleaned_data.get('DELETE', False):
                     activity = activity_form.save(commit=False)
-                    activity.activity_log = weekly_log
+                    activity.activity_log = activity_log
                     activity.save()
                     activities_created += 1
             
-            messages.success(request, f'Weekly activity log created successfully with {activities_created} activities.')
-            return redirect('student_weekly_activities')
+            messages.success(request, f'Activity log created successfully with {activities_created} activities.')
+            return redirect('student_activities')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
-        log_form = StudentWeeklyActivityLogForm()
-        activity_formset = StudentWeeklyActivityFormSet()
+        log_form = StudentActivityLogForm()
+        activity_formset = StudentActivityFormSet()
     
     context = {
         'log_form': log_form,
@@ -2221,14 +2221,14 @@ def create_weekly_activity_log(request):
         'current_internship': current_internship,
         'student_profile': student_profile,
     }
-    return render(request, 'app/create_weekly_activity_log.html', context)
+    return render(request, 'app/create_activity_log.html', context)
 
 @login_required
-def edit_weekly_activity_log(request, log_nanoid):
-    """Edit an existing weekly activity log"""
+def edit_activity_log(request, log_nanoid):
+    """Edit an existing activity log"""
     # Check if user is a student
     if not request.user.groups.filter(name='student').exists():
-        messages.error(request, 'Only students can edit weekly activity logs.')
+        messages.error(request, 'Only students can edit activity logs.')
         return redirect('home')
     
     # Get student profile
@@ -2240,19 +2240,19 @@ def edit_weekly_activity_log(request, log_nanoid):
     
     # Get the weekly log (ensuring it belongs to the current student)
     try:
-        weekly_log = StudentWeeklyActivityLog.objects.get(
+        activity_log = StudentActivityLog.objects.get(
             nanoid=log_nanoid,
             internship__student=student_profile
         )
-    except StudentWeeklyActivityLog.DoesNotExist:
-        messages.error(request, 'Weekly activity log not found or access denied.')
-        return redirect('student_weekly_activities')
+    except StudentActivityLog.DoesNotExist:
+        messages.error(request, 'Activity log not found or access denied.')
+        return redirect('student_activities')
     
     if request.method == 'POST':
-        log_form = StudentWeeklyActivityLogForm(request.POST, instance=weekly_log)
+        log_form = StudentActivityLogForm(request.POST, instance=activity_log)
         
         # Get existing activities
-        existing_activities = StudentWeeklyActivity.objects.filter(activity_log=weekly_log)
+        existing_activities = StudentActivity.objects.filter(activity_log=activity_log)
         
         # Create initial data for formset from existing activities
         initial_data = []
@@ -2263,7 +2263,7 @@ def edit_weekly_activity_log(request, log_nanoid):
                 'date_performed': activity.date_performed,
             })
         
-        activity_formset = StudentWeeklyActivityFormSet(
+        activity_formset = StudentActivityFormSet(
             request.POST,
             initial=initial_data
         )
@@ -2283,17 +2283,17 @@ def edit_weekly_activity_log(request, log_nanoid):
                     else:
                         # Save or update the activity
                         activity = activity_form.save(commit=False)
-                        activity.activity_log = weekly_log
+                        activity.activity_log = activity_log
                         activity.save()
                         activities_updated += 1
             
-            messages.success(request, f'Weekly activity log updated successfully with {activities_updated} activities.')
-            return redirect('student_weekly_activities')
+            messages.success(request, f'Activity log updated successfully with {activities_updated} activities.')
+            return redirect('student_activities')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
-        log_form = StudentWeeklyActivityLogForm(instance=weekly_log)
-        existing_activities = StudentWeeklyActivity.objects.filter(activity_log=weekly_log)
+        log_form = StudentActivityLogForm(instance=activity_log)
+        existing_activities = StudentActivity.objects.filter(activity_log=activity_log)
         
         # Create initial data for formset from existing activities
         initial_data = []
@@ -2304,23 +2304,23 @@ def edit_weekly_activity_log(request, log_nanoid):
                 'date_performed': activity.date_performed,
             })
         
-        activity_formset = StudentWeeklyActivityFormSet(initial=initial_data)
+        activity_formset = StudentActivityFormSet(initial=initial_data)
     
     context = {
         'log_form': log_form,
         'activity_formset': activity_formset,
-        'weekly_log': weekly_log,
+        'activity_log': activity_log,
         'student_profile': student_profile,
-        'current_internship': weekly_log.internship,
+        'current_internship': activity_log.internship,
     }
-    return render(request, 'app/edit_weekly_activity_log.html', context)
+    return render(request, 'app/edit_activity_log.html', context)
 
 @login_required
-def view_weekly_activity_log(request, log_nanoid):
-    """View details of a specific weekly activity log"""
+def view_activity_log(request, log_nanoid):
+    """View details of a specific activity log"""
     # Check if user is a student
     if not request.user.groups.filter(name='student').exists():
-        messages.error(request, 'Only students can view weekly activity logs.')
+        messages.error(request, 'Only students can view activity logs.')
         return redirect('home')
     
     # Get student profile
@@ -2332,30 +2332,30 @@ def view_weekly_activity_log(request, log_nanoid):
     
     # Get the weekly log (ensuring it belongs to the current student)
     try:
-        weekly_log = StudentWeeklyActivityLog.objects.get(
+        activity_log = StudentActivityLog.objects.get(
             nanoid=log_nanoid,
             internship__student=student_profile
         )
-    except StudentWeeklyActivityLog.DoesNotExist:
-        messages.error(request, 'Weekly activity log not found or access denied.')
-        return redirect('student_weekly_activities')
+    except StudentActivityLog.DoesNotExist:
+        messages.error(request, 'Activity log not found or access denied.')
+        return redirect('student_activities')
     
     # Get all activities for this log
-    activities = StudentWeeklyActivity.objects.filter(
-        activity_log=weekly_log
+    activities = StudentActivity.objects.filter(
+        activity_log=activity_log
     ).order_by('date_performed')
     
     # Calculate total hours
     total_hours = sum(activity.hours_spent for activity in activities)
     
     context = {
-        'weekly_log': weekly_log,
+        'activity_log': activity_log,
         'activities': activities,
         'total_hours': total_hours,
         'student_profile': student_profile,
-        'current_internship': weekly_log.internship,
+        'current_internship': activity_log.internship,
     }
-    return render(request, 'app/view_weekly_activity_log.html', context)
+    return render(request, 'app/view_activity_log.html', context)
 
 @login_required
 def register_organization(request):

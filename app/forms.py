@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.forms import formset_factory
 from typing import TYPE_CHECKING
-from .models import StudentWeeklyActivityLog, StudentWeeklyActivity
+from .models import StudentActivityLog, StudentActivity
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -33,10 +33,10 @@ class CustomSignupForm(SignupForm):
         user.save()
         return user  # type: ignore
 
-class StudentWeeklyActivityForm(forms.ModelForm):
-    """Form for individual weekly activities"""
+class StudentActivityForm(forms.ModelForm):
+    """Form for individual activities"""
     class Meta:
-        model = StudentWeeklyActivity
+        model = StudentActivity
         fields = ['task_description', 'hours_spent', 'date_performed']
         widgets = {
             'task_description': forms.Textarea(attrs={
@@ -57,21 +57,21 @@ class StudentWeeklyActivityForm(forms.ModelForm):
             }),
         }
 
-class StudentWeeklyActivityLogForm(forms.ModelForm):
-    """Form for weekly activity log header"""
+class StudentActivityLogForm(forms.ModelForm):
+    """Form for activity log header"""
     class Meta:
-        model = StudentWeeklyActivityLog
-        fields = ['week_starting']
+        model = StudentActivityLog
+        fields = ['period_starting']
         widgets = {
-            'week_starting': forms.DateInput(attrs={
+            'period_starting': forms.DateInput(attrs={
                 'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'type': 'date'
             }),
         }
 
 # Create a formset for multiple activities
-StudentWeeklyActivityFormSet = formset_factory(
-    StudentWeeklyActivityForm,
+StudentActivityFormSet = formset_factory(
+    StudentActivityForm,
     extra=3,  # Start with 3 empty forms
     min_num=1,  # At least 1 activity required
     validate_min=True,

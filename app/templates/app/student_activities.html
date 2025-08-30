@@ -12,9 +12,9 @@
     <div class="lg:col-span-3">
       <div class="bg-white rounded-lg border border-gray-200 p-6">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold text-gray-900">My Weekly Activity Logs</h1>
+          <h1 class="text-2xl font-bold text-gray-900">My Activity Logs</h1>
           {% if current_internship %}
-          <a href="{% url 'create_weekly_activity_log' %}"
+          <a href="{% url 'create_activity_log' %}"
             class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors">
             📝 Create New Log
           </a>
@@ -40,7 +40,7 @@
         <!-- Weekly Logs -->
         <div class="space-y-4">
           <h3 class="text-lg font-medium text-gray-900">Activity Logs</h3>
-          {% for log in weekly_logs %}
+          {% for log in activity_logs %}
           <div class="border border-gray-200 rounded-lg p-4">
             <div class="flex justify-between items-center">
               <div>
@@ -49,11 +49,11 @@
                 <p class="text-sm text-gray-600 mt-1">{{ log.hours_worked }} hours worked</p>
               </div>
               <div class="space-x-2">
-                <a href="{% url 'view_weekly_activity_log' log.nanoid %}"
+                <a href="{% url 'view_activity_log' log.nanoid %}"
                   class="inline-flex items-center px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm rounded transition-colors">
                   👁 View
                 </a>
-                <a href="{% url 'edit_weekly_activity_log' log.nanoid %}"
+                <a href="{% url 'edit_activity_log' log.nanoid %}"
                   class="inline-flex items-center px-3 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm rounded transition-colors">
                   ✏ Edit
                 </a>
@@ -64,7 +64,7 @@
           <div class="text-center py-8">
             <p class="text-gray-600 mb-4">No activity logs yet</p>
             {% if current_internship %}
-            <a href="{% url 'create_weekly_activity_log' %}"
+            <a href="{% url 'create_activity_log' %}"
               class="inline-flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
               📝 Create Your First Log
             </a>

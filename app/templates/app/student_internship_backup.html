@@ -105,7 +105,7 @@
                     <div class="mb-8">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900">📝 Recent Activities</h3>
-                            <a href="{% url 'student_weekly_activities' %}" 
+                            <a href="{% url 'student_activities' %}" 
                                class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                                 View All Activities →
                             </a>
@@ -124,7 +124,7 @@
                                 <div class="text-sm text-gray-600">
                                     Total Hours: {{ activity_log.get_total_hours }} hours
                                 </div>
-                                <a href="{% url 'view_weekly_activity_log' log_nanoid=activity_log.nanoid %}" 
+                                <a href="{% url 'view_activity_log' log_nanoid=activity_log.nanoid %}" 
                                    class="text-blue-600 hover:text-blue-800 text-sm">
                                     View Details →
                                 </a>
@@ -176,12 +176,12 @@
                     <div class="bg-gray-50 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">🚀 Quick Actions</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <a href="{% url 'create_weekly_activity_log' %}" 
+                            <a href="{% url 'create_activity_log' %}" 
                                class="flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
                                 <span class="mr-2">📝</span>
-                                Add Weekly Activity
+                                Add Activity
                             </a>
-                            <a href="{% url 'student_weekly_activities' %}" 
+                            <a href="{% url 'student_activities' %}" 
                                class="flex items-center justify-center px-4 py-3 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200">
                                 <span class="mr-2">📅</span>
                                 View All Activities

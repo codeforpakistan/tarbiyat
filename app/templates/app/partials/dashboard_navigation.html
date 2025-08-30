@@ -12,7 +12,7 @@
           <a href="{% url 'student_dashboard' %}" class="nav-link">🏠 Dashboard</a>
           <a href="{% url 'internship_positions' %}" class="nav-link">💼 Positions</a>
           <a href="{% url 'student_applications' %}" class="nav-link">📝 Applications</a>
-          <a href="{% url 'student_weekly_activities' %}" class="nav-link">📅 Activities</a>
+          <a href="{% url 'student_activities' %}" class="nav-link">📅 Activities</a>
         </div>
         {% elif user|get_user_type == 'mentor' %}
         <div class="hidden md:flex space-x-6">

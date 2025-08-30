@@ -26,10 +26,10 @@ urlpatterns = [
     path('student/applications/', views.student_applications, name='student_applications'),
     path('student/applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
     path('student/internship/', views.student_internship, name='student_internship'),
-    path('student/activities/', views.student_weekly_activities, name='student_weekly_activities'),
-    path('student/activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
-    path('student/activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
-    path('student/activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
+    path('student/activities/', views.student_activities, name='student_activities'),
+    path('student/activities/create/', views.create_activity_log, name='create_activity_log'),
+    path('student/activities/<str:log_nanoid>/edit/', views.edit_activity_log, name='edit_activity_log'),
+    path('student/activities/<str:log_nanoid>/', views.view_activity_log, name='view_activity_log'),
     
     # Teacher URLs
     path('teacher/', views.teacher_dashboard_view, name='teacher_dashboard'),

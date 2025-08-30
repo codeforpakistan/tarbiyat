@@ -1,5 +1,5 @@
 {% extends 'app/page.html' %}
-{% block title %}Create Weekly Activity Log - Tarbiyat{% endblock %}
+{% block title %}Create Activity Log - Tarbiyat{% endblock %}
 {% block content %}
 <div class="min-h-screen py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -12,8 +12,8 @@
     <div class="lg:col-span-3">
       <div class="bg-white rounded-lg border border-gray-200 p-6">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold text-gray-900">Create Weekly Activity Log</h1>
-          <a href="{% url 'student_weekly_activities' %}"
+          <h1 class="text-2xl font-bold text-gray-900">Create Activity Log</h1>
+          <a href="{% url 'student_activities' %}"
             class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
             ← Back to Activities
           </a>
@@ -22,21 +22,21 @@
         <form method="post" class="space-y-6">
           {% csrf_token %}
           
-          <!-- Week Starting Date -->
+          <!-- Period Starting Date -->
           <div>
-            <label for="{{ log_form.week_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-              Week Starting Date
+            <label for="{{ log_form.period_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+              Period Starting Date
             </label>
-            {{ log_form.week_starting }}
-            {% if log_form.week_starting.errors %}
-              <p class="mt-1 text-sm text-red-600">{{ log_form.week_starting.errors.0 }}</p>
+            {{ log_form.period_starting }}
+            {% if log_form.period_starting.errors %}
+              <p class="mt-1 text-sm text-red-600">{{ log_form.period_starting.errors.0 }}</p>
             {% endif %}
             <p class="mt-1 text-sm text-gray-500">Select the Monday of the week you're reporting for.</p>
           </div>
 
           <!-- Activities Section -->
           <div>
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Weekly Activities</h3>
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Activities</h3>
             <p class="text-sm text-gray-600 mb-4">Add the activities you worked on during this week. You can add multiple activities with different dates and hours.</p>
             
             {{ activity_formset.management_form }}
@@ -99,7 +99,7 @@
 
           <!-- Submit Buttons -->
           <div class="flex space-x-4 pt-6">
-            <a href="{% url 'student_weekly_activities' %}"
+            <a href="{% url 'student_activities' %}"
               class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors">
               Cancel
             </a>

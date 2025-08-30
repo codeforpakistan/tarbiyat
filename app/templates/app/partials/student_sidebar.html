@@ -30,8 +30,8 @@
                 My Applications
             </a>
             
-            <a href="{% url 'student_weekly_activities' %}" 
-               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_weekly_activities' or request.resolver_match.url_name == 'create_weekly_activity_log' or request.resolver_match.url_name == 'edit_weekly_activity_log' or request.resolver_match.url_name == 'view_weekly_activity_log' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+            <a href="{% url 'student_activities' %}" 
+               class="flex items-center px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'student_activities' or request.resolver_match.url_name == 'create_activity_log' or request.resolver_match.url_name == 'edit_activity_log' or request.resolver_match.url_name == 'view_activity_log' %}bg-blue-100 text-blue-700 font-medium{% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
                 <span class="mr-3">📅</span>
                 My Activities
             </a>

@@ -1,5 +1,5 @@
 {% extends 'app/page.html' %}
-{% block title %}Weekly Activity Log - Tarbiyat{% endblock %}
+{% block title %}Activity Log - Tarbiyat{% endblock %}
 {% block content %}
 <div class="min-h-screen py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -14,15 +14,15 @@
       <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
         <div class="flex justify-between items-center mb-4">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900">Weekly Activity Log</h1>
-            <p class="text-gray-600">Week of {{ weekly_log.week_starting|date:"F d, Y" }}</p>
+            <h1 class="text-2xl font-bold text-gray-900">Activity Log</h1>
+            <p class="text-gray-600">Period starting {{ activity_log.period_starting|date:"F d, Y" }}</p>
           </div>
           <div class="flex space-x-2">
-            <a href="{% url 'student_weekly_activities' %}"
+            <a href="{% url 'student_activities' %}"
               class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
               ← Back to Activities
             </a>
-            <a href="{% url 'edit_weekly_activity_log' weekly_log.nanoid %}"
+            <a href="{% url 'edit_weekly_activity_log' activity_log.nanoid %}"
               class="inline-flex items-center px-4 py-2 bg-blue-100 hover:bg-blue-200 text-blue-700 text-sm font-medium rounded-md transition-colors">
               ✏ Edit Log
             </a>
@@ -49,12 +49,12 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
             <div>
               <strong>Submitted:</strong>
-              {{ weekly_log.submitted_at|date:"M d, Y g:i A" }}
+              {{ activity_log.submitted_at|date:"M d, Y g:i A" }}
             </div>
-            {% if weekly_log.updated_at != weekly_log.submitted_at %}
+            {% if activity_log.updated_at != activity_log.submitted_at %}
             <div>
               <strong>Last Updated:</strong>
-              {{ weekly_log.updated_at|date:"M d, Y g:i A" }}
+              {{ activity_log.updated_at|date:"M d, Y g:i A" }}
             </div>
             {% endif %}
           </div>
@@ -64,7 +64,7 @@
       <!-- Activities List -->
       <div class="bg-white rounded-lg border border-gray-200">
         <div class="px-6 py-4 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">Weekly Activities</h3>
+          <h3 class="text-lg font-medium text-gray-900">Activities</h3>
         </div>
 
         {% if activities %}
@@ -110,8 +110,8 @@
         <div class="p-8 text-center text-gray-500">
           <div class="text-4xl mb-4">📝</div>
           <h3 class="text-lg font-medium text-gray-900 mb-2">No Activities Logged</h3>
-          <p class="text-gray-600 mb-4">No activities have been logged for this week yet.</p>
-          <a href="{% url 'edit_weekly_activity_log' weekly_log.nanoid %}"
+          <p class="text-gray-600 mb-4">No activities have been logged for this period yet.</p>
+          <a href="{% url 'edit_weekly_activity_log' activity_log.nanoid %}"
             class="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors">
             ✏ Add Activities
           </a>

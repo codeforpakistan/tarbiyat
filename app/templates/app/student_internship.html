@@ -108,7 +108,7 @@
                     <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900">📅 Recent Activities</h3>
-                            <a href="{% url 'student_weekly_activities' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+                            <a href="{% url 'student_activities' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">
                                 View All →
                             </a>
                         </div>
@@ -129,7 +129,7 @@
                             <div class="text-center py-8">
                                 <div class="text-gray-400 text-4xl mb-4">📋</div>
                                 <p class="text-gray-600">No activity logs yet.</p>
-                                <a href="{% url 'create_weekly_activity_log' %}" class="inline-flex items-center mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                <a href="{% url 'create_activity_log' %}" class="inline-flex items-center mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                                     <span class="mr-2">➕</span>
                                     Create First Activity Log
                                 </a>
@@ -141,7 +141,7 @@
                     <div class="bg-white border border-gray-200 rounded-lg p-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">⚡ Quick Actions</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <a href="{% url 'create_weekly_activity_log' %}" 
+                            <a href="{% url 'create_activity_log' %}" 
                                class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                                 <span class="mr-3 text-xl">📝</span>
                                 <div>
@@ -150,7 +150,7 @@
                                 </div>
                             </a>
                             
-                            <a href="{% url 'student_weekly_activities' %}" 
+                            <a href="{% url 'student_activities' %}" 
                                class="flex items-center p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
                                 <span class="mr-2">📅</span>
                                 View All Activities
