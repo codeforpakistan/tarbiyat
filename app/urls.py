@@ -29,7 +29,8 @@ urlpatterns = [
     path('student/activities/create/', views.create_weekly_activity_log, name='create_weekly_activity_log'),
     path('student/activities/<str:log_nanoid>/edit/', views.edit_weekly_activity_log, name='edit_weekly_activity_log'),
     path('student/activities/<str:log_nanoid>/', views.view_weekly_activity_log, name='view_weekly_activity_log'),
-    
+    path('student/attendance/', views.student_attendance_view, name='student_attendance'),
+
     # Teacher URLs
     path('teacher/', views.teacher_dashboard_view, name='teacher_dashboard'),
     path('teacher/students/', views.teacher_students, name='teacher_students'),
@@ -37,6 +38,8 @@ urlpatterns = [
     path('teacher/internship/<str:internship_nanoid>/', views.teacher_internship_detail, name='teacher_internship_detail'),
     path('teacher/reports/', views.teacher_reports, name='teacher_reports'),
     path('teacher/reports/<str:report_nanoid>/', views.teacher_report_detail, name='teacher_report_detail'),
+    path('teacher/student/<str:student_nanoid>/', views.teacher_student_profile_view, name='teacher_student_profile'),
+
     
     # Official URLs
     path('official/', views.official_dashboard_view, name='official_dashboard'),

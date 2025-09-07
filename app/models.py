@@ -149,6 +149,8 @@ class StudentProfile(models.Model):
     portfolio_url = models.URLField(null=True, blank=True)
     expected_graduation = models.DateField(null=True, blank=True)
     is_available_for_internship = models.BooleanField(default=True)
+    contact_number = models.CharField(max_length=20, blank=True)
+    interests = models.TextField(blank=True)
     
     def get_profile_completion(self):
         """Calculate profile completion percentage"""
@@ -232,6 +234,7 @@ class MentorProfile(models.Model):
     # Administrative contact status
     is_admin_contact = models.BooleanField(default=False, help_text="Whether this mentor is an administrative contact for their company")
     can_register_organization = models.BooleanField(default=True, help_text="Whether this mentor can register a new company")
+    contact_number = models.CharField(max_length=20, blank=True)
     
     def can_join_company(self, company):
         """Check if mentor can join this company based on email domain"""
@@ -276,6 +279,7 @@ class TeacherProfile(models.Model):
     # Administrative contact status
     is_admin_contact = models.BooleanField(default=False, help_text="Whether this teacher is an administrative contact for their institute")
     can_register_organization = models.BooleanField(default=True, help_text="Whether this teacher can register a new institute")
+    contact_number = models.CharField(max_length=20, blank=True)
     
     def can_join_institute(self, institute):
         """Check if teacher can join this institute based on email domain"""
@@ -325,6 +329,7 @@ class OfficialProfile(models.Model):
         ],
         default='local'
     )
+    contact_number = models.CharField(max_length=20, blank=True)
     
     def get_pending_approvals_count(self):
         """Get count of organizations pending approval"""
@@ -458,7 +463,7 @@ class InternshipPosition(models.Model):
 class InternshipApplication(models.Model):
     """Student applications for internship positions"""
     STATUS_CHOICES = (
-        ('pending', 'Pending Review'),
+        ('pending', 'Pending Review'), 
         ('under_review', 'Under Review'),
         ('interview_scheduled', 'Interview Scheduled'),
         ('approved', 'Approved'),
@@ -526,11 +531,61 @@ class Internship(models.Model):
     teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    duration_weeks = models.PositiveIntegerField(default=8)
+    eligible_semesters = models.CharField(max_length=32, default='4-8')
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='active', null=True, blank=True)
     final_grade = models.CharField(max_length=2, null=True, blank=True)  # A, B, C, D, F
     certificate_issued = models.BooleanField(default=False)
     certificate_date = models.DateField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AttendanceRecord(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='attendance_records')
+    internship = models.ForeignKey(Internship, on_delete=models.CASCADE, related_name='attendance_records', null=True, blank=True)
+    date = models.DateField()
+    status = models.CharField(max_length=16, choices=[('present', 'Present'), ('absent', 'Absent'), ('leave', 'Leave')])
+    remarks = models.TextField(blank=True)
+
+class DailyTask(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='daily_tasks')
+    date = models.DateField()
+    task_description = models.TextField()
+    performance_notes = models.TextField(blank=True)
+
+class WeeklyActivityLog(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='weekly_logs')
+    week_start = models.DateField()
+    week_end = models.DateField()
+    log_file = models.FileField(upload_to='activity_logs/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+class InternshipReport(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='internship_reports')
+    report_file = models.FileField(upload_to='internship_reports/')
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+class OnSiteSupervisorEvaluation(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    supervisor = models.ForeignKey(MentorProfile, on_delete=models.CASCADE, related_name='evaluations')
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='onsite_evaluations')
+    evaluation_file = models.FileField(upload_to='onsite_evaluations/')
+    marks = models.PositiveIntegerField(null=True, blank=True)
+    feedback = models.TextField(blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+class OnCampusSupervisorEvaluation(models.Model):
+    nanoid = models.CharField(max_length=12, primary_key=True, default=generate_nanoid, editable=False)
+    supervisor = models.ForeignKey(TeacherProfile, on_delete=models.CASCADE, related_name='evaluations')
+    student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE, related_name='oncampus_evaluations')
+    evaluation_file = models.FileField(upload_to='oncampus_evaluations/')
+    marks = models.PositiveIntegerField(null=True, blank=True)
+    feedback = models.TextField(blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         student_name = self.student.user.get_full_name() if self.student else "No Student"

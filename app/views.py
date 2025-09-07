@@ -11,14 +11,15 @@ from datetime import date, timedelta
 from decimal import Decimal
 import os
 from django.conf import settings
+from nanoid import generate
 from .models import (
     StudentProfile, MentorProfile, TeacherProfile, OfficialProfile,
     InternshipPosition, InternshipApplication, Internship, Company, Institute, 
     Notification, OrganizationRegistrationRequest, ProgressReport,
-    StudentWeeklyActivityLog, StudentWeeklyActivity, StudentInternshipReport
+    StudentWeeklyActivityLog, StudentWeeklyActivity, StudentInternshipReport, AttendanceRecord
 )
 from .forms import (
-    StudentWeeklyActivityLogForm, StudentWeeklyActivityFormSet
+    StudentWeeklyActivityLogForm, StudentWeeklyActivityFormSet, AttendanceRecordForm
 )
 from django import forms
 from .utils import (
@@ -298,6 +299,22 @@ def teacher_students(request):
     return render(request, 'app/teacher_students.html', context)
 
 @login_required
+def teacher_student_profile_view(request, student_nanoid):
+    user_type = get_user_type(request.user)
+    if user_type != 'teacher':
+        messages.error(request, 'Access denied. Teacher account required.')
+        return redirect('home')
+
+    student_profile = get_object_or_404(StudentProfile, nanoid=student_nanoid)
+    internship = getattr(student_profile, 'internship', None)
+
+    context = {
+        'student_profile': student_profile,
+        'internship': internship,
+    }
+    return render(request, 'app/student_profile_detail.html', context)
+
+@login_required
 def teacher_internships(request):
     """View all internships for students from teacher's institute"""
     user_type = get_user_type(request.user)
@@ -380,12 +397,17 @@ def teacher_internship_detail(request, internship_nanoid):
     # Get reports and activity logs
     student_reports = internship.student_reports.all().order_by('-report_month')
     weekly_logs = internship.weekly_activity_logs.all().order_by('-week_starting')
+    attendance_records = AttendanceRecord.objects.filter(
+        student=internship.student,
+        internship=internship
+    ).order_by('-date')
     
     context = {
         'teacher_profile': teacher_profile,
         'internship': internship,
         'student_reports': student_reports,
         'weekly_logs': weekly_logs,
+        'attendance_records': attendance_records,
     }
     return render(request, 'app/teacher_internship_detail.html', context)
 
@@ -1246,14 +1268,77 @@ def create_student_profile_view(request):
     if hasattr(request.user, 'student_profile'):
         messages.info(request, 'Your profile already exists. You can edit it here.')
         return redirect('edit_profile')
-    
+
     if request.method == 'POST':
-        # Handle form submission (existing logic from create_student_profile)
-        # This would contain the form processing logic
-        pass
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        contact_number = request.POST.get('contact_number', '').strip()
+        institute_id = request.POST.get('institute')
+        year_of_study = request.POST.get('year_of_study')
+        major = request.POST.get('major', '').strip()
+        gpa = request.POST.get('gpa', '').strip()
+        skills = request.POST.get('skills', '').strip()
+        portfolio_url = request.POST.get('portfolio_url', '').strip()
+        expected_graduation = request.POST.get('expected_graduation', '').strip()
+        is_available_for_internship = 'available' in request.POST
+        if not first_name or not last_name or not email or not contact_number or not institute_id:
+            messages.error(request, 'Please fill all required fields.')
+            institutes = Institute.objects.all()
+            return render(request, 'app/create_student_profile.html', {'institutes': institutes})
+
+        # Update user fields
+        user = request.user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save()
+
+        # Create StudentProfile
+        profile = StudentProfile.objects.create(
+            nanoid=generate(size=12),
+            user=user,
+            contact_number=contact_number,
+            institute_id=institute_id,
+            year_of_study=year_of_study,
+            major=major,
+            gpa=float(gpa) if gpa else None,
+            skills=skills,
+            portfolio_url=portfolio_url,
+            expected_graduation=expected_graduation,
+            is_available_for_internship=is_available_for_internship,
+        )
+
+        messages.success(request, 'Student profile created successfully!')
+        return redirect_to_role_dashboard(request.user)
     
     institutes = Institute.objects.all()
     return render(request, 'app/create_student_profile.html', {'institutes': institutes})
+
+@login_required
+def student_attendance_view(request):
+    user_type = get_user_type(request.user)
+    if user_type != 'student':
+        messages.error(request, 'Access denied. Student account required.')
+        return redirect('home')
+
+    student_profile = request.user.student_profile
+    current_internship = Internship.objects.filter(student=student_profile, status='active').first()
+    if request.method == 'POST':
+        form = AttendanceRecordForm(request.POST)
+        if form.is_valid():
+            attendance = form.save(commit=False)
+            attendance.student = student_profile
+            attendance.internship = current_internship
+            attendance.save()
+            messages.success(request, 'Attendance recorded successfully.')
+            return redirect('student_attendance')
+    else:
+        form = AttendanceRecordForm()
+
+    records = AttendanceRecord.objects.filter(student=student_profile).order_by('-date')
+    return render(request, 'app/student_attendance.html', {'form': form, 'records': records})
+
 
 def create_mentor_profile_view(request):
     """Mentor profile creation view"""
@@ -1856,12 +1941,14 @@ def apply_position(request, position_nanoid):
         return redirect('create_profile')
     
     # Check if student has already applied
-    existing_application = InternshipApplication.objects.filter(
+    previous_applications = InternshipApplication.objects.filter(
         student=student_profile,
         position=position
-    ).first()
-    
-    if existing_application:
+    ).order_by('-applied_at')
+    latest_application = previous_applications.first()
+
+
+    if latest_application and latest_application.status not in ['rejected', 'withdrawn']:
         messages.info(request, 'You have already applied for this position.')
         return redirect('position_detail', position_nanoid=position_nanoid)
     
@@ -2837,6 +2924,7 @@ def mentor_interns(request):
     # Get statistics
     active_interns = internships.filter(status='active').count()
     completed_interns = internships.filter(status='completed').count()
+   
     
     context = {
         'mentor_profile': mentor_profile,
@@ -2884,10 +2972,16 @@ def student_profile_detail(request, student_nanoid):
         messages.error(request, 'Student profile not found.')
         return redirect('mentor_interns')
     
+    attendance_records = AttendanceRecord.objects.filter(
+        student=student_profile,
+        internship=internship
+    ).order_by('-date')
+
     context = {
         'student_profile': student_profile,
         'mentor_profile': mentor_profile,
         'internship': internship,
+        'attendance_records': attendance_records,
     }
     return render(request, 'app/student_profile_detail.html', context)
 
@@ -3016,12 +3110,6 @@ def edit_progress_report(request, report_nanoid):
     if user_type != 'mentor':
         messages.error(request, 'Access denied. Mentor account required.')
         return redirect('home')
-    
-    try:
-        mentor_profile = request.user.mentor_profile
-    except MentorProfile.DoesNotExist:
-        messages.warning(request, 'Please complete your mentor profile first.')
-        return redirect('create_profile')
     
     # Get the progress report
     report = get_object_or_404(
