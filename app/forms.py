@@ -3,7 +3,8 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.forms import formset_factory
 from typing import TYPE_CHECKING
-from .models import StudentWeeklyActivityLog, StudentWeeklyActivity
+from .models import StudentWeeklyActivityLog, StudentWeeklyActivity, AttendanceRecord
+
 
 if TYPE_CHECKING:
     from django.http import HttpRequest
@@ -67,6 +68,17 @@ class StudentWeeklyActivityLogForm(forms.ModelForm):
                 'class': 'w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
                 'type': 'date'
             }),
+        }
+
+class AttendanceRecordForm(forms.ModelForm):
+    class Meta:
+        model = AttendanceRecord
+        fields = ['internship','date', 'status', 'remarks']
+        widgets = {
+            'internship': forms.Select(attrs={'class': 'w-full px-3 py-2 border rounded-md'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
+            'status': forms.Select(),
+            'remarks': forms.Textarea(attrs={'rows': 2}),
         }
 
 # Create a formset for multiple activities
