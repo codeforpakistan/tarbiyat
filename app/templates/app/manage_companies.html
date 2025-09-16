@@ -40,26 +40,10 @@
             <div class="mb-6">
                 <form method="GET" class="flex flex-wrap gap-3">
                     <div class="flex-grow">
-                        <input type="text" 
-                               class="w-full px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-                               name="search" 
-                               placeholder="Search companies by name, industry, or email..."
-                               value="{{ search_query|default:'' }}">
+                        {{ search_form.search }}
                     </div>
-                    <select name="status" class="px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">All Status</option>
-                        {% for value, display in status_choices %}
-                            <option value="{{ value }}" 
-                                    {% if status_filter == value %}selected{% endif %}>
-                                {{ display }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <select name="domain_verified" class="px-3 py-2 border border-gray-200 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Domain Status</option>
-                        <option value="true" {% if domain_filter == 'true' %}selected{% endif %}>Verified</option>
-                        <option value="false" {% if domain_filter == 'false' %}selected{% endif %}>Not Verified</option>
-                    </select>
+                    {{ search_form.status }}
+                    {{ search_form.domain_verified }}
                     <button type="submit" class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Filter</button>
                     <a href="{% url 'manage_companies' %}" class="px-4 py-2 border border-gray-200 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Clear</a>
                 </form>

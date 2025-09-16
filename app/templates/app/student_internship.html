@@ -38,20 +38,72 @@
                             <div class="space-y-3">
                                 <div>
                                     <span class="text-sm text-gray-600">Position:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.title }}</p>
+                                    <p class="font-medium text-gray-900">
+                                        {% if current_internship.position %}
+                                            {{ current_internship.position.title|default:"Position title not available" }}
+                                        {% else %}
+                                            Position not available
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600">Company:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.company.name }}</p>
+                                    <p class="font-medium text-gray-900">
+                                        {% if current_internship.position and current_internship.position.company %}
+                                            {{ current_internship.position.company.name|default:"Company name not available" }}
+                                        {% elif current_internship.mentor and current_internship.mentor.company %}
+                                            {{ current_internship.mentor.company.name }}
+                                        {% else %}
+                                            Company not available
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600">Mentor:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.mentor.user.get_full_name }}</p>
+                                    <p class="font-medium text-gray-900">
+                                        {% if current_internship.mentor %}
+                                            {{ current_internship.mentor.user.get_full_name|default:"Mentor name not available" }}
+                                        {% else %}
+                                            Mentor not assigned
+                                        {% endif %}
+                                    </p>
                                 </div>
+                                {% if current_internship.teacher %}
+                                <div>
+                                    <span class="text-sm text-gray-600">Teacher:</span>
+                                    <p class="font-medium text-gray-900">{{ current_internship.teacher.user.get_full_name }}</p>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <span class="text-sm text-gray-600">Status:</span>
+                                    <p class="font-medium text-gray-900">
+                                        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                                            {% if current_internship.status == 'active' %}bg-green-100 text-green-800
+                                            {% elif current_internship.status == 'completed' %}bg-blue-100 text-blue-800
+                                            {% elif current_internship.status == 'terminated' %}bg-red-100 text-red-800
+                                            {% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                            {{ current_internship.get_status_display }}
+                                        </span>
+                                    </p>
+                                </div>
+                                {% if current_internship.position.duration %}
                                 <div>
                                     <span class="text-sm text-gray-600">Duration:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.duration }} weeks</p>
+                                    <p class="font-medium text-gray-900">{{ current_internship.position.duration }} week program</p>
                                 </div>
+                                {% endif %}
+                                {% if current_internship.final_grade %}
+                                <div>
+                                    <span class="text-sm text-gray-600">Final Grade:</span>
+                                    <p class="font-medium text-gray-900">{{ current_internship.final_grade }}</p>
+                                </div>
+                                {% endif %}
+                                {% if current_internship.certificate_issued %}
+                                <div>
+                                    <span class="text-sm text-gray-600">Certificate:</span>
+                                    <p class="font-medium text-green-600">✓ Issued on {{ current_internship.certificate_date|date:"M d, Y" }}</p>
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -60,26 +112,52 @@
                             <div class="space-y-3">
                                 <div>
                                     <span class="text-sm text-gray-600">Start Date:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.start_date|date:"M d, Y" }}</p>
+                                    <p class="font-medium text-gray-900">
+                                        {% if current_internship.start_date %}
+                                            {{ current_internship.start_date|date:"M d, Y" }}
+                                        {% elif current_internship.position.start_date %}
+                                            {{ current_internship.position.start_date|date:"M d, Y" }}
+                                        {% else %}
+                                            Not set
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600">End Date:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.end_date|date:"M d, Y" }}</p>
+                                    <p class="font-medium text-gray-900">
+                                        {% if current_internship.end_date %}
+                                            {{ current_internship.end_date|date:"M d, Y" }}
+                                        {% elif current_internship.position.end_date %}
+                                            {{ current_internship.position.end_date|date:"M d, Y" }}
+                                        {% else %}
+                                            Not set
+                                        {% endif %}
+                                    </p>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-600">Started:</span>
                                     <p class="font-medium text-gray-900">{{ current_internship.created_at|date:"M d, Y" }}</p>
                                 </div>
-                                {% if current_internship.position.is_remote %}
-                                <div>
-                                    <span class="text-sm text-gray-600">Work Type:</span>
-                                    <p class="font-medium text-green-600">🏠 Remote</p>
-                                </div>
-                                {% else %}
-                                <div>
-                                    <span class="text-sm text-gray-600">Location:</span>
-                                    <p class="font-medium text-gray-900">{{ current_internship.position.company.address|default:"On-site" }}</p>
-                                </div>
+                                {% if current_internship.position %}
+                                    {% if current_internship.position.is_remote %}
+                                    <div>
+                                        <span class="text-sm text-gray-600">Work Type:</span>
+                                        <p class="font-medium text-green-600">🏠 Remote</p>
+                                    </div>
+                                    {% else %}
+                                    <div>
+                                        <span class="text-sm text-gray-600">Location:</span>
+                                        <p class="font-medium text-gray-900">
+                                            {% if current_internship.position.company.address %}
+                                                {{ current_internship.position.company.address }}
+                                            {% elif current_internship.mentor.company.address %}
+                                                {{ current_internship.mentor.company.address }}
+                                            {% else %}
+                                                On-site
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -121,7 +199,7 @@
                                         <h4 class="font-medium text-gray-900">Week of {{ activity_log.week_starting|date:"M d, Y" }}</h4>
                                         <span class="text-sm text-gray-500">{{ activity_log.submitted_at|date:"M d, Y" }}</span>
                                     </div>
-                                    <p class="text-sm text-gray-600 mt-1">{{ activity_log.activities.count }} activities logged</p>
+                                    <p class="text-sm text-gray-600 mt-1">{{ activity_log.entries.count }} entries logged</p>
                                 </div>
                                 {% endfor %}
                             </div>

@@ -18,7 +18,7 @@
                         <h2 class="text-3xl font-semibold text-gray-900">Edit Student Profile</h2>
                         <p class="text-gray-600 mt-2">Update your academic information and preferences</p>
                     </div>
-                    <a href="{% url 'student_dashboard' %}" class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    <a href="{% url 'student_dashboard' %}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                         Back to Dashboard
                     </a>
                 </div>
@@ -28,45 +28,51 @@
         <form method="post" enctype="multipart/form-data" class="p-8">
             {% csrf_token %}
             
+            {% if form.non_field_errors %}
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <div class="flex items-start">
+                        <span class="text-red-400 mt-0.5 mr-3 flex-shrink-0 text-lg">⚠️</span>
+                        <div>
+                            <p class="text-sm font-medium text-red-800">Please correct the following errors:</p>
+                            {% for error in form.non_field_errors %}
+                                <p class="text-sm text-red-700 mt-1">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
             <!-- Personal Information -->
             <div class="mb-8">
                 <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Personal Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                        <input type="text" 
-                                id="first_name" 
-                                name="first_name" 
-                                value="{{ user.first_name }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.first_name.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                        <input type="text" 
-                                id="last_name" 
-                                name="last_name" 
-                                value="{{ user.last_name }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                        <input type="email" 
-                                id="email" 
-                                name="email" 
-                                value="{{ user.email }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.last_name.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                        <input type="tel" 
-                                id="phone" 
-                                name="phone" 
-                                value="{{ profile.phone|default:'' }}"
-                                placeholder="+92 300 1234567"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                        <label for="id_email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.phone.errors.0 }}</p>
+                        {% endif %}
                         <p class="text-sm text-gray-500 mt-1">Enter your contact number for communication</p>
                     </div>
                 </div>
@@ -104,49 +110,39 @@
                         </div>
                     </div>
                     <div>
-                        <label for="semester_of_study" class="block text-sm font-medium text-gray-700 mb-2">Semester of Study</label>
-                        <select id="semester_of_study" 
-                                name="semester_of_study" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
-                                required>
-                            <option value="">Select Semester</option>
-                            <option value="4" {% if profile.semester_of_study == '4' %}selected{% endif %}>4th Semester</option>
-                            <option value="5" {% if profile.semester_of_study == '5' %}selected{% endif %}>5th Semester</option>
-                            <option value="6" {% if profile.semester_of_study == '6' %}selected{% endif %}>6th Semester</option>
-                            <option value="7" {% if profile.semester_of_study == '7' %}selected{% endif %}>7th Semester</option>
-                            <option value="8" {% if profile.semester_of_study == '8' %}selected{% endif %}>8th Semester</option>
-                        </select>
+                        <label for="id_semester_of_study" class="block text-sm font-medium text-gray-700 mb-2">Semester of Study</label>
+                        {{ form.semester_of_study }}
+                        {% if form.semester_of_study.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.semester_of_study.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="major" class="block text-sm font-medium text-gray-700 mb-2">Major</label>
-                        <input type="text" 
-                                id="major" 
-                                name="major" 
-                                value="{{ profile.major }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                placeholder="e.g., Computer Science"
-                                required>
+                        <label for="id_major" class="block text-sm font-medium text-gray-700 mb-2">Major</label>
+                        {{ form.major }}
+                        {% if form.major.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.major.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="gpa" class="block text-sm font-medium text-gray-700 mb-2">GPA</label>
-                        <input type="number" 
-                                id="gpa" 
-                                name="gpa" 
-                                value="{{ profile.gpa }}"
-                                step="0.01" 
-                                min="0" 
-                                max="4"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_student_id" class="block text-sm font-medium text-gray-700 mb-2">Student ID</label>
+                        {{ form.student_id }}
+                        {% if form.student_id.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.student_id.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="expected_graduation" class="block text-sm font-medium text-gray-700 mb-2">Expected Graduation Date</label>
-                        <input type="date" 
-                                id="expected_graduation" 
-                                name="expected_graduation" 
-                                value="{{ profile.expected_graduation|date:'Y-m-d' }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_gpa" class="block text-sm font-medium text-gray-700 mb-2">GPA</label>
+                        {{ form.gpa }}
+                        {% if form.gpa.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.gpa.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_expected_graduation" class="block text-sm font-medium text-gray-700 mb-2">Expected Graduation Date</label>
+                        {{ form.expected_graduation }}
+                        {% if form.expected_graduation.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.expected_graduation.errors.0 }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -156,26 +152,22 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Skills and Portfolio</h3>
                 <div class="space-y-6">
                     <div>
-                        <label for="skills" class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
-                        <textarea id="skills" 
-                                    name="skills" 
-                                    rows="4"
-                                    class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 resize-vertical"
-                                    placeholder="List your technical and soft skills..."
-                                    required>{{ profile.skills }}</textarea>
+                        <label for="id_skills" class="block text-sm font-medium text-gray-700 mb-2">Skills</label>
+                        {{ form.skills }}
+                        {% if form.skills.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.skills.errors.0 }}</p>
+                        {% endif %}
                         <p class="text-sm text-gray-500 mt-2">List your technical skills, programming languages, frameworks, and soft skills.</p>
                     </div>
                     <div>
-                        <label for="portfolio_url" class="block text-sm font-medium text-gray-700 mb-2">Portfolio URL (Optional)</label>
-                        <input type="url" 
-                                id="portfolio_url" 
-                                name="portfolio_url" 
-                                value="{{ profile.portfolio_url }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200" 
-                                placeholder="https://yourportfolio.com">
+                        <label for="id_portfolio_url" class="block text-sm font-medium text-gray-700 mb-2">Portfolio URL (Optional)</label>
+                        {{ form.portfolio_url }}
+                        {% if form.portfolio_url.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.portfolio_url.errors.0 }}</p>
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="resume" class="block text-sm font-medium text-gray-700 mb-2">Resume Upload</label>
+                        <label for="id_resume" class="block text-sm font-medium text-gray-700 mb-2">Resume Upload</label>
                         {% if profile.resume %}
                             <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                                 <div class="flex items-center justify-between">
@@ -195,40 +187,23 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <input type="file" 
-                                id="resume" 
-                                name="resume" 
-                                accept=".pdf,.doc,.docx"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-                                onchange="updateFileName(this)">
+                        {{ form.resume }}
+                        {% if form.resume.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.resume.errors.0 }}</p>
+                        {% endif %}
                         <p class="text-sm text-gray-500 mt-2" id="file-name">Upload your resume in PDF, DOC, or DOCX format. Maximum file size: 5MB.</p>
                     </div>
-                </div>
-            </div>
-
-            <!-- Preferences -->
-            <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Preferences</h3>
-                <div class="flex items-center p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <input type="checkbox" 
-                            id="available" 
-                            name="available" 
-                            {% if profile.is_available_for_internship %}checked{% endif %}
-                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-200 rounded">
-                    <label for="available" class="ml-3 block text-sm font-medium text-gray-900">
-                        I am available for internship opportunities
-                    </label>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
                 <a href="{% url 'student_dashboard' %}" 
-                    class="bg-gray-50 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
                     Cancel
                 </a>
                 <button type="submit" 
-                        class="bg-white bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2  border border-gray-200">
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">
                     Save Changes
                 </button>
             </div>

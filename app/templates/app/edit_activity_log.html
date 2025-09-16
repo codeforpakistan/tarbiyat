@@ -13,8 +13,8 @@
       <!-- Header -->
       <div class="flex justify-between items-center mb-8">
         <div>
-          <h2 class="text-2xl font-semibold text-gray-900">Edit Activity Log</h2>
-          <p class="text-gray-600">Period starting {{ activity_log.period_starting|date:"F d, Y" }}</p>
+          <h2 class="text-2xl font-semibold text-gray-900">Edit Weekly Activity Log</h2>
+          <p class="text-gray-600">Week starting {{ activity_log.week_starting|date:"F d, Y" }}</p>
         </div>
         <div class="flex space-x-2">
           <a
@@ -25,117 +25,143 @@
         </div>
       </div>
 
-      <!-- Form -->
-      <div class="bg-white rounded-lg  border border-gray-200">
+      <!-- Simple Form -->
+      <div class="bg-white rounded-lg border border-gray-200">
         <form method="post" class="p-6">
           {% csrf_token %}
           
           <!-- Week Selection -->
-          <div class="mb-6 pb-6 border-b border-gray-200">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Week Information</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label for="{{ log_form.period_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                  Period Starting Date
-                </label>
-                {{ log_form.period_starting }}
-                {% if log_form.period_starting.errors %}
-                  <div class="mt-1 text-sm text-red-600">
-                    {{ log_form.period_starting.errors.0 }}
-                  </div>
-                {% endif %}
-                <p class="mt-1 text-sm text-gray-500">Select the Monday of the week you're reporting</p>
-              </div>
+          <div class="mb-8 pb-6 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">📅 Week Information</h3>
+            <div class="max-w-sm">
+              <label for="{{ log_form.week_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                Week Starting (Monday)
+              </label>
+              {{ log_form.week_starting }}
+              {% if log_form.week_starting.errors %}
+                <div class="mt-1 text-sm text-red-600">
+                  {{ log_form.week_starting.errors.0 }}
+                </div>
+              {% endif %}
+              <p class="mt-1 text-sm text-gray-500">Select the Monday of the week you're reporting</p>
             </div>
           </div>
 
-          <!-- Activities Section -->
-          <div class="mb-6">
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Activities</h3>
-            <p class="text-sm text-gray-600 mb-4">Edit your activities below. You can add new activities or remove existing ones.</p>
+          <!-- Daily Activities -->
+          <div class="mb-8">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">📝 Daily Activities</h3>
+            <p class="text-sm text-gray-600 mb-6">Record what you did each day during your internship. You don't need to fill every day.</p>
             
-            <div id="activity-formset">
+            <div class="space-y-6">
               {{ activity_formset.management_form }}
               {% for form in activity_formset %}
-              <div class="activity-form mb-6 p-4 border border-gray-200 rounded-lg relative bg-white" data-form-index="{{ forloop.counter0 }}">
+              <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                <!-- Hidden fields -->
+                {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+                
                 <!-- Delete checkbox (hidden) -->
                 {% if form.DELETE %}
                   {{ form.DELETE }}
                 {% endif %}
                 
-                <!-- Form fields -->
-                <div class="grid grid-cols-1 gap-4">
-                  <!-- Task Description -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+                  <!-- Date Field -->
                   <div>
-                    <label for="{{ form.task_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                      Task Description <span class="text-red-500">*</span>
+                    <label for="{{ form.date.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                      Date
                     </label>
-                    {{ form.task_description }}
-                    {% if form.task_description.errors %}
+                    {{ form.date }}
+                    {% if form.date.errors %}
                       <div class="mt-1 text-sm text-red-600">
-                        {{ form.task_description.errors.0 }}
+                        {{ form.date.errors.0 }}
                       </div>
                     {% endif %}
                   </div>
                   
-                  <!-- Hours and Date Row -->
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label for="{{ form.hours_spent.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Hours Spent <span class="text-red-500">*</span>
-                      </label>
-                      {{ form.hours_spent }}
-                      {% if form.hours_spent.errors %}
-                        <div class="mt-1 text-sm text-red-600">
-                          {{ form.hours_spent.errors.0 }}
-                        </div>
-                      {% endif %}
-                    </div>
-                    
-                    <div>
-                      <label for="{{ form.date_performed.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Date Performed <span class="text-red-500">*</span>
-                      </label>
-                      {{ form.date_performed }}
-                      {% if form.date_performed.errors %}
-                        <div class="mt-1 text-sm text-red-600">
-                          {{ form.date_performed.errors.0 }}
-                        </div>
-                      {% endif %}
-                    </div>
+                  <!-- Description Field -->
+                  <div class="md:col-span-2">
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                      What did you do?
+                    </label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                      <div class="mt-1 text-sm text-red-600">
+                        {{ form.description.errors.0 }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  
+                  <!-- Remove Button -->
+                  <div class="flex items-end">
+                    <button type="button" class="remove-activity w-full px-3 py-2 text-red-600 hover:text-red-800 hover:bg-red-50 border border-red-200 rounded-md text-sm transition-colors cursor-pointer">
+                      🗑️ Remove
+                    </button>
                   </div>
                 </div>
-                
-                <!-- Delete button -->
-                <button type="button" class="delete-activity absolute top-2 right-2 text-red-500 hover:text-red-700 text-sm font-medium">
-                  🗑️ Remove
-                </button>
               </div>
               {% endfor %}
             </div>
             
-            <!-- Add More Activity Button -->
-            <button type="button" id="add-activity" class="inline-flex items-center px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium rounded-md transition-colors">
-              ➕ Add Another Activity
-            </button>
+            <!-- Add Activity Button -->
+            <div class="mt-6">
+              <button type="button" id="add-activity" class="inline-flex items-center px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium rounded-md transition-colors cursor-pointer">
+                ➕ Add Another Day
+              </button>
+            </div>
           </div>
 
           <!-- Submit Buttons -->
-          <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-            <a
-              href="{% url 'view_activity_log' activity_log.nanoid %}"
-              class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors">
-              Cancel
-            </a>
-            <button
-              type="submit"
-              class="inline-flex items-center px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
-              💾 Save Changes
-            </button>
+          <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+            <div class="text-sm text-gray-500">
+              💡 Tip: Be specific about your activities - this helps your mentor and teacher understand your progress!
+            </div>
+            <div class="flex space-x-4">
+              <a
+                href="{% url 'view_activity_log' activity_log.nanoid %}"
+                class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors">
+                Cancel
+              </a>
+              <button
+                type="submit"
+                class="inline-flex items-center px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors cursor-pointer">
+                💾 Save Activity Log
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+// Simple JavaScript for dynamic form management
+document.addEventListener('DOMContentLoaded', function() {
+    let formCount = {{ activity_formset.total_form_count }};
+    const maxForms = {{ activity_formset.max_num }};
+    
+    // Add activity form
+    document.getElementById('add-activity').addEventListener('click', function() {
+        if (formCount < maxForms) {
+            const formset = document.querySelector('#activity-formset');
+            // This is simplified - in production you'd clone the form template
+            console.log('Add form functionality - implement form cloning');
+        }
+    });
+    
+    // Remove activity forms
+    document.querySelectorAll('.remove-activity').forEach(button => {
+        button.addEventListener('click', function() {
+            const form = button.closest('.border-gray-200');
+            const deleteInput = form.querySelector('input[name$="-DELETE"]');
+            if (deleteInput) {
+                deleteInput.checked = true;
+                form.style.display = 'none';
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

@@ -20,14 +20,17 @@ urlpatterns = [
     path('mentor/applications/<str:application_nanoid>/accept/', views.accept_application, name='accept_application'),
     path('mentor/applications/<str:application_nanoid>/reject/', views.reject_application, name='reject_application'),
     path('mentor/interns/', views.mentor_interns, name='mentor_interns'),
+    path('mentor/internship/<str:internship_nanoid>/evaluate/', views.create_supervisor_evaluation, name='create_supervisor_evaluation'),
     
     # Student URLs
     path('student/', views.student_dashboard_view, name='student_dashboard'),
     path('student/applications/', views.student_applications, name='student_applications'),
     path('student/applications/<str:application_id>/withdraw/', views.withdraw_application, name='withdraw_application'),
     path('student/internship/', views.student_internship, name='student_internship'),
+    path('student/internship/<str:internship_nanoid>/report/', views.submit_student_report, name='submit_student_report'),
     path('student/activities/', views.student_activities, name='student_activities'),
     path('student/activities/create/', views.create_activity_log, name='create_activity_log'),
+    path('student/activities/add-entry/', views.add_entry_form, name='add_entry_form'),
     path('student/activities/<str:log_nanoid>/edit/', views.edit_activity_log, name='edit_activity_log'),
     path('student/activities/<str:log_nanoid>/', views.view_activity_log, name='view_activity_log'),
     
@@ -72,9 +75,12 @@ urlpatterns = [
     path('positions/<str:position_nanoid>/edit/', views.edit_position, name='edit_position'),
     
     # Progress report management URLs
-    path('internships/<str:internship_nanoid>/progress-reports/', views.mentor_progress_reports, name='mentor_progress_reports'),
-    path('internships/<str:internship_nanoid>/progress-reports/create/', views.create_progress_report, name='create_progress_report'),
-    path('progress-reports/<str:report_nanoid>/edit/', views.edit_progress_report, name='edit_progress_report'),
+    path('internships/<str:internship_nanoid>/reports/', views.mentor_progress_reports, name='mentor_progress_reports'),
+    path('internships/<str:internship_nanoid>/reports/create/', views.create_progress_report, name='create_progress_report'),
+    path('reports/<str:report_nanoid>/edit/', views.edit_progress_report, name='edit_progress_report'),
+    
+    # Internship management URLs
+    path('internships/<str:internship_nanoid>/edit/', views.edit_internship_status, name='edit_internship_status'),
     
     # Demo and Documentation URLs
     path('docs/', views.documentation_index, name='documentation_index'),

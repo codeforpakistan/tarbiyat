@@ -1,0 +1,432 @@
+{% extends "app/page.html" %}
+{% load static %}
+
+{% block title %}Edit Institute - {{ institute.name }}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/teacher_sidebar.html' %}
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-semibold text-gray-900">Edit Institute</h1>
+                        <p class="text-gray-600 mt-2">Update {{ institute.name }} information</p>
+                    </div>
+                    <a href="{% url 'teacher_dashboard' %}" 
+                       class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Edit Form -->
+            <div class="bg-white rounded-xl border border-gray-200">
+                <form method="post" class="p-8 space-y-8">
+                    {% csrf_token %}
+            
+            <!-- Basic Information -->
+            <div class="border-b border-gray-200 pb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Basic Information</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label for="id_name" class="block text-sm font-medium text-gray-700 mb-2">
+                            Institute Name <span class="text-red-500">*</span>
+                        </label>
+                        {{ form.name }}
+                    </div>
+                    
+                    <div>
+                        <label for="id_district" class="block text-sm font-medium text-gray-700 mb-2">
+                            District
+                        </label>
+                        {{ form.district }}
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label for="id_address" class="block text-sm font-medium text-gray-700 mb-2">
+                            Address
+                        </label>
+                        {{ form.address }}
+                    </div>
+                    
+                    <div>
+                        <label for="id_website" class="block text-sm font-medium text-gray-700 mb-2">
+                            Website
+                        </label>
+                        {{ form.website }}
+                    </div>
+                    
+                    <div>
+                        <label for="id_contact_email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Contact Email
+                        </label>
+                        {{ form.contact_email }}
+                    </div>
+                    
+                    <div>
+                        <label for="id_phone" class="block text-sm font-medium text-gray-700 mb-2">
+                            Phone
+                        </label>
+                        {{ form.phone }}
+                    </div>
+                    
+                    <div>
+                        <label for="id_email_domain" class="block text-sm font-medium text-gray-700 mb-2">
+                            Email Domain
+                        </label>
+                        {{ form.email_domain }}
+                        <p class="text-sm text-gray-500 mt-1">Official email domain (e.g., university.edu.pk)</p>
+                    </div>
+                </div>
+            </div>
+                    
+                    <div>
+                        <label for="established_year" class="block text-gray-700 mb-2">
+                            Established Year
+                        </label>
+                        <input type="number" 
+                               id="established_year" 
+                               name="established_year" 
+                               value="{{ institute.established_year|default:'' }}"
+                               min="1800" 
+                               max="2024"
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="website" class="block text-gray-700 mb-2">
+                            Website URL
+                        </label>
+                        <input type="url" 
+                               id="website" 
+                               name="website" 
+                               value="{{ institute.website|default:'' }}"
+                               placeholder="https://example.edu"
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <label for="description" class="block text-gray-700 mb-2">
+                        Description
+                    </label>
+                    <textarea id="description" 
+                              name="description" 
+                              rows="4" 
+                              class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                              placeholder="Brief description of the institute...">{{ institute.description|default:'' }}</textarea>
+                </div>
+                
+                <div class="mt-6">
+                    <label for="address" class="block text-gray-700 mb-2">
+                        Address
+                    </label>
+                    <textarea id="address" 
+                              name="address" 
+                              rows="3" 
+                              class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500" 
+                              placeholder="Institute address...">{{ institute.address|default:'' }}</textarea>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="border-b border-gray-200 pb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div>
+                        <label for="contact_email" class="block text-gray-700 mb-2">
+                            Contact Email
+                        </label>
+                        <input type="email" 
+                               id="contact_email" 
+                               name="contact_email" 
+                               value="{{ institute.contact_email|default:'' }}"
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-gray-700 mb-2">
+                            Phone Number
+                        </label>
+                        <input type="tel" 
+                               id="phone" 
+                               name="phone" 
+                               value="{{ institute.phone|default:'' }}"
+                               class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Email Domain Verification -->
+            <div class="pb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Email Domain Verification</h3>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <span class="text-blue-500 text-lg">ℹ️</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-blue-800 font-medium">Email Domain Verification</h3>
+                            <div class="mt-2 text-blue-600">
+                                <p>Setting an email domain allows automatic verification of students and staff from your institute. Only users with emails from this domain will be able to join your institute automatically.</p>
+                                <p class="mt-1"><strong>Example:</strong> If your domain is "university.edu.pk", then users with emails like "student@university.edu.pk" can join automatically.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="email_domain" class="block text-gray-700 mb-2">
+                        Email Domain (optional)
+                    </label>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">@</span>
+                        <input type="text" 
+                               id="email_domain" 
+                               name="email_domain" 
+                               value="{{ institute.email_domain|default:'' }}"
+                               placeholder="university.edu.pk"
+                               class="flex-1 px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Enter the domain without the @ symbol. Leave blank if you don't want domain verification.
+                    </p>
+                </div>
+
+                {% if institute.domain_verified %}
+                <div class="mt-4 bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <span class="text-green-400 text-lg">✅</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-green-800 font-medium">Domain Verified</h3>
+                            <div class="mt-2 text-green-700">
+                                <p>Your institute's email domain has been verified by an official.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% elif institute.email_domain %}
+                <div class="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <span class="text-yellow-400 text-lg">⚠️</span>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-yellow-800 font-medium">Verification Pending</h3>
+                            <div class="mt-2 text-yellow-700">
+                                <p>Your email domain is set but awaiting verification by an official. Domain-based auto-joining is disabled until verified.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Demographics & Programs -->
+            <div class="border-b border-gray-200 pb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Demographics & Programs</h3>
+                
+                <!-- Location -->
+                <div class="mb-6">
+                    <label for="district" class="block text-gray-700 mb-2">
+                        District
+                    </label>
+                    <select id="district" 
+                            name="district" 
+                            class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Select District</option>
+                        <option value="Abbottabad" {% if institute.district == 'Abbottabad' %}selected{% endif %}>Abbottabad</option>
+                        <option value="Bajaur" {% if institute.district == 'Bajaur' %}selected{% endif %}>Bajaur</option>
+                        <option value="Bannu" {% if institute.district == 'Bannu' %}selected{% endif %}>Bannu</option>
+                        <option value="Battagram" {% if institute.district == 'Battagram' %}selected{% endif %}>Battagram</option>
+                        <option value="Bunner" {% if institute.district == 'Bunner' %}selected{% endif %}>Bunner</option>
+                        <option value="Charsadda" {% if institute.district == 'Charsadda' %}selected{% endif %}>Charsadda</option>
+                        <option value="D.I.Khan" {% if institute.district == 'D.I.Khan' %}selected{% endif %}>D.I.Khan</option>
+                        <option value="Dir Lower" {% if institute.district == 'Dir Lower' %}selected{% endif %}>Dir Lower</option>
+                        <option value="Dir Upper" {% if institute.district == 'Dir Upper' %}selected{% endif %}>Dir Upper</option>
+                        <option value="Hangu" {% if institute.district == 'Hangu' %}selected{% endif %}>Hangu</option>
+                        <option value="Haripur" {% if institute.district == 'Haripur' %}selected{% endif %}>Haripur</option>
+                        <option value="Karak" {% if institute.district == 'Karak' %}selected{% endif %}>Karak</option>
+                        <option value="Khyber" {% if institute.district == 'Khyber' %}selected{% endif %}>Khyber</option>
+                        <option value="Kohat" {% if institute.district == 'Kohat' %}selected{% endif %}>Kohat</option>
+                        <option value="Kohistan" {% if institute.district == 'Kohistan' %}selected{% endif %}>Kohistan</option>
+                        <option value="Kurram" {% if institute.district == 'Kurram' %}selected{% endif %}>Kurram</option>
+                        <option value="Lakki Marwat" {% if institute.district == 'Lakki Marwat' %}selected{% endif %}>Lakki Marwat</option>
+                        <option value="Lower Chitral" {% if institute.district == 'Lower Chitral' %}selected{% endif %}>Lower Chitral</option>
+                        <option value="Malakand" {% if institute.district == 'Malakand' %}selected{% endif %}>Malakand</option>
+                        <option value="Mansehra" {% if institute.district == 'Mansehra' %}selected{% endif %}>Mansehra</option>
+                        <option value="Mardan" {% if institute.district == 'Mardan' %}selected{% endif %}>Mardan</option>
+                        <option value="Mohmand" {% if institute.district == 'Mohmand' %}selected{% endif %}>Mohmand</option>
+                        <option value="North Waziristan" {% if institute.district == 'North Waziristan' %}selected{% endif %}>North Waziristan</option>
+                        <option value="Nowshera" {% if institute.district == 'Nowshera' %}selected{% endif %}>Nowshera</option>
+                        <option value="Orakzai" {% if institute.district == 'Orakzai' %}selected{% endif %}>Orakzai</option>
+                        <option value="Peshawar" {% if institute.district == 'Peshawar' %}selected{% endif %}>Peshawar</option>
+                        <option value="Shangla" {% if institute.district == 'Shangla' %}selected{% endif %}>Shangla</option>
+                        <option value="South Waziristan" {% if institute.district == 'South Waziristan' %}selected{% endif %}>South Waziristan</option>
+                        <option value="Swabi" {% if institute.district == 'Swabi' %}selected{% endif %}>Swabi</option>
+                        <option value="Swat" {% if institute.district == 'Swat' %}selected{% endif %}>Swat</option>
+                        <option value="Tank" {% if institute.district == 'Tank' %}selected{% endif %}>Tank</option>
+                        <option value="Upper Chitral" {% if institute.district == 'Upper Chitral' %}selected{% endif %}>Upper Chitral</option>
+                    </select>
+                </div>
+
+                <!-- Student Demographics -->
+                <div class="mb-6">
+                    <h4 class="text-md font-medium text-gray-800 mb-3">Student Demographics</h4>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div>
+                            <label for="male_students_count" class="block text-gray-700 mb-2">
+                                Male Students Count
+                            </label>
+                            <input type="number" 
+                                   id="male_students_count" 
+                                   name="male_students_count" 
+                                   value="{{ institute.male_students_count|default:'0' }}"
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                        
+                        <div>
+                            <label for="female_students_count" class="block text-gray-700 mb-2">
+                                Female Students Count
+                            </label>
+                            <input type="number" 
+                                   id="female_students_count" 
+                                   name="female_students_count" 
+                                   value="{{ institute.female_students_count|default:'0' }}"
+                                   min="0"
+                                   class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        </div>
+                    </div>
+                    
+                    <!-- Gender Ratio Display -->
+                    <div class="mt-4 p-4 bg-gray-50 rounded-md">
+                        <p class="text-sm text-gray-600">
+                            <strong>Total Students:</strong> <span id="total-students">{{ institute.get_total_students }}</span> |
+                            <strong>Gender Ratio:</strong> 
+                            <span id="gender-ratio">
+                                {% with ratio=institute.get_gender_ratio %}
+                                    Male: {{ ratio.male }}% | Female: {{ ratio.female }}%
+                                {% endwith %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Education Programs Offered -->
+                <div class="mb-6">
+                    <h4 class="text-md font-medium text-gray-800 mb-3">Education Programs Offered</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="degree_programs" 
+                                   name="degree_programs" 
+                                   {% if institute.degree_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="degree_programs" class="ml-2 text-gray-700">
+                                Degree Programs (Bachelor's level)
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="postgraduate_programs" 
+                                   name="postgraduate_programs" 
+                                   {% if institute.postgraduate_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="postgraduate_programs" class="ml-2 text-gray-700">
+                                Post Graduate Programs (Master's, PhD)
+                            </label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" 
+                                   id="management_programs" 
+                                   name="management_programs" 
+                                   {% if institute.management_programs %}checked{% endif %}
+                                   class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                            <label for="management_programs" class="ml-2 text-gray-700">
+                                Management Programs (MBA, Executive programs)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Education Level -->
+                <div>
+                    <label for="primary_education_level" class="block text-gray-700 mb-2">
+                        Primary Education Level
+                    </label>
+                    <select id="primary_education_level" 
+                            name="primary_education_level" 
+                            class="w-full px-4 py-2 border border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Select Primary Level</option>
+                        <option value="Degree" {% if institute.primary_education_level == 'Degree' %}selected{% endif %}>Degree</option>
+                        <option value="PostGraduate" {% if institute.primary_education_level == 'PostGraduate' %}selected{% endif %}>Post Graduate</option>
+                        <option value="Management" {% if institute.primary_education_level == 'Management' %}selected{% endif %}>Management</option>
+                    </select>
+                    <p class="mt-2 text-sm text-gray-500">
+                        Select the primary level of education your institute focuses on.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end space-x-4">
+                <a href="{% url 'teacher_dashboard' %}" 
+                   class="px-6 py-2 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        class="px-6 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500">
+                    <span class="mr-2">✓</span>
+                    Update Institute
+                </button>
+            </div>
+                </form>
+            </div>
+        </div> <!-- End Main Content -->
+    </div> <!-- End Grid -->
+</div> <!-- End Container -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Auto-calculate gender ratio and total students
+    function updateStudentStats() {
+        const maleCount = parseInt(document.getElementById('male_students_count').value) || 0;
+        const femaleCount = parseInt(document.getElementById('female_students_count').value) || 0;
+        const total = maleCount + femaleCount;
+        
+        document.getElementById('total-students').textContent = total;
+        
+        if (total > 0) {
+            const malePercentage = ((maleCount / total) * 100).toFixed(1);
+            const femalePercentage = ((femaleCount / total) * 100).toFixed(1);
+            document.getElementById('gender-ratio').textContent = `Male: ${malePercentage}% | Female: ${femalePercentage}%`;
+        } else {
+            document.getElementById('gender-ratio').textContent = 'Male: 0% | Female: 0%';
+        }
+    }
+    
+    // Add event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        const maleInput = document.getElementById('male_students_count');
+        const femaleInput = document.getElementById('female_students_count');
+        
+        maleInput.addEventListener('input', updateStudentStats);
+        femaleInput.addEventListener('input', updateStudentStats);
+        
+        // Initial calculation
+        updateStudentStats();
+    });
+</script>
+{% endblock %}

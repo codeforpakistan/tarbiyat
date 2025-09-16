@@ -44,9 +44,9 @@
           <div class="border border-gray-200 rounded-lg p-4">
             <div class="flex justify-between items-center">
               <div>
-                <h4 class="font-medium text-gray-900">Week {{ forloop.counter }}</h4>
-                <p class="text-sm text-gray-600">{{ log.week_start_date }} - {{ log.week_end_date }}</p>
-                <p class="text-sm text-gray-600 mt-1">{{ log.hours_worked }} hours worked</p>
+                <h4 class="font-medium text-gray-900">Activity Log #{{ forloop.counter }}</h4>
+                <p class="text-sm text-gray-600">Week of {{ log.week_starting|date:"M d, Y" }}</p>
+                <p class="text-sm text-gray-600 mt-1">{{ log.entries.count }} entries logged</p>
               </div>
               <div class="space-x-2">
                 <a href="{% url 'view_activity_log' log.nanoid %}"

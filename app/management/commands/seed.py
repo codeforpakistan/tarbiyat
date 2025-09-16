@@ -6,9 +6,9 @@ from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from decouple import config
 from app.models import (
-    Institute, Company, StudentProfile, MentorProfile, 
-    TeacherProfile, OfficialProfile, InternshipPosition,
-    InternshipApplication, Internship, ProgressReport, Notification
+    Institute, Company, Student, Mentor, 
+    Teacher, Official, Position,
+    Application, Internship, Report, Notification
 )
 from datetime import date, timedelta
 import random
@@ -113,9 +113,9 @@ class Command(BaseCommand):
                 if only_stage and stage == 3:
                     institutes = list(Institute.objects.all())
                     companies = list(Company.objects.all())
-                    students = list(StudentProfile.objects.all())
-                    mentors = list(MentorProfile.objects.all())
-                    teachers = list(TeacherProfile.objects.all())
+                    students = list(Student.objects.all())
+                    mentors = list(Mentor.objects.all())
+                    teachers = list(Teacher.objects.all())
                     
                     if not institutes or not companies or not students or not mentors:
                         self.stdout.write(
@@ -143,20 +143,20 @@ class Command(BaseCommand):
         # Clear in the correct order to handle foreign key constraints
         
         # First, clear related data that references main models
-        ProgressReport.objects.all().delete()
+        Report.objects.all().delete()
         Notification.objects.all().delete()
         Internship.objects.all().delete()
-        InternshipApplication.objects.all().delete()
-        InternshipPosition.objects.all().delete()
+        Application.objects.all().delete()
+        Position.objects.all().delete()
         
         # Remove foreign key references before deleting profiles
         Company.objects.all().update(registered_by=None)
         
         # Clear profile models (which reference companies/institutes)
-        StudentProfile.objects.all().delete()
-        MentorProfile.objects.all().delete()
-        TeacherProfile.objects.all().delete()
-        OfficialProfile.objects.all().delete()
+        Student.objects.all().delete()
+        Mentor.objects.all().delete()
+        Teacher.objects.all().delete()
+        Official.objects.all().delete()
         
         # Clear organization models
         Company.objects.all().delete()
@@ -195,7 +195,7 @@ class Command(BaseCommand):
             
             # Don't add admin to any group - admins are superusers, not officials
             
-            # Create OfficialProfile for admin is not needed - admins use Django admin
+            # Create Official for admin is not needed - admins use Django admin
             
             self.stdout.write(
                 self.style.SUCCESS('Admin user created: admin/admin123')
@@ -384,7 +384,7 @@ class Command(BaseCommand):
                 # Add user to student group
                 user.groups.add(student_group)
                 
-                student_profile = StudentProfile.objects.create(
+                student_profile = Student.objects.create(
                     user=user,
                     institute=random.choice(institutes),
                     student_id=f'STU{2024000 + i + 1}',
@@ -425,10 +425,10 @@ class Command(BaseCommand):
                 # Add user to mentor group
                 user.groups.add(mentor_group)
                 
-                mentor_profile = MentorProfile.objects.create(
+                mentor_profile = Mentor.objects.create(
                     user=user,
                     company=companies[i % len(companies)],
-                    position=position,
+                    job_title=position,
                     department=department,
                     experience_years=random.randint(5, 15),
                     specialization=f'{department} and Team Leadership',
@@ -472,7 +472,7 @@ class Command(BaseCommand):
                 # Add user to teacher group
                 user.groups.add(teacher_group)
                 
-                teacher_profile = TeacherProfile.objects.create(
+                teacher_profile = Teacher.objects.create(
                     user=user,
                     institute=institutes[i % len(institutes)],
                     department=department,
@@ -507,10 +507,10 @@ class Command(BaseCommand):
                 # Add user to official group
                 user.groups.add(official_group)
                 
-                official_profile = OfficialProfile.objects.create(
+                official_profile = Official.objects.create(
                     user=user,
                     department=department,
-                    position=position,
+                    job_title=position,
                     employee_id=f'OFF{2000 + i + 1}'
                 )
                 officials.append(official_profile)
@@ -574,7 +574,7 @@ class Command(BaseCommand):
                 start_date = date.today() + timedelta(days=random.randint(30, 90))
                 end_date = start_date + timedelta(days=int(pos_data['duration']) * 30)
                 
-                position = InternshipPosition.objects.create(
+                position = Position.objects.create(
                     company=mentors[i].company,
                     mentor=mentors[i],
                     title=pos_data['title'],
@@ -602,7 +602,7 @@ class Command(BaseCommand):
                 
                 # Create application
                 company_name = position.company.name if position.company else "Unknown Company"
-                application = InternshipApplication.objects.create(
+                application = Application.objects.create(
                     student=student,
                     position=position,
                     cover_letter=f"Dear Hiring Manager,\n\nI am very interested in the {position.title} position at {company_name}. As a {student.major} student with a GPA of {student.gpa}, I believe I would be a great fit for this role.\n\nMy skills in {student.skills[:50]}... align well with your requirements. I am eager to contribute to your team and learn from experienced professionals.\n\nThank you for considering my application.\n\nBest regards,\n{student.user.get_full_name()}",
@@ -648,45 +648,62 @@ class Command(BaseCommand):
                     )
 
     def create_sample_progress_reports(self, internship):
-        """Create sample progress reports for an internship"""
+        """Create sample reports, assessments, and evaluations for an internship"""
         if internship.status in ['active', 'completed']:
-            weeks_to_create = 3 if internship.status == 'active' else 6
+            reports_to_create = 3 if internship.status == 'active' else 6
             
-            for week in range(1, weeks_to_create + 1):
-                # Student report
-                ProgressReport.objects.create(
-                    internship=internship,
-                    report_type='student',
-                    reporter=internship.student.user,
-                    week_number=week,
-                    tasks_completed=f"Week {week}: Completed assigned tasks including research, documentation, and hands-on work. Participated in team meetings and training sessions.",
-                    learning_outcomes=f"Gained experience in {internship.student.major}-related skills. Improved communication and teamwork abilities.",
-                    challenges_faced="Initial learning curve with new technologies and processes. Time management across multiple tasks.",
-                    satisfaction_rating=random.randint(4, 5)
-                )
-                
-                # Mentor report
-                ProgressReport.objects.create(
-                    internship=internship,
-                    report_type='mentor',
-                    reporter=internship.mentor.user,
-                    week_number=week,
-                    student_performance=f"Student showed good progress in week {week}. Demonstrates strong work ethic and willingness to learn.",
-                    skills_demonstrated=f"Technical skills, problem-solving, communication, teamwork",
-                    areas_for_improvement="Could improve time management and ask more questions when unclear.",
-                    attendance_rating=random.randint(4, 5)
-                )
-                
-                # Teacher report (if teacher assigned)
-                if internship.teacher:
-                    ProgressReport.objects.create(
-                        internship=internship,
-                        report_type='teacher',
-                        reporter=internship.teacher.user,
-                        week_number=week,
-                        discussion_notes=f"Met with student to discuss week {week} progress. Student is adapting well to professional environment.",
-                        academic_alignment="Internship tasks align well with academic curriculum and learning objectives.",
-                        recommendations="Continue current trajectory. Encourage student to document learning experiences."
-                    )
+            from datetime import date, timedelta
+            from app.models import Report, Assessment, Evaluation
+            start_date = internship.start_date or date.today() - timedelta(days=30)
             
-            self.stdout.write(f'Created {weeks_to_create} weeks of progress reports for {internship.student.user.username}')
+            # Create student reports
+            for i in range(reports_to_create):
+                report_month = start_date + timedelta(weeks=i)
+                
+                Report.objects.create(
+                    internship=internship,
+                    teacher=internship.teacher,
+                    report_month=report_month,
+                    tasks_performed=f"Period {i+1}: Completed assigned tasks including research, documentation, and hands-on work. Participated in team meetings and training sessions.",
+                    tasks_performed_score=random.randint(7, 10),
+                    learning_experience=f"Gained experience in {internship.student.major}-related skills. Improved communication and teamwork abilities.",
+                    learning_experience_score=random.randint(7, 10),
+                    challenges="Initial learning curve with new technologies and processes. Time management across multiple tasks.",
+                    challenges_score=random.randint(6, 9),
+                    additional_comments="Overall positive experience with good learning opportunities."
+                )
+            
+            # Create mentor assessment (one per internship)
+            if internship.status == 'completed':
+                Assessment.objects.create(
+                    internship=internship,
+                    mentor=internship.mentor,
+                    technical_skills=random.randint(2, 4),
+                    work_quality=random.randint(2, 4),
+                    problem_solving=random.randint(2, 4),
+                    teamwork=random.randint(3, 4),
+                    professionalism=random.randint(3, 4),
+                    performance_benefits="Student contributed positively to team projects and brought fresh perspectives.",
+                    observed_development="Significant improvement in technical skills and professional communication throughout the internship.",
+                    intern_strengths="Quick learner, good communication skills, reliable attendance, positive attitude.",
+                    areas_for_improvement="Could benefit from more experience with advanced project management techniques.",
+                    intern_rating='good',
+                    program_rating='excellent',
+                    program_improvement_suggestions="More structured initial training program would be beneficial.",
+                    would_recommend=True,
+                    additional_comments="We would definitely consider hiring this intern full-time."
+                )
+            
+            # Create teacher evaluation (for completed internships)
+            if internship.status == 'completed' and internship.teacher:
+                Evaluation.objects.create(
+                    internship=internship,
+                    teacher=internship.teacher,
+                    evaluation_date=start_date + timedelta(days=reports_to_create * 7),
+                    discussion_notes="Regular check-ins with student and mentor. Student demonstrated good progress and professional growth.",
+                    academic_alignment="Internship aligns well with academic objectives and provides practical experience in the field.",
+                    recommendations="Student should consider pursuing advanced coursework in areas where they showed particular strength.",
+                    overall_rating=random.randint(4, 5)
+                )
+            
+            self.stdout.write(f'Created sample reports/assessments/evaluations for {internship.student.user.username}')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
+from django.utils import timezone
 from decimal import Decimal
 from typing import TYPE_CHECKING
 from nanoid import generate
@@ -45,7 +46,7 @@ class Institute(models.Model):
     email_domain = models.CharField(max_length=100, null=True, blank=True, help_text="Official email domain (e.g., university.edu.pk)")
     domain_verified = models.BooleanField(default=False, help_text="Whether the email domain has been verified")
     # Registration and approval
-    registered_by = models.ForeignKey('TeacherProfile', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_institutes')
+    registered_by = models.ForeignKey('Teacher', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_institutes')
     registration_status = models.CharField(
         max_length=20,
         choices=[
@@ -56,10 +57,24 @@ class Institute(models.Model):
         ],
         default='pending'
     )
-    approved_by = models.ForeignKey('OfficialProfile', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_institutes')
+    approved_by = models.ForeignKey('Official', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_institutes')
     approved_at = models.DateTimeField(null=True, blank=True)
     registration_notes = models.TextField(null=True, blank=True, help_text="Notes from government official during review")
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # Supporting documents for approval
+    registration_certificate = models.FileField(
+        upload_to='org_documents/',
+        null=True, blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Upload educational registration certificate"
+    )
+    authorization_letter = models.FileField(
+        upload_to='org_documents/', 
+        null=True, blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Authorization letter proving you can represent this institute"
+    )
     
     # Location and demographics
     district = models.CharField(
@@ -203,7 +218,7 @@ class Company(models.Model):
     email_domain = models.CharField(max_length=100, null=True, blank=True, help_text="Official email domain (e.g., company.com)")
     domain_verified = models.BooleanField(default=False, help_text="Whether the email domain has been verified")
     # Registration and approval
-    registered_by = models.ForeignKey('MentorProfile', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_companies')
+    registered_by = models.ForeignKey('Mentor', on_delete=models.PROTECT, null=True, blank=True, related_name='registered_companies')
     registration_status = models.CharField(
         max_length=20,
         choices=[
@@ -214,11 +229,25 @@ class Company(models.Model):
         ],
         default='pending'
     )
-    approved_by = models.ForeignKey('OfficialProfile', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_companies')
+    approved_by = models.ForeignKey('Official', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_companies')
     approved_at = models.DateTimeField(null=True, blank=True)
     registration_notes = models.TextField(null=True, blank=True, help_text="Notes from government official during review")
     is_verified = models.BooleanField(default=False)  # Keep for backward compatibility
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # Supporting documents for approval
+    registration_certificate = models.FileField(
+        upload_to='org_documents/',
+        null=True, blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Upload business registration certificate"
+    )
+    authorization_letter = models.FileField(
+        upload_to='org_documents/', 
+        null=True, blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
+        help_text="Authorization letter proving you can represent this company"
+    )
     
     class Meta:
         verbose_name_plural = "Companies"
@@ -238,7 +267,7 @@ class Company(models.Model):
         status_indicator = "✓" if self.is_approved() else "⚠"
         return f"{status_indicator} {self.name or 'Unnamed Company'}"
 
-class StudentProfile(models.Model):
+class Student(models.Model):
     """Student profile with academic information"""
     SEMESTER_CHOICES = (
         ('4', '4th Semester'),
@@ -249,7 +278,7 @@ class StudentProfile(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student_profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='student')
     institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     student_id = models.CharField(max_length=50, null=True, blank=True)
     semester_of_study = models.CharField(max_length=1, choices=SEMESTER_CHOICES, null=True, blank=True)
@@ -265,7 +294,6 @@ class StudentProfile(models.Model):
     )
     portfolio_url = models.URLField(null=True, blank=True)
     expected_graduation = models.DateField(null=True, blank=True)
-    is_available_for_internship = models.BooleanField(default=True)
     # Contact information
     phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
     
@@ -339,12 +367,12 @@ class StudentProfile(models.Model):
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.student_id or 'No ID'}"
 
-class MentorProfile(models.Model):
+class Mentor(models.Model):
     """Mentor profile for company representatives"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='mentor_profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='mentor')
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    position = models.CharField(max_length=100, null=True, blank=True)
+    job_title = models.CharField(max_length=100, null=True, blank=True)
     department = models.CharField(max_length=100, null=True, blank=True)
     experience_years = models.IntegerField(null=True, blank=True)
     specialization = models.CharField(max_length=200, null=True, blank=True)
@@ -387,19 +415,16 @@ class MentorProfile(models.Model):
         admin_indicator = " (Admin)" if self.is_admin_contact else ""
         return f"{self.user.get_full_name()} - {company_name}{admin_indicator}"
 
-class TeacherProfile(models.Model):
+class Teacher(models.Model):
     """Teacher profile for institute staff"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher_profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='teacher')
     institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null=True, blank=True)
     department = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=50, null=True, blank=True)  # Professor, Associate Professor, etc.
     employee_id = models.CharField(max_length=50, null=True, blank=True)
     # Contact information
     phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
-    # Administrative contact status
-    is_admin_contact = models.BooleanField(default=False, help_text="Whether this teacher is an administrative contact for their institute")
-    can_register_organization = models.BooleanField(default=True, help_text="Whether this teacher can register a new institute")
     
     def can_join_institute(self, institute):
         """Check if teacher can join this institute based on email domain"""
@@ -416,10 +441,6 @@ class TeacherProfile(models.Model):
                     f"Your email domain must match {self.institute.name}'s official domain ({self.institute.email_domain}) to join this institute."
                 )
     
-    def can_manage_institute(self):
-        """Check if teacher can manage institute settings"""
-        return self.is_admin_contact and self.institute and self.institute.is_approved()
-    
     def can_edit_institute(self):
         """Check if teacher can edit institute (if they registered it)"""
         if not self.institute:
@@ -428,15 +449,14 @@ class TeacherProfile(models.Model):
     
     def __str__(self):
         institute_name = self.institute.name if self.institute else "No Institute"
-        admin_indicator = " (Admin)" if self.is_admin_contact else ""
-        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {institute_name}{admin_indicator}"
+        return f"{self.title or 'Teacher'} {self.user.get_full_name()} - {institute_name}"
 
-class OfficialProfile(models.Model):
+class Official(models.Model):
     """Government official profile"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='official_profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='official')
     department = models.CharField(max_length=100, null=True, blank=True)
-    position = models.CharField(max_length=100, null=True, blank=True)
+    job_title = models.CharField(max_length=100, null=True, blank=True)
     employee_id = models.CharField(max_length=50, null=True, blank=True)
     # Contact information
     phone = models.CharField(max_length=15, null=True, blank=True, help_text="Contact phone number")
@@ -465,73 +485,7 @@ class OfficialProfile(models.Model):
     def __str__(self):
         return f"{self.user.get_full_name()} - {self.department or 'No Department'}"
 
-class OrganizationRegistrationRequest(models.Model):
-    """Organization registration requests from mentors/teachers"""
-    ORGANIZATION_TYPES = (
-        ('company', 'Company'),
-        ('institute', 'Institute'),
-    )
-    
-    STATUS_CHOICES = (
-        ('pending', 'Pending Review'),
-        ('under_review', 'Under Review'),
-        ('approved', 'Approved'),
-        ('rejected', 'Rejected'),
-        ('needs_revision', 'Needs Revision'),
-    )
-    
-    nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    organization_type = models.CharField(max_length=10, choices=ORGANIZATION_TYPES)
-    
-    # Organization details
-    organization_name = models.CharField(max_length=200)
-    organization_description = models.TextField()
-    industry = models.CharField(max_length=100, null=True, blank=True)  # For companies
-    address = models.TextField()
-    website = models.URLField(null=True, blank=True)
-    contact_email = models.EmailField()
-    phone = models.CharField(max_length=15, null=True, blank=True)
-    email_domain = models.CharField(max_length=100, help_text="Official email domain to verify")
-    
-    # Supporting documents
-    registration_certificate = models.FileField(
-        upload_to='org_documents/',
-        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
-        help_text="Upload business/educational registration certificate"
-    )
-    authorization_letter = models.FileField(
-        upload_to='org_documents/',
-        validators=[FileExtensionValidator(allowed_extensions=['pdf', 'doc', 'docx', 'jpg', 'png'])],
-        help_text="Authorization letter proving you can represent this organization"
-    )
-    
-    # Request details
-    requested_by_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='organization_requests')
-    requested_by_mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    requested_by_teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    
-    # Approval workflow
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    reviewed_by = models.ForeignKey(OfficialProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    reviewed_at = models.DateTimeField(null=True, blank=True)
-    review_notes = models.TextField(null=True, blank=True)
-    
-    # Created organization (set when approved)
-    approved_company = models.OneToOneField(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    approved_institute = models.OneToOneField(Institute, on_delete=models.SET_NULL, null=True, blank=True)
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        org_type = "Company" if self.organization_type == 'company' else "Institute"
-        status_display = self.status.title()
-        return f"{self.organization_name} ({org_type}) - {status_display}"
-
-class InternshipPosition(models.Model):
+class Position(models.Model):
     """Internship positions offered by companies"""
     DURATION_CHOICES = (
         ('2', '2 Months'),
@@ -542,7 +496,7 @@ class InternshipPosition(models.Model):
     
     nanoid = models.CharField(max_length=12, default=generate_position_id, unique=True, db_index=True, editable=False)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.CharField(max_length=200, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     requirements = models.TextField(null=True, blank=True)
@@ -556,7 +510,7 @@ class InternshipPosition(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     if TYPE_CHECKING:
-        applications: 'RelatedManager[InternshipApplication]'
+        applications: 'RelatedManager[Application]'
     
     def __str__(self):
         company_name = self.company.name if self.company else "No Company"
@@ -581,7 +535,7 @@ class InternshipPosition(models.Model):
     def total_applications_count(self):
         return self.applications.count()  # type: ignore
 
-class InternshipApplication(models.Model):
+class Application(models.Model):
     """Student applications for internship positions"""
     STATUS_CHOICES = (
         ('pending', 'Pending Review'),
@@ -593,8 +547,8 @@ class InternshipApplication(models.Model):
     )
     
     nanoid = models.CharField(max_length=14, default=generate_application_id, unique=True, db_index=True, editable=False)
-    student = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    position = models.ForeignKey(InternshipPosition, on_delete=models.SET_NULL, related_name='applications', null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, related_name='applications', null=True, blank=True)
     cover_letter = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending', null=True, blank=True)
     applied_at = models.DateTimeField(auto_now_add=True)
@@ -626,8 +580,8 @@ class Interview(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    application = models.OneToOneField(InternshipApplication, on_delete=models.SET_NULL, null=True, blank=True)
-    interviewer = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    application = models.OneToOneField(Application, on_delete=models.SET_NULL, null=True, blank=True)
+    interviewer = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     scheduled_date = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)  # or online link
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='scheduled', null=True, blank=True)
@@ -651,10 +605,10 @@ class Internship(models.Model):
     )
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    application = models.OneToOneField(InternshipApplication, on_delete=models.SET_NULL, null=True, blank=True)
-    student = models.ForeignKey(StudentProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
-    teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    application = models.OneToOneField(Application, on_delete=models.SET_NULL, null=True, blank=True)
+    student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
+    mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='active', null=True, blank=True)
@@ -694,54 +648,40 @@ class Internship(models.Model):
             elapsed_days = (today - self.start_date).days
             return min(100, max(0, (elapsed_days / total_days) * 100))
 
-class ProgressReport(models.Model):
-    """Progress reports during internship"""
-    REPORT_TYPE_CHOICES = (
-        ('student', 'Student Report'),
-        ('mentor', 'Mentor Report'),
-        ('teacher', 'Teacher Report'),
-    )
-    
+class Evaluation(models.Model):
+    """End of internship evaluation submitted by teachers"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
-    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='progress_reports', null=True, blank=True)
-    report_type = models.CharField(max_length=10, choices=REPORT_TYPE_CHOICES, null=True, blank=True)
-    reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    week_number = models.IntegerField(null=True, blank=True)
+    internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='teacher_evaluations', null=True, blank=True)
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True)
+    evaluation_date = models.DateField(default=timezone.now, help_text="Date of the evaluation")
     
-    # Student-specific fields
-    tasks_completed = models.TextField(null=True, blank=True)
-    learning_outcomes = models.TextField(null=True, blank=True)
-    challenges_faced = models.TextField(null=True, blank=True)
-    satisfaction_rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        null=True, blank=True
+    # Teacher evaluation fields
+    discussion_notes = models.TextField(
+        help_text="Notes from discussions with student and mentor"
     )
-    
-    # Mentor-specific fields
-    student_performance = models.TextField(null=True, blank=True)
-    skills_demonstrated = models.TextField(null=True, blank=True)
-    areas_for_improvement = models.TextField(null=True, blank=True)
-    attendance_rating = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(5)],
-        null=True, blank=True
+    academic_alignment = models.TextField(
+        help_text="How well the internship aligns with academic objectives"
     )
-    
-    # Teacher-specific fields
-    discussion_notes = models.TextField(null=True, blank=True)
-    academic_alignment = models.TextField(null=True, blank=True)
-    recommendations = models.TextField(null=True, blank=True)
+    recommendations = models.TextField(
+        help_text="Recommendations for future internships or improvements"
+    )
+    overall_rating = models.IntegerField(
+        default=3,
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        help_text="Overall evaluation rating (1-5)"
+    )
     
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
     class Meta:
-        # Note: unique_together with nullable fields may allow multiple null combinations
-        unique_together = ['internship', 'report_type', 'week_number']
+        unique_together = ['internship', 'teacher', 'evaluation_date']
     
     def __str__(self):
-        # Django automatically creates get_<field>_display() methods for choice fields
-        report_type_display = self.get_report_type_display() if self.report_type else "Unknown Type"  # type: ignore
         internship_str = str(self.internship) if self.internship else "No Internship"
-        return f"Week {self.week_number or 'N/A'} - {report_type_display} for {internship_str}"
+        date_str = self.evaluation_date.strftime('%b %d, %Y') if self.evaluation_date else 'No Date'
+        teacher_str = str(self.teacher) if self.teacher else "No Teacher"
+        return f"Teacher Evaluation - {date_str} by {teacher_str} for {internship_str}"
 
 class Payment(models.Model):
     """Payment tracking for platform fees"""
@@ -773,11 +713,11 @@ class Payment(models.Model):
         amount = self.amount or 0
         return f"{username} - {payment_type_display} - PKR {amount}"
 
-class StudentInternshipReport(models.Model):
-    """Monthly student internship evaluation report filled by teachers"""
+class Report(models.Model):
+    """End of internship report submitted by students"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='student_reports', null=True, blank=True)
-    teacher = models.ForeignKey(TeacherProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True)
     report_month = models.DateField(help_text="Month and year for this report")
     
     # Report sections with descriptions and scores
@@ -825,50 +765,44 @@ class StudentInternshipReport(models.Model):
             student_name = "No Student"
         return f"Report for {student_name} - {self.report_month.strftime('%B %Y')}"
 
-class StudentActivityLog(models.Model):
-    """Activity log report filled by students during their internship"""
+class Log(models.Model):
+    """Weekly activity log for students during their internship"""
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     internship = models.ForeignKey(Internship, on_delete=models.SET_NULL, related_name='activity_logs', null=True, blank=True)
-    period_starting = models.DateField(help_text="Starting date of the reporting period")
+    week_starting = models.DateField(help_text="Monday of the week you're reporting")
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-period_starting']
-        # Note: unique_together with nullable fields may allow multiple null combinations
-        unique_together = ['internship', 'period_starting']
-        verbose_name = "Student Activity Log"
-        verbose_name_plural = "Student Activity Logs"
+        ordering = ['-week_starting']
+        unique_together = ['internship', 'week_starting']
+        verbose_name = "Weekly Activity Log"
+        verbose_name_plural = "Weekly Activity Logs"
 
     def __str__(self):
         if self.internship and self.internship.student:
             student_name = self.internship.student.user.get_full_name()
         else:
             student_name = "No Student"
-        return f"Activity Log: {student_name} - Period starting {self.period_starting.strftime('%Y-%m-%d')}"
+        return f"Activity Log: {student_name} - Week of {self.week_starting.strftime('%Y-%m-%d')}"
 
-class StudentActivity(models.Model):
-    """Individual activities and hours logged by students in their activity reports"""
-    activity_log = models.ForeignKey(StudentActivityLog, on_delete=models.CASCADE, related_name='activities')
-    task_description = models.TextField(help_text="Description of the task or activity performed")
-    hours_spent = models.DecimalField(
-        max_digits=4, 
-        decimal_places=1,
-        validators=[MinValueValidator(0), MaxValueValidator(60)],
-        help_text="Number of hours spent on this activity (max 60 per activity)"
-    )
-    date_performed = models.DateField(help_text="Date when the activity was performed")
+class Entry(models.Model):
+    """Simple daily activity entry for students"""
+    log = models.ForeignKey(Log, on_delete=models.CASCADE, related_name='entries')
+    date = models.DateField(help_text="Date of the activity")
+    description = models.TextField(help_text="What did you do on this day?")
     
     class Meta:
-        ordering = ['date_performed']
-        verbose_name = "Activity Entry"
-        verbose_name_plural = "Activity Entries"
+        ordering = ['date']
+        unique_together = ['log', 'date']  # One entry per day per log
+        verbose_name = "Daily Activity Entry"
+        verbose_name_plural = "Daily Activity Entries"
 
     def __str__(self):
-        return f"{self.date_performed}: {self.task_description[:50]}... ({self.hours_spent} hours)"
+        return f"{self.date}: {self.description[:50]}..."
 
-class InternshipSupervisorEvaluation(models.Model):
-    """End of internship evaluation form filled by mentors"""
+class Assessment(models.Model):
+    """End of internship assessment filled by mentors"""
     RATING_CHOICES = (
         (1, 'Does not meet expectations'),
         (2, 'Inconsistently meets expectations'),
@@ -885,7 +819,7 @@ class InternshipSupervisorEvaluation(models.Model):
     
     nanoid = models.CharField(max_length=12, default=generate_nanoid, unique=True, db_index=True, editable=False)
     internship = models.OneToOneField(Internship, on_delete=models.SET_NULL, related_name='supervisor_evaluation', null=True, blank=True)
-    mentor = models.ForeignKey(MentorProfile, on_delete=models.SET_NULL, null=True, blank=True)
+    mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     
     # Performance Indicators (1-4 scale)

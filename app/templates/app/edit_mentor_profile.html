@@ -33,41 +33,43 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Personal Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="first_name" class="block text-sm font-medium text-gray-700 mb-2">First Name</label>
-                        <input type="text" 
-                                id="first_name" 
-                                name="first_name" 
-                                value="{{ user.first_name }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="{{ form.first_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                        {% if form.first_name.errors %}
+                            {% for error in form.first_name.errors %}
+                                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="last_name" class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
-                        <input type="text" 
-                                id="last_name" 
-                                name="last_name" 
-                                value="{{ user.last_name }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                        <input type="email" 
-                                id="email" 
-                                name="email" 
-                                value="{{ user.email }}"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="{{ form.last_name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                        {% if form.last_name.errors %}
+                            {% for error in form.last_name.errors %}
+                                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                     <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                        <input type="tel" 
-                                id="phone" 
-                                name="phone" 
-                                value="{{ profile.phone|default:'' }}"
-                                placeholder="+92 300 1234567"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                        <p class="text-sm text-gray-500 mt-1">Enter your contact number for communication</p>
+                        <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.email.label }}</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            {% for error in form.email.errors %}
+                                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div>
+                        <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                            {% for error in form.phone.errors %}
+                                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
+                            {% endfor %}
+                        {% endif %}
+                        {% if form.phone.help_text %}
+                            <p class="text-sm text-gray-500 mt-1">{{ form.phone.help_text }}</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -77,21 +79,13 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Professional Information</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="md:col-span-2">
-                        <label for="company" class="block text-sm font-medium text-gray-700 mb-2">Company</label>
-                        <select id="company" 
-                                name="company" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
-                            {% for company in companies %}
-                                <option value="{{ company.id }}" 
-                                        {% if company.id == profile.company.id %}selected{% endif %}
-                                        data-domain="{{ company.email_domain|default:'' }}"
-                                        data-verified="{{ company.domain_verified|yesno:'true,false' }}">
-                                    {{ company.name }}
-                                    {% if company.domain_verified %} ({{ company.email_domain }}){% endif %}
-                                </option>
+                        <label for="{{ form.company.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.company.label }}</label>
+                        {{ form.company }}
+                        {% if form.company.errors %}
+                            {% for error in form.company.errors %}
+                                <p class="text-sm text-red-600 mt-1">{{ error }}</p>
                             {% endfor %}
-                        </select>
+                        {% endif %}
                         <div id="domain-warning" class="hidden mt-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                             <div class="flex items-start">
                                 <span class="text-yellow-400 text-lg mt-0.5 mr-3 flex-shrink-0">⚠️</span>
@@ -104,46 +98,16 @@
                         </div>
                     </div>
                     <div>
-                        <label for="job_title" class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
-                        <input type="text" 
-                                id="job_title" 
-                                name="job_title" 
-                                value="{{ profile.job_title }}"
-                                placeholder="e.g., Senior Software Engineer, Product Manager"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_job_title" class="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
+                        {{ form.job_title }}
                     </div>
                     <div>
-                        <label for="department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
-                        <input type="text" 
-                                id="department" 
-                                name="department" 
-                                value="{{ profile.department }}"
-                                placeholder="e.g., Engineering, Marketing, HR"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
+                        <label for="id_department" class="block text-sm font-medium text-gray-700 mb-2">Department</label>
+                        {{ form.department }}
                     </div>
                     <div>
-                        <label for="years_of_experience" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
-                        <select id="years_of_experience" 
-                                name="years_of_experience" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                required>
-                            <option value="">Select Experience Level</option>
-                            <option value="1-2" {% if profile.years_of_experience == '1-2' %}selected{% endif %}>1-2 years</option>
-                            <option value="3-5" {% if profile.years_of_experience == '3-5' %}selected{% endif %}>3-5 years</option>
-                            <option value="6-10" {% if profile.years_of_experience == '6-10' %}selected{% endif %}>6-10 years</option>
-                            <option value="10+" {% if profile.years_of_experience == '10+' %}selected{% endif %}>10+ years</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="linkedin_profile" class="block text-sm font-medium text-gray-700 mb-2">LinkedIn Profile (Optional)</label>
-                        <input type="url" 
-                                id="linkedin_profile" 
-                                name="linkedin_profile" 
-                                value="{{ profile.linkedin_profile }}"
-                                placeholder="https://linkedin.com/in/yourprofile"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
+                        <label for="id_experience_years" class="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
+                        {{ form.experience_years }}
                     </div>
                 </div>
             </div>
@@ -153,54 +117,9 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Professional Background</h3>
                 <div class="space-y-6">
                     <div>
-                        <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">Professional Bio</label>
-                        <textarea id="bio" 
-                                  name="bio" 
-                                  rows="4"
-                                  placeholder="Describe your professional background, expertise, and what makes you a great mentor..."
-                                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                  required>{{ profile.bio }}</textarea>
-                        <p class="text-sm text-gray-500 mt-2">This will be visible to students when they view internship positions.</p>
-                    </div>
-                    <div>
-                        <label for="expertise_areas" class="block text-sm font-medium text-gray-700 mb-2">Areas of Expertise</label>
-                        <textarea id="expertise_areas" 
-                                  name="expertise_areas" 
-                                  rows="3"
-                                  placeholder="e.g., Software Development, Data Analysis, Project Management, Digital Marketing..."
-                                  class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-                                  required>{{ profile.expertise_areas }}</textarea>
+                        <label for="id_specialization" class="block text-sm font-medium text-gray-700 mb-2">Areas of Expertise</label>
+                        {{ form.specialization }}
                         <p class="text-sm text-gray-500 mt-2">List your key areas of expertise, separated by commas.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mentorship Preferences -->
-            <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6 pb-2 border-b border-gray-200">Mentorship Preferences</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="max_interns" class="block text-sm font-medium text-gray-700 mb-2">Maximum Interns per Position</label>
-                        <select id="max_interns" 
-                                name="max_interns" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                            <option value="1" {% if profile.max_interns == 1 %}selected{% endif %}>1 intern</option>
-                            <option value="2" {% if profile.max_interns == 2 %}selected{% endif %}>2 interns</option>
-                            <option value="3" {% if profile.max_interns == 3 %}selected{% endif %}>3 interns</option>
-                            <option value="4" {% if profile.max_interns == 4 %}selected{% endif %}>4 interns</option>
-                            <option value="5" {% if profile.max_interns == 5 %}selected{% endif %}>5 interns</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="preferred_duration" class="block text-sm font-medium text-gray-700 mb-2">Preferred Internship Duration</label>
-                        <select id="preferred_duration" 
-                                name="preferred_duration" 
-                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200">
-                            <option value="2" {% if profile.preferred_duration == 2 %}selected{% endif %}>2 months</option>
-                            <option value="3" {% if profile.preferred_duration == 3 %}selected{% endif %}>3 months</option>
-                            <option value="6" {% if profile.preferred_duration == 6 %}selected{% endif %}>6 months</option>
-                            <option value="12" {% if profile.preferred_duration == 12 %}selected{% endif %}>12 months</option>
-                        </select>
                     </div>
                 </div>
             </div>

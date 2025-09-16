@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from django.utils.html import format_html
 from django.urls import reverse
 from .models import (
-    Institute, Company, StudentProfile, MentorProfile, 
-    TeacherProfile, OfficialProfile, InternshipPosition, 
-    InternshipApplication, Interview, Internship, ProgressReport,
-    Payment, Notification, OrganizationRegistrationRequest
+    Institute, Company, Student, Mentor, 
+    Teacher, Official, Position, 
+    Application, Interview, Internship, Evaluation,
+    Payment, Notification
 )
 
 @admin.register(Institute)
@@ -84,29 +84,12 @@ class CompanyAdmin(admin.ModelAdmin):
         self.message_user(request, f"{updated} company domains unverified successfully.")
     unverify_domain.short_description = "✗ Unverify domain for selected companies"
 
-@admin.register(StudentProfile)
-class StudentProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'student_id', 'institute', 'semester_of_study', 'major', 'gpa', 'availability_status')
-    list_filter = ('institute', 'semester_of_study', 'is_available_for_internship', 'major')
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'student_id', 'institute', 'semester_of_study', 'major', 'gpa')
+    list_filter = ('institute', 'semester_of_study', 'major')
     search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 'student_id', 'major')
-    actions = ['mark_available', 'mark_unavailable', 'send_welcome_notification']
-    
-    def availability_status(self, obj):
-        if obj.is_available_for_internship:
-            return format_html('<span >✓ Available</span>')
-        else:
-            return format_html('<span >● Unavailable</span>')
-    availability_status.short_description = 'Availability'
-    
-    def mark_available(self, request, queryset):
-        updated = queryset.update(is_available_for_internship=True)
-        self.message_user(request, f"{updated} students marked as available for internships.")
-    mark_available.short_description = "✓ Mark as available for internships"
-    
-    def mark_unavailable(self, request, queryset):
-        updated = queryset.update(is_available_for_internship=False)
-        self.message_user(request, f"{updated} students marked as unavailable for internships.")
-    mark_unavailable.short_description = "● Mark as unavailable for internships"
+    actions = ['send_welcome_notification']
     
     def send_welcome_notification(self, request, queryset):
         from .models import Notification
@@ -122,11 +105,11 @@ class StudentProfileAdmin(admin.ModelAdmin):
         self.message_user(request, f"Welcome notifications sent to {count} students.")
     send_welcome_notification.short_description = "📧 Send welcome notifications"
 
-@admin.register(MentorProfile)
-class MentorProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'company', 'position', 'department', 'verification_status', 'experience_years')
+@admin.register(Mentor)
+class MentorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'company', 'job_title', 'department', 'verification_status', 'experience_years')
     list_filter = ('company', 'is_verified', 'experience_years')
-    search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 'position', 'department')
+    search_fields = ('user__username', 'user__email', 'user__first_name', 'user__last_name', 'job_title', 'department')
     actions = ['verify_mentors', 'unverify_mentors', 'verify_mentor_and_company']
     
     def verification_status(self, obj):
@@ -169,20 +152,20 @@ class MentorProfileAdmin(admin.ModelAdmin):
             f"Verified {mentor_count} mentors and {company_count} companies successfully.")
     verify_mentor_and_company.short_description = "✓ Verify mentors and their companies"
 
-@admin.register(TeacherProfile)
-class TeacherProfileAdmin(admin.ModelAdmin):
+@admin.register(Teacher)
+class TeacherAdmin(admin.ModelAdmin):
     list_display = ('user', 'institute', 'department', 'title', 'employee_id')
     list_filter = ('institute', 'department')
     search_fields = ('user__username', 'user__email', 'employee_id')
 
-@admin.register(OfficialProfile)
-class OfficialProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'department', 'position', 'employee_id')
+@admin.register(Official)
+class OfficialAdmin(admin.ModelAdmin):
+    list_display = ('user', 'department', 'job_title', 'employee_id')
     list_filter = ('department',)
     search_fields = ('user__username', 'user__email', 'employee_id')
 
-@admin.register(InternshipPosition)
-class InternshipPositionAdmin(admin.ModelAdmin):
+@admin.register(Position)
+class PositionAdmin(admin.ModelAdmin):
     list_display = ('title', 'company', 'mentor', 'duration', 'start_date', 'end_date', 'max_students', 'available_spots', 'position_status')
     list_filter = ('company', 'duration', 'is_active', 'start_date', 'mentor__is_verified')
     search_fields = ('title', 'company__name', 'mentor__user__username', 'mentor__user__first_name', 'mentor__user__last_name')
@@ -217,8 +200,8 @@ class InternshipPositionAdmin(admin.ModelAdmin):
         self.message_user(request, f"Extended deadline by 30 days for {count} active positions.")
     extend_deadline.short_description = "📅 Extend deadline by 30 days"
 
-@admin.register(InternshipApplication)
-class InternshipApplicationAdmin(admin.ModelAdmin):
+@admin.register(Application)
+class ApplicationAdmin(admin.ModelAdmin):
     list_display = ('student', 'position', 'application_status', 'applied_at', 'reviewed_at')
     list_filter = ('status', 'applied_at', 'position__company', 'position__mentor')
     search_fields = ('student__user__username', 'student__user__email', 'student__user__first_name', 'student__user__last_name', 'position__title')
@@ -290,11 +273,11 @@ class InternshipAdmin(admin.ModelAdmin):
     search_fields = ('student__user__username', 'mentor__user__username', 'mentor__company__name')
     date_hierarchy = 'start_date'
 
-@admin.register(ProgressReport)
-class ProgressReportAdmin(admin.ModelAdmin):
-    list_display = ('internship', 'report_type', 'reporter', 'week_number', 'created_at')
-    list_filter = ('report_type', 'week_number', 'created_at')
-    search_fields = ('internship__student__user__username', 'reporter__username')
+@admin.register(Evaluation)
+class EvaluationAdmin(admin.ModelAdmin):
+    list_display = ('internship', 'teacher', 'evaluation_date', 'overall_rating', 'created_at')
+    list_filter = ('evaluation_date', 'overall_rating', 'created_at')
+    search_fields = ('internship__student__user__username', 'teacher__user__username')
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):

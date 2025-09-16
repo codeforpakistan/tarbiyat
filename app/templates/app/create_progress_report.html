@@ -54,63 +54,35 @@
                     {% csrf_token %}
                     
                     <div class="space-y-6">
-                        <!-- Week Number -->
+                        <!-- Report Date -->
                         <div>
-                            <label for="week_number" class="block text-gray-700 mb-2">Week Number</label>
-                            <input type="number" 
-                                   id="week_number" 
-                                   name="week_number" 
-                                   min="1" 
-                                   max="52"
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent:ring-blue-500:border-blue-500"
-                                   required>
-                            <p class="text-gray-500 mt-1">Which week of the internship is this report for?</p>
+                            <label for="id_report_date" class="block text-gray-700 mb-2">Report Date *</label>
+                            {{ form.report_date }}
+                            <p class="text-gray-500 mt-1">What date is this report for?</p>
                         </div>
                         
                         <!-- Student Performance -->
                         <div>
-                            <label for="student_performance" class="block text-gray-700 mb-2">Student Performance *</label>
-                            <textarea id="student_performance" 
-                                      name="student_performance" 
-                                      rows="6"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent:ring-blue-500:border-blue-500"
-                                      placeholder="Describe the intern's overall performance this week..."
-                                      required></textarea>
+                            <label for="id_student_performance" class="block text-gray-700 mb-2">Student Performance *</label>
+                            {{ form.student_performance }}
                         </div>
                         
                         <!-- Skills Demonstrated -->
                         <div>
-                            <label for="skills_demonstrated" class="block text-gray-700 mb-2">Skills Demonstrated</label>
-                            <textarea id="skills_demonstrated" 
-                                      name="skills_demonstrated" 
-                                      rows="4"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent:ring-blue-500:border-blue-500"
-                                      placeholder="What skills did the intern demonstrate this week?"></textarea>
+                            <label for="id_skills_demonstrated" class="block text-gray-700 mb-2">Skills Demonstrated</label>
+                            {{ form.skills_demonstrated }}
                         </div>
                         
                         <!-- Areas for Improvement -->
                         <div>
-                            <label for="areas_for_improvement" class="block text-gray-700 mb-2">Areas for Improvement</label>
-                            <textarea id="areas_for_improvement" 
-                                      name="areas_for_improvement" 
-                                      rows="4"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent:ring-blue-500:border-blue-500"
-                                      placeholder="What areas can the intern improve on?"></textarea>
+                            <label for="id_areas_for_improvement" class="block text-gray-700 mb-2">Areas for Improvement</label>
+                            {{ form.areas_for_improvement }}
                         </div>
                         
                         <!-- Attendance Rating -->
                         <div>
-                            <label for="attendance_rating" class="block text-gray-700 mb-2">Attendance Rating</label>
-                            <select id="attendance_rating" 
-                                    name="attendance_rating" 
-                                    class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent:ring-blue-500:border-blue-500">
-                                <option value="">Select Rating</option>
-                                <option value="1">1 - Poor</option>
-                                <option value="2">2 - Below Average</option>
-                                <option value="3">3 - Average</option>
-                                <option value="4">4 - Good</option>
-                                <option value="5">5 - Excellent</option>
-                            </select>
+                            <label for="id_attendance_rating" class="block text-gray-700 mb-2">Attendance Rating</label>
+                            {{ form.attendance_rating }}
                             <p class="text-gray-500 mt-1">Rate the intern's attendance and punctuality</p>
                         </div>
                     </div>
@@ -138,8 +110,8 @@
                             {% for report in existing_reports %}
                                 <div class="flex items-center justify-between p-3 rounded-md">
                                     <div>
-                                        <span class="">Week {{ report.week_number }}</span>
-                                        <span class="text-gray-500 ml-2">{{ report.created_at|date:"M d, Y" }}</span>
+                                        <span class="">{{ report.report_date|date:"F d, Y"|default:"No Date" }}</span>
+                                        <span class="text-gray-500 ml-2">{{ report.submitted_at|date:"M d, Y" }}</span>
                                     </div>
                                     <div class="flex items-center space-x-2">
                                         {% if report.attendance_rating %}

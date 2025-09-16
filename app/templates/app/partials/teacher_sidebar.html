@@ -42,6 +42,15 @@
                     <span class="mr-3">👤</span>
                     Edit Profile
                 </a>
+                
+                {% if user.teacher_profile.can_edit_institute or user.teacher_profile.can_manage_institute %}
+                <a href="{% url 'edit_institute' %}" class="flex items-center px-3 py-2 rounded-md transition duration-200
+                    {% if request.resolver_match.url_name == 'edit_institute' %}text-white bg-purple-600
+                    {% else %}text-gray-600 hover:text-gray-900 hover:bg-gray-100{% endif %}">
+                    <span class="mr-3">🏫</span>
+                    Edit Institute
+                </a>
+                {% endif %}
             </div>
         </nav>
     </div>

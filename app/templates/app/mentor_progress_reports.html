@@ -108,8 +108,8 @@
             <div class="border border-gray-200 rounded-lg p-4 bg-white">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                  <p class="text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                  <h4 class="font-semibold text-gray-900">{{ report.report_date|date:"F d, Y"|default:"No Date" }}</h4>
+                  <p class="text-gray-600">Submitted: {{ report.submitted_at|date:"M d, Y" }}</p>
                 </div>
                 <div class="flex items-center space-x-2">
                   {% if report.attendance_rating %}
@@ -158,8 +158,8 @@
             <div class="border border-gray-200 rounded-lg p-4 bg-white">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                  <p class="text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                  <h4 class="font-semibold text-gray-900">{{ report.report_date|date:"F d, Y"|default:"No Date" }}</h4>
+                  <p class="text-gray-600">Submitted: {{ report.submitted_at|date:"M d, Y" }}</p>
                 </div>
                 {% if report.satisfaction_rating %}
                 <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full">
@@ -203,8 +203,8 @@
             <div class="border border-gray-200 rounded-lg p-4 bg-yellow-50">
               <div class="flex items-start justify-between mb-3">
                 <div>
-                  <h4 class="font-semibold text-gray-900">Week {{ report.week_number }}</h4>
-                  <p class="text-gray-600">{{ report.created_at|date:"M d, Y" }}</p>
+                  <h4 class="font-semibold text-gray-900">{{ report.report_date|date:"F d, Y"|default:"No Date" }}</h4>
+                  <p class="text-gray-600">Submitted: {{ report.submitted_at|date:"M d, Y" }}</p>
                 </div>
               </div>
 

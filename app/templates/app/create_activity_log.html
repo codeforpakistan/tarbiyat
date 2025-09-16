@@ -1,5 +1,6 @@
 {% extends 'app/page.html' %}
 {% block title %}Create Activity Log - Tarbiyat{% endblock %}
+
 {% block content %}
 <div class="min-h-screen py-8">
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -12,7 +13,7 @@
     <div class="lg:col-span-3">
       <div class="bg-white rounded-lg border border-gray-200 p-6">
         <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold text-gray-900">Create Activity Log</h1>
+          <h1 class="text-2xl font-bold text-gray-900">Create Weekly Activity Log</h1>
           <a href="{% url 'student_activities' %}"
             class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-md transition-colors">
             ← Back to Activities
@@ -22,83 +23,48 @@
         <form method="post" class="space-y-6">
           {% csrf_token %}
           
-          <!-- Period Starting Date -->
+          <!-- Week Starting Date -->
           <div>
-            <label for="{{ log_form.period_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-              Period Starting Date
+            <label for="{{ log_form.week_starting.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+              Week Starting Date
             </label>
-            {{ log_form.period_starting }}
-            {% if log_form.period_starting.errors %}
-              <p class="mt-1 text-sm text-red-600">{{ log_form.period_starting.errors.0 }}</p>
+            {{ log_form.week_starting }}
+            {% if log_form.week_starting.errors %}
+              <p class="mt-1 text-sm text-red-600">{{ log_form.week_starting.errors.0 }}</p>
             {% endif %}
             <p class="mt-1 text-sm text-gray-500">Select the Monday of the week you're reporting for.</p>
           </div>
 
-          <!-- Activities Section -->
+          <!-- Daily Activities Section -->
           <div>
-            <h3 class="text-lg font-medium text-gray-900 mb-4">Activities</h3>
-            <p class="text-sm text-gray-600 mb-4">Add the activities you worked on during this week. You can add multiple activities with different dates and hours.</p>
+            <h3 class="text-lg font-medium text-gray-900 mb-4">Daily Activities</h3>
+            <p class="text-sm text-gray-600 mb-4">Record what you did each day during this week. You can add up to 7 days of activities.</p>
             
-            {{ activity_formset.management_form }}
+            {{ entry_formset.management_form }}
             
-            <div id="activity-forms" class="space-y-4">
-              {% for form in activity_formset %}
-                <div class="activity-form bg-gray-50 p-4 rounded-lg border">
-                  {% if forloop.first %}
-                    <h4 class="text-md font-medium text-gray-800 mb-3">Activity {{ forloop.counter }}</h4>
-                  {% else %}
-                    <div class="flex justify-between items-center mb-3">
-                      <h4 class="text-md font-medium text-gray-800">Activity {{ forloop.counter }}</h4>
-                      {% if activity_formset.can_delete %}
-                        <div class="flex items-center">
-                          {{ form.DELETE }}
-                          <label for="{{ form.DELETE.id_for_label }}" class="ml-2 text-sm text-red-600">Remove</label>
-                        </div>
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                  
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <!-- Date Performed -->
-                    <div>
-                      <label for="{{ form.date_performed.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Date Performed
-                      </label>
-                      {{ form.date_performed }}
-                      {% if form.date_performed.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ form.date_performed.errors.0 }}</p>
-                      {% endif %}
-                    </div>
-                    
-                    <!-- Hours Spent -->
-                    <div>
-                      <label for="{{ form.hours_spent.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                        Hours Spent
-                      </label>
-                      {{ form.hours_spent }}
-                      {% if form.hours_spent.errors %}
-                        <p class="mt-1 text-sm text-red-600">{{ form.hours_spent.errors.0 }}</p>
-                      {% endif %}
-                    </div>
-                  </div>
-                  
-                  <!-- Task Description -->
-                  <div>
-                    <label for="{{ form.task_description.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
-                      Task Description
-                    </label>
-                    {{ form.task_description }}
-                    {% if form.task_description.errors %}
-                      <p class="mt-1 text-sm text-red-600">{{ form.task_description.errors.0 }}</p>
-                    {% endif %}
-                  </div>
-                </div>
+            <div id="entry-forms" class="space-y-4">
+              {% for form in entry_formset %}
+                {% include 'app/partials/entry_form.html' with form=form form_index=forloop.counter0 show_delete=False %}
               {% endfor %}
+            </div>
+
+            <!-- Add More Days Button -->
+            <div class="mt-4">
+              <button type="button" 
+                      id="add-entry" 
+                      class="inline-flex items-center px-4 py-2 bg-green-100 hover:bg-green-200 text-green-700 text-sm font-medium rounded-md transition-colors"
+                      hx-get="{% url 'add_entry_form' %}"
+                      hx-target="#entry-forms"
+                      hx-swap="beforeend"
+                      hx-vals='{"form_index": "1"}'
+                      hx-trigger="click">
+                ➕ Add Another Day
+              </button>
             </div>
           </div>
 
           <!-- Submit Buttons -->
-          <div class="flex space-x-4 pt-6">
+          <div class="flex space-x-4 pt-6 border-t">
             <a href="{% url 'student_activities' %}"
               class="inline-flex items-center px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-md transition-colors">
               Cancel
@@ -114,5 +80,108 @@
     </div>
   </div>
 </div>
+
+<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let formCount = 1; // Start with 1 form
+    const maxForms = 7;
+    
+    // Update form count and handle add button visibility
+    document.body.addEventListener('htmx:afterRequest', function(event) {
+        if (event.detail.requestConfig.verb === 'get' && event.detail.requestConfig.path.includes('add-entry')) {
+            formCount++;
+            
+            // Update the TOTAL_FORMS hidden input
+            const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
+            if (totalFormsInput) {
+                totalFormsInput.value = formCount;
+            }
+            
+            // Update the form index for the next request
+            const addButton = document.getElementById('add-entry');
+            if (addButton) {
+                addButton.setAttribute('hx-vals', `{"form_index": "${formCount}"}`);
+                
+                // Hide button if max forms reached
+                if (formCount >= maxForms) {
+                    addButton.style.display = 'none';
+                } else {
+                    addButton.style.display = 'inline-flex';
+                }
+            }
+        }
+    });
+    
+    // Handle form deletion - actually remove the form
+    document.addEventListener('click', function(e) {
+        if (e.target.type === 'checkbox' && e.target.name.includes('DELETE')) {
+            e.preventDefault(); // Prevent default checkbox behavior
+            
+            const formDiv = e.target.closest('.entry-form');
+            if (formDiv) {
+                // Remove the form entirely
+                formDiv.remove();
+                
+                // Update form count
+                formCount--;
+                
+                // Update the TOTAL_FORMS hidden input
+                const totalFormsInput = document.querySelector('#id_form-TOTAL_FORMS');
+                if (totalFormsInput) {
+                    totalFormsInput.value = formCount;
+                }
+                
+                // Reindex remaining forms
+                reindexForms();
+                
+                // Show add button if we're below max
+                const addButton = document.getElementById('add-entry');
+                if (addButton && formCount < maxForms) {
+                    addButton.style.display = 'inline-flex';
+                    addButton.setAttribute('hx-vals', `{"form_index": "${formCount}"}`);
+                }
+            }
+        }
+    });
+    
+    // Function to reindex forms after deletion
+    function reindexForms() {
+        const forms = document.querySelectorAll('.entry-form');
+        forms.forEach(function(form, index) {
+            // Update form title
+            const title = form.querySelector('h4');
+            if (title) {
+                title.textContent = `Day ${index + 1}`;
+            }
+            
+            // Update all form fields to have correct indices
+            form.querySelectorAll('input, textarea, select').forEach(function(input) {
+                if (input.name) {
+                    input.name = input.name.replace(/form-\d+-/, `form-${index}-`);
+                    input.id = input.id.replace(/form-\d+-/, `form-${index}-`);
+                }
+            });
+            
+            // Update labels
+            form.querySelectorAll('label').forEach(function(label) {
+                if (label.htmlFor) {
+                    label.htmlFor = label.htmlFor.replace(/form-\d+-/, `form-${index}-`);
+                }
+            });
+            
+            // Show/hide delete button (first form shouldn't have delete)
+            const deleteDiv = form.querySelector('.flex.items-center');
+            if (deleteDiv) {
+                if (index === 0) {
+                    deleteDiv.style.display = 'none';
+                } else {
+                    deleteDiv.style.display = 'flex';
+                }
+            }
+        });
+    }
+});
+</script>
 {% endblock %}
 

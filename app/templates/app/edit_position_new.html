@@ -39,44 +39,23 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Information</h3>
                 <div class="space-y-6">
                     <div>
-                        <label for="title" class="block text-gray-700 mb-2">Position Title</label>
-                        <input type="text" 
-                               id="title" 
-                               name="title" 
-                               value="{{ position.title }}"
-                               class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               placeholder="e.g., Software Development Intern"
-                               required>
+                        <label for="id_title" class="block text-gray-700 mb-2">Position Title</label>
+                        {{ form.title }}
                     </div>
                     
                     <div>
-                        <label for="description" class="block text-gray-700 mb-2">Job Description</label>
-                        <textarea id="description" 
-                                  name="description" 
-                                  rows="6"
-                                  class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  placeholder="Describe the role, responsibilities, and what the intern will learn..."
-                                  required>{{ position.description }}</textarea>
+                        <label for="id_description" class="block text-gray-700 mb-2">Job Description</label>
+                        {{ form.description }}
                     </div>
                     
                     <div>
-                        <label for="requirements" class="block text-gray-700 mb-2">Requirements</label>
-                        <textarea id="requirements" 
-                                  name="requirements" 
-                                  rows="4"
-                                  class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  placeholder="Educational background, year of study, GPA requirements, etc."
-                                  required>{{ position.requirements }}</textarea>
+                        <label for="id_requirements" class="block text-gray-700 mb-2">Requirements</label>
+                        {{ form.requirements }}
                     </div>
                     
                     <div>
-                        <label for="skills_required" class="block text-gray-700 mb-2">Required Skills</label>
-                        <textarea id="skills_required" 
-                                  name="skills_required" 
-                                  rows="4"
-                                  class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                  placeholder="Programming languages, frameworks, tools, soft skills, etc."
-                                  required>{{ position.skills_required }}</textarea>
+                        <label for="id_skills_required" class="block text-gray-700 mb-2">Required Skills</label>
+                        {{ form.skills_required }}
                     </div>
                 </div>
             </div>
@@ -86,66 +65,28 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Details</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="duration" class="block text-gray-700 mb-2">Duration</label>
-                        <select id="duration" 
-                                name="duration" 
-                                class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                required>
-                            <option value="">Select Duration</option>
-                            <option value="2" {% if position.duration == '2' %}selected{% endif %}>2 Months</option>
-                            <option value="3" {% if position.duration == '3' %}selected{% endif %}>3 Months</option>
-                            <option value="4" {% if position.duration == '4' %}selected{% endif %}>4 Months</option>
-                            <option value="6" {% if position.duration == '6' %}selected{% endif %}>6 Months</option>
-                        </select>
+                        <label for="id_duration" class="block text-gray-700 mb-2">Duration</label>
+                        {{ form.duration }}
                     </div>
                     
                     <div>
-                        <label for="max_students" class="block text-gray-700 mb-2">Maximum Students</label>
-                        <input type="number" 
-                               id="max_students" 
-                               name="max_students" 
-                               min="1" 
-                               max="10"
-                               value="{{ position.max_students }}"
-                               class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               required>
+                        <label for="id_max_students" class="block text-gray-700 mb-2">Maximum Students</label>
+                        {{ form.max_students }}
                     </div>
                     
                     <div>
-                        <label for="start_date" class="block text-gray-700 mb-2">Start Date</label>
-                        <input type="date" 
-                               id="start_date" 
-                               name="start_date" 
-                               value="{{ position.start_date|date:'Y-m-d' }}"
-                               class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               required>
+                        <label for="id_start_date" class="block text-gray-700 mb-2">Start Date</label>
+                        {{ form.start_date }}
                     </div>
                     
                     <div>
-                        <label for="end_date" class="block text-gray-700 mb-2">End Date</label>
-                        <input type="date" 
-                               id="end_date" 
-                               name="end_date" 
-                               value="{{ position.end_date|date:'Y-m-d' }}"
-                               class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                               required>
+                        <label for="id_end_date" class="block text-gray-700 mb-2">End Date</label>
+                        {{ form.end_date }}
                     </div>
                     
                     <div class="md:col-span-2">
-                        <label for="stipend" class="block text-gray-700 mb-2">Monthly Stipend (Optional)</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-500 sm:text-sm">PKR</span>
-                            </div>
-                            <input type="number" 
-                                   id="stipend" 
-                                   name="stipend" 
-                                   step="1000"
-                                   min="0"
-                                   value="{{ position.stipend|default:'' }}"
-                                   class="w-full pl-12 pr-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                   placeholder="e.g., 25000">
-                        </div>
+                        <label for="id_stipend" class="block text-gray-700 mb-2">Monthly Stipend (Optional)</label>
+                        {{ form.stipend }}
                         <p class="text-gray-500 mt-1">Leave empty if unpaid internship</p>
                     </div>
                 </div>
@@ -155,12 +96,8 @@
             <div class="mb-8">
                 <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Status</h3>
                 <div class="flex items-center space-x-3">
-                    <input type="checkbox" 
-                           id="is_active" 
-                           name="is_active" 
-                           {% if position.is_active %}checked{% endif %}
-                           class="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-200 rounded">
-                    <label for="is_active" class="text-gray-900">
+                    {{ form.is_active }}
+                    <label for="id_is_active" class="text-gray-900">
                         Position is active and accepting applications
                     </label>
                 </div>

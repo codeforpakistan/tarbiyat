@@ -157,17 +157,18 @@ class URLStatusTestCase(TestCase):
         self.supervisor_eval = InternshipSupervisorEvaluation.objects.create(
             nanoid=generate(size=10),
             internship=self.internship,
-            evaluator=self.mentor_profile,
-            week_number=1,
-            student_performance='Excellent work'
+            mentor=self.mentor_profile,
+            technical_skills_rating=3
         )
         
+        from datetime import date
         self.progress_report = ProgressReport.objects.create(
             nanoid=generate(size=10),
             internship=self.internship,
-            created_by=self.mentor_profile.user,
-            week_number=1,
-            content='Good progress this week'
+            reporter=self.mentor_profile.user,
+            report_type='mentor',
+            report_date=date.today(),
+            student_performance='Good progress this week'
         )
         
         self.client = Client()

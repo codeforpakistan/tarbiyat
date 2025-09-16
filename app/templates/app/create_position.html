@@ -5,65 +5,69 @@
 
 {% block content %}
 <div class="min-h-screen py-8">
-        <!-- Header -->
-        <div class="mb-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-3xl font-semibold text-gray-900">Create New Internship Position</h2>
-                    <p class="text-gray-600 mt-2">Post a new internship opportunity for students</p>
-                </div>
-                <a href="{% url 'mentor_dashboard' %}" class="text-white bg-gray-50 hover:bg-gray-700 px-4 py-2 rounded-md transition duration-200">
-                    Back to Dashboard
-                </a>
-            </div>
-        </div>
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        {% include 'app/partials/mentor_sidebar.html' %}
 
-        <div class="bg-white rounded-lg  border border-gray-200">
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <!-- Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-semibold text-gray-900">Create New Internship Position</h2>
+                        <p class="text-gray-600 mt-2">Post a new internship opportunity for students</p>
+                    </div>
+                    <a href="{% url 'mentor_dashboard' %}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium px-4 py-2 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+
+        <div class="bg-white rounded-xl border border-gray-200">
             <form method="post" class="p-8">
                 {% csrf_token %}
                 
+                {% if form.non_field_errors %}
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+                        <div class="text-red-600">{{ form.non_field_errors }}</div>
+                    </div>
+                {% endif %}
+
                 <!-- Position Information -->
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Information</h3>
                     <div class="space-y-6">
                         <div>
-                            <label for="title" class="block text-gray-700 mb-2">Position Title</label>
-                            <input type="text" 
-                                   id="title" 
-                                   name="title" 
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                   placeholder="e.g., Software Development Intern"
-                                   required>
+                            <label for="{{ form.title.id_for_label }}" class="block text-gray-700 mb-2">Position Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.title.errors.0 }}</p>
+                            {% endif %}
                         </div>
-                        
+
                         <div>
-                            <label for="description" class="block text-gray-700 mb-2">Job Description</label>
-                            <textarea id="description" 
-                                      name="description" 
-                                      rows="6"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                      placeholder="Describe the role, responsibilities, and what the intern will learn..."
-                                      required></textarea>
+                            <label for="{{ form.description.id_for_label }}" class="block text-gray-700 mb-2">Description</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.description.errors.0 }}</p>
+                            {% endif %}
                         </div>
-                        
+
                         <div>
-                            <label for="requirements" class="block text-gray-700 mb-2">Requirements</label>
-                            <textarea id="requirements" 
-                                      name="requirements" 
-                                      rows="4"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                      placeholder="Educational background, year of study, GPA requirements, etc."
-                                      required></textarea>
+                            <label for="{{ form.requirements.id_for_label }}" class="block text-gray-700 mb-2">Requirements</label>
+                            {{ form.requirements }}
+                            {% if form.requirements.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.requirements.errors.0 }}</p>
+                            {% endif %}
                         </div>
-                        
+
                         <div>
-                            <label for="skills_required" class="block text-gray-700 mb-2">Required Skills</label>
-                            <textarea id="skills_required" 
-                                      name="skills_required" 
-                                      rows="4"
-                                      class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                      placeholder="Programming languages, frameworks, tools, soft skills, etc."
-                                      required></textarea>
+                            <label for="{{ form.skills_required.id_for_label }}" class="block text-gray-700 mb-2">Required Skills</label>
+                            {{ form.skills_required }}
+                            {% if form.skills_required.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.skills_required.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -73,102 +77,82 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Details</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label for="duration" class="block text-gray-700 mb-2">Duration</label>
-                            <select id="duration" 
-                                    name="duration" 
-                                    class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    required>
-                                <option value="">Select Duration</option>
-                                <option value="2">2 Months</option>
-                                <option value="3">3 Months</option>
-                                <option value="4">4 Months</option>
-                                <option value="6">6 Months</option>
-                            </select>
+                            <label for="{{ form.duration.id_for_label }}" class="block text-gray-700 mb-2">Duration (months)</label>
+                            {{ form.duration }}
+                            {% if form.duration.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.duration.errors.0 }}</p>
+                            {% endif %}
                         </div>
-                        
+
                         <div>
-                            <label for="max_students" class="block text-gray-700 mb-2">Maximum Students</label>
-                            <input type="number" 
-                                   id="max_students" 
-                                   name="max_students" 
-                                   min="1" 
-                                   max="10"
-                                   value="1"
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                   required>
+                            <label for="{{ form.max_students.id_for_label }}" class="block text-gray-700 mb-2">Maximum Students</label>
+                            {{ form.max_students }}
+                            {% if form.max_students.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.max_students.errors.0 }}</p>
+                            {% endif %}
                         </div>
-                        
+
                         <div>
-                            <label for="start_date" class="block text-gray-700 mb-2">Start Date</label>
-                            <input type="date" 
-                                   id="start_date" 
-                                   name="start_date" 
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                   required>
-                        </div>
-                        
-                        <div>
-                            <label for="end_date" class="block text-gray-700 mb-2">End Date</label>
-                            <input type="date" 
-                                   id="end_date" 
-                                   name="end_date" 
-                                   class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                   required>
-                        </div>
-                        
-                        <div class="md:col-span-2">
-                            <label for="stipend" class="block text-gray-700 mb-2">Monthly Stipend (Optional)</label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <span class="text-gray-500 sm:">PKR</span>
-                                </div>
-                                <input type="number" 
-                                       id="stipend" 
-                                       name="stipend" 
-                                       step="1000"
-                                       min="0"
-                                       class="w-full pl-12 pr-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                       placeholder="e.g., 25000">
-                            </div>
-                            <p class="text-gray-500 mt-1">Leave empty if unpaid internship</p>
+                            <label for="{{ form.stipend.id_for_label }}" class="block text-gray-700 mb-2">Monthly Stipend (PKR, Optional)</label>
+                            {{ form.stipend }}
+                            {% if form.stipend.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.stipend.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
 
-                <!-- Company Information -->
+                <!-- Dates -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Company Information</h3>
-                    <div class="rounded-lg p-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                    
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="text-lg font-semibold text-gray-900">{{ mentor_profile.company.name }}</h4>
-                                <p class="text-gray-600">{{ mentor_profile.company.industry }}</p>
-                                <p class="text-gray-500">{{ mentor_profile.company.address }}</p>
-                            </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Timeline</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="{{ form.start_date.id_for_label }}" class="block text-gray-700 mb-2">Start Date</label>
+                            {{ form.start_date }}
+                            {% if form.start_date.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.start_date.errors.0 }}</p>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <label for="{{ form.end_date.id_for_label }}" class="block text-gray-700 mb-2">End Date</label>
+                            {{ form.end_date }}
+                            {% if form.end_date.errors %}
+                                <p class="mt-1 text-sm text-red-600">{{ form.end_date.errors.0 }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
+                <!-- Position Status -->
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Position Status</h3>
+                    <div class="flex items-center space-x-3">
+                        {{ form.is_active }}
+                        <label for="{{ form.is_active.id_for_label }}" class="text-gray-700">Position is active and accepting applications</label>
+                        {% if form.is_active.errors %}
+                            <p class="mt-1 text-sm text-red-600">{{ form.is_active.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                    <p class="text-gray-500 mt-2">Check this to make the position visible to students immediately</p>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-end space-x-4">
                     <a href="{% url 'mentor_dashboard' %}" 
-                       class="text-gray-700 bg-gray-100 hover:bg-gray-200 px-6 py-2 rounded-md transition duration-200">
+                       class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-200">
                         Cancel
                     </a>
                     <button type="submit" 
-                            class="text-white bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-md transition duration-200">
+                            class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
                         Create Position
                     </button>
                 </div>
             </form>
         </div>
-</div>
-
+        </div> <!-- End Main Content -->
+    </div> <!-- End Grid -->
+</div> <!-- End Container -->
 {% endblock %}
 
 {% block scripts %}
