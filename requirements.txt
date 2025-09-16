@@ -24,12 +24,16 @@ django-browser-reload==1.18.0
     # via tarbiyat (pyproject.toml)
 ecdsa==0.19.1
     # via sendgrid
+gunicorn==23.0.0
+    # via tarbiyat (pyproject.toml)
 idna==3.10
     # via requests
 markupsafe==3.0.2
     # via werkzeug
 nanoid==2.0.0
     # via tarbiyat (pyproject.toml)
+packaging==25.0
+    # via gunicorn
 pycparser==2.22
     # via cffi
 pyjwt==2.10.1
